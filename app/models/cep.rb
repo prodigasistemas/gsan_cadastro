@@ -9,6 +9,5 @@ class Cep < ActiveRecord::Base
   alias_attribute "uf",         "cep_dsufsigla"
   alias_attribute "municipio",  "cep_nmmunicipio"
   alias_attribute "bairro",     "cep_nmbairro"
-
-  validates_presence_of :codigo, :uf, :municipio
+  alias_attribute "tipo_id",    "cept_ip"
 end
