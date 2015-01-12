@@ -10,4 +10,6 @@ class CepTipo < ActiveRecord::Base
   alias_attribute "atualizado_em", "cept_tmultimaalteracao"
 
   scope :ativo, -> { where(ativo: true) }
+
+  has_many :ceps, foreign_key: :cept_id
 end

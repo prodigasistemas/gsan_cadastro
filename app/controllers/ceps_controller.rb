@@ -8,7 +8,8 @@ class CepsController < ApplicationController
   end
 
   def create
-    @cep = Cep.new(cep_params)
+    @municipio = Municipio.find(params[:cep][:muni_id])
+    @cep = Cep.new(cep_params.merge(municipio: @municipio.nome))
 
     if @cep.save
       render :show
@@ -20,6 +21,14 @@ class CepsController < ApplicationController
   private
 
   def cep_params
-    params.require(:cep).permit(:municipio, :codigo, :uf, :bairro)
+    params.require(:cep).permit(:ativo,
+                                :bairro,
+                                :codigo,
+                                :intervalo,
+                                :logradouro,
+                                :municipio,
+                                :tipo_id,
+                                :tipo_logradouro,
+                                :uf)
   end
 end
