@@ -1,3 +1,3 @@
 json.array! @ceps do |cep|
-  json.extract! cep, :id, :codigo, :municipio, :bairro, :uf
+  json.extract! cep, :id, :codigo
 end

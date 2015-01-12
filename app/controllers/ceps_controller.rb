@@ -1,6 +1,6 @@
 class CepsController < ApplicationController
   def index
-    @ceps = Cep.all
+    @ceps = Cep.last(100)
   end
 
   def show

@@ -23,14 +23,14 @@ default: &default
 
 development:
   <<: *default
-  database: gsan_cadastro_api_test
-  host: localhost
-  username: felipe
-  password: ''
-  #database: comercial
-  #username: pamela
-  #password: pamela
-  #host: 10.20.100.38
+  #database: gsan_cadastro_api_test
+  #host: localhost
+  #username: felipe
+  #password: ''
+  database: comercial
+  username: pamela
+  password: pamela
+  host: 10.20.100.38
   #port: 5432
   #schema_search_path: myapp,sharedapp,public
   #min_messages: notice
@@ -41,6 +41,8 @@ development:
 test:
   <<: *default
   database: gsan_cadastro_api_test
+  username: felipe
+  password: ''
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
