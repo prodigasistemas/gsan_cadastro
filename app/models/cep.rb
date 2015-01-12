@@ -16,6 +16,5 @@ class Cep < ActiveRecord::Base
   alias_attribute "atualizado_em",    "cep_tmultimaalteracao"
   alias_attribute "intervalo",        "cep_dsintervalonumeracao"
 
-
   belongs_to :cep_tipo, foreign_key: :cept_id
 end
