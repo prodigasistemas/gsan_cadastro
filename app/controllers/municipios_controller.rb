@@ -3,10 +3,24 @@ class MunicipiosController < ApplicationController
     @municipios = Municipio.all
   end
 
+  def show
+   @municipio = Municipio.find(params[:id])
+  end
+
   def create
     @municipio = Municipio.new(municipio_params)
 
     if @municipio.save
+      render :show
+    else
+      render json: { errors: @municipio.errors.full_messages }, status: 422
+    end
+  end
+
+  def update
+    @municipio = Municipio.find(params[:id])
+
+    if @municipio.update municipio_params
       render :show
     else
       render json: { errors: @municipio.errors.full_messages }, status: 422
