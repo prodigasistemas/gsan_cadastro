@@ -1,2 +1,41 @@
 pt-BR:
-  hello: hello
+  time:
+    formats:
+      month_name: "%B"
+      short: "%d/%m/%Y"
+      year: "%Y"
+      short_time: "%d/%m/%Y às %H:%M"
+      month_reference: "%B/%Y"
+
+  date:
+    formats:
+      month_name: "%B"
+      short: "%d/%m/%Y"
+      year: "%Y"
+      short_time: "%d/%m/%Y às %H:%M"
+      month_reference: "%B/%Y"
+
+  activerecord:
+    models:
+      cep: CEP
+    attributes:
+      cep:
+        codigo: "Código"
+        tipo_id: "Tipo de CEP"
+        municipio: "Município"
+        tipo_logradouro: "Tipo de logradouro"
+        logradouro: 'Logradouro'
+    errors:
+      models:
+        cep:
+          attributes:
+            codigo:
+              blank: 'é obrigratório'
+            tipo_id:
+              blank: 'é obrigratório'
+            municipio:
+              blank: 'é obrigratório'
+            tipo_logradouro:
+              blank: 'é obrigratório'
+            logradouro:
+              blank: 'é obrigratório'
