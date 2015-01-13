@@ -32,6 +32,7 @@ pt-BR:
             codigo:
               blank: 'é obrigratório'
               invalid: "deve conter 8 dígitos"
+              taken: "já existe"
             tipo_id:
               blank: 'é obrigratório'
             municipio:

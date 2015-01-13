@@ -18,5 +18,6 @@ class Cep < ActiveRecord::Base
 
   belongs_to :cep_tipo, foreign_key: :cept_id
   validates_presence_of :codigo, :tipo_id, :municipio, :tipo_logradouro, :logradouro
+  validates_uniqueness_of :codigo
   validates_format_of :codigo, with: /\A\d{8}\z/
 end
