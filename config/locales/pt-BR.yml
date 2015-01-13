@@ -18,7 +18,14 @@ pt-BR:
   activerecord:
     models:
       cep: CEP
+      municipio: "Município"
     attributes:
+      municipio:
+        codigo_ibge: "Código do IBGE"
+        ddd: "DDD"
+        uf_id: "Unidade da Federação"
+        micro_regiao_id: "Micro Região"
+        regiao_desenvolvimento_id: "Região de desenvolvimento"
       cep:
         codigo: "Código"
         tipo_id: "Tipo de CEP"
@@ -43,4 +50,18 @@ pt-BR:
             logradouro:
               blank: "é obrigatório"
             uf:
+              blank: "é obrigatório"
+        municipio:
+          attributes:
+            nome:
+              blank: "é obrigatório"
+            codigo_ibge:
+              blank: "é obrigatório"
+            ddd:
+              blank: "é obrigatório"
+            uf_id:
+              blank: "é obrigatório"
+            regiao_desenvolvimento_id:
+              blank: "é obrigatório"
+            micro_regiao_id:
               blank: "é obrigatório"

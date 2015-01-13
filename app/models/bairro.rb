@@ -14,6 +14,8 @@ class Bairro < ActiveRecord::Base
 
   default_scope -> { order(:nome) }
 
+  belongs_to :municipio
+
   def self.pesquisar(query = nil)
     if query
       where(query)
