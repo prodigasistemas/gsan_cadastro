@@ -19,6 +19,27 @@ class CepsController < ApplicationController
     end
   end
 
+  def edit
+    @cep = Cep.find params[:id]
+    @cep_tipos = CepTipo.ativo
+    @municipios = Municipio.all
+    municipiosPesquisa = Municipio.where(nome: @cep.municipio)
+    @bairros = Bairro.pesquisar(municipio_id: municipiosPesquisa)
+    @tipo_logradouros = TipoLogradouro.all
+  end
+
+  def update
+    @cep = Cep.find params[:id]
+    @municipio = Municipio.find_by(id: params[:cep][:muni_id])
+    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome) : cep_params
+
+    if @cep.update_attributes(create_cep_params)
+      render :show
+    else
+      render json: { errors: @cep.errors.full_messages }, status: 422
+    end
+  end
+
   private
 
   def cep_params

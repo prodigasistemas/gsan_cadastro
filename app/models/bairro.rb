@@ -12,6 +12,8 @@ class Bairro < ActiveRecord::Base
   alias_attribute "ativo",              "bair_icuso"
   alias_attribute "atualizado_em",      "bair_tmultimaalteracao"
 
+  belongs_to :municipio, foreign_key: :muni_id
+
   default_scope -> { order(:nome) }
 
   belongs_to :municipio
