@@ -1,8 +1,8 @@
 class Bairro < ActiveRecord::Base
   include IncrementableId
 
-  self.table_name  = 'cadastro.bairro'
-  self.primary_key = 'bair_id'
+  self.table_name  = "cadastro.bairro"
+  self.primary_key = "bair_id"
 
   alias_attribute "id",                 "bair_id"
   alias_attribute "municipio_id",       "muni_id"
@@ -15,7 +15,6 @@ class Bairro < ActiveRecord::Base
   default_scope -> { order(:nome) }
 
   def self.pesquisar(query = nil)
-    #binding.pry
     if query
       where(query)
     else

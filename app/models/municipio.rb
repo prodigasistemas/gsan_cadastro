@@ -19,5 +19,7 @@ class Municipio < ActiveRecord::Base
   alias_attribute "codigo_ibge",      "muni_cdibge"
   alias_attribute "quadro_bairro",    "muni_icrelacionquadrabairro"
 
+  belongs_to :uf, class_name: "UnidadeFederacao", foreign_key: "unfe_id"
+
   default_scope -> { order(:nome) }
 end

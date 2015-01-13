@@ -3,6 +3,7 @@ require "rails_helper"
 describe Cep do
   it { should validate_presence_of    :codigo }
   it { should validate_uniqueness_of  :codigo }
+  it { should validate_presence_of    :uf }
   it { should validate_presence_of    :tipo_id }
   it { should validate_presence_of    :municipio }
   it { should validate_presence_of    :tipo_logradouro }

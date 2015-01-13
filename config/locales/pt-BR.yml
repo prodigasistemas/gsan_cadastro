@@ -22,22 +22,25 @@ pt-BR:
       cep:
         codigo: "Código"
         tipo_id: "Tipo de CEP"
+        uf: "Unidade da Federação"
         municipio: "Município"
         tipo_logradouro: "Tipo de logradouro"
-        logradouro: 'Logradouro'
+        logradouro: "Logradouro"
     errors:
       models:
         cep:
           attributes:
             codigo:
-              blank: 'é obrigratório'
+              blank: "é obrigatório"
               invalid: "deve conter 8 dígitos"
               taken: "já existe"
             tipo_id:
-              blank: 'é obrigratório'
+              blank: "é obrigatório"
             municipio:
-              blank: 'é obrigratório'
+              blank: "é obrigatório"
             tipo_logradouro:
-              blank: 'é obrigratório'
+              blank: "é obrigatório"
             logradouro:
-              blank: 'é obrigratório'
+              blank: "é obrigatório"
+            uf:
+              blank: "é obrigatório"
