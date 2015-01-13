@@ -6,4 +6,12 @@ describe Cep do
   it { should validate_presence_of :municipio }
   it { should validate_presence_of :tipo_logradouro }
   it { should validate_presence_of :logradouro }
+  it { should validate_presence_of :logradouro }
+
+  describe "codigo" do
+    it { should allow_value("12345678").for :codigo }
+    it { should_not allow_value("123456789").for :codigo }
+    it { should_not allow_value("1234567").for :codigo }
+    it { should_not allow_value("1234567d").for :codigo }
+  end
 end

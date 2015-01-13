@@ -9,8 +9,8 @@ class CepsController < ApplicationController
 
   def create
     @municipio = Municipio.find_by(id: params[:cep][:muni_id])
-    cep_params = cep_params.merge(municipio: @municipio.nome) if @municipio
-    @cep = Cep.new(cep_params)
+    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome) : cep_params
+    @cep = Cep.new(create_cep_params)
 
     if @cep.save
       render :show

@@ -31,6 +31,7 @@ pt-BR:
           attributes:
             codigo:
               blank: 'é obrigratório'
+              invalid: "deve conter 8 dígitos"
             tipo_id:
               blank: 'é obrigratório'
             municipio:
