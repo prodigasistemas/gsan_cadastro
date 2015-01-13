@@ -17,4 +17,5 @@ class Cep < ActiveRecord::Base
   alias_attribute "intervalo",        "cep_dsintervalonumeracao"
 
   belongs_to :cep_tipo, foreign_key: :cept_id
+  validates_presence_of :codigo, :tipo_id, :municipio, :tipo_logradouro, :logradouro
 end
