@@ -1,6 +1,6 @@
 class CepsController < ApplicationController
   def index
-    @ceps = Cep.last(100)
+    @ceps = Cep.where(params[:query].permit!)
   end
 
   def show
