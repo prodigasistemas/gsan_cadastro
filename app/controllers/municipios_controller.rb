@@ -4,7 +4,7 @@ class MunicipiosController < ApplicationController
   end
 
   def show
-   @municipio = Municipio.find(params[:id])
+    @municipio = Municipio.find(params[:id])
   end
 
   def create

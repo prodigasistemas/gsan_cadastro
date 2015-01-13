@@ -21,11 +21,8 @@ class CepsController < ApplicationController
 
   def edit
     @cep = Cep.find params[:id]
-    @cep_tipos = CepTipo.ativo
-    @municipios = Municipio.all
     municipiosPesquisa = Municipio.where(nome: @cep.municipio)
     @bairros = Bairro.pesquisar(municipio_id: municipiosPesquisa)
-    @tipo_logradouros = TipoLogradouro.all
   end
 
   def update
