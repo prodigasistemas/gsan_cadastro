@@ -39,7 +39,7 @@ class CepsController < ApplicationController
   def update
     @cep = Cep.find params[:id]
     @municipio = Municipio.find_by(id: params[:cep][:muni_id])
-    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome) : cep_params
+    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
 
     if @cep.update_attributes(create_cep_params)
       render :show
