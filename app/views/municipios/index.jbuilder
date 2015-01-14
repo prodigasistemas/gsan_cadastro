@@ -14,4 +14,4 @@ json.page do
   json.total_pages @municipios.total_pages
   json.first_page @municipios.first_page?
   json.last_page @municipios.last_page?
-end
+end if @total
