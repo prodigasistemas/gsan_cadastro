@@ -1,8 +1,8 @@
 class CepsController < ApplicationController
   def index
-    @ceps = Cep.page(params[:page]).per(20)
-                .where(params[:query].reject { |k,v| v.blank? }.permit!)
-    @total = Cep.where(params[:query].reject { |k,v| v.blank? }.permit!).count
+    @ceps = Cep.where(params[:query].reject { |k,v| v.blank? }.permit!)
+    @total = @ceps.count
+    @ceps = @ceps.page(params[:page]).per(20)
   end
 
   def show
