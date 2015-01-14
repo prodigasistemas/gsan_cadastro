@@ -9,4 +9,6 @@ class MicroRegiao < ActiveRecord::Base
   alias_attribute "regiao_id",      "regi_id"
   alias_attribute "ativo",          "mreg_icuso"
   alias_attribute "atualizado_em",  "mreg_tmultimaalteracao"
+
+  default_scope -> { order(:nome) }
 end

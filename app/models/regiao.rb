@@ -8,4 +8,6 @@ class Regiao < ActiveRecord::Base
   alias_attribute "nome",           "regi_nmregiao"
   alias_attribute "ativo",          "mreg_icuso"
   alias_attribute "atualizado_em",  "mreg_tmultimaalteracao"
+
+  default_scope -> { order(:nome) }
 end

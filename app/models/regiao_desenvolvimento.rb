@@ -8,4 +8,6 @@ class RegiaoDesenvolvimento < ActiveRecord::Base
   alias_attribute "nome",           "rdes_nmregiaodesenvolvimento"
   alias_attribute "ativo",          "rdes_icuso"
   alias_attribute "atualizado_em",  "rdes_tmultimaalteracao"
+
+  default_scope -> { order(:nome) }
 end
