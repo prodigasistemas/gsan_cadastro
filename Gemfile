@@ -5,6 +5,7 @@ gem 'pg'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-cors', :require => 'rack/cors'
+gem 'kaminari'
 
 group :development do
   gem 'byebug'
