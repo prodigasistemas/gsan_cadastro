@@ -1,6 +1,6 @@
 class MunicipiosController < ApplicationController
   def index
-    @municipios = Municipio.all
+    @municipios = Municipio.where(params[:query].permit!)
   end
 
   def show
