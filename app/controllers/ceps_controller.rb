@@ -1,6 +1,15 @@
 class CepsController < ApplicationController
   def index
-    @ceps = Cep.where(params[:query].reject { |k,v| v.blank? }.permit!)
+    query = params[:query].deep_symbolize_keys
+    query[:logradouro] = nil
+    query[:bairro] = nil
+    query[:municipio] = nil
+
+    @ceps = Cep.where(query.reject! { |k,v| v.blank? })
+    @ceps = @ceps.where("cep_nmlogradouro LIKE ?", "%#{params[:query][:logradouro].upcase}%") if params[:query][:logradouro]
+    @ceps = @ceps.where("cep_nmbairro LIKE ?", "%#{params[:query][:bairro].upcase}%") if params[:query][:bairro]
+    @ceps = @ceps.where("cep_nmmunicipio LIKE ?", "%#{params[:query][:municipio].upcase}%") if params[:query][:municipio]
+
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
   end

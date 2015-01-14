@@ -1,8 +1,12 @@
 class MunicipiosController < ApplicationController
   def index
-    @municipios = Municipio.where(params[:query].reject { |k,v| v.blank? }.permit!)
-    @total = @municipios.count
-    @municipios = @municipios.page(params[:page]).per(20)
+    if params[:query]
+      @municipios = Municipio.where(params[:query].reject { |k,v| v.blank? }.permit!)
+      @total = @municipios.count
+      @municipios = @municipios.page(params[:page]).per(20)
+    else
+      @municipios = Municipio.all
+    end
   end
 
   def show
