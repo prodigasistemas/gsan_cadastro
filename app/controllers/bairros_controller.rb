@@ -13,4 +13,29 @@ class BairrosController < ApplicationController
       @bairros = Bairro.includes(:municipio).all
     end
   end
+
+  def show
+    @bairro = Bairro.find(params[:id])
+  end
+
+  def create
+    @bairro = Bairro.new(bairro_params)
+
+    if @bairro.save
+      render :show
+    else
+      render json: { errors: @municipio.errors.full_messages }, status: 422
+    end
+  end
+
+  private
+
+  def bairro_params
+    params.require(:bairro).permit  :nome,
+                                    :codigo,
+                                    :codigo_prefeitura,
+                                    :municipio_id,
+                                    :ativo
+
+  end
 end
