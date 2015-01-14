@@ -24,7 +24,17 @@ class BairrosController < ApplicationController
     if @bairro.save
       render :show
     else
-      render json: { errors: @municipio.errors.full_messages }, status: 422
+      render json: { errors: @bairro.errors.full_messages }, status: 422
+    end
+  end
+
+  def update
+    @bairro = Bairro.find(params[:id])
+
+    if @bairro.update bairro_params
+      render :show
+    else
+      render json: { errors: @bairro.errors.full_messages }, status: 422
     end
   end
 
