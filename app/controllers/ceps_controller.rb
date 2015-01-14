@@ -6,9 +6,9 @@ class CepsController < ApplicationController
     query[:municipio] = nil
 
     @ceps = Cep.where(query.reject! { |k,v| v.blank? })
-    @ceps = @ceps.where("cep_nmlogradouro LIKE ?", "%#{params[:query][:logradouro].upcase}%") if params[:query][:logradouro]
-    @ceps = @ceps.where("cep_nmbairro LIKE ?", "%#{params[:query][:bairro].upcase}%") if params[:query][:bairro]
-    @ceps = @ceps.where("cep_nmmunicipio LIKE ?", "%#{params[:query][:municipio].upcase}%") if params[:query][:municipio]
+    @ceps = @ceps.where("UPPER(cep_nmlogradouro) LIKE ?", "%#{params[:query][:logradouro].upcase}%") if params[:query][:logradouro]
+    @ceps = @ceps.where("UPPER(cep_nmbairro) LIKE ?", "%#{params[:query][:bairro].upcase}%") if params[:query][:bairro]
+    @ceps = @ceps.where("UPPER(cep_nmmunicipio) LIKE ?", "%#{params[:query][:municipio].upcase}%") if params[:query][:municipio]
 
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
