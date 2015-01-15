@@ -6,6 +6,7 @@ if Rails.env.test?
   CepTipo.find_or_create_by(descricao: "ÚNICO",      ativo: true)
   logradouro = CepTipo.find_or_create_by(descricao: "LOGRADOURO", ativo: true)
   tipo_logradouro = TipoLogradouro.find_or_create_by(descricao: "RUA")
+  titulo_logradouro = TituloLogradouro.find_or_create_by(descricao: "GOV")
 
   micro_regiao =  MicroRegiao.find_or_create_by(nome: "BELEM", ativo: true, regiao_id: 2)
                   MicroRegiao.find_or_create_by(nome: "OBIDOS", ativo: true, regiao_id: 2)
