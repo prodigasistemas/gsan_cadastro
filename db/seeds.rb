@@ -1,6 +1,7 @@
 if Rails.env.test?
   Cep.destroy_all
   Municipio.destroy_all
+  Bairro.destroy_all
 
   CepTipo.find_or_create_by(descricao: "ÚNICO",      ativo: true)
   logradouro = CepTipo.find_or_create_by(descricao: "LOGRADOURO", ativo: true)
