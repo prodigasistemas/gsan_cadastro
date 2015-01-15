@@ -48,6 +48,11 @@ class CepsController < ApplicationController
     end
   end
 
+  def search
+    query = params[:query].deep_symbolize_keys
+    @cep = Cep.find_by codigo: query[:codigo]
+  end
+
   private
 
   def cep_params

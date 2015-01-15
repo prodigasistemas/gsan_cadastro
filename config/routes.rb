@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :ceps
+  resources :ceps do
+    get :search, :on => :collection
+  end
   resources :cep_tipos, only: :index
   resources :municipios, only: [:index, :show, :create, :update]
   resources :bairros, only: [:index, :show, :create, :update]

@@ -1,0 +1,1 @@
+json.cep(@cep, :id, :codigo, :uf, :municipio, :bairro, :tipo_logradouro, :logradouro) if @cep.present?
