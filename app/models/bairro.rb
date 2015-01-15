@@ -16,6 +16,10 @@ class Bairro < ActiveRecord::Base
 
   default_scope -> { order(:nome) }
 
+  validates_uniqueness_of :codigo, scope: :muni_id
+  validates_uniqueness_of :nome, scope: :muni_id
+  validates_presence_of :municipio_id, :codigo, :nome
+
   def self.pesquisar(query = nil)
     if query
       where(query)

@@ -19,6 +19,7 @@ pt-BR:
     models:
       cep: CEP
       municipio: "Município"
+      bairro: "Bairro"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -33,6 +34,10 @@ pt-BR:
         municipio: "Município"
         tipo_logradouro: "Tipo de logradouro"
         logradouro: "Logradouro"
+      bairro:
+        codigo: "Código"
+        nome: "Nome"
+        codigo_prefeitura: "Código na Prefeitura"
     errors:
       models:
         cep:
@@ -64,4 +69,14 @@ pt-BR:
             regiao_desenvolvimento_id:
               blank: "é obrigatório"
             micro_regiao_id:
+              blank: "é obrigatório"
+        bairro:
+          attributes:
+            municipio_id:
+              blank: "é obrigatório"
+            codigo:
+              taken: "já existe para o Município"
+              blank: "é obrigatório"
+            nome:
+              taken: "já existe para o Município"
               blank: "é obrigatório"
