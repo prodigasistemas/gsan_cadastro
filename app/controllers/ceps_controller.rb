@@ -2,7 +2,6 @@ class CepsController < ApplicationController
   def index
     query = params[:query].deep_symbolize_keys
     @ceps = Cep.filter(query)
-    binding.pry
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
   end
