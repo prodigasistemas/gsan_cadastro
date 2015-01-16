@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :unidade_federacoes, only: :index
   resources :micro_regioes, only: :index
   resources :regioes_desenvolvimento, only: :index
+  resources :logradouros, only: [:index, :show, :create, :update]
 end
