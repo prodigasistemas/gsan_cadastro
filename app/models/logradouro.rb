@@ -17,6 +17,9 @@ class Logradouro < ActiveRecord::Base
   has_many :ceps, through: :logradouro_ceps
   has_many :logradouro_bairros, foreign_key: "logr_id", inverse_of: :logradouro
   has_many :bairros, through: :logradouro_bairros
+  has_one :titulo_logradouros, foreign_key: "lgtt_id"
+  has_one :tipo_logradouros, foreign_key: "lgtp_id"
+  belongs_to :municipio, foreign_key: "muni_id"
 
   accepts_nested_attributes_for :logradouro_ceps
   accepts_nested_attributes_for :logradouro_bairros

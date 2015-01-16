@@ -1,6 +1,17 @@
 class LogradourosController < ApplicationController
   def index
-    @logradouros = Logradouro.all.limit(20)
+    if params[:query]
+      query = params[:query].deep_symbolize_keys
+      query[:nome] = nil
+
+      @logradouros = Logradouro.includes(:municipio).where(query.reject! { |k, v| v.blank? })
+      @logradouros = @logradouros.where("UPPER(logr_nmlogradouro) LIKE ?", "%#{params[:query][:nome].upcase}%") if params[:query][:nome]
+
+      @total = @logradouros.count
+      @logradouros = @logradouros.page(params[:page]).per(20)
+    else
+      @logradouros = Logradouro.includes(:municipio).all
+    end
   end
 
   def show

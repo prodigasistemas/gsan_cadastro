@@ -22,6 +22,7 @@ class Municipio < ActiveRecord::Base
   belongs_to :uf, class_name: "UnidadeFederacao", foreign_key: "unfe_id"
   belongs_to :micro_regiao, foreign_key: "mreg_id"
   belongs_to :regiao_desenvolvimento, foreign_key: "rdes_id"
+  has_many :logradouros
 
   default_scope -> { order(:nome) }
 
