@@ -1,5 +1,6 @@
 class LogradourosController < ApplicationController
   def index
+    @logradouros = Logradouro.all.limit(20)
   end
 
   def show
@@ -21,8 +22,8 @@ class LogradourosController < ApplicationController
   def logradouro_params
     params.require(:logradouro).permit(:nome, :titulo_logradouro_id, :logradouro_tipo_id,
                                         :municipio_id, :ativo, :nome_popular,
-                                        logradouro_ceps_attributes: [:ativo, :cep_id],
-                                        logradouro_bairros_attributes: [:ativo, :cep_id]
+                                        logradouro_ceps_attributes: [:id, :ativo, :cep_id],
+                                        logradouro_bairros_attributes: [:id, :cep_id]
                                         )
   end
 end
