@@ -21,8 +21,8 @@ class Logradouro < ActiveRecord::Base
   belongs_to :tipo_logradouro, foreign_key: "lgtp_id"
   belongs_to :municipio, foreign_key: "muni_id"
 
-  accepts_nested_attributes_for :logradouro_ceps
-  accepts_nested_attributes_for :logradouro_bairros
+  accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
+  accepts_nested_attributes_for :logradouro_bairros, allow_destroy: true
 
   default_scope -> {
     includes(:municipio, :titulo_logradouro, :tipo_logradouro).
