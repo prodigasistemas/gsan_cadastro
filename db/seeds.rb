@@ -29,11 +29,14 @@ if Rails.env.test?
   Bairro.find_or_create_by(nome: "PEDREIRA", ativo: true, codigo: 55, municipio_id: belem.id)
   Bairro.find_or_create_by(nome: "NAZARE", ativo: true, codigo: 77, municipio_id: belem.id)
   Bairro.find_or_create_by(nome: "CONQUISTA", ativo: true, codigo: 55, municipio_id: rio_branco.id)
-  Bairro.find_or_create_by(nome: "CALADIM", ativo: true, codigo: 77, municipio_id: rio_branco.id)
-  Cep.find_or_create_by(codigo: "66050380", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "OLIVEIRA BELO", tipo_logradouro: "LOGRADOURO", uf: "PA")
-  Cep.find_or_create_by(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", tipo_logradouro: "LOGRADOURO", uf: "PA")
+  caladim = Bairro.find_or_create_by(nome: "CALADIM", ativo: true, codigo: 77, municipio_id: rio_branco.id)
+  cep_1 = Cep.find_or_create_by(codigo: "66050380", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "OLIVEIRA BELO", tipo_logradouro: "LOGRADOURO", uf: "PA")
+  cep_2 = Cep.find_or_create_by(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", tipo_logradouro: "LOGRADOURO", uf: "PA")
+  cep_3 = Cep.find_or_create_by(codigo: "77777777", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "CRAU", tipo_logradouro: "LOGRADOURO", uf: "PA")
 
   Logradouro.find_or_create_by(municipio: belem,      titulo_logradouro: titulo_logradouro, tipo_logradouro: tipo_logradouro, nome: "OLIVEIRA BELO", nome_popular: "OLIVEIRA-BELO")
-  Logradouro.find_or_create_by(municipio: rio_branco, tipo_logradouro: tipo_logradouro2, nome: "CEARA", nome_popular: "AV CEARA")
+  logradouro_ceara = Logradouro.find_or_create_by(municipio: rio_branco, tipo_logradouro: tipo_logradouro2, nome: "CEARA", nome_popular: "AV CEARA")
 
+  logradouro_ceara.logradouro_ceps.create cep: cep_3, ativo: 1
+  logradouro_ceara.logradouro_bairros.create bairro: caladim
 end
