@@ -20,6 +20,7 @@ pt-BR:
       cep: CEP
       municipio: "Município"
       bairro: "Bairro"
+      logradouro: "Logradouro"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -80,3 +81,12 @@ pt-BR:
             nome:
               taken: "já existe para o Município"
               blank: "é obrigatório"
+        logradouro:
+          attributes:
+            nome:
+              blank: "é obrigatório"
+            municipio_id:
+              blank: "é obrigatório"
+            logradouro_tipo_id:
+              blank: "é obrigatório"
+

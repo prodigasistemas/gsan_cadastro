@@ -29,4 +29,6 @@ class Logradouro < ActiveRecord::Base
     eager_load(:municipio, :titulo_logradouro, :tipo_logradouro).
     order(:nome)
   }
+
+  validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
 end
