@@ -14,4 +14,15 @@ FactoryGirl.define do
     codigo 66
     ativo true
   end
+
+  factory :cep do
+    id
+    codigo '66093050'
+    uf 'PA'
+    municipio 'BELEM'
+    tipo_id 1
+    tipo_logradouro 'RUA'
+    logradouro 'DA MATA'
+  end
+
 end
