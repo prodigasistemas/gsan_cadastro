@@ -3,6 +3,8 @@ json.logradouros do
     json.extract! logradouro, :id, :nome, :titulo_logradouro_id, :logradouro_tipo_id, :municipio_id, :ativo, :nome_popular, :atualizado_em
 
     json.municipio(logradouro.municipio, :id, :nome) if logradouro.municipio
+    json.titulo_logradouro(logradouro.titulo_logradouro, :id, :descricao) if logradouro.titulo_logradouro
+    json.tipo_logradouro(logradouro.tipo_logradouro, :id, :descricao) if logradouro.tipo_logradouro
   end
 end
 

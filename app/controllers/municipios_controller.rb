@@ -4,13 +4,19 @@ class MunicipiosController < ApplicationController
       query = params[:query].deep_symbolize_keys
       query[:nome] = nil
 
-      @municipios = Municipio.where(query.reject! { |k,v| v.blank? })
+      @municipios = Municipio
+        .includes(:uf, :micro_regiao, :regiao_desenvolvimento)
+        .joins(:uf, :micro_regiao, :regiao_desenvolvimento)
+        .where(query.reject! { |k,v| v.blank? })
       @municipios = @municipios.where("UPPER(muni_nmmunicipio) LIKE ?", "%#{params[:query][:nome].upcase}%") if params[:query][:nome]
 
       @total = @municipios.count
       @municipios = @municipios.page(params[:page]).per(20)
     else
-      @municipios = Municipio.all
+      @municipios = Municipio
+        .includes(:uf, :micro_regiao, :regiao_desenvolvimento)
+        .joins(:uf, :micro_regiao, :regiao_desenvolvimento)
+        .all
     end
   end
 

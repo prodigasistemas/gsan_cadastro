@@ -4,13 +4,13 @@ class LogradourosController < ApplicationController
       query = params[:query].deep_symbolize_keys
       query[:nome] = nil
 
-      @logradouros = Logradouro.includes(:municipio).where(query.reject! { |k, v| v.blank? })
+      @logradouros = Logradouro.includes(:municipio).includes(:titulo_logradouro).includes(:tipo_logradouro).where(query.reject! { |k, v| v.blank? })
       @logradouros = @logradouros.where("UPPER(logr_nmlogradouro) LIKE ?", "%#{params[:query][:nome].upcase}%") if params[:query][:nome]
 
       @total = @logradouros.count
       @logradouros = @logradouros.page(params[:page]).per(20)
     else
-      @logradouros = Logradouro.includes(:municipio).all
+      @logradouros = Logradouro.includes(:municipio).includes(:titulo_logradouro).includes(:tipo_logradouro).all
     end
   end
 

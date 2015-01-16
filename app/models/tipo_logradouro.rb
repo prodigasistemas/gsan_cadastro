@@ -11,7 +11,7 @@ class TipoLogradouro < ActiveRecord::Base
   alias_attribute "ativo",                        "lgtp_icuso"
   alias_attribute "atualizado_em",                "lgtp_tmultimaalteracao"
 
-  belongs_to :logradouro
+  has_many :logradouros
 
   default_scope -> { order(:descricao) }
 end
