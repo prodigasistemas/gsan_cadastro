@@ -23,4 +23,10 @@ class Logradouro < ActiveRecord::Base
 
   accepts_nested_attributes_for :logradouro_ceps
   accepts_nested_attributes_for :logradouro_bairros
+
+  default_scope -> {
+    includes(:municipio, :titulo_logradouro, :tipo_logradouro).
+    eager_load(:municipio, :titulo_logradouro, :tipo_logradouro).
+    order(:nome)
+  }
 end

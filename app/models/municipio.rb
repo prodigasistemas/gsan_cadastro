@@ -24,7 +24,11 @@ class Municipio < ActiveRecord::Base
   belongs_to :regiao_desenvolvimento, foreign_key: "rdes_id"
   has_many :logradouros
 
-  default_scope -> { order(:nome) }
+  default_scope -> {
+    includes(:uf, :micro_regiao, :regiao_desenvolvimento).
+    joins(:uf, :micro_regiao, :regiao_desenvolvimento).
+    order(:nome)
+  }
 
   validates_presence_of :nome, :codigo_ibge,
                         :micro_regiao_id, :regiao_desenvolvimento_id,
