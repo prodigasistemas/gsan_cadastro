@@ -2,17 +2,14 @@ class BairrosController < ApplicationController
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      query[:nome] = nil
-
-      @bairros = Bairro.includes(:municipio).where(query.reject! { |k, v| v.blank? })
-      @bairros = @bairros.where("UPPER(bair_nmbairro) LIKE ?", "%#{params[:query][:nome].upcase}%") if params[:query][:nome]
-
+      @bairros = Bairro.join.filter(query)
+      
       unless params[:paginado] == "false"
         @total = @bairros.count
         @bairros = @bairros.page(params[:page]).per(params[:per] || 20)
       end
     else
-      @bairros = Bairro.includes(:municipio).all
+      @bairros = Bairro.join.all
     end
   end
 

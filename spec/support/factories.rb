@@ -10,7 +10,7 @@ FactoryGirl.define do
   factory :bairro do
     id
     nome "ALGODOA"
-    municipio_id  1
+    municipio_id 1
     codigo 66
     ativo true
   end

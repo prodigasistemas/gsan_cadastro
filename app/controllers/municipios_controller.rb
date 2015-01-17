@@ -2,15 +2,11 @@ class MunicipiosController < ApplicationController
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      query[:nome] = nil
-
-      @municipios = Municipio.where(query.reject! { |k,v| v.blank? })
-      @municipios = @municipios.where("UPPER(muni_nmmunicipio) LIKE ?", "%#{params[:query][:nome].upcase}%") if params[:query][:nome]
-
+      @municipios = Municipio.join.filter(query)
       @total = @municipios.count
       @municipios = @municipios.page(params[:page]).per(20)
     else
-      @municipios = Municipio.all
+      @municipios = Municipio.join.all
     end
   end
 

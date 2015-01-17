@@ -1,5 +1,6 @@
 class Bairro < ActiveRecord::Base
   include IncrementableId
+  include Filterable
 
   self.table_name  = "cadastro.bairro"
   self.primary_key = "bair_id"
@@ -14,14 +15,18 @@ class Bairro < ActiveRecord::Base
 
   belongs_to :municipio, foreign_key: :muni_id
 
-  default_scope -> { order(:nome) }
-
   validates_uniqueness_of :codigo, scope: :muni_id
   validates_uniqueness_of :nome, scope: :muni_id
   validates_presence_of :municipio_id, :codigo, :nome
 
+  scope :join, -> { includes(:municipio).joins(:municipio).order(:nome) }
+  scope :nome, -> (nome) { where("UPPER(bair_nmbairro) LIKE ?", "%#{nome.upcase}%") }
+  scope :codigo, -> (codigo) { where codigo: codigo }
+  scope :codigo_prefeitura, -> (codigo) { where codigo_prefeitura: codigo }
+  scope :municipio_id, -> (id) { where municipio_id: id }
+
   def self.pesquisar(query = nil)
-    if query
+   if query
       where(query)
     else
       all

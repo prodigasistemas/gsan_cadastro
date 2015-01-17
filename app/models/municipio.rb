@@ -1,5 +1,6 @@
 class Municipio < ActiveRecord::Base
   include IncrementableId
+  include Filterable
 
   self.table_name  = 'cadastro.municipio'
   self.primary_key = 'muni_id'
@@ -24,13 +25,22 @@ class Municipio < ActiveRecord::Base
   belongs_to :regiao_desenvolvimento, foreign_key: "rdes_id"
   has_many :logradouros
 
-  default_scope -> {
+  validates_presence_of :nome, :codigo_ibge,
+                        :micro_regiao_id, :regiao_desenvolvimento_id,
+                        :uf_id, :ddd
+
+  scope :join, -> {
     includes(:uf, :micro_regiao, :regiao_desenvolvimento).
     joins(:uf, :micro_regiao, :regiao_desenvolvimento).
     order(:nome)
   }
 
-  validates_presence_of :nome, :codigo_ibge,
-                        :micro_regiao_id, :regiao_desenvolvimento_id,
-                        :uf_id, :ddd
+  scope :nome, -> (nome) { where("UPPER(muni_nmmunicipio) LIKE ?", "%#{nome.upcase}%") }
+  scope :uf_id, -> (id) { where uf_id: id }
+  scope :micro_regiao_id, -> (id) { where micro_regiao_id: id }
+  scope :regiao_desenvolvimento_id, -> (id) { where regiao_desenvolvimento_id: id }
+  scope :ddd, -> (ddd) { where ddd: ddd }
+  scope :codigo_ibge, -> (codigo) { where codigo_ibge: codigo }
+  scope :cep_inicial, -> (cep) { where cep_inicial: cep }
+  scope :cep_final, -> (cep) { where cep_final: cep }
 end
