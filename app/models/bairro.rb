@@ -16,7 +16,6 @@ class Bairro < ActiveRecord::Base
   belongs_to :municipio, foreign_key: :muni_id
 
   validates_uniqueness_of :codigo, scope: :muni_id
-  validates_uniqueness_of :nome, scope: :muni_id
   validates_presence_of :municipio_id, :codigo, :nome
 
   scope :join, -> { includes(:municipio).joins(:municipio).order(:nome) }

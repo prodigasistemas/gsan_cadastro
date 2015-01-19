@@ -1,5 +1,6 @@
 class Logradouro < ActiveRecord::Base
   include IncrementableId
+  include Filterable
 
   self.table_name  = 'cadastro.logradouro'
   self.primary_key = 'logr_id'
@@ -24,11 +25,15 @@ class Logradouro < ActiveRecord::Base
   accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
   accepts_nested_attributes_for :logradouro_bairros, allow_destroy: true
 
-  default_scope -> {
+  scope :join, -> {
     includes(:municipio, :titulo_logradouro, :tipo_logradouro).
     eager_load(:municipio, :titulo_logradouro, :tipo_logradouro).
     order(:nome)
   }
+  scope :nome, -> (nome) { where("UPPER(logr_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
+  scope :municipio_id, -> (id) { where municipio_id: id }
+  scope :titulo_logradouro_id, -> (id) { where lgtt_id: id }
+  scope :tipo_logradouro_id, -> (id) { where lgtp_id: id }
 
   validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
 end
