@@ -12,3 +12,4 @@ Regiao.destroy_all
 TipoLogradouro.destroy_all
 TituloLogradouro.destroy_all
 UnidadeFederacao.destroy_all
+Cliente.destroy_all

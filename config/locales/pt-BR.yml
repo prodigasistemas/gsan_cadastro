@@ -45,6 +45,8 @@ pt-BR:
         imoveis: "Imóveis no CEP de logradouro"
       logradouro_bairro:
         imoveis: "Imóveis no bairro de logradouro"
+      cliente:
+        cliente_tipo_id: "Tipo do cliente"
     errors:
       models:
         cep:
@@ -106,4 +108,9 @@ pt-BR:
           attributes:
             imoveis:
               are_present: "ainda existem"
+
+        cliente:
+          attributes:
+            cliente_tipo_id:
+              blank: "é obrigatório"
 
