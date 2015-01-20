@@ -36,4 +36,22 @@ class Logradouro < ActiveRecord::Base
   scope :tipo_logradouro_id, -> (id) { where lgtp_id: id }
 
   validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
+  validate :validar_destrucao_logradouro_cep
+  validate :validar_destrucao_logradouro_bairro
+
+  private
+
+  def validar_destrucao_logradouro_cep
+    logradouro_ceps.each do |logradouro_cep|
+      logradouro_cep.marked_for_destruction? &&
+      errors.add(:base, :imoveis_are_present_in_cep, cep: logradouro_cep.cep.codigo) if !logradouro_cep.valid?(:destroy)
+    end
+  end
+
+  def validar_destrucao_logradouro_bairro
+    logradouro_bairros.each do |logradouro_bairro|
+      logradouro_bairro.marked_for_destruction? &&
+      errors.add(:base, :imoveis_are_present_in_bairro, bairro: logradouro_bairro.bairro.nome) if !logradouro_bairro.valid?(:destroy)
+    end
+  end
 end

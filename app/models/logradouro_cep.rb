@@ -9,6 +9,20 @@ class LogradouroCep < ActiveRecord::Base
   alias_attribute "ativo",         "lgcp_icuso"
   alias_attribute "atualizado_em", "lgcp_tmultimaalteracao"
 
+  has_many :imoveis, class_name: "Imovel", foreign_key: :lgcp_id
   belongs_to :logradouro, foreign_key: :logr_id, inverse_of: :logradouro_ceps
   belongs_to :cep, foreign_key: :cep_id, inverse_of: :logradouro_ceps
+
+  before_destroy :valida_nenhum_imovel_relacionado
+  validate :valida_nenhum_imovel_relacionado, on: :destroy
+
+  private
+
+  def valida_nenhum_imovel_relacionado
+    if self.imoveis.present?
+      errors.add(:imoveis, :are_present)
+      return false
+    end
+    return true
+  end
 end

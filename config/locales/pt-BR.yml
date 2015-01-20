@@ -21,6 +21,8 @@ pt-BR:
       municipio: "Município"
       bairro: "Bairro"
       logradouro: "Logradouro"
+      logradouro_cep: "CEP de logradouro"
+      logradouro_bairro: "Bairro de logradouro"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -39,6 +41,10 @@ pt-BR:
         codigo: "Código"
         nome: "Nome"
         codigo_prefeitura: "Código na Prefeitura"
+      logradouro_cep:
+        imoveis: "Imóveis no CEP de logradouro"
+      logradouro_bairro:
+        imoveis: "Imóveis no bairro de logradouro"
     errors:
       models:
         cep:
@@ -89,4 +95,15 @@ pt-BR:
               blank: "é obrigatório"
             logradouro_tipo_id:
               blank: "é obrigatório"
+            base:
+              imoveis_are_present_in_cep: "Imóveis ainda existem no CEP %{cep}"
+              imoveis_are_present_in_bairro: "Imóveis ainda existem no bairro %{bairro}"
+        logradouro_cep:
+          attributes:
+            imoveis:
+              are_present: "ainda existem"
+        logradouro_bairro:
+          attributes:
+            imoveis:
+              are_present: "ainda existem"
 
