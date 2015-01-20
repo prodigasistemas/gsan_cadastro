@@ -23,7 +23,7 @@ FactoryGirl.define do
 
   factory :cep do
     id
-    codigo '66093050'
+    sequence(:codigo) { |n| 66093050 + n }
     uf 'PA'
     municipio 'BELEM'
     tipo_id 1

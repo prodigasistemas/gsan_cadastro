@@ -38,6 +38,7 @@ class Logradouro < ActiveRecord::Base
   validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
   validate :validar_destrucao_logradouro_cep
   validate :validar_destrucao_logradouro_bairro
+  validates_inclusion_of :ativo, in: [1,2]
 
   private
 

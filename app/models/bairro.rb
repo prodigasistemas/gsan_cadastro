@@ -17,6 +17,7 @@ class Bairro < ActiveRecord::Base
 
   validates_uniqueness_of :codigo, scope: :muni_id
   validates_presence_of :municipio_id, :codigo, :nome
+  validates_inclusion_of :ativo, in: [1,2]
 
   scope :join, -> { includes(:municipio).joins(:municipio).order(:nome) }
   scope :nome, -> (nome) { where("UPPER(bair_nmbairro) LIKE ?", "%#{nome.upcase}%") }

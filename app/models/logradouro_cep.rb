@@ -15,6 +15,7 @@ class LogradouroCep < ActiveRecord::Base
 
   before_destroy :valida_nenhum_imovel_relacionado
   validate :valida_nenhum_imovel_relacionado, on: :destroy
+  validates_inclusion_of :ativo, in: [1,2]
 
   private
 
