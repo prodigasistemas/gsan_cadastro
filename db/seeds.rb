@@ -13,6 +13,13 @@ if Rails.env.test?
   TipoLogradouro.destroy_all
   TituloLogradouro.destroy_all
   UnidadeFederacao.destroy_all
+  EsferaPoder.destroy_all
+  ClienteTipo.destroy_all
+  OrgaoExpedidorRg.destroy_all
+  PessoaSexo.destroy_all
+  Profissao.destroy_all
+  RamoAtividade.destroy_all
+  Cliente.destroy_all
 end
 
 if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
@@ -49,4 +56,16 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
 
   logradouro_ceara.logradouro_ceps.create cep: cep_3, ativo: 1
   logradouro_ceara.logradouro_bairros.create bairro: caladim
+
+  esfera_poder = EsferaPoder.create! descricao: "MUNICIPAL", ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
+  ClienteTipo.create!(descricao: "RESIDENCIAL", pessoa_fisica_juridica: 1, ativo: 1)
+  cliente_associacoes = ClienteTipo.create!(descricao: "ASSOCIACOES", pessoa_fisica_juridica: 2, ativo: 1, esfera_poder: esfera_poder)
+  OrgaoExpedidorRg.create!(descricao: "EXERCITO", ativo: 1)
+  OrgaoExpedidorRg.create!(descricao: "CREA", ativo: 1)
+  Profissao.create! descricao: "PROGRAMADOR", ativo: 1, codigo: 10
+  PessoaSexo.create! descricao: "MASCULINO", ativo: 1
+  PessoaSexo.create! descricao: "FEMININO", ativo: 1
+  RamoAtividade.create! descricao: "ACOUGUE", codigo: 11
+
+  Cliente.create! nome: "LABORATORIO ALFAZEMA", cliente_tipo: cliente_associacoes, cnpj: 37217098000143, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
 end

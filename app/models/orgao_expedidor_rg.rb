@@ -8,4 +8,6 @@ class OrgaoExpedidorRg < ActiveRecord::Base
   alias_attribute "descricao_abreviada", "oerg_dsabreviado"         # character(6), -- descricao abreviada do orgao expedidor
   alias_attribute "ativo",               "oerg_icuso"               # smallint, -- indicador de uso (1-ativo 2-inativo)
   alias_attribute "atualizado_em",       "oerg_tmultimaalteracao"  # timestamp without time zone NOT NULL DEFAULT now() -- timestamp da inclusao/ultima alteracao
+
+  default_scope -> { order(:descricao) }
 end

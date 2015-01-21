@@ -6,7 +6,7 @@ json.clientes do
                               :cliente_responsavel_superior_id,
                               :ramo_atividade_id,
                               :profissao_id,
-                              :sexo_id,
+                              :pessoa_sexo_id,
                               :cliente_tipo_id,
                               :nome,
                               :nome_abreviado,
@@ -24,7 +24,7 @@ json.clientes do
                               :cobranca_acrescimos,
                               :arquivo_texto,
                               :vencimento_mes_seguinte,
-                              :gera_fatura_ancetipada,
+                              :gera_fatura_antecipada,
                               :nome_fantasia_conta,
                               :permite_negativacao,
                               :negativacao_periodo

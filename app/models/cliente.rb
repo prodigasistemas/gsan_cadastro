@@ -28,7 +28,7 @@ class Cliente < ActiveRecord::Base
   alias_attribute "cliente_responsavel_superior_id",  "clie_cdclienteresponsavel"     # integer, -- Id do cliente responsavel superior
   alias_attribute "ramo_atividade_id",                "ratv_id"                       # integer, -- Id do ramo de atividade do cliente
   alias_attribute "profissao_id",                     "prof_id"                       # integer, -- Id da profissao do cliente
-  alias_attribute "sexo_id",                          "psex_id"                       # integer, -- Id do sexo do cliente
+  alias_attribute "pessoa_sexo_id",                   "psex_id"                       # integer, -- Id do sexo do cliente
   alias_attribute "cliente_tipo_id",                  "cltp_id"                       # integer NOT NULL, -- Id do tipo de cliente
 
   alias_attribute "nome",                             "clie_nmcliente"                # character varying(50), -- Nome do cliente
@@ -57,4 +57,6 @@ class Cliente < ActiveRecord::Base
   scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,   -> (cpf)  { where cpf: cpf }
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
+
+  belongs_to :cliente_tipo, foreign_key: :cltp_id
 end

@@ -8,5 +8,7 @@ class ClienteTipo < ActiveRecord::Base
   alias_attribute "pessoa_fisica_juridica", "cltp_icpessoafisicajuridica" # smallint, -- indicador de pessoa fisica ou juridica
   alias_attribute "ativo",                  "cltp_icuso"                  # smallint, -- indicador de uso
   alias_attribute "atualizado_em",          "cltp_tmultimaalteracao"      # timestamp without time zone NOT NULL DEFAULT now(), -- timestamp inclusa/ultima alteracao
-  alias_attribute "espera_poder_id",        "epod_id"                     # integer, -- id da esfera de poder
+  alias_attribute "esfera_poder_id",        "epod_id"                     # integer, -- id da esfera de poder
+
+  belongs_to :esfera_poder, foreign_key: "epod_id"
 end
