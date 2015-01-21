@@ -14,6 +14,7 @@ class Bairro < ActiveRecord::Base
   alias_attribute "atualizado_em",      "bair_tmultimaalteracao"
 
   belongs_to :municipio, foreign_key: :muni_id
+  has_many   :bairro_areas
 
   validates_uniqueness_of :codigo, scope: :muni_id
   validates_presence_of :municipio_id, :codigo, :nome
@@ -26,7 +27,7 @@ class Bairro < ActiveRecord::Base
   scope :municipio_id, -> (id) { where municipio_id: id }
 
   def self.pesquisar(query = nil)
-   if query
+    if query
       where(query)
     else
       all
