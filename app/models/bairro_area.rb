@@ -12,7 +12,7 @@ class BairroArea < ActiveRecord::Base
   alias_attribute "codigo_bairro_area",       "brar_cdbairroarea"
   alias_attribute "codigo_bairro_siac",       "brar_cdbairrosiac"
   alias_attribute "codigo_bairro_sci",        "brar_cdbairrosci"
-  alias_attribute "codigo_bairro_mucicipio",  "brar_cdmunicipio"
+  alias_attribute "codigo_bairro_municipio",  "brar_cdmunicipio"
 
   belongs_to :bairro, foreign_key: :bair_id
   belongs_to :distrito_operacional, foreign_key: :diop_id

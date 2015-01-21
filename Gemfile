@@ -21,6 +21,6 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'factory_girl'
-  gem 'simplecov'
+  gem 'simplecov', require: false
 end
 
