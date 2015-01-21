@@ -9,6 +9,60 @@ describe Cep do
   it { should validate_presence_of    :tipo_logradouro }
   it { should validate_presence_of    :logradouro }
 
+  describe "validacao do range dos ceps do municipio" do
+    subject(:cep) { create(:cep, codigo: 13902093) }
+
+    context "quando municipio possui cep_final e cep_inicial" do
+      context "quando cep não pertence ao intervalo de ceps do município" do
+        let(:municipio) { create(:municipio, cep_inicial: 13902010, cep_final: 13902065) }
+
+        before do
+          cep.municipio_model = municipio
+        end
+
+        it "não passa na validação" do
+          expect(cep).to_not be_valid
+          expect(cep.errors).to include :codigo
+        end
+      end
+
+      context "quando cep pertence ao intervalo de ceps do município" do
+        let(:municipio) { create(:municipio, cep_inicial: 13902091, cep_final: 13902095) }
+
+        it "passa na validacao" do
+          expect(cep).to be_valid
+        end
+      end
+    end
+
+    context "quando município não possui cep_final" do
+      let(:municipio) { create(:municipio, cep_final: 13902095) }
+
+      it "passa na validacao" do
+        cep.municipio_model = municipio
+        expect(cep).to be_valid
+      end
+    end
+
+    context "quando município não possui cep_inicial" do
+      let(:municipio) { create(:municipio, cep_inicial: 13902091) }
+
+      it "passa na validacao" do
+        cep.municipio_model = municipio
+        expect(cep).to be_valid
+      end
+    end
+
+    context "quando município não possui cep_inicial e nem cep_final" do
+      let(:municipio) { create(:municipio) }
+
+      it "passa na validacao" do
+        cep.municipio_model = municipio
+        expect(cep).to be_valid
+      end
+    end
+  end
+
   describe "codigo" do
     it { should allow_value("12345678").for :codigo }
     it { should_not allow_value("123456789").for :codigo }

@@ -5,6 +5,8 @@ class Cep < ActiveRecord::Base
   self.table_name  = 'cadastro.cep'
   self.primary_key = 'cep_id'
 
+  attr_accessor :municipio_model
+
   alias_attribute "id",               "cep_id"
   alias_attribute "codigo",           "cep_cdcep"
   alias_attribute "uf",               "cep_dsufsigla"
@@ -25,6 +27,7 @@ class Cep < ActiveRecord::Base
   validates_uniqueness_of :codigo
   validates_format_of :codigo, with: /\A\d{8}\z/
   validates_inclusion_of :ativo, in: [1,2]
+  validate :valida_range_cep
 
   scope :join, -> { includes(:cep_tipo).eager_load(:cep_tipo) }
   scope :filtro_logradouro, -> (nome) { where("UPPER(cep_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
@@ -34,4 +37,22 @@ class Cep < ActiveRecord::Base
   scope :uf, -> (uf) { where uf: uf }
   scope :tipo_logradouro, -> (tipo) { where tipo_logradouro: tipo }
   scope :codigo, -> (codigo) { where codigo: codigo }
+
+  private
+  def valida_range_cep
+    errors.add(:codigo, :range) if municipio_model.present? && valida_ceps_municipio
+  end
+
+  def valida_ceps_municipio
+    return false unless municipio_possui_range_de_ceps?
+    return !codigo_pertence_ao_range?
+  end
+
+  def municipio_possui_range_de_ceps?
+    municipio_model.cep_inicial.present? && municipio_model.cep_final.present?
+  end
+
+  def codigo_pertence_ao_range?
+    codigo.between?(municipio_model.cep_inicial, municipio_model.cep_final)
+  end
 end

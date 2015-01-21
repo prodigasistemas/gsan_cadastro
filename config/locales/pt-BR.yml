@@ -55,6 +55,7 @@ pt-BR:
               blank: "é obrigatório"
               invalid: "deve conter 8 dígitos"
               taken: "já existe"
+              range: "não pertence ao perímetro do município"
             tipo_id:
               blank: "é obrigatório"
             municipio:
