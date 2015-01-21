@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :ceps do
     get :search, :on => :collection
   end
-<<<<<<< HEAD
+
   resources :municipios,    only: [:index, :show, :create, :update]
   resources :bairros,       only: [:index, :show, :create, :update]
   resources :logradouros,   only: [:index, :show, :create, :update]
