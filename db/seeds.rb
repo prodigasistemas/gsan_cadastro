@@ -20,6 +20,7 @@ if Rails.env.test?
   Profissao.destroy_all
   RamoAtividade.destroy_all
   Cliente.destroy_all
+  DistritoOperacional.destroy_all
 end
 
 if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
@@ -68,4 +69,7 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   RamoAtividade.create! descricao: "ACOUGUE", codigo: 11
 
   Cliente.create! nome: "LABORATORIO ALFAZEMA", cliente_tipo: cliente_associacoes, cnpj: 37217098000143, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
+
+  DistritoOperacional.create!(descricao: "DISTRITO GERAL", abreviacao: "DG", ativo: 1, sistema_abastecimento_id: 1, zona_abastecimento_id: 1)
+  DistritoOperacional.create!(descricao: "DISTRITO 1", abreviacao: "D1", ativo: 1, sistema_abastecimento_id: 2, zona_abastecimento_id: 1)
 end
