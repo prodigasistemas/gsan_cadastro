@@ -44,7 +44,8 @@ class BairrosController < ApplicationController
                                     :codigo,
                                     :codigo_prefeitura,
                                     :municipio_id,
-                                    :ativo
+                                    :ativo,
+                                    bairro_areas_attributes: [:id, :distrito_operacional_id, :nome, :_destroy]
 
   end
 end

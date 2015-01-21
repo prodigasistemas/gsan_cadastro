@@ -13,18 +13,20 @@ class Bairro < ActiveRecord::Base
   alias_attribute "ativo",              "bair_icuso"
   alias_attribute "atualizado_em",      "bair_tmultimaalteracao"
 
-  belongs_to :municipio, foreign_key: :muni_id
-  has_many   :bairro_areas
+  belongs_to :municipio,    foreign_key: :muni_id
+  has_many   :bairro_areas, foreign_key: :bair_id
+
+  accepts_nested_attributes_for :bairro_areas, allow_destroy: true
 
   validates_uniqueness_of :codigo, scope: :muni_id
-  validates_presence_of :municipio_id, :codigo, :nome
-  validates_inclusion_of :ativo, in: [1,2]
+  validates_presence_of   :municipio_id, :codigo, :nome
+  validates_inclusion_of  :ativo, in: [1, 2]
 
-  scope :join, -> { includes(:municipio).joins(:municipio).order(:nome) }
-  scope :nome, -> (nome) { where("UPPER(bair_nmbairro) LIKE ?", "%#{nome.upcase}%") }
-  scope :codigo, -> (codigo) { where codigo: codigo }
+  scope :join,              -> { includes(:municipio).joins(:municipio).order(:nome) }
+  scope :nome,              -> (nome) { where("UPPER(bair_nmbairro) LIKE ?", "%#{nome.upcase}%") }
+  scope :codigo,            -> (codigo) { where codigo: codigo }
   scope :codigo_prefeitura, -> (codigo) { where codigo_prefeitura: codigo }
-  scope :municipio_id, -> (id) { where municipio_id: id }
+  scope :municipio_id,      -> (id) { where municipio_id: id }
 
   def self.pesquisar(query = nil)
     if query
