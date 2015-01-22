@@ -10,7 +10,12 @@ class MicroRegiao < ActiveRecord::Base
   alias_attribute "ativo",          "mreg_icuso"
   alias_attribute "atualizado_em",  "mreg_tmultimaalteracao"
 
+  validates_uniqueness_of :nome
+  validates_presence_of :regiao
+  validates_inclusion_of :ativo, in: [1,2]
+
   belongs_to :regiao, foreign_key: :regi_id
 
   default_scope -> { order(:nome) }
+  scope :ativos, -> { where ativo: 1 }
 end
