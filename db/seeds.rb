@@ -32,8 +32,10 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   titulo_logradouro = TituloLogradouro.create!(descricao: "GOV")
   titulo_logradouro2 = TituloLogradouro.create!(descricao: "ALM")
 
-  micro_regiao =  MicroRegiao.create!(nome: "BELEM", ativo: 1, regiao_id: 2)
-                  MicroRegiao.create!(nome: "OBIDOS", ativo: 1, regiao_id: 2)
+  regiao = Regiao.create!(nome: 'NORDESTE', ativo: 1)
+
+  micro_regiao =  MicroRegiao.create!(nome: "BELEM", ativo: 1, regiao_id: regiao.id)
+                  MicroRegiao.create!(nome: "OBIDOS", ativo: 1, regiao_id: regiao.id)
 
   regiao_desenvolvimento =  RegiaoDesenvolvimento.create!(nome: "MARAJO", ativo: 1)
                             RegiaoDesenvolvimento.create!(nome: "METROPOLITANA", ativo: 1)
