@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :pessoa_sexos,            only: :index
   resources :cliente_tipos,           only: :index
   resources :esferas_poder,           only: :index
-  resources :micro_regioes,           only: [:index, :create]
+  resources :micro_regioes,           only: [:index, :create, :show, :edit, :update]
   resources :tipo_logradouros,        only: :index
   resources :ramos_atividades,        only: :index
   resources :titulo_logradouros,      only: :index

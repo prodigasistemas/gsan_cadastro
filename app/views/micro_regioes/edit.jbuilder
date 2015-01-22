@@ -1,0 +1,1 @@
+json.micro_regiao(@micro_regiao, :id, :nome, :ativo)

@@ -52,7 +52,7 @@ FactoryGirl.define do
 
   factory :micro_regiao do
     id
-    nome "MARAJO"
+    sequence(:nome) { |n| "MARAJO#{n}" }
     regiao
     ativo 1
   end
