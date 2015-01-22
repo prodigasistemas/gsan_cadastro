@@ -10,4 +10,5 @@ class Regiao < ActiveRecord::Base
   alias_attribute "atualizado_em",  "regi_tmultimaalteracao"
 
   default_scope -> { order(:nome) }
+  scope :ativos, -> { where ativo: 1 }
 end
