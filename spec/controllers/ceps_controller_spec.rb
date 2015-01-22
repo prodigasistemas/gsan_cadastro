@@ -115,4 +115,59 @@ describe CepsController, type: :controller do
       expect(json['bairros'].size).to eq bairros.size
     end
   end
+
+  describe "PUT update" do
+    let!(:municipio) { create(:municipio) }
+
+    context "quando cep é atualizado com sucesso" do
+      let(:params) { 
+        attributes_for(:cep, muni_id: municipio.id).with_indifferent_access
+      }
+
+      it "retorna o cep" do
+        put :update, id: 1, cep: params, format: :json
+        expect(json['codigo']).to eq params['codigo']
+      end
+    end
+
+    context "quando cep não é atualizado" do
+      let(:params) { 
+        attributes_for(:cep, codigo: '').with_indifferent_access 
+      }
+
+      it "retorna erros" do
+        put :update, id: 1, cep: params, format: :json
+        expect(response.status).to eq 422
+        expect(json['errors']).to_not be_nil
+      end
+    end
+  end
+
+  describe "GET search" do
+    context "quando cep é encontrado" do
+      let(:params) {
+        { 
+          'query'=> { 'codigo'=>ceps.first.codigo } 
+        }
+      }
+
+      it "retorna um cep" do
+        get :search, params, format: :json
+        expect(json['cep']['codigo']).to eq ceps.first.codigo
+      end
+    end
+
+    context "quando cep não é encontrado" do
+      let(:params) {
+        { 
+          'query'=> { 'codigo'=>'6666666' } 
+        }
+      }
+
+      it "retorna um hash vazio" do
+        get :search, params, format: :json
+        expect(json['cep']).to be_nil
+      end
+    end
+  end
 end
