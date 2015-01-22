@@ -17,7 +17,7 @@ FactoryGirl.define do
     id
     nome "ALGODOAL"
     municipio
-    codigo 66
+    sequence(:codigo) { |n| 1 + n }
     ativo 1
   end
 
@@ -29,6 +29,7 @@ FactoryGirl.define do
     tipo_id 1
     tipo_logradouro 'RUA'
     logradouro 'DA MATA'
+    bairro 'GUAMA'
     ativo 1
   end
 

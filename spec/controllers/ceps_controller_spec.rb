@@ -61,4 +61,58 @@ describe CepsController, type: :controller do
       end
     end
   end
+
+  describe "GET show" do
+    it "retorna um cep" do
+      get :show, id: 1, format: :json
+      expect(json['codigo']).to eq ceps.first.codigo
+    end
+  end
+
+  describe "POST create" do
+    let(:municipio) { create(:municipio) }
+
+    context "quando cep é criado com sucesso" do
+      let(:params) { 
+        {
+          'cep'=>attributes_for(:cep).with_indifferent_access
+        }
+      }
+
+      it "retorna o cep" do
+        post :create, params, format: :json
+        expect(json['codigo']).to eq params['cep']['codigo']
+      end
+    end
+
+    context "quando cep não é criado" do
+      let(:params) { 
+        { 
+          'cep'=>attributes_for(:cep, codigo: '').with_indifferent_access 
+        } 
+      }
+
+      it "retorna erros" do
+        post :create, params, format: :json
+        expect(response.status).to eq 422
+        expect(json['errors']).to_not be_nil
+      end
+    end
+  end
+
+  describe "GET edit" do
+    let(:cep) { ceps.first }
+    let!(:municipio) { create(:municipio, nome: 'BELEM') }
+    let!(:bairros) { create_list(:bairro, 3, municipio: municipio) }
+
+    it "retorna um cep" do
+      get :edit, id: 1, format: :json
+      expect(json['cep']['codigo']).to eq ceps.first.codigo
+    end
+
+    it "retorna lista de bairros do municipio ao qual pertence o cep" do
+      get :edit, id: 1, format: :json
+      expect(json['bairros'].size).to eq bairros.size
+    end
+  end
 end
