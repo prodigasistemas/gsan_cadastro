@@ -21,6 +21,7 @@ if Rails.env.test?
   RamoAtividade.destroy_all
   Cliente.destroy_all
   DistritoOperacional.destroy_all
+  BairroArea.destroy_all
 end
 
 if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
@@ -70,6 +71,10 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
 
   Cliente.create! nome: "LABORATORIO ALFAZEMA", cliente_tipo: cliente_associacoes, cnpj: 37217098000143, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
 
-  DistritoOperacional.create!(descricao: "DISTRITO GERAL", abreviacao: "DG", ativo: 1, sistema_abastecimento_id: 1, zona_abastecimento_id: 1)
-  DistritoOperacional.create!(descricao: "DISTRITO 1", abreviacao: "D1", ativo: 1, sistema_abastecimento_id: 2, zona_abastecimento_id: 1)
+  do1 = DistritoOperacional.create!(descricao: "DISTRITO GERAL", abreviacao: "DG", ativo: 1, sistema_abastecimento_id: 1, zona_abastecimento_id: 1)
+  do2 = DistritoOperacional.create!(descricao: "DISTRITO 1", abreviacao: "D1", ativo: 1, sistema_abastecimento_id: 2, zona_abastecimento_id: 1)
+
+  bairro = Bairro.create!(nome: "TAPANA", ativo: 1, codigo: 999, municipio_id: belem.id)
+  bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "NOVA AREA")
+  bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "MAIS UMA AREA")
 end

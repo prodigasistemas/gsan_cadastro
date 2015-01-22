@@ -1,5 +1,6 @@
 class BairroArea < ActiveRecord::Base
   include IncrementableId
+  include Filterable
 
   self.table_name  = "cadastro.bairro_area"
   self.primary_key = "brar_id"
@@ -16,4 +17,8 @@ class BairroArea < ActiveRecord::Base
 
   belongs_to :bairro, foreign_key: :bair_id
   belongs_to :distrito_operacional, foreign_key: :diop_id
+
+  scope :nome,                      -> (nome) { where("UPPER(brar_nmbairroarea) LIKE ?", "%#{nome.upcase}%") }
+  scope :bairro_id,                 -> (id) { where bairro_id: id }
+  scope :distrito_operacional_id,   -> (id) { where distrito_operacional_id: id }
 end
