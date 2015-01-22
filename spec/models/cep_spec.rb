@@ -29,37 +29,26 @@ describe Cep do
       context "quando cep pertence ao intervalo de ceps do município" do
         let(:municipio) { create(:municipio, cep_inicial: 13902091, cep_final: 13902095) }
 
-        it "passa na validacao" do
-          expect(cep).to be_valid
-        end
+        it_behaves_like "cep passa na validacao"
       end
     end
 
     context "quando município não possui cep_final" do
       let(:municipio) { create(:municipio, cep_final: 13902095) }
 
-      it "passa na validacao" do
-        cep.municipio_model = municipio
-        expect(cep).to be_valid
-      end
+      it_behaves_like "cep passa na validacao"
     end
 
     context "quando município não possui cep_inicial" do
       let(:municipio) { create(:municipio, cep_inicial: 13902091) }
 
-      it "passa na validacao" do
-        cep.municipio_model = municipio
-        expect(cep).to be_valid
-      end
+      it_behaves_like "cep passa na validacao"
     end
 
     context "quando município não possui cep_inicial e nem cep_final" do
       let(:municipio) { create(:municipio) }
 
-      it "passa na validacao" do
-        cep.municipio_model = municipio
-        expect(cep).to be_valid
-      end
+      it_behaves_like "cep passa na validacao"
     end
   end
 
@@ -76,4 +65,5 @@ describe Cep do
     it { should_not allow_value(0).for :ativo }
     it { should_not allow_value(3).for :ativo }
   end
+
 end
