@@ -1,5 +1,6 @@
 class MicroRegiao < ActiveRecord::Base
   include IncrementableId
+  include Filterable
 
   self.table_name  = 'cadastro.microrregiao'
   self.primary_key = 'mreg_id'
@@ -16,6 +17,7 @@ class MicroRegiao < ActiveRecord::Base
 
   belongs_to :regiao, foreign_key: :regi_id
 
-  default_scope -> { order(:nome) }
-  scope :ativos, -> { where ativo: 1 }
+  scope :nome,      -> (nome) { where("UPPER(mreg_nmmicrorregiao) LIKE ?", "%#{nome.upcase}%") }
+  scope :regiao_id, -> (id) { where regiao_id: id }
+  scope :ativos,    -> { where ativo: 1 }
 end

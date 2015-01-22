@@ -8,11 +8,31 @@ describe MicroRegioesController, type: :controller do
   let!(:regiao) { create(:regiao) }
 
   describe "GET index" do
-    it "retorna a lista de micro regiões ativas" do
-      get :index, format: :json
+    let(:params) do
+      {
+        "query"=>
+          {
+            "nome"=>"MARAJO",
+            "regiao_id"=>1
+          }
+      }
+    end
 
-      expect(json.size).to eq 2
-      expect(json.collect{|l| l["nome"]}).to include(marajo.nome)
+    before do
+      get :index, params, format: :json
+    end
+
+    it "retorna a lista de micro regiões ativas" do
+      expect(json['micro_regioes'].size).to eq 1
+      expect(json['micro_regioes'].collect{|l| l["nome"]}).to include(marajo.nome)
+    end
+
+    it "retorna dados da paginacao" do
+      expect(json['page']['first_page']).to be true
+      expect(json['page']['last_page']).to be true
+      expect(json['page']['current_page']).to eq(1)
+      expect(json['page']['total']).to eq(1)
+      expect(json['page']['total_pages']).to eq(1)
     end
   end
 
