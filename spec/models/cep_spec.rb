@@ -10,11 +10,11 @@ describe Cep do
   it { should validate_presence_of    :logradouro }
 
   describe "validacao do range dos ceps do municipio" do
-    subject(:cep) { create(:cep, codigo: 13902093) }
+    subject(:cep) { build_stubbed(:cep, codigo: 13902093) }
 
     context "quando municipio possui cep_final e cep_inicial" do
       context "quando cep não pertence ao intervalo de ceps do município" do
-        let(:municipio) { create(:municipio, cep_inicial: 13902010, cep_final: 13902065) }
+        let(:municipio) { build_stubbed(:municipio, cep_inicial: 13902010, cep_final: 13902065) }
 
         before do
           cep.municipio_model = municipio
@@ -27,26 +27,26 @@ describe Cep do
       end
 
       context "quando cep pertence ao intervalo de ceps do município" do
-        let(:municipio) { create(:municipio, cep_inicial: 13902091, cep_final: 13902095) }
+        let(:municipio) { build_stubbed(:municipio, cep_inicial: 13902091, cep_final: 13902095) }
 
         it_behaves_like "cep passa na validacao"
       end
     end
 
     context "quando município não possui cep_final" do
-      let(:municipio) { create(:municipio, cep_final: 13902095) }
+      let(:municipio) { build_stubbed(:municipio, cep_final: 13902095) }
 
       it_behaves_like "cep passa na validacao"
     end
 
     context "quando município não possui cep_inicial" do
-      let(:municipio) { create(:municipio, cep_inicial: 13902091) }
+      let(:municipio) { build_stubbed(:municipio, cep_inicial: 13902091) }
 
       it_behaves_like "cep passa na validacao"
     end
 
     context "quando município não possui cep_inicial e nem cep_final" do
-      let(:municipio) { create(:municipio) }
+      let(:municipio) { build_stubbed(:municipio) }
 
       it_behaves_like "cep passa na validacao"
     end
