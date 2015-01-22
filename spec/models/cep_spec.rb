@@ -22,7 +22,7 @@ describe Cep do
 
         it "não passa na validação" do
           expect(cep).to_not be_valid
-          expect(cep.errors).to include :codigo
+          expect(cep.errors[:codigo]).to include "não pertence ao perímetro do município"
         end
       end
 
