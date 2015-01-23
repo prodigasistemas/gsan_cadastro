@@ -106,4 +106,9 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
 
   cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_ceara.logradouro_ceps.first, logradouro_bairro: logradouro_ceara.logradouro_bairros.first
+
+  EnderecoTipo.create!(descricao: "RESIDENCIAL", ativo: 1)
+  EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
+  EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
+  EnderecoReferencia.create!(descricao: "EM FRENte", ativo: 1)
 end

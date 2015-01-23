@@ -5,23 +5,6 @@ class Cliente < ActiveRecord::Base
   self.table_name  = 'cadastro.cliente'
   self.primary_key = 'clie_id'
 
-  validates_presence_of   :nome,
-                          :cliente_tipo_id,
-                          :nome_fantasia_conta,
-                          :permite_negativacao,
-                          :negativacao_periodo
-
-  validates_inclusion_of  :ativo,
-                          :negativacao_periodo,
-                          :permite_negativacao,
-                          :nome_fantasia_conta, in: [1,2]
-
-  validates_inclusion_of  :acao_cobranca,
-                          :cobranca_acrescimos,
-                          :arquivo_texto,
-                          :vencimento_mes_seguinte,
-                          :gera_fatura_antecipada, in: [1,2], allow_nil: true
-
   alias_attribute "id",                               "clie_id"                       # integer NOT NULL, -- Id do cliente
   alias_attribute "orgao_emissor_rg_id",              "oerg_id"                       # integer, -- Id do orgao emissor do RG do cliente
   alias_attribute "orgao_emissor_uf_id",              "unfe_id"                       # integer, -- Id da unidade da federacao do orgao emissor
@@ -53,6 +36,31 @@ class Cliente < ActiveRecord::Base
   alias_attribute "permite_negativacao",              "clie_icpermitenegativacao"     # smallint NOT NULL DEFAULT 1, -- indica se o cliente poderá ser negativado
   alias_attribute "negativacao_periodo",              "clie_icnegativacaoperiodo"     # smallint NOT NULL DEFAULT 2, -- Inidicador para negativacao do cliente por periodo
 
+  validates_presence_of   :nome,
+                          :cliente_tipo_id,
+                          :nome_fantasia_conta,
+                          :permite_negativacao,
+                          :negativacao_periodo
+
+  validates_presence_of :cpf, if: :pessoa_fisica?
+
+  validates_presence_of :cnpj, if: :pessoa_juridica?
+
+  validates_inclusion_of  :ativo,
+                          :negativacao_periodo,
+                          :permite_negativacao,
+                          :nome_fantasia_conta, in: [1,2]
+
+  validates_inclusion_of  :acao_cobranca,
+                          :cobranca_acrescimos,
+                          :arquivo_texto,
+                          :vencimento_mes_seguinte,
+                          :gera_fatura_antecipada, in: [1,2], allow_nil: true
+
+  validates_uniqueness_of :cpf, :cnpj
+
+  validates_format_of :cpf, with: /\A\d{11}\z/, allow_nil: true
+
   scope :join,  -> { }
   scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,   -> (cpf)  { where cpf: cpf }
@@ -63,4 +71,13 @@ class Cliente < ActiveRecord::Base
   belongs_to :profissao,    foreign_key: :prof_id
 
   accepts_nested_attributes_for :enderecos, allow_destroy: true
+
+  def pessoa_fisica?
+    cliente_tipo && 
+    self.cliente_tipo.pessoa_fisica_juridica == 1
+  end
+
+  def pessoa_juridica?
+    cliente_tipo && cliente_tipo.pessoa_fisica_juridica == 2
+  end
 end

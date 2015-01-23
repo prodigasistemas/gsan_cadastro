@@ -22,7 +22,6 @@ FactoryGirl.define do
   end
 
   factory :cep do
-    id
     sequence(:codigo) { |n| 66093050 + n }
     uf 'PA'
     municipio 'BELEM'
