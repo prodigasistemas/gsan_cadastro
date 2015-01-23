@@ -12,4 +12,12 @@ Regiao.destroy_all
 TipoLogradouro.destroy_all
 TituloLogradouro.destroy_all
 UnidadeFederacao.destroy_all
+EsferaPoder.destroy_all
+ClienteTipo.destroy_all
+OrgaoExpedidorRg.destroy_all
+PessoaSexo.destroy_all
+Profissao.destroy_all
+RamoAtividade.destroy_all
 Cliente.destroy_all
+DistritoOperacional.destroy_all
+BairroArea.destroy_all
