@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :unidade_federacoes,      only: :index
   resources :bairro_areas,            only: :index
   resources :distrito_operacionais,   only: :index
-  resources :regioes_desenvolvimento, only: :index
+  resources :regioes_desenvolvimento, only: [:index, :create, :show, :edit, :update]
   resources :orgaos_expedidores_rg,   only: :index
   resources :regioes,                 only: [:index, :create, :show, :update]
 end
