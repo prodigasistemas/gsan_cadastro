@@ -109,9 +109,12 @@ pt-BR:
           attributes:
             imoveis:
               are_present: "ainda existem"
-
         cliente:
           attributes:
             cliente_tipo_id:
+              blank: "é obrigatório"
+        regiao:
+          attributes:
+            nome:
               blank: "é obrigatório"
 
