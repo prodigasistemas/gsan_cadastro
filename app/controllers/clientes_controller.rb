@@ -10,10 +10,24 @@ class ClientesController < ApplicationController
     end
   end
 
+  def show
+    @cliente = Cliente.find(params[:id])
+  end
+
   def create
     @cliente = Cliente.new cliente_params
 
     if @cliente.save
+      render json: {}, status: :ok
+    else
+      render json: { errors: @cliente.errors.full_messages }, status: 422
+    end
+  end
+
+  def update
+    @cliente = Cliente.find(params[:id])
+
+    if @cliente.update cliente_params
       render json: {}, status: :ok
     else
       render json: { errors: @cliente.errors.full_messages }, status: 422
@@ -47,6 +61,19 @@ class ClientesController < ApplicationController
                                     :gera_fatura_antecipada,
                                     :nome_fantasia_conta,
                                     :permite_negativacao,
-                                    :negativacao_periodo)
+                                    :negativacao_periodo,
+                                    enderecos_attributes: [:id,
+                                                            :endereco_tipo_id,
+                                                            :logradouro_id,
+                                                            :logradouro_bairro_id,
+                                                            :logradouro_cep_id,
+                                                            :perimetro_inicial_id,
+                                                            :perimetro_final_id,
+                                                            :referencia_id,
+                                                            :numero,
+                                                            :complemento,
+                                                            :correspondencia
+                                                          ]
+                                    )
   end
 end

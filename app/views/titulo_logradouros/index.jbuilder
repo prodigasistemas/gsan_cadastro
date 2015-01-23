@@ -1,3 +1,3 @@
-json.array! @titulo_logradouros do |tipo|
-  json.extract! tipo, :id, :descricao, :descricao_abreviada, :descricao_abreviada_completa, :ativo
+json.array! @titulo_logradouros do |titulo|
+  json.partial! titulo
 end

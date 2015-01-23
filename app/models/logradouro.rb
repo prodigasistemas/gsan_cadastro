@@ -31,6 +31,7 @@ class Logradouro < ActiveRecord::Base
     order(:nome)
   }
   scope :nome, -> (nome) { where("UPPER(logr_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
+  scope :nome_popular, -> (nome) { where("UPPER(logr_nmpopular) LIKE ?", "%#{nome.upcase}%") }
   scope :municipio_id, -> (id) { where municipio_id: id }
   scope :titulo_logradouro_id, -> (id) { where lgtt_id: id }
   scope :tipo_logradouro_id, -> (id) { where lgtp_id: id }

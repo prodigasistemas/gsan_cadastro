@@ -14,13 +14,15 @@ Rails.application.routes.draw do
   resources :cep_tipos,               only: :index
   resources :profissoes,              only: :index
   resources :pessoa_sexos,            only: :index
+  resources :bairro_areas,            only: :index
   resources :cliente_tipos,           only: :index
   resources :esferas_poder,           only: :index
+  resources :endereco_tipos,          only: :index
   resources :tipo_logradouros,        only: :index
   resources :ramos_atividades,        only: :index
   resources :titulo_logradouros,      only: :index
   resources :unidade_federacoes,      only: :index
-  resources :bairro_areas,            only: :index
+  resources :endereco_referencias,    only: :index
   resources :distrito_operacionais,   only: :index
   resources :orgaos_expedidores_rg,   only: :index
 end

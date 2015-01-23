@@ -58,5 +58,9 @@ class Cliente < ActiveRecord::Base
   scope :cpf,   -> (cpf)  { where cpf: cpf }
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
 
+  has_many :enderecos, class_name: "ClienteEndereco", foreign_key: "clie_id"
   belongs_to :cliente_tipo, foreign_key: :cltp_id
+  belongs_to :profissao,    foreign_key: :prof_id
+
+  accepts_nested_attributes_for :enderecos
 end
