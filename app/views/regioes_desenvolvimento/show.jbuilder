@@ -1,0 +1,1 @@
+json.extract! @regiao_desenvolvimento, :id, :nome, :ativo

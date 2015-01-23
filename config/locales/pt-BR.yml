@@ -23,6 +23,8 @@ pt-BR:
       logradouro: "Logradouro"
       logradouro_cep: "CEP de logradouro"
       logradouro_bairro: "Bairro de logradouro"
+      bairro_area: "Área do Bairro"
+      regiao_desenvolvimento: "Região de desenvolvimento"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -47,6 +49,8 @@ pt-BR:
         imoveis: "Imóveis no bairro de logradouro"
       cliente:
         cliente_tipo_id: "Tipo do cliente"
+      regiao_desenvolvimento:
+        nome: "Nome"
     errors:
       models:
         cep:
@@ -117,4 +121,8 @@ pt-BR:
           attributes:
             nome:
               blank: "é obrigatório"
-
+        regiao_desenvolvimento:
+          attributes:
+            nome:
+              blank: "é obrigatório"
+              taken: "já existe"
