@@ -91,6 +91,7 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   RamoAtividade.create! descricao: "ACOUGUE", codigo: 11
 
   Cliente.create! nome: "LABORATORIO ALFAZEMA", cliente_tipo: cliente_associacoes, cnpj: 37217098000143, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
+  cliente_para_edicao = Cliente.create! nome: "Me edite", cliente_tipo: cliente_associacoes, cnpj: 11111111111111, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
 
   do1 = DistritoOperacional.create!(descricao: "DISTRITO GERAL", abreviacao: "DG", ativo: 1, sistema_abastecimento_id: 1, zona_abastecimento_id: 1)
   do2 = DistritoOperacional.create!(descricao: "DISTRITO 1", abreviacao: "D1", ativo: 1, sistema_abastecimento_id: 2, zona_abastecimento_id: 1)
@@ -99,8 +100,10 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "NOVA AREA")
   bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "MAIS UMA AREA")
 
-  EnderecoTipo.create!(descricao: "RESIDENCIAL", ativo: 1)
-  EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
-  EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
-  EnderecoReferencia.create!(descricao: "EM FRENte", ativo: 1)
+  endereco_residencial = EnderecoTipo.create!(descricao: "RESIDENCIAL", ativo: 1)
+  endereco_comercial = EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
+  referencia_numero = EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
+  referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
+
+  cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_ceara.logradouro_ceps.first, logradouro_bairro: logradouro_ceara.logradouro_bairros.first
 end

@@ -13,6 +13,10 @@ json.extract! endereco, :id,
                         :correspondencia,
                         :atualizado_em
 
+json.endereco_tipo do
+  json.partial! endereco.endereco_tipo
+end if endereco.endereco_tipo
+
 json.logradouro do
   json.partial! endereco.logradouro
 end if endereco.logradouro

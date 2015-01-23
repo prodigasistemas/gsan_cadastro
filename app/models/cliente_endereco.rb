@@ -19,6 +19,8 @@ class ClienteEndereco < ActiveRecord::Base
   alias_attribute "correspondencia",      "cled_icenderecocorrespondencia"  # smallint, -- Indicador de Endereco de Correspondencia (1_Sim; 2_Nao). Um e somente um Endereco do Cliente deve ter o Indicador igual a 1_Sim.
   alias_attribute "atualizado_em",        "cled_tmultimaalteracao"          # timestamp without time zone NOT NULL DEFAULT now(), -- timestamp da inclusao/ultima alteracao
 
+  belongs_to :referencia,         foreign_key: "edrf_id", class_name: "EnderecoReferencia"
+  belongs_to :endereco_tipo,      foreign_key: "edtp_id"
   belongs_to :logradouro,         foreign_key: "logr_id"
   belongs_to :logradouro_cep,     foreign_key: "lgcp_id"
   belongs_to :logradouro_bairro,  foreign_key: "lgbr_id"

@@ -62,5 +62,5 @@ class Cliente < ActiveRecord::Base
   belongs_to :cliente_tipo, foreign_key: :cltp_id
   belongs_to :profissao,    foreign_key: :prof_id
 
-  accepts_nested_attributes_for :enderecos
+  accepts_nested_attributes_for :enderecos, allow_destroy: true
 end

@@ -73,7 +73,8 @@ class ClientesController < ApplicationController
                                                             :referencia_id,
                                                             :numero,
                                                             :complemento,
-                                                            :correspondencia
+                                                            :correspondencia,
+                                                            :_destroy
                                                           ]
                                     )
   end
