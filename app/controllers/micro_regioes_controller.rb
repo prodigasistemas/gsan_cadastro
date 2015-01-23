@@ -1,4 +1,6 @@
 class MicroRegioesController < ApplicationController
+  before_action :set_micro_regiao, only: [:show, :update]
+
   def index
     if params[:query].present?
       query = params[:query].deep_symbolize_keys
@@ -11,7 +13,7 @@ class MicroRegioesController < ApplicationController
   end
   
   def show
-    @micro_regiao = MicroRegiao.find params[:id]
+
   end
 
   def create
@@ -23,10 +25,6 @@ class MicroRegioesController < ApplicationController
     else
       render_erros
     end
-  end
-
-  def edit
-    @micro_regiao = MicroRegiao.find params[:id]
   end
 
   def update
@@ -41,6 +39,10 @@ class MicroRegioesController < ApplicationController
   end
   
   private
+
+  def set_micro_regiao
+    @micro_regiao = MicroRegiao.find params[:id]
+  end
   
   def micro_regiao_params
     params.require(:micro_regiao)

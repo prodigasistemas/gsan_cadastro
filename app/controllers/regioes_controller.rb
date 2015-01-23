@@ -1,4 +1,6 @@
 class RegioesController < ApplicationController
+  before_action :set_regiao, only: [:show, :update]
+
   def index
     if params[:query].present?
       query = params[:query].deep_symbolize_keys
@@ -20,12 +22,10 @@ class RegioesController < ApplicationController
   end
 
   def show
-    @regiao = Regiao.find params[:id]
-    render :show
+
   end
 
   def update
-    @regiao = Regiao.find params[:id]
     if @regiao.update_attributes(regiao_params)
       render :show
     else
@@ -34,6 +34,11 @@ class RegioesController < ApplicationController
   end
 
   private
+
+  def set_regiao
+    @regiao = Regiao.find params[:id]
+  end
+
   def regiao_params
     params.require(:regiao)
       .permit(

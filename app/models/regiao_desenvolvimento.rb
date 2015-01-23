@@ -11,9 +11,9 @@ class RegiaoDesenvolvimento < ActiveRecord::Base
   alias_attribute "atualizado_em",  "rdes_tmultimaalteracao"
 
   validates_presence_of   :nome
-  validates_uniqueness_of  :nome
+  validates_uniqueness_of :nome
   validates_inclusion_of  :ativo, in: [1, 2]
 
-  default_scope             -> { order(:nome) }
-  scope :nome,              -> (nome) { where("UPPER(rdes_nmregiaodesenvolvimento) LIKE ?", "%#{nome.upcase}%") }
+  default_scope           -> { order(:nome) }
+  scope :nome,            -> (nome) { where("UPPER(rdes_nmregiaodesenvolvimento) LIKE ?", "%#{nome.upcase}%") }
 end

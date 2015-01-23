@@ -24,6 +24,8 @@ pt-BR:
       logradouro_cep: "CEP de logradouro"
       logradouro_bairro: "Bairro de logradouro"
       bairro_area: "Área do Bairro"
+      regiao: "Região"
+      micro_regiao: "Micro Região"
       regiao_desenvolvimento: "Região de desenvolvimento"
     attributes:
       municipio:
@@ -49,6 +51,10 @@ pt-BR:
         imoveis: "Imóveis no bairro de logradouro"
       cliente:
         cliente_tipo_id: "Tipo do cliente"
+      regiao:
+        nome: "Nome"
+      micro_regiao:
+        nome: "Nome"
       regiao_desenvolvimento:
         nome: "Nome"
     errors:
@@ -121,6 +127,11 @@ pt-BR:
           attributes:
             nome:
               blank: "é obrigatório"
+        micro_regiao:
+          attributes:
+            nome:
+              blank: "é obrigatório"
+              taken: "já existe"
         regiao_desenvolvimento:
           attributes:
             nome:
