@@ -19,7 +19,7 @@ class RegioesController < ApplicationController
     end
   end
 
-  def edit
+  def show
     @regiao = Regiao.find params[:id]
     render :show
   end

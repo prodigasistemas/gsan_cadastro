@@ -62,11 +62,11 @@ describe RegioesController, type: :controller do
     end
   end
 
-  describe "GET edit" do
+  describe "GET show" do
     let!(:regiao) { create(:regiao) }
 
     it "retorna uma regiao" do
-      get :edit, id: regiao.id, format: :json
+      get :show, id: regiao.id, format: :json
       expect(json['nome']).to eq regiao.nome
     end
   end
