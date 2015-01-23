@@ -19,7 +19,7 @@ describe RegioesController, type: :controller do
 
       it "retorna a lista de regiões de acordo com os dados dos filtros" do
         expect(json['regioes'].size).to eq 1
-        expect(json['regioes'].collect{|l| l["nome"]}).to include('NORTE')
+        expect(json['regioes'].collect{|l| l["nome"]}).to include(regioes.first.nome)
       end
 
       it_behaves_like "com dados da paginacao"
@@ -56,6 +56,43 @@ describe RegioesController, type: :controller do
       end
 
       it "mostra erros de validação" do
+        expect(response.status).to eq 422
+        expect(json['errors']).to_not be_nil
+      end
+    end
+  end
+
+  describe "GET edit" do
+    let!(:regiao) { create(:regiao) }
+
+    it "retorna uma regiao" do
+      get :edit, id: regiao.id, format: :json
+      expect(json['nome']).to eq regiao.nome
+    end
+  end
+
+  describe "PUT update" do
+    let!(:regiao) { create(:regiao) }
+
+    context "quando a região é atualizada com sucesso" do
+      let(:params) {
+        attributes_for(:regiao).with_indifferent_access
+      }
+
+      it "retorna a região" do
+        put :update, id: regiao, regiao: params, format: :json
+        regiao.reload
+        expect(json['nome']).to eq regiao.nome
+      end
+    end
+
+    context "quando a região não é atualizada" do
+      let(:params) {
+        attributes_for(:regiao, nome: '').with_indifferent_access
+      }
+
+      it "retorna erros" do
+        put :update, id: regiao, regiao: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

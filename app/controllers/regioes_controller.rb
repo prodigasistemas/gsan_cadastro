@@ -19,6 +19,20 @@ class RegioesController < ApplicationController
     end
   end
 
+  def edit
+    @regiao = Regiao.find params[:id]
+    render :show
+  end
+
+  def update
+    @regiao = Regiao.find params[:id]
+    if @regiao.update_attributes(regiao_params)
+      render :show
+    else
+      render_erros
+    end
+  end
+
   private
   def regiao_params
     params.require(:regiao)
