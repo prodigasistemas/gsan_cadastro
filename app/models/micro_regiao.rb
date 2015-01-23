@@ -16,7 +16,7 @@ class MicroRegiao < ActiveRecord::Base
   validates_inclusion_of :ativo, in: [1,2]
 
   belongs_to :regiao, foreign_key: :regi_id
-
+  
   scope :nome,      -> (nome) { where("UPPER(mreg_nmmicrorregiao) LIKE ?", "%#{nome.upcase}%") }
   scope :regiao_id, -> (id) { where regiao_id: id }
   scope :ativos,    -> { where ativo: 1 }

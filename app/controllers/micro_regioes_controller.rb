@@ -1,9 +1,13 @@
 class MicroRegioesController < ApplicationController
   def index
-    query = params[:query].deep_symbolize_keys
-    @micro_regioes = MicroRegiao.filter(query)
-    @total = @micro_regioes.count
-    @micro_regioes = @micro_regioes.page(params[:page]).per(20)
+    if params[:query].present?
+      query = params[:query].deep_symbolize_keys
+      @micro_regioes = MicroRegiao.filter(query)
+      @total = @micro_regioes.count
+      @micro_regioes = @micro_regioes.page(params[:page]).per(20)
+    else
+      @micro_regioes = MicroRegiao.ativos
+    end
   end
   
   def show
