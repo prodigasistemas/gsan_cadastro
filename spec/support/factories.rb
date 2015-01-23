@@ -46,7 +46,7 @@ FactoryGirl.define do
 
   factory :regiao_desenvolvimento do
     id
-    nome "METROPOLITANA"
+    sequence(:nome) { |n| "METROPOLITANA#{n}" }
     ativo 1
   end
 
