@@ -22,5 +22,5 @@ Rails.application.routes.draw do
   resources :distrito_operacionais,   only: :index
   resources :regioes_desenvolvimento, only: :index
   resources :orgaos_expedidores_rg,   only: :index
-  resources :regioes,   only: :index
+  resources :regioes,                 only: [:index, :create]
 end
