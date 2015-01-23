@@ -60,8 +60,9 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
   Bairro.create!(nome: "CONQUISTA", ativo: 1, codigo: 55, municipio_id: rio_branco.id)
   caladim = Bairro.create!(nome: "CALADIM", ativo: 1, codigo: 77, municipio_id: rio_branco.id)
   cep_1 = Cep.create!(codigo: "66050380", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "OLIVEIRA BELO", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
-  cep_2 = Cep.create!(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
-  cep_3 = Cep.create!(codigo: "77777777", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "CRAU", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_2 = Cep.create!(codigo: "77777777", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "CRAU", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_3 = Cep.create!(codigo: "55050720", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "DEODORO", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_para_edicao = Cep.create!(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
 
   logradouro_oliveira_belo = Logradouro.create!(municipio: belem, titulo_logradouro: titulo_logradouro,  tipo_logradouro: tipo_logradouro,  nome: "OLIVEIRA BELO", nome_popular: "OLIVEIRA-BELO", ativo: 1)
   logradouro_14_marco = Logradouro.create!(municipio: belem,                                             tipo_logradouro: tipo_logradouro3, nome: "QUATORZE DE MARCO", nome_popular: "14 DE MARCO", ativo: 1)
@@ -70,13 +71,13 @@ if Rails.env.test? && ENV["ACCEPTANCE_TEST"]
 
   logradouro_ceara = Logradouro.create!(municipio: rio_branco, tipo_logradouro: tipo_logradouro2, nome: "CEARA", nome_popular: "AV CEARA", ativo: 1)
 
-  logradouro_ceara.logradouro_ceps.create cep: cep_3, ativo: 1
+  logradouro_ceara.logradouro_ceps.create cep: cep_2, ativo: 1
   logradouro_ceara.logradouro_bairros.create bairro: caladim
 
   logradouro_oliveira_belo.logradouro_ceps.create cep: cep_1, ativo: 1
   logradouro_oliveira_belo.logradouro_bairros.create bairro: umarizal
 
-  logradouro_generalissimo.logradouro_ceps.create cep: cep_2, ativo: 1
+  logradouro_generalissimo.logradouro_ceps.create cep: cep_3, ativo: 1
   logradouro_generalissimo.logradouro_bairros.create bairro: umarizal
 
   esfera_poder = EsferaPoder.create! descricao: "MUNICIPAL", ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
