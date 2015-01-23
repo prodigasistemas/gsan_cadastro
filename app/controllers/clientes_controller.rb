@@ -6,6 +6,7 @@ class ClientesController < ApplicationController
       @total = @clientes.size
       @clientes = @clientes.page(params[:page]).per(20)
     else
+      @total = Cliente.count
       @clientes = Cliente.join.page(params[:page]).per(20)
     end
   end
