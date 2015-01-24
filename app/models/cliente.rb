@@ -55,25 +55,27 @@ class Cliente < ActiveRecord::Base
                           :cobranca_acrescimos,
                           :arquivo_texto,
                           :vencimento_mes_seguinte,
-                          :gera_fatura_antecipada, in: [1,2], allow_nil: true
+                          :gera_fatura_antecipada, in: [1,2], allow_blank: true
 
-  validates_uniqueness_of :cpf, :cnpj
+  validates_uniqueness_of :cpf, :cnpj, allow_blank: true
 
-  validates_format_of :cpf, with: /\A\d{11}\z/, allow_nil: true
+  validates_format_of :cpf, with: /\A\d{11}\z/, allow_blank: true
 
   scope :join,  -> { }
   scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,   -> (cpf)  { where cpf: cpf }
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
 
-  has_many :enderecos, class_name: "ClienteEndereco", foreign_key: "clie_id"
-  belongs_to :cliente_tipo, foreign_key: :cltp_id
-  belongs_to :profissao,    foreign_key: :prof_id
+  has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco"
+  belongs_to :cliente_tipo,                 foreign_key: :cltp_id
+  belongs_to :profissao,                    foreign_key: :prof_id
+  belongs_to :ramo_atividade,               foreign_key: :ratv_id
+  belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente"
 
   accepts_nested_attributes_for :enderecos, allow_destroy: true
 
   def pessoa_fisica?
-    cliente_tipo && 
+    cliente_tipo &&
     self.cliente_tipo.pessoa_fisica_juridica == 1
   end
 

@@ -7,11 +7,11 @@ FactoryGirl.define do
     ativo 1
 
     trait :pessoa_fisica do
-      sequence(:cpf) { |n| "9999999999#{n}" }
+      sequence(:cpf)  { |n| "99#{n}999#{n}999#{n}" }
     end
 
     trait :pessoa_juridica do
-      cnpj '88888888888888'
+      sequence(:cnpj) { |n| "8#{n}8888#{n}888#{n}88#{n}" }
     end
   end
 end
