@@ -42,9 +42,11 @@ class Cliente < ActiveRecord::Base
                           :permite_negativacao,
                           :negativacao_periodo
 
-  validates_presence_of :cpf, if: :pessoa_fisica?
+  validates_presence_of :cpf,                 if: :pessoa_fisica?
+  before_save :apagar_dados_pessoa_juridica,  if: :pessoa_fisica?
 
-  validates_presence_of :cnpj, if: :pessoa_juridica?
+  validates_presence_of :cnpj,                if: :pessoa_juridica?
+  before_save :apagar_dados_pessoa_fisica,    if: :pessoa_juridica?
 
   validates_inclusion_of  :ativo,
                           :negativacao_periodo,
@@ -144,5 +146,23 @@ class Cliente < ActiveRecord::Base
 
   def endereco_de_correspondencia_marcado_para_destruicao?
     enderecos.select { |e| e.correspondencia == 1 && e.marked_for_destruction? }.any?
+  end
+
+  def apagar_dados_pessoa_juridica
+    self.cnpj =                            nil
+    self.ramo_atividade_id =               nil
+    self.cliente_responsavel_superior_id = nil
+  end
+
+  def apagar_dados_pessoa_fisica
+    self.cpf =                  nil
+    self.rg =                   nil
+    self.orgao_emissor_rg_id =  nil
+    self.orgao_emissor_uf_id =  nil
+    self.profissao_id =         nil
+    self.pessoa_sexo_id =       nil
+    self.data_emissao_rg =      nil
+    self.nascimento =           nil
+    self.nome_mae =             nil
   end
 end

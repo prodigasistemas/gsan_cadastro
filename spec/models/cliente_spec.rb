@@ -198,4 +198,49 @@ describe Cliente do
       it { should_not allow_value(3).for :negativacao_periodo }
     end
   end
+
+  describe "ao salvar cliente" do
+    context "quando cliente e pessoa fisica" do
+      let(:cliente) { create(:cliente, :pessoa_fisica) }
+
+      it "apaga referencias de pessoa juridica" do
+        cliente.cnpj = 12345678909876
+        cliente.ramo_atividade_id = 1
+        cliente.cliente_responsavel_superior_id = 1
+
+        cliente.save!
+
+        expect(cliente.cnpj).to be_nil
+        expect(cliente.ramo_atividade_id).to be_nil
+        expect(cliente.cliente_responsavel_superior_id).to be_nil
+      end
+    end
+    context "quando cliente e pessoa juridica" do
+      let(:cliente) { create(:cliente, :pessoa_juridica) }
+
+      it "apaga referencias de pessoa fisica" do
+        cliente.cpf =                 94299888267
+        cliente.rg =                  94299888267
+        cliente.orgao_emissor_rg_id = 1
+        cliente.orgao_emissor_uf_id = 2
+        cliente.profissao_id        = 3
+        cliente.pessoa_sexo_id      = 1
+        cliente.data_emissao_rg     = Date.today
+        cliente.nascimento          = Date.today
+        cliente.nome_mae            = "Maria"
+
+        cliente.save!
+
+        expect(cliente.cpf                ).to be_nil
+        expect(cliente.rg                 ).to be_nil
+        expect(cliente.orgao_emissor_rg_id).to be_nil
+        expect(cliente.orgao_emissor_uf_id).to be_nil
+        expect(cliente.profissao_id       ).to be_nil
+        expect(cliente.pessoa_sexo_id     ).to be_nil
+        expect(cliente.data_emissao_rg    ).to be_nil
+        expect(cliente.nascimento         ).to be_nil
+        expect(cliente.nome_mae           ).to be_nil
+      end
+    end
+  end
 end
