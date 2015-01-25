@@ -21,3 +21,8 @@ RamoAtividade.destroy_all
 Cliente.destroy_all
 DistritoOperacional.destroy_all
 BairroArea.destroy_all
+EnderecoTipo.destroy_all
+EnderecoReferencia.destroy_all
+ClienteEndereco.destroy_all
+ClienteFone.destroy_all
+FoneTipo.destroy_all

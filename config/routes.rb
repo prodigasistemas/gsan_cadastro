@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :cep_tipos,               only: :index
   resources :profissoes,              only: :index
+  resources :fone_tipos,              only: :index
   resources :pessoa_sexos,            only: :index
   resources :bairro_areas,            only: :index
   resources :cliente_tipos,           only: :index

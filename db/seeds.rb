@@ -25,6 +25,8 @@ if Rails.env.test?
   EnderecoTipo.destroy_all
   EnderecoReferencia.destroy_all
   ClienteEndereco.destroy_all
+  ClienteFone.destroy_all
+  FoneTipo.destroy_all
 
   CepTipo.create!(descricao: "ÚNICO",      ativo: 1)
   cep_tipo = CepTipo.create!(descricao: "LOGRADOURO", ativo: 1)
@@ -88,6 +90,11 @@ if Rails.env.test?
   PessoaSexo.create! descricao: "FEMININO", ativo: 1
   RamoAtividade.create! descricao: "ACOUGUE", codigo: 11
 
+  fone_comercial =    FoneTipo.create! descricao: "COMERCIAL",    ativo: 1
+  fone_residencial =  FoneTipo.create! descricao: "RESIDENCIAL",  ativo: 1
+  fone_celular =      FoneTipo.create! descricao: "CELULAR",      ativo: 1
+  fone_fax =          FoneTipo.create! descricao: "FAX",          ativo: 1
+
                         Cliente.create! nome: "LABORATORIO ALFAZEMA", cliente_tipo: cliente_associacoes, cnpj: 37217098000143, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
   cliente_para_edicao = Cliente.create! nome: "Me edite",             cliente_tipo: cliente_associacoes, cnpj: 11111111111111, negativacao_periodo: 2, permite_negativacao: 2, nome_fantasia_conta: 2, ativo: 1
 
@@ -104,4 +111,6 @@ if Rails.env.test?
   referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
 
   cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_ceara.logradouro_ceps.first, logradouro_bairro: logradouro_ceara.logradouro_bairros.first
+  cliente_para_edicao.telefones.create ddd: 21, numero: 11133344, ramal: 555, nome_contato: "O PROPRIO",    fone_tipo: fone_comercial
+  cliente_para_edicao.telefones.create ddd: 11, numero: 33234565, ramal: 44,  nome_contato: "TELEFONISTA",  fone_tipo: fone_celular
 end

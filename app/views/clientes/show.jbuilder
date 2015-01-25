@@ -32,6 +32,8 @@ json.profissao @cliente.profissao, :id, :descricao if @cliente.profissao
 json.cliente_responsavel_superior @cliente.cliente_responsavel_superior, :id, :nome if @cliente.cliente_responsavel_superior
 
 json.enderecos @cliente.enderecos, partial: "cliente_enderecos/cliente_endereco", as: :endereco
+json.telefones @cliente.telefones, partial: 'cliente_fones/cliente_fone',         as: :cliente_fone
+
 json.ramo_atividade do
   json.partial! 'ramos_atividades/ramo_atividade', ramo_atividade: @cliente.ramo_atividade if @cliente.ramo_atividade
 end

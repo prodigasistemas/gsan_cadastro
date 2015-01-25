@@ -67,12 +67,14 @@ class Cliente < ActiveRecord::Base
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
 
   has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco"
+  has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone"
   belongs_to :cliente_tipo,                 foreign_key: :cltp_id
   belongs_to :profissao,                    foreign_key: :prof_id
   belongs_to :ramo_atividade,               foreign_key: :ratv_id
   belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente"
 
   accepts_nested_attributes_for :enderecos, allow_destroy: true
+  accepts_nested_attributes_for :telefones, allow_destroy: true
 
   def pessoa_fisica?
     cliente_tipo &&

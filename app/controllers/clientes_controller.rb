@@ -75,7 +75,14 @@ class ClientesController < ApplicationController
                                                             :complemento,
                                                             :correspondencia,
                                                             :_destroy
-                                                          ]
+                                                          ],
+                                    telefones_attributes: [:id,
+                                                            :fone_tipo_id,
+                                                            :ddd,
+                                                            :numero,
+                                                            :ramal,
+                                                            :nome_contato,
+                                                            :_destroy]
                                     )
   end
 end
