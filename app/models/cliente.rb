@@ -68,10 +68,11 @@ class Cliente < ActiveRecord::Base
   validate :valida_endereco_de_correspondencia
   validate :valida_telefone_padrao
 
-  scope :join,  -> { }
-  scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
-  scope :cpf,   -> (cpf)  { where cpf: cpf }
-  scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
+  scope :join,        -> { }
+  scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
+  scope :cpf,         -> (cpf)  { where cpf: cpf }
+  scope :cnpj,        -> (cnpj) { where cnpj: cnpj }
+  scope :pessoa_tipo, -> (tipo) { joins(:cliente_tipo).where("cliente_tipo.cltp_icpessoafisicajuridica = ?", tipo) }
 
   has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco", inverse_of: :cliente
   has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone",     inverse_of: :cliente
