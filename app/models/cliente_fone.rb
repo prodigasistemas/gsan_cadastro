@@ -14,6 +14,17 @@ class ClienteFone < ActiveRecord::Base
   alias_attribute "atualizado_em", "cfon_tmultimaalteracao" # timestamp without time zone NOT NULL DEFAULT now(), -- Timestamp
   alias_attribute "nome_contato",  "cfon_nmcontato"         # character varying(50), -- Nome do Contato
 
-  belongs_to :cliente,    foreign_key: :clie_id
+  belongs_to :cliente,    foreign_key: :clie_id, inverse_of: :telefones
   belongs_to :fone_tipo,  foreign_key: :fnet_id
+
+  validate :valida_telefone_padrao
+
+  private
+
+  def valida_telefone_padrao
+    atual_fone_padrao = cliente.telefones.select { |e| e.padrao.to_i == 1 }.first
+    errors.add(:padrao, :taken) if atual_fone_padrao &&
+                                    self.padrao.to_i == 1 &&
+                                    atual_fone_padrao != self
+  end
 end

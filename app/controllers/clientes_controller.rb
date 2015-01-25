@@ -81,6 +81,7 @@ class ClientesController < ApplicationController
                                                             :ddd,
                                                             :numero,
                                                             :ramal,
+                                                            :padrao,
                                                             :nome_contato,
                                                             :_destroy]
                                     )

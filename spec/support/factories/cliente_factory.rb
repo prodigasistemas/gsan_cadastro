@@ -6,16 +6,18 @@ FactoryGirl.define do
     negativacao_periodo 2
     ativo 1
     association :cliente_tipo, factory: [:cliente_tipo, :pessoa_fisica]
-    sequence(:cpf)  { |n| "99#{rand(10)}999#{rand(10)}999#{n}" }
+    sequence(:cpf)  { |n| "999#{rand(10)}999999#{rand(10)}" }
 
     trait :pessoa_fisica do
       association :cliente_tipo, factory: [:cliente_tipo, :pessoa_fisica]
-      sequence(:cpf)  { |n| "99#{rand(10)}999#{rand(10)}999#{n}" }
+      sequence(:cpf)  { |n| "999#{rand(10)}999999#{rand(10)}" }
+      cnpj nil
     end
 
     trait :pessoa_juridica do
       association :cliente_tipo, factory: [:cliente_tipo, :pessoa_juridica]
-      sequence(:cnpj) { |n| "8#{rand(10)}8888#{rand(10)}888#{rand(10)}88#{n}" }
+      sequence(:cnpj) { |n| "888888#{rand(10)}888#{rand(10)}88#{rand(10)}" }
+      cpf nil
     end
   end
 end

@@ -129,6 +129,8 @@ pt-BR:
             cliente_tipo_id:
               blank: "é obrigatório"
             base:
+              muitos_telefones_padroes: "Somente um telefone pode ser marcado como padrão"
+              ao_menos_um_telefone_padrao: "Ao menos um dos telefones deve ser padrao"
               muitos_endereco_correspondencia: "Somente um endereço pode ser marcado como de correspondência"
               ao_menos_um_endereco_correspondencia: "Ao menos um dos endereços deve ser de correspondência"
         regiao:
@@ -149,7 +151,15 @@ pt-BR:
           attributes:
             correspondencia:
               taken: "não pode ser duplicado"
+        telefones:
+          attributes:
+            padrao:
+              taken: "não pode ser duplicado"
         cliente_endereco:
           attributes:
             correspondencia:
+              taken: "deve ser único"
+        cliente_fone:
+          attributes:
+            padrao:
               taken: "deve ser único"

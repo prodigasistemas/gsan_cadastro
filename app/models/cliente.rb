@@ -60,7 +60,9 @@ class Cliente < ActiveRecord::Base
   validates_uniqueness_of :cpf, :cnpj, allow_blank: true
 
   validates_format_of :cpf, with: /\A\d{11}\z/, allow_blank: true
+  validates_format_of :cnpj, with: /\A\d{14}\z/, allow_blank: true
   validate :valida_endereco_de_correspondencia
+  validate :valida_telefone_padrao
 
   scope :join,  -> { }
   scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
@@ -68,7 +70,7 @@ class Cliente < ActiveRecord::Base
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
 
   has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco", inverse_of: :cliente
-  has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone"
+  has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone",     inverse_of: :cliente
   belongs_to :cliente_tipo,                 foreign_key: :cltp_id
   belongs_to :profissao,                    foreign_key: :prof_id
   belongs_to :ramo_atividade,               foreign_key: :ratv_id
@@ -86,6 +88,36 @@ class Cliente < ActiveRecord::Base
     cliente_tipo && cliente_tipo.pessoa_fisica_juridica == 2
   end
 
+  private
+
+  def valida_telefone_padrao
+    errors.add(:base, :muitos_telefones_padroes) if telefones.select { |t| t.padrao == 1 }.size > 1
+
+    if telefones.any? &&
+        !todos_telefones_marcados_para_destruicao? &&
+        (nenhum_telefone_padrao? ||
+        telefone_padrao_marcado_para_destruicao?)
+
+      errors.add(:base, :ao_menos_um_telefone_padrao)
+    end
+  end
+
+  def todos_telefones_marcados_para_destruicao?
+    telefones.select { |t| !t.marked_for_destruction? }.blank?
+  end
+
+  def nenhum_telefone_padrao?
+    telefones.size > 0 && telefone_padrao.blank?
+  end
+
+  def telefone_padrao
+    telefones.select { |t| t.padrao == 1 }.first
+  end
+
+  def telefone_padrao_marcado_para_destruicao?
+    telefones.select { |t| t.padrao == 1 && t.marked_for_destruction? }.any?
+  end
+
   def valida_endereco_de_correspondencia
     errors.add(:base, :muitos_endereco_correspondencia) if enderecos.select { |e| e.correspondencia == 1 }.size > 1
 
@@ -97,8 +129,6 @@ class Cliente < ActiveRecord::Base
       errors.add(:base, :ao_menos_um_endereco_correspondencia)
     end
   end
-
-  private
 
   def todos_enderecos_marcados_para_destruicao?
     enderecos.select { |e| !e.marked_for_destruction? }.blank?

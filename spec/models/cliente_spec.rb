@@ -48,6 +48,50 @@ describe Cliente do
       end
     end
 
+    context "telefone padrao" do
+      let(:cliente) { create :cliente }
+      let!(:fone_1) { create :cliente_fone, cliente: cliente, padrao: 1 }
+      let!(:fone_2) { create :cliente_fone, cliente: cliente, padrao: 2 }
+      let!(:params) { build(:cliente_fone, padrao: 1, cliente: nil).attributes }
+
+      it "somente um telefone pode ser marcado como padrao" do
+        expect(cliente.reload).to be_valid
+        params.delete "clie_id"
+        cliente.telefones_attributes = [params]
+        expect(cliente).to be_invalid
+        expect(cliente.errors[:base]).to include "Somente um telefone pode ser marcado como padrão"
+      end
+
+      context "ao editar telefone" do
+        it "ao menos um dos telefones devem ser padrao" do
+          expect(cliente.reload).to be_valid
+          cliente.telefones_attributes = { id: fone_1.id, padrao: 2 }
+          expect(cliente).to be_invalid
+          expect(cliente.errors[:base]).to include "Ao menos um dos telefones deve ser padrao"
+        end
+      end
+
+      context "ao deletar telefone padrao" do
+        context "deletando todos os telefones" do
+          it "ainda e valido" do
+            expect(cliente.reload).to be_valid
+            cliente.telefones_attributes = [{ id: fone_1.id, _destroy: 1 },{ id: fone_2.id, _destroy: 1}]
+            expect(cliente).to be_valid
+          end
+        end
+
+        context "quando ainda existir um telefone" do
+          it "ao menos um dos telefones deve ser padrao" do
+            expect(cliente.reload).to be_valid
+            cliente.telefones_attributes = { id: fone_1.id, _destroy: 1 }
+
+            expect(cliente).to be_invalid
+            expect(cliente.errors[:base]).to include "Ao menos um dos telefones deve ser padrao"
+          end
+        end
+      end
+    end
+
     context "quando o cliente é pessoa física" do
       let(:pessoa_fisica) { create(:cliente_tipo, :pessoa_fisica) }
       let(:cliente) { create(:cliente, :pessoa_fisica, cliente_tipo: pessoa_fisica) }
@@ -88,6 +132,13 @@ describe Cliente do
         expect(novo_cliente).to be_valid
         novo_cliente.cnpj =  ''
         expect(novo_cliente).to be_invalid
+      end
+
+      describe "cnpj" do
+        it { should allow_value("12345678909876").for :cnpj }
+        it { should_not allow_value("123456789098760").for :cnpj }
+        it { should_not allow_value("1234567890987").for :cnpj }
+        it { should_not allow_value("1234567890987a").for :cnpj }
       end
     end
 
