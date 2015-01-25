@@ -42,6 +42,7 @@ class Cliente < ActiveRecord::Base
                           :permite_negativacao,
                           :negativacao_periodo,
                           :cliente_tipo
+  validates_presence_of   :pessoa_sexo, if: :pessoa_fisica?
 
   validates_presence_of :cpf,                 if: :pessoa_fisica?
   before_save :apagar_dados_pessoa_juridica,  if: :pessoa_fisica?
@@ -78,6 +79,7 @@ class Cliente < ActiveRecord::Base
   belongs_to :profissao,                    foreign_key: :prof_id
   belongs_to :ramo_atividade,               foreign_key: :ratv_id
   belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente"
+  belongs_to :pessoa_sexo,                  foreign_key: :psex_id
 
   accepts_nested_attributes_for :enderecos, allow_destroy: true
   accepts_nested_attributes_for :telefones, allow_destroy: true

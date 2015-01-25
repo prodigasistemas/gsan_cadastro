@@ -98,6 +98,8 @@ describe Cliente do
       let(:cliente) { create(:cliente, :pessoa_fisica, cliente_tipo: pessoa_fisica) }
       subject(:novo_cliente) { build(:cliente, :pessoa_fisica, cliente_tipo: pessoa_fisica) }
 
+      it { should validate_presence_of :pessoa_sexo }
+      
       it "cpf deve ser único" do
         expect(novo_cliente).to be_valid
         novo_cliente.cpf = cliente.cpf

@@ -4,6 +4,7 @@ FactoryGirl.define do
     nome_fantasia_conta 2
     permite_negativacao 1
     negativacao_periodo 2
+    pessoa_sexo
     ativo 1
     association :cliente_tipo, factory: [:cliente_tipo, :pessoa_fisica]
     sequence(:cpf)  { |n| "999#{rand(10)}999999#{rand(10)}" }
