@@ -34,11 +34,11 @@ class ClienteEndereco < ActiveRecord::Base
 
   private
   def set_cep_id
-    self.cep_id = self.logradouro_cep.cep_id
+    self.cep_id = self.logradouro_cep.cep_id if self.logradouro_cep.present?
   end
 
   def set_bairro_id
-    self.bairro_id = self.logradouro_bairro.bairro_id
+    self.bairro_id = self.logradouro_bairro.bairro_id if self.logradouro_bairro.present?
   end
 
   def valida_endereco_de_correspondencia
