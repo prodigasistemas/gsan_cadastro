@@ -32,12 +32,6 @@ FactoryGirl.define do
     ativo 1
   end
 
-  factory :logradouro_cep do
-    logradouro
-    cep
-    ativo 1
-  end
-
   factory :logradouro_bairro do
     logradouro
     bairro
@@ -76,13 +70,6 @@ FactoryGirl.define do
     association :uf, factory: :unidade_federacao
     micro_regiao
     ativo 1
-  end
-
-  factory :logradouro do
-    nome "BACON"
-    municipio
-    ativo 1
-    tipo_logradouro
   end
 
   factory :imovel do

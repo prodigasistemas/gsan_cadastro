@@ -20,10 +20,21 @@ class ClienteEndereco < ActiveRecord::Base
   alias_attribute "atualizado_em",        "cled_tmultimaalteracao"          # timestamp without time zone NOT NULL DEFAULT now(), -- timestamp da inclusao/ultima alteracao
 
   belongs_to :referencia,         foreign_key: "edrf_id", class_name: "EnderecoReferencia"
-  belongs_to :endereco_tipo,      foreign_key: "edtp_id"
+  belongs_to :endereco_tipo,      foreign_key: "edtp_id" , class_name: "EnderecoTipo"
   belongs_to :logradouro,         foreign_key: "logr_id"
   belongs_to :logradouro_cep,     foreign_key: "lgcp_id"
   belongs_to :logradouro_bairro,  foreign_key: "lgbr_id"
   belongs_to :perimetro_inicial,  foreign_key: "logr_idinicioperimetro", class_name: "Logradouro"
   belongs_to :perimetro_final,    foreign_key: "logr_idfimperimetro", class_name: "Logradouro"
+
+  before_save :set_cep_id, :set_bairro_id
+
+  private
+  def set_cep_id
+    self.cep_id = self.logradouro_cep.cep_id
+  end
+
+  def set_bairro_id
+    self.bairro_id = self.logradouro_bairro.bairro_id
+  end
 end
