@@ -26,7 +26,7 @@ class ClientesController < ApplicationController
   end
 
   def update
-    @cliente = Cliente.find(params[:id])
+    @cliente = Cliente.includes(:enderecos, :telefones).find(params[:id])
 
     if @cliente.update cliente_params
       render json: {}, status: :ok

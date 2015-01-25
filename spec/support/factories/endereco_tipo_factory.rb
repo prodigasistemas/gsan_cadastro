@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :endereco_tipo do
-    descricao 'um qualquer'
+    sequence(:descricao) { |n| "Endereco Tipo #{n}" }
     ativo 1
   end
 end

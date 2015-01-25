@@ -2,8 +2,51 @@ require "rails_helper"
 
 describe Cliente do
   describe "validacoes" do
-    
     it { should validate_presence_of   :nome }
+
+    context "endereco de correspondencia" do
+      let(:cliente)     { create :cliente }
+      let!(:endereco_1) { create :cliente_endereco, cliente: cliente, correspondencia: 1 }
+      let!(:endereco_2) { create :cliente_endereco, cliente: cliente, correspondencia: 2 }
+      let!(:params)     { build(:cliente_endereco, correspondencia: 1, cliente: nil).attributes }
+
+      it "somente um endereco pode ser marcado como correspondencia" do
+        expect(cliente.reload).to be_valid
+        params.delete "clie_id"
+        cliente.enderecos_attributes = [params]
+        expect(cliente).to be_invalid
+        expect(cliente.errors[:base]).to include "Somente um endereço pode ser marcado como de correspondência"
+      end
+
+      context "ao editar endereco" do
+        it "ao menos um dos enderecos devem ser de correspondencia" do
+          expect(cliente.reload).to be_valid
+          cliente.enderecos_attributes = { id: endereco_1.id, correspondencia: 2 }
+          expect(cliente).to be_invalid
+          expect(cliente.errors[:base]).to include "Ao menos um dos endereços deve ser de correspondência"
+        end
+      end
+
+      context "ao deletar endereco de correspondencia" do
+        context "deletando todos os enderecos" do
+          it "ainda e valido" do
+            expect(cliente.reload).to be_valid
+            cliente.enderecos_attributes = [{ id: endereco_1.id, _destroy: 1 },{ id: endereco_2.id, _destroy: 1}]
+            expect(cliente).to be_valid
+          end
+        end
+
+        context "quando ainda existir um endereco" do
+          it "ao menos um dos enderecos devem ser de correspondencia" do
+            expect(cliente.reload).to be_valid
+            cliente.enderecos_attributes = { id: endereco_1.id, _destroy: 1 }
+
+            expect(cliente).to be_invalid
+            expect(cliente.errors[:base]).to include "Ao menos um dos endereços deve ser de correspondência"
+          end
+        end
+      end
+    end
 
     context "quando o cliente é pessoa física" do
       let(:pessoa_fisica) { create(:cliente_tipo, :pessoa_fisica) }
@@ -47,7 +90,7 @@ describe Cliente do
         expect(novo_cliente).to be_invalid
       end
     end
-    
+
     it_behaves_like 'ativo'
 
     describe "acao_cobranca" do

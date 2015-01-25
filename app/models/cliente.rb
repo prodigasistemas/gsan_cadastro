@@ -60,13 +60,14 @@ class Cliente < ActiveRecord::Base
   validates_uniqueness_of :cpf, :cnpj, allow_blank: true
 
   validates_format_of :cpf, with: /\A\d{11}\z/, allow_blank: true
+  validate :valida_endereco_de_correspondencia
 
   scope :join,  -> { }
   scope :nome,  -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,   -> (cpf)  { where cpf: cpf }
   scope :cnpj,  -> (cnpj) { where cnpj: cnpj }
 
-  has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco"
+  has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco", inverse_of: :cliente
   has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone"
   belongs_to :cliente_tipo,                 foreign_key: :cltp_id
   belongs_to :profissao,                    foreign_key: :prof_id
@@ -83,5 +84,35 @@ class Cliente < ActiveRecord::Base
 
   def pessoa_juridica?
     cliente_tipo && cliente_tipo.pessoa_fisica_juridica == 2
+  end
+
+  def valida_endereco_de_correspondencia
+    errors.add(:base, :muitos_endereco_correspondencia) if enderecos.select { |e| e.correspondencia == 1 }.size > 1
+
+    if enderecos.any? &&
+        !todos_enderecos_marcados_para_destruicao? &&
+        (nenhum_endereco_de_correspondencia? ||
+        endereco_de_correspondencia_marcado_para_destruicao?)
+
+      errors.add(:base, :ao_menos_um_endereco_correspondencia)
+    end
+  end
+
+  private
+
+  def todos_enderecos_marcados_para_destruicao?
+    enderecos.select { |e| !e.marked_for_destruction? }.blank?
+  end
+
+  def nenhum_endereco_de_correspondencia?
+    enderecos.size > 0 && endereco_de_correspondencia.blank?
+  end
+
+  def endereco_de_correspondencia
+    enderecos.select { |e| e.correspondencia == 1 }.first
+  end
+
+  def endereco_de_correspondencia_marcado_para_destruicao?
+    enderecos.select { |e| e.correspondencia == 1 && e.marked_for_destruction? }.any?
   end
 end

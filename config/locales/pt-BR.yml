@@ -27,6 +27,7 @@ pt-BR:
       regiao: "Região"
       micro_regiao: "Micro Região"
       regiao_desenvolvimento: "Região de desenvolvimento"
+      cliente_endereco: "Endereço"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -57,6 +58,10 @@ pt-BR:
         nome: "Nome"
       regiao_desenvolvimento:
         nome: "Nome"
+      cliente_endereco:
+        correspondencia: "Correspondência"
+      enderecos:
+        correspondencia: "Endereço de correspondência"
     errors:
       models:
         cep:
@@ -123,6 +128,9 @@ pt-BR:
           attributes:
             cliente_tipo_id:
               blank: "é obrigatório"
+            base:
+              muitos_endereco_correspondencia: "Somente um endereço pode ser marcado como de correspondência"
+              ao_menos_um_endereco_correspondencia: "Ao menos um dos endereços deve ser de correspondência"
         regiao:
           attributes:
             nome:
@@ -137,3 +145,11 @@ pt-BR:
             nome:
               blank: "é obrigatório"
               taken: "já existe"
+        enderecos:
+          attributes:
+            correspondencia:
+              taken: "não pode ser duplicado"
+        cliente_endereco:
+          attributes:
+            correspondencia:
+              taken: "deve ser único"

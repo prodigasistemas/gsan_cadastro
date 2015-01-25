@@ -27,6 +27,9 @@ class ClienteEndereco < ActiveRecord::Base
   belongs_to :perimetro_inicial,  foreign_key: "logr_idinicioperimetro", class_name: "Logradouro"
   belongs_to :perimetro_final,    foreign_key: "logr_idfimperimetro", class_name: "Logradouro"
 
+  belongs_to :cliente, foreign_key: :clie_id, inverse_of: :enderecos
+
+  validate :valida_endereco_de_correspondencia
   before_save :set_cep_id, :set_bairro_id
 
   private
@@ -36,5 +39,12 @@ class ClienteEndereco < ActiveRecord::Base
 
   def set_bairro_id
     self.bairro_id = self.logradouro_bairro.bairro_id
+  end
+
+  def valida_endereco_de_correspondencia
+    atual_endereco_de_correspondencia = cliente.enderecos.select { |e| e.correspondencia.to_i == 1 }.first
+    errors.add(:correspondencia, :taken) if atual_endereco_de_correspondencia &&
+                                            self.correspondencia.to_i == 1 &&
+                                            atual_endereco_de_correspondencia != self
   end
 end
