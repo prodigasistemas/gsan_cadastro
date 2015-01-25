@@ -2,7 +2,8 @@ require "rails_helper"
 
 describe Cliente do
   describe "validacoes" do
-    it { should validate_presence_of   :nome }
+    it { should validate_presence_of :nome }
+    it { should validate_presence_of :cliente_tipo }
 
     context "endereco de correspondencia" do
       let(:cliente)     { create :cliente }
