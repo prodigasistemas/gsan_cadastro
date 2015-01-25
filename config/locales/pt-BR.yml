@@ -28,6 +28,7 @@ pt-BR:
       micro_regiao: "Micro Região"
       regiao_desenvolvimento: "Região de desenvolvimento"
       cliente_endereco: "Endereço"
+      endereco_tipo: "Tipo de Endereço"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -159,6 +160,14 @@ pt-BR:
           attributes:
             correspondencia:
               taken: "deve ser único"
+            numero:
+              blank: "é obrigatório"
+            logradouro_bairro_id:
+              blank: "é obrigatório"
+            endereco_tipo:
+              blank: "é obrigatório"
+            logradouro:
+              blank: "é obrigatório"
         cliente_fone:
           attributes:
             padrao:

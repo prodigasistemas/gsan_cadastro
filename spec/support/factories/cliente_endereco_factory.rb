@@ -7,5 +7,7 @@ FactoryGirl.define do
     logradouro_cep
     logradouro_bairro
     correspondencia 2
+    referencia
+    logradouro
   end
 end

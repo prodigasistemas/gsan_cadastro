@@ -29,6 +29,7 @@ class ClienteEndereco < ActiveRecord::Base
 
   belongs_to :cliente, foreign_key: :clie_id, inverse_of: :enderecos
 
+  validates_presence_of :numero, :logradouro_bairro, :logradouro_cep, :referencia, :cliente, :endereco_tipo, :logradouro
   validate :valida_endereco_de_correspondencia
   before_save :set_cep_id, :set_bairro_id
 
@@ -42,7 +43,10 @@ class ClienteEndereco < ActiveRecord::Base
   end
 
   def valida_endereco_de_correspondencia
-    atual_endereco_de_correspondencia = cliente.enderecos.select { |e| e.correspondencia.to_i == 1 }.first
+    atual_endereco_de_correspondencia = cliente.enderecos.select do
+      |e| e.correspondencia.to_i == 1
+    end.first if cliente.present?
+
     errors.add(:correspondencia, :taken) if atual_endereco_de_correspondencia &&
                                             self.correspondencia.to_i == 1 &&
                                             atual_endereco_de_correspondencia != self
