@@ -2,6 +2,12 @@ require "rails_helper"
 
 describe ClienteFone do
   describe "valida" do
+
+    it { should validate_presence_of :ddd }
+    it { should validate_presence_of :numero }
+    it { should validate_presence_of :cliente }
+    it { should validate_presence_of :fone_tipo }
+
     context "padrao" do
       let(:cliente) { create :cliente }
       let!(:fone_1) { create :cliente_fone, cliente_id: cliente.id, padrao: 1 }

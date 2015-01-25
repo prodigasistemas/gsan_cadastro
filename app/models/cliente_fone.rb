@@ -17,12 +17,16 @@ class ClienteFone < ActiveRecord::Base
   belongs_to :cliente,    foreign_key: :clie_id, inverse_of: :telefones
   belongs_to :fone_tipo,  foreign_key: :fnet_id
 
+  validates_presence_of :ddd, :numero, :cliente, :fone_tipo
   validate :valida_telefone_padrao
 
   private
 
   def valida_telefone_padrao
-    atual_fone_padrao = cliente.telefones.select { |e| e.padrao.to_i == 1 }.first
+    atual_fone_padrao = cliente.telefones.select do
+      |e| e.padrao.to_i == 1 
+    end.first if cliente.present?
+    
     errors.add(:padrao, :taken) if atual_fone_padrao &&
                                     self.padrao.to_i == 1 &&
                                     atual_fone_padrao != self
