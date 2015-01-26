@@ -45,15 +45,19 @@ class Logradouro < ActiveRecord::Base
 
   def validar_destrucao_logradouro_cep
     logradouro_ceps.each do |logradouro_cep|
-      logradouro_cep.marked_for_destruction? &&
-      errors.add(:base, :imoveis_are_present_in_cep, cep: logradouro_cep.cep.codigo) if !logradouro_cep.valid?(:destroy)
+      if logradouro_cep.marked_for_destruction?
+        errors.add(:base, :imoveis_are_present_in_cep,          cep: logradouro_cep.cep.codigo) if logradouro_cep.imoveis.any?
+        errors.add(:base, :cliente_endereco_are_present_in_cep, cep: logradouro_cep.cep.codigo) if logradouro_cep.cliente_enderecos.any?
+      end
     end
   end
 
   def validar_destrucao_logradouro_bairro
     logradouro_bairros.each do |logradouro_bairro|
-      logradouro_bairro.marked_for_destruction? &&
-      errors.add(:base, :imoveis_are_present_in_bairro, bairro: logradouro_bairro.bairro.nome) if !logradouro_bairro.valid?(:destroy)
+      if logradouro_bairro.marked_for_destruction?
+        errors.add(:base, :imoveis_are_present_in_bairro,           bairro: logradouro_bairro.bairro.nome) if logradouro_bairro.imoveis.any?
+        errors.add(:base, :cliente_endereco_are_present_in_bairro,  bairro: logradouro_bairro.bairro.nome) if logradouro_bairro.cliente_enderecos.any?
+      end
     end
   end
 end

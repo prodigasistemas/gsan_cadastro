@@ -116,7 +116,9 @@ pt-BR:
               blank: "é obrigatório"
             base:
               imoveis_are_present_in_cep: "Imóveis ainda existem no CEP %{cep}"
+              cliente_endereco_are_present_in_cep: "Endereço de cliente ainda existem no CEP %{cep}"
               imoveis_are_present_in_bairro: "Imóveis ainda existem no bairro %{bairro}"
+              cliente_endereco_are_present_in_bairro: "Endereço de cliente ainda existem no bairro %{bairro}"
         logradouro_cep:
           attributes:
             imoveis:

@@ -9,17 +9,6 @@ describe LogradouroCep do
   end
 
   context "valida" do
-    context "ao destruir" do
-      it "presenca de imovel" do
-        logradouro_cep = create :logradouro_cep
-
-        expect(logradouro_cep.valid? :destroy).to be true
-        imovel = create :imovel, logradouro_cep: logradouro_cep
-
-        expect(logradouro_cep.reload.valid? :destroy).to be false
-      end
-    end
-
     context "antes de destruir" do
       it "presenca de imovel" do
         logradouro_cep = create :logradouro_cep
@@ -28,6 +17,15 @@ describe LogradouroCep do
         logradouro_cep.destroy
         expect(logradouro_cep).to be_persisted
         expect(logradouro_cep.errors).to include :imoveis
+      end
+
+      it "presenca de cliente endereco" do
+        logradouro_cep = create :logradouro_cep
+        cliente_endereco = create :cliente_endereco, logradouro_cep: logradouro_cep
+
+        logradouro_cep.destroy
+        expect(logradouro_cep).to be_persisted
+        expect(logradouro_cep.errors).to include :cliente_enderecos
       end
     end
   end

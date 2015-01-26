@@ -9,18 +9,27 @@ class LogradouroBairro < ActiveRecord::Base
   alias_attribute "bairro_id",     "bair_id"
   alias_attribute "atualizado_em", "lgbr_tmultimaalteracao"
 
-  has_many :imoveis, class_name: "Imovel", foreign_key: :lgbr_id
+  has_many :imoveis,            class_name: "Imovel",           foreign_key: :lgbr_id
+  has_many :cliente_enderecos,  class_name: "ClienteEndereco",  foreign_key: :lgbr_id
   belongs_to :logradouro, foreign_key: :logr_id
   belongs_to :bairro, foreign_key: :bair_id
 
   before_destroy :valida_nenhum_imovel_relacionado
-  validate :valida_nenhum_imovel_relacionado, on: :destroy
+  before_destroy :valida_nenhum_cliente_endereco_relacionado
 
   private
 
   def valida_nenhum_imovel_relacionado
     if self.imoveis.present?
       errors.add(:imoveis, :are_present)
+      return false
+    end
+    return true
+  end
+
+  def valida_nenhum_cliente_endereco_relacionado
+    if self.cliente_enderecos.present?
+      errors.add(:cliente_enderecos, :are_present)
       return false
     end
     return true
