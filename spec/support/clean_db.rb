@@ -2,6 +2,7 @@ Imovel.destroy_all
 Cep.destroy_all
 Municipio.destroy_all
 Bairro.destroy_all
+ClienteEndereco.destroy_all
 Logradouro.destroy_all
 LogradouroCep.destroy_all
 LogradouroBairro.destroy_all
@@ -23,6 +24,5 @@ DistritoOperacional.destroy_all
 BairroArea.destroy_all
 EnderecoTipo.destroy_all
 EnderecoReferencia.destroy_all
-ClienteEndereco.destroy_all
 ClienteFone.destroy_all
 FoneTipo.destroy_all

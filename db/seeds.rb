@@ -3,6 +3,7 @@ if Rails.env.test?
   Cep.destroy_all
   Municipio.destroy_all
   Bairro.destroy_all
+  ClienteEndereco.destroy_all
   Logradouro.destroy_all
   LogradouroCep.destroy_all
   LogradouroBairro.destroy_all
@@ -24,7 +25,6 @@ if Rails.env.test?
   BairroArea.destroy_all
   EnderecoTipo.destroy_all
   EnderecoReferencia.destroy_all
-  ClienteEndereco.destroy_all
   ClienteFone.destroy_all
   FoneTipo.destroy_all
 
@@ -110,7 +110,7 @@ if Rails.env.test?
   referencia_numero =    EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
   referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
 
-  cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_ceara.logradouro_ceps.first, logradouro_bairro: logradouro_ceara.logradouro_bairros.first, correspondencia: 1
+  cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_oliveira_belo.logradouro_ceps.first, logradouro_bairro: logradouro_oliveira_belo.logradouro_bairros.first, correspondencia: 1
   cliente_para_edicao.telefones.create ddd: 21, numero: 11133344, ramal: 555, nome_contato: "O PROPRIO",    fone_tipo: fone_comercial
   cliente_para_edicao.telefones.create ddd: 11, numero: 33234565, ramal: 44,  nome_contato: "TELEFONISTA",  fone_tipo: fone_celular
 end
