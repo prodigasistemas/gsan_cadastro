@@ -14,13 +14,18 @@ class ClienteTipo < ActiveRecord::Base
 
   belongs_to :esfera_poder, foreign_key: "epod_id"
 
+  scope :join,                   -> {
+    includes(:esfera_poder).
+    joins(:esfera_poder).
+    order(:descricao)
+  }
   scope :descricao,              -> (descricao)       { where("UPPER(cltp_dsclientetipo) LIKE ?", "%#{descricao.upcase}%") }
   scope :pessoa_fisica_juridica, -> (tipo_id)         { where(pessoa_fisica_juridica: tipo_id) }
   scope :esfera_poder_id,        -> (esfera_poder_id) { where(esfera_poder_id: esfera_poder_id) }
 
   validates_presence_of :descricao, :pessoa_fisica_juridica, :esfera_poder_id
   validates_uniqueness_of :descricao
-  validates_inclusion_of :ativo, in: [1,2]
+  validates_inclusion_of :ativo, in: [1, 2]
 
   def pessoa_tipo
     if pessoa_fisica_juridica == 1
