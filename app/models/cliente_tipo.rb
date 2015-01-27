@@ -18,11 +18,15 @@ class ClienteTipo < ActiveRecord::Base
   scope :pessoa_fisica_juridica, -> (tipo_id)         { where(pessoa_fisica_juridica: tipo_id) }
   scope :esfera_poder_id,        -> (esfera_poder_id) { where(esfera_poder_id: esfera_poder_id) }
 
+  validates_presence_of :descricao, :pessoa_fisica_juridica, :esfera_poder_id
+  validates_uniqueness_of :descricao
+  validates_inclusion_of :ativo, in: [1,2]
+
   def pessoa_tipo
     if pessoa_fisica_juridica == 1
-      "Pessoa Física"
+      "PESSOA FISICA"
     elsif pessoa_fisica_juridica == 2
-      "Pessoa Jurídica"
+      "PESSOA JURIDICA"
     end
   end
 end

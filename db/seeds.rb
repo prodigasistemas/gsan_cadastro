@@ -80,9 +80,14 @@ if Rails.env.test?
   logradouro_generalissimo.logradouro_ceps.create cep: cep_3, ativo: 1
   logradouro_generalissimo.logradouro_bairros.create bairro: umarizal
 
-  esfera_poder = EsferaPoder.create! descricao: "MUNICIPAL", ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
-  cliente_residencial = ClienteTipo.create!(descricao: "RESIDENCIAL", pessoa_fisica_juridica: 1, ativo: 1)
-  cliente_associacoes = ClienteTipo.create!(descricao: "ASSOCIACOES", pessoa_fisica_juridica: 2, ativo: 1, esfera_poder: esfera_poder)
+  esfera_poder_nao_informado  = EsferaPoder.create! descricao: "NAO INFORMADO", ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
+  esfera_poder_municipal      = EsferaPoder.create! descricao: "MUNICIPAL",     ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
+  esfera_poder_federal        = EsferaPoder.create! descricao: "FEDERAL",       ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
+
+  cliente_residencial = ClienteTipo.create!(descricao: "RESIDENCIAL", pessoa_fisica_juridica: 1, ativo: 1, esfera_poder: esfera_poder_nao_informado)
+  cliente_associacoes = ClienteTipo.create!(descricao: "ASSOCIACOES", pessoa_fisica_juridica: 2, ativo: 1, esfera_poder: esfera_poder_municipal)
+  cliente_tipo_para_edicao =  ClienteTipo.create!(descricao: "MINISTERIO", pessoa_fisica_juridica: 2, ativo: 2, esfera_poder: esfera_poder_municipal)
+
   OrgaoExpedidorRg.create!(descricao: "EXERCITO", ativo: 1)
   OrgaoExpedidorRg.create!(descricao: "CREA", ativo: 1)
   Profissao.create! descricao: "PROGRAMADOR", ativo: 1, codigo: 10
