@@ -69,9 +69,9 @@ class Cliente < ActiveRecord::Base
   validate :valida_telefone_padrao
 
   scope :join,        -> {
-    includes(:cliente_tipo, :profissao, :pessoa_sexo, :enderecos, :telefones).
-    joins(:cliente_tipo, :profissao, :pessoa_sexo).
-    eager_load(:enderecos, :telefones).
+    includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
+    joins(:cliente_tipo).
+    eager_load(:pessoa_sexo, :profissao, :enderecos, :telefones).
     order(:nome)
   }
   scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
