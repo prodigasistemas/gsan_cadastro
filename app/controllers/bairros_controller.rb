@@ -14,7 +14,7 @@ class BairrosController < ApplicationController
   end
 
   def show
-    @bairro = Bairro.find(params[:id])
+    @bairro = Bairro.join.find(params[:id])
   end
 
   def create

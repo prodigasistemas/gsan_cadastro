@@ -22,7 +22,12 @@ class Bairro < ActiveRecord::Base
   validates_presence_of   :municipio_id, :codigo, :nome
   validates_inclusion_of  :ativo, in: [1, 2]
 
-  scope :join,              -> { includes(:municipio).joins(:municipio).order(:nome) }
+  scope :join,              -> {
+    includes(:municipio, municipio: :uf).
+    joins(:municipio, municipio: :uf).
+    eager_load(:bairro_areas, bairro_areas: :distrito_operacional).
+    order(:nome)
+  }
   scope :nome,              -> (nome) { where("UPPER(bair_nmbairro) LIKE ?", "%#{nome.upcase}%") }
   scope :codigo,            -> (codigo) { where codigo: codigo }
   scope :codigo_prefeitura, -> (codigo) { where codigo_prefeitura: codigo }
@@ -30,9 +35,9 @@ class Bairro < ActiveRecord::Base
 
   def self.pesquisar(query = nil)
     if query
-      where(query)
+      where(query).order(nome: :asc)
     else
-      all
+      all.order(nome: :asc)
     end
   end
 end
