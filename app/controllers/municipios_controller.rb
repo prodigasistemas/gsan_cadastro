@@ -1,4 +1,6 @@
 class MunicipiosController < ApplicationController
+  before_action :set_municipio, only: [:show, :update]
+
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
@@ -11,7 +13,7 @@ class MunicipiosController < ApplicationController
   end
 
   def show
-    @municipio = Municipio.find(params[:id])
+
   end
 
   def create
@@ -25,8 +27,6 @@ class MunicipiosController < ApplicationController
   end
 
   def update
-    @municipio = Municipio.find(params[:id])
-
     if @municipio.update municipio_params
       render :show
     else
@@ -34,7 +34,11 @@ class MunicipiosController < ApplicationController
     end
   end
 
-  private
+private
+
+  def set_municipio
+    @municipio = Municipio.join.find(params[:id])
+  end
 
   def municipio_params
     params.require(:municipio).permit :nome,

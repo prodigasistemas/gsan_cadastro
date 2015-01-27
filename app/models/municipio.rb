@@ -23,25 +23,24 @@ class Municipio < ActiveRecord::Base
   belongs_to :uf, class_name: "UnidadeFederacao", foreign_key: "unfe_id"
   belongs_to :micro_regiao, foreign_key: "mreg_id"
   belongs_to :regiao_desenvolvimento, foreign_key: "rdes_id"
-  has_many :logradouros
+  has_many   :logradouros
 
   validates_presence_of :nome, :codigo_ibge,
                         :micro_regiao_id, :regiao_desenvolvimento_id,
                         :uf_id, :ddd
-  validates_inclusion_of :ativo, in: [1,2]
+  validates_inclusion_of :ativo, in: [1, 2]
 
-  scope :join, -> {
+  scope :join,                      -> {
     includes(:uf, :micro_regiao, :regiao_desenvolvimento).
     joins(:uf, :micro_regiao, :regiao_desenvolvimento).
     order(:nome)
   }
-
-  scope :nome, -> (nome) { where("UPPER(muni_nmmunicipio) LIKE ?", "%#{nome.upcase}%") }
-  scope :uf_id, -> (id) { where uf_id: id }
-  scope :micro_regiao_id, -> (id) { where micro_regiao_id: id }
+  scope :nome,                      -> (nome) { where("UPPER(muni_nmmunicipio) LIKE ?", "%#{nome.upcase}%") }
+  scope :uf_id,                     -> (id) { where uf_id: id }
+  scope :micro_regiao_id,           -> (id) { where micro_regiao_id: id }
   scope :regiao_desenvolvimento_id, -> (id) { where regiao_desenvolvimento_id: id }
-  scope :ddd, -> (ddd) { where ddd: ddd }
-  scope :codigo_ibge, -> (codigo) { where codigo_ibge: codigo }
-  scope :cep_inicial, -> (cep) { where cep_inicial: cep }
-  scope :cep_final, -> (cep) { where cep_final: cep }
+  scope :ddd,                       -> (ddd) { where ddd: ddd }
+  scope :codigo_ibge,               -> (codigo) { where codigo_ibge: codigo }
+  scope :cep_inicial,               -> (cep) { where cep_inicial: cep }
+  scope :cep_final,                 -> (cep) { where cep_final: cep }
 end
