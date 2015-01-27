@@ -25,23 +25,38 @@ class Logradouro < ActiveRecord::Base
   accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
   accepts_nested_attributes_for :logradouro_bairros, allow_destroy: true
 
-  scope :join, -> {
-    includes(:municipio, :titulo_logradouro, :tipo_logradouro).
-    eager_load(:municipio, :titulo_logradouro, :tipo_logradouro).
+  scope :join,                  -> {
+    includes(
+      :municipio, { municipio: :uf },
+      :titulo_logradouro,
+      :tipo_logradouro,
+      :logradouro_ceps, { logradouro_ceps: :cep },
+      :logradouro_bairros, { logradouro_bairros: :bairro },
+    ).
+    joins(
+      :municipio, { municipio: :uf }
+    ).
+    eager_load(
+      :municipio,
+      :titulo_logradouro,
+      :tipo_logradouro,
+      :logradouro_ceps, { logradouro_ceps: :cep },
+      :logradouro_bairros, { logradouro_bairros: :bairro },
+    ).
     order(:nome)
   }
-  scope :nome, -> (nome) { where("UPPER(logr_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
-  scope :nome_popular, -> (nome) { where("UPPER(logr_nmpopular) LIKE ?", "%#{nome.upcase}%") }
-  scope :municipio_id, -> (id) { where municipio_id: id }
-  scope :titulo_logradouro_id, -> (id) { where lgtt_id: id }
-  scope :tipo_logradouro_id, -> (id) { where lgtp_id: id }
+  scope :nome,                  -> (nome) { where("UPPER(logr_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
+  scope :nome_popular,          -> (nome) { where("UPPER(logr_nmpopular) LIKE ?", "%#{nome.upcase}%") }
+  scope :municipio_id,          -> (id) { where municipio_id: id }
+  scope :titulo_logradouro_id,  -> (id) { where lgtt_id: id }
+  scope :tipo_logradouro_id,    -> (id) { where lgtp_id: id }
 
   validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
   validate :validar_destrucao_logradouro_cep
   validate :validar_destrucao_logradouro_bairro
-  validates_inclusion_of :ativo, in: [1,2]
+  validates_inclusion_of :ativo, in: [1, 2]
 
-  private
+private
 
   def validar_destrucao_logradouro_cep
     logradouro_ceps.each do |logradouro_cep|

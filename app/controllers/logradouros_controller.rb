@@ -1,4 +1,6 @@
 class LogradourosController < ApplicationController
+  before_action :set_logradouro, only: [:show, :update]
+
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
@@ -11,7 +13,7 @@ class LogradourosController < ApplicationController
   end
 
   def show
-    @logradouro = Logradouro.find(params[:id])
+
   end
 
   def create
@@ -25,8 +27,6 @@ class LogradourosController < ApplicationController
   end
 
   def update
-    @logradouro = Logradouro.find(params[:id])
-
     if @logradouro.update logradouro_params
       render :show
     else
@@ -34,7 +34,11 @@ class LogradourosController < ApplicationController
     end
   end
 
-  private
+private
+
+  def set_logradouro
+    @logradouro = Logradouro.join.find(params[:id])
+  end
 
   def logradouro_params
     params.require(:logradouro).permit(:nome, :titulo_logradouro_id, :logradouro_tipo_id,
