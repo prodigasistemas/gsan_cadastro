@@ -38,7 +38,8 @@ class Cep < ActiveRecord::Base
   scope :tipo_logradouro, -> (tipo) { where tipo_logradouro: tipo }
   scope :codigo, -> (codigo) { where codigo: codigo }
 
-  private
+private
+
   def valida_range_cep
     errors.add(:codigo, :range) if municipio_model.present? && valida_ceps_municipio
   end
