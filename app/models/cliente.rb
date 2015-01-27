@@ -59,7 +59,7 @@ class Cliente < ActiveRecord::Base
                           :cobranca_acrescimos,
                           :arquivo_texto,
                           :vencimento_mes_seguinte,
-                          :gera_fatura_antecipada, in: [1,2], allow_blank: true
+                          :gera_fatura_antecipada, in: [1, 2], allow_blank: true
 
   validates_uniqueness_of :cpf, :cnpj, allow_blank: true
 
@@ -68,7 +68,12 @@ class Cliente < ActiveRecord::Base
   validate :valida_endereco_de_correspondencia
   validate :valida_telefone_padrao
 
-  scope :join,        -> { }
+  scope :join,        -> {
+    includes(:cliente_tipo, :profissao, :pessoa_sexo, :enderecos, :telefones).
+    joins(:cliente_tipo, :profissao, :pessoa_sexo).
+    eager_load(:enderecos, :telefones).
+    order(:nome)
+  }
   scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,         -> (cpf)  { where cpf: cpf }
   scope :cnpj,        -> (cnpj) { where cnpj: cnpj }

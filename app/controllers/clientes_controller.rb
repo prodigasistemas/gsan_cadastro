@@ -1,8 +1,10 @@
 class ClientesController < ApplicationController
+  before_action :set_cliente, only: [:show, :update]
+
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      @clientes = Cliente.filter(query)
+      @clientes = Cliente.join.filter(query)
       @total = @clientes.size
       @clientes = @clientes.page(params[:page]).per(20)
     else
@@ -12,7 +14,7 @@ class ClientesController < ApplicationController
   end
 
   def show
-    @cliente = Cliente.find(params[:id])
+    
   end
 
   def create
@@ -26,8 +28,6 @@ class ClientesController < ApplicationController
   end
 
   def update
-    @cliente = Cliente.includes(:enderecos, :telefones).find(params[:id])
-
     if @cliente.update cliente_params
       render json: {}, status: :ok
     else
@@ -35,7 +35,11 @@ class ClientesController < ApplicationController
     end
   end
 
-  private
+private
+  
+  def set_cliente
+    @cliente = Cliente.join.find(params[:id])
+  end
 
   def cliente_params
     params.require(:cliente).permit(:orgao_emissor_rg_id,
