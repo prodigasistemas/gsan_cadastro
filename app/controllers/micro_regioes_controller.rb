@@ -4,11 +4,11 @@ class MicroRegioesController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query].deep_symbolize_keys
-      @micro_regioes = MicroRegiao.filter(query)
+      @micro_regioes = MicroRegiao.join.filter(query)
       @total = @micro_regioes.count
       @micro_regioes = @micro_regioes.page(params[:page]).per(20)
     else
-      @micro_regioes = MicroRegiao.ativos
+      @micro_regioes = MicroRegiao.join.ativos
     end
   end
   
@@ -38,10 +38,10 @@ class MicroRegioesController < ApplicationController
     end
   end
   
-  private
+private
 
   def set_micro_regiao
-    @micro_regiao = MicroRegiao.find params[:id]
+    @micro_regiao = MicroRegiao.join.find params[:id]
   end
   
   def micro_regiao_params

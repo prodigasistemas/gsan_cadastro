@@ -17,6 +17,11 @@ class MicroRegiao < ActiveRecord::Base
 
   belongs_to :regiao, foreign_key: :regi_id
   
+  scope :join,      -> {
+    includes(:regiao).
+    joins(:regiao).
+    order(:nome)
+  }
   scope :nome,      -> (nome) { where("UPPER(mreg_nmmicrorregiao) LIKE ?", "%#{nome.upcase}%") }
   scope :regiao_id, -> (id) { where regiao_id: id }
   scope :ativos,    -> { where ativo: 1 }
