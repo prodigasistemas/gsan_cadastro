@@ -106,6 +106,10 @@ pt-BR:
             nome:
               taken: "já existe para o Município"
               blank: "é obrigatório"
+        bairro_area:
+          attributes:
+            nome:
+              blank: "é obrigatório"
         logradouro:
           attributes:
             nome:
