@@ -1,4 +1,6 @@
 class BairrosController < ApplicationController
+  before_action :set_bairro, only: [:show, :update]
+
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
@@ -14,7 +16,7 @@ class BairrosController < ApplicationController
   end
 
   def show
-    @bairro = Bairro.join.find(params[:id])
+    
   end
 
   def create
@@ -28,8 +30,6 @@ class BairrosController < ApplicationController
   end
 
   def update
-    @bairro = Bairro.find(params[:id])
-
     if @bairro.update bairro_params
       render :show
     else
@@ -37,7 +37,11 @@ class BairrosController < ApplicationController
     end
   end
 
-  private
+private
+
+  def set_bairro
+    @bairro = Bairro.join.find(params[:id])
+  end
 
   def bairro_params
     params.require(:bairro).permit  :nome,
