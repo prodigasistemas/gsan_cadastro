@@ -4,11 +4,11 @@ class RegioesController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query].deep_symbolize_keys
-      @regioes = Regiao.filter(query)
+      @regioes = Regiao.filter(query).order(:nome)
       @total = @regioes.count
       @regioes = @regioes.page(params[:page]).per(20)
     else
-      @regioes = Regiao.all
+      @regioes = Regiao.all.order(:nome)
     end
   end
 
@@ -33,7 +33,7 @@ class RegioesController < ApplicationController
     end
   end
 
-  private
+private
 
   def set_regiao
     @regiao = Regiao.find params[:id]
