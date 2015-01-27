@@ -1,5 +1,7 @@
 class ClienteTipo < ActiveRecord::Base
   include IncrementableId
+  include Filterable
+
   self.table_name  = 'cadastro.cliente_tipo'
   self.primary_key = 'cltp_id'
 
@@ -11,4 +13,16 @@ class ClienteTipo < ActiveRecord::Base
   alias_attribute "esfera_poder_id",        "epod_id"                     # integer, -- id da esfera de poder
 
   belongs_to :esfera_poder, foreign_key: "epod_id"
+
+  scope :descricao,              -> (descricao)       { where("UPPER(cltp_dsclientetipo) LIKE ?", "%#{descricao.upcase}%") }
+  scope :pessoa_fisica_juridica, -> (tipo_id)         { where(pessoa_fisica_juridica: tipo_id) }
+  scope :esfera_poder_id,        -> (esfera_poder_id) { where(esfera_poder_id: esfera_poder_id) }
+
+  def pessoa_tipo
+    if pessoa_fisica_juridica == 1
+      "Pessoa Física"
+    elsif pessoa_fisica_juridica == 2
+      "Pessoa Jurídica"
+    end
+  end
 end
