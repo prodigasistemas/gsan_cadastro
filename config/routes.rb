@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :endereco_tipos,          only: :index
   resources :tipo_logradouros,        only: :index
   resources :titulo_logradouros,      only: :index
-  resources :unidade_federacoes,      only: :index
+  resources :unidade_federacoes,      only: [:index, :show, :create, :update]
   resources :endereco_referencias,    only: :index
   resources :distrito_operacionais,   only: :index
   resources :orgaos_expedidores_rg,   only: :index

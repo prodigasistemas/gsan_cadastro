@@ -1,0 +1,1 @@
+json.extract! unidade_federacao, :id, :descricao, :sigla

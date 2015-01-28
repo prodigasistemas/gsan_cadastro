@@ -13,20 +13,21 @@ describe Bairro do
   end
 
   describe "deve retornar" do
+    let(:unidade_federacao) { create(:unidade_federacao, sigla: 'BA') }
+    let(:municipio) { create(:municipio, uf: unidade_federacao) }
     before do
       create(:bairro, codigo: 55)
-      create(:bairro, codigo: 55)
-      4.times { create(:bairro) }
+      create(:bairro, municipio: municipio)
     end
 
     it "dois registros" do
       bairros = Bairro.pesquisar(codigo: 55)
-      expect(bairros.size).to eq(2)
+      expect(bairros.size).to eq(1)
     end
 
     it "todos os registros" do
       bairros = Bairro.pesquisar()
-      expect(bairros.size).to eq(6)
+      expect(bairros.size).to eq(2)
     end
   end
 end

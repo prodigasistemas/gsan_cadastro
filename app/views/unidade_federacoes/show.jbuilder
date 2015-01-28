@@ -1,0 +1,1 @@
+json.partial! "unidade_federacoes/unidade_federacao", unidade_federacao: @unidade_federacao

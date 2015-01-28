@@ -51,7 +51,7 @@ describe CepTiposController, type: :controller do
       post :create, params, format: :json
     end
 
-    context "quando a região de desenvolvimento é criada com sucesso" do
+    context "quando um tipo de cep é criado com sucesso" do
       let(:params) do
         {
           'cep_tipo' => attributes_for(:cep_tipo).with_indifferent_access
