@@ -90,9 +90,11 @@ if Rails.env.test?
   cliente_associacoes = ClienteTipo.create!(descricao: "ASSOCIACOES", pessoa_fisica_juridica: 2, ativo: 1, esfera_poder: esfera_poder_municipal)
   cliente_tipo_para_edicao =  ClienteTipo.create!(descricao: "MINISTERIO", pessoa_fisica_juridica: 2, ativo: 2, esfera_poder: esfera_poder_municipal)
 
+  profissao_programacao = Profissao.create! descricao: "PROGRAMADOR", ativo: 1, codigo: 10
+  profissao_para_edicao = Profissao.create! descricao: "Me edite", ativo: 1, codigo: 101
+
   OrgaoExpedidorRg.create!(descricao: "EXERCITO", ativo: 1)
   OrgaoExpedidorRg.create!(descricao: "CREA", ativo: 1)
-  Profissao.create! descricao: "PROGRAMADOR", ativo: 1, codigo: 10
   PessoaSexo.create! descricao: "MASCULINO", ativo: 1
   PessoaSexo.create! descricao: "FEMININO", ativo: 1
   RamoAtividade.create! descricao: "ACOUGUE", codigo: 11

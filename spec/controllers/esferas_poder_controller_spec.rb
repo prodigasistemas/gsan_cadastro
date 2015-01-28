@@ -59,7 +59,7 @@ describe EsferasPoderController, type: :controller do
   end
 
   describe "GET show" do
-    it "retorna um cep" do
+    it "retorna uma esfera de poder" do
       get :show, id: 1, format: :json
       expect(json['descricao']).to eq esferas_poder.first.descricao
     end
