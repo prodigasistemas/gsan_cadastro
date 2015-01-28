@@ -93,11 +93,13 @@ if Rails.env.test?
   profissao_programacao = Profissao.create! descricao: "PROGRAMADOR", ativo: 1, codigo: 10
   profissao_para_edicao = Profissao.create! descricao: "Me edite", ativo: 1, codigo: 101
 
+  ramo_atividade_acougue     = RamoAtividade.create! descricao: "ACOUGUE", codigo: 11, ativo: 1
+  ramo_atividade_para_edicao = RamoAtividade.create! descricao: "Me edite", codigo: 1123, ativo: 1
+
   OrgaoExpedidorRg.create!(descricao: "EXERCITO", ativo: 1)
   OrgaoExpedidorRg.create!(descricao: "CREA", ativo: 1)
   PessoaSexo.create! descricao: "MASCULINO", ativo: 1
   PessoaSexo.create! descricao: "FEMININO", ativo: 1
-  RamoAtividade.create! descricao: "ACOUGUE", codigo: 11
 
   fone_comercial =    FoneTipo.create! descricao: "COMERCIAL",    ativo: 1
   fone_residencial =  FoneTipo.create! descricao: "RESIDENCIAL",  ativo: 1
