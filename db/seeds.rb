@@ -30,6 +30,7 @@ if Rails.env.test?
 
   CepTipo.create!(descricao: "ÚNICO",      ativo: 1)
   cep_tipo = CepTipo.create!(descricao: "LOGRADOURO", ativo: 1)
+  cep_tipo_para_edicao = CepTipo.create!(descricao: "BECO", ativo: 1)
   tipo_logradouro = TipoLogradouro.create!(descricao: "RUA")
   tipo_logradouro2 = TipoLogradouro.create!(descricao: "AV")
   tipo_logradouro3 = TipoLogradouro.create!(descricao: "TRAVESSA")
