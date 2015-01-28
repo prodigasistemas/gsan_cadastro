@@ -30,6 +30,7 @@ pt-BR:
       cliente_endereco: "Endereço"
       endereco_tipo: "Tipo de Endereço"
       cliente_tipo: "Tipo de cliente"
+      esfera_poder: "Esfera de poder"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -68,6 +69,10 @@ pt-BR:
         descricao: "Descrição"
         esfera_poder_id: "Esfera de poder"
         pessoa_fisica_juridica: "Tipo"
+      esfera_poder:
+        descricao: "Descrição"
+        permite_gerar_certidao_negativa_imovel: "Permite gerar certião negativa de imóvel"
+        permite_gerar_certidao_negativa_cliente: "Permite gerar certião negativa de cliente"
     errors:
       models:
         cep:
@@ -191,4 +196,13 @@ pt-BR:
             esfera_poder_id:
               blank: "é obrigatória"
             pessoa_fisica_juridica:
+              blank: "é obrigatório"
+        esfera_poder:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+            permite_gerar_certidao_negativa_imovel:
+              blank: "é obrigatório"
+            permite_gerar_certidao_negativa_cliente:
               blank: "é obrigatório"

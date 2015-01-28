@@ -12,8 +12,13 @@ class EsferaPoder < ActiveRecord::Base
   alias_attribute "permite_gerar_certidao_negativa_imovel",  "epod_icpermitecndparaimovel"  # smallint NOT NULL DEFAULT 2, -- Indicador se a esfera de poder permite a geracao  de certidao negativa para imovel (1-SIM, 2-NAO)
   alias_attribute "permite_gerar_certidao_negativa_cliente", "epod_icpermitecndparacliente" # smallint NOT NULL DEFAULT 2, -- Indicador se a esfera de poder permite a geracao  de certidao negativa para cliente (1-SIM, 2-NAO)
 
-
   scope :descricao,                               -> (descricao)  { where("UPPER(epod_dsesferapoder) LIKE ?", "%#{descricao.upcase}%") }
   scope :permite_gerar_certidao_negativa_imovel,  -> (i)          { where permite_gerar_certidao_negativa_imovel:   i }
   scope :permite_gerar_certidao_negativa_cliente, -> (i)          { where permite_gerar_certidao_negativa_cliente:  i }
+
+  validates_presence_of :descricao, :permite_gerar_certidao_negativa_imovel, :permite_gerar_certidao_negativa_cliente
+  validates_uniqueness_of :descricao
+  validates_inclusion_of :ativo, in: [1,2]
+  validates_inclusion_of :permite_gerar_certidao_negativa_imovel, in: [1,2]
+  validates_inclusion_of :permite_gerar_certidao_negativa_cliente, in: [1,2]
 end
