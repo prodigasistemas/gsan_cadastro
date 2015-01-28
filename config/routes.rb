@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :esferas_poder,           only: [:index, :show, :create, :update]
   resources :cliente_tipos,           only: [:index, :show, :create, :update]
   resources :micro_regioes,           only: [:index, :show, :create, :update]
+  resources :endereco_tipos,          only: [:index, :show, :create, :update]
   resources :ramos_atividades,        only: [:index, :show, :create, :update]
   resources :regioes_desenvolvimento, only: [:index, :show, :create, :update]
 

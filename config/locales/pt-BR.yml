@@ -33,6 +33,7 @@ pt-BR:
       esfera_poder: "Esfera de poder"
       profissao: "Profissão"
       ramo_atividade: "Ramo de atividade"
+      endereco_tipo: "Tipo de endereço"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -81,6 +82,8 @@ pt-BR:
       ramo_atividade:
         descricao: "Descrição"
         código: "Código"
+      endereco_tipo:
+        descricao: "Descrição"
     errors:
       models:
         cep:
@@ -232,3 +235,9 @@ pt-BR:
             codigo:
               blank: "é obrigatório"
               taken: "já existe"
+        endereco_tipo:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir menos de 20 caracteres"

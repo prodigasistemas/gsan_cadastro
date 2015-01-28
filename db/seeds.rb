@@ -116,8 +116,10 @@ if Rails.env.test?
   bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "NOVA AREA")
   bairro.bairro_areas.create!(distrito_operacional_id: do1.id, nome: "MAIS UMA AREA")
 
-  endereco_residencial = EnderecoTipo.create!(descricao: "RESIDENCIAL", ativo: 1)
-  endereco_comercial =   EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
+  endereco_residencial      = EnderecoTipo.create!(descricao: "RESIDENCIAL", ativo: 1)
+  endereco_comercial        = EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
+  endereco_tipo_para_edicao = EnderecoTipo.create!(descricao: "Me edite", ativo: 1)
+
   referencia_numero =    EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
   referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
 

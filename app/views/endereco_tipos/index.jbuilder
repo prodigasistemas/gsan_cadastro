@@ -1,3 +1,7 @@
-json.array! @tipos do |tipo|
-  json.extract! tipo, :id, :descricao, :ativo, :atualizado_em
+json.endereco_tipos do
+  json.array! @endereco_tipos do |tipo|
+    json.partial! tipo
+  end
 end
+
+json.partial! "shared/page", total: @total, models: @endereco_tipos
