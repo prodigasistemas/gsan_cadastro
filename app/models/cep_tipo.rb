@@ -11,6 +11,7 @@ class CepTipo < ActiveRecord::Base
   alias_attribute "atualizado_em", "cept_tmultimaalteracao"
 
   validates_presence_of :descricao
+  validates_uniqueness_of :descricao
 
   scope :ativo, -> { where(ativo: true) }
   scope :descricao, -> (descricao) { where("UPPER(cept_dsceptipo) LIKE ?", "%#{descricao.upcase}%") }
