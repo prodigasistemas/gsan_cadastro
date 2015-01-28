@@ -16,4 +16,5 @@ class Profissao < ActiveRecord::Base
   validates_presence_of :codigo, :descricao
   validates_uniqueness_of :codigo, :descricao
   validates_inclusion_of :ativo, in: [1,2]
+  validates_length_of :descricao, maximum: 30
 end

@@ -14,6 +14,14 @@ describe Profissao do
     expect(nova_profissao).to be_invalid
   end
 
+  it "tamanho da descricao" do
+    profissao = build :profissao
+    expect(profissao).to be_valid
+    profissao.descricao = "Aqui tem 31 caracteres 12345678"
+    expect(profissao).to be_invalid
+    expect(profissao.errors[:descricao]).to include "deve possuir menos de 30 caracteres"
+  end
+
   describe "escopos" do
     let!(:profissao_1) { create(:profissao) }
     let!(:profissao_2) { create(:profissao) }

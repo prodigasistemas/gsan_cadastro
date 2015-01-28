@@ -18,7 +18,7 @@ class ProfissoesController < ApplicationController
   end
 
   def create
-    @profissao = Profissao.new(profissao_poder_params)
+    @profissao = Profissao.new(profissao_params)
 
     if @profissao.save
       render :show
@@ -30,7 +30,7 @@ class ProfissoesController < ApplicationController
   def update
     @profissao = Profissao.find(params[:id])
 
-    if @profissao.update profissao_poder_params
+    if @profissao.update profissao_params
       render json: {}
     else
       render json: { errors: @profissao.errors.full_messages }, status: 422
@@ -39,7 +39,7 @@ class ProfissoesController < ApplicationController
 
   private
 
-  def profissao_poder_params
+  def profissao_params
     params.require(:profissao).permit :descricao,
                                           :codigo,
                                           :ativo
