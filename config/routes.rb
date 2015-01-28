@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :micro_regioes,           only: [:index, :show, :create, :update]
   resources :regioes_desenvolvimento, only: [:index, :show, :create, :update]
 
-  resources :cep_tipos,               only: :index
+  resources :cep_tipos,               only: [:index, :show, :create, :update]
   resources :profissoes,              only: :index
   resources :fone_tipos,              only: :index
   resources :pessoa_sexos,            only: :index

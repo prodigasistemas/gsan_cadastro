@@ -1,6 +1,11 @@
 require "rails_helper"
 
 describe CepTipo do
+
+  describe "validacoes" do
+    it { should validate_presence_of :descricao }
+  end
+
   describe "scopes" do
     let!(:ativo)    { create(:cep_tipo) }
     let!(:inativo)  { create(:cep_tipo, ativo: false) }

@@ -1,0 +1,1 @@
+json.extract! @cep_tipo, :id, :descricao, :ativo
