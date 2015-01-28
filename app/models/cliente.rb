@@ -70,8 +70,6 @@ class Cliente < ActiveRecord::Base
 
   scope :join,        -> {
     includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
-    joins(:cliente_tipo).
-    eager_load(:pessoa_sexo, :profissao, :enderecos, :telefones).
     order(:nome)
   }
   scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
