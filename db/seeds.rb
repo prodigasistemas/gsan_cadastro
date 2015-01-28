@@ -84,6 +84,7 @@ if Rails.env.test?
   esfera_poder_nao_informado  = EsferaPoder.create! descricao: "NAO INFORMADO", ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
   esfera_poder_municipal      = EsferaPoder.create! descricao: "MUNICIPAL",     ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
   esfera_poder_federal        = EsferaPoder.create! descricao: "FEDERAL",       ativo: 1, permite_gerar_certidao_negativa_imovel: 1, permite_gerar_certidao_negativa_cliente: 1
+  esfera_poder_para_edicao    = EsferaPoder.create! descricao: "Me edite",      ativo: 2, permite_gerar_certidao_negativa_imovel: 2, permite_gerar_certidao_negativa_cliente: 2
 
   cliente_residencial = ClienteTipo.create!(descricao: "RESIDENCIAL", pessoa_fisica_juridica: 1, ativo: 1, esfera_poder: esfera_poder_nao_informado)
   cliente_associacoes = ClienteTipo.create!(descricao: "ASSOCIACOES", pessoa_fisica_juridica: 2, ativo: 1, esfera_poder: esfera_poder_municipal)

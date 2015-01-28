@@ -78,6 +78,7 @@ class Cliente < ActiveRecord::Base
   scope :cpf,         -> (cpf)  { where cpf: cpf }
   scope :cnpj,        -> (cnpj) { where cnpj: cnpj }
   scope :pessoa_tipo, -> (tipo) { joins(:cliente_tipo).where("cliente_tipo.cltp_icpessoafisicajuridica = ?", tipo) }
+  scope :cliente_tipo_id, -> (id)   { where(cliente_tipo_id: id) }
 
   has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco", inverse_of: :cliente
   has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone",     inverse_of: :cliente
