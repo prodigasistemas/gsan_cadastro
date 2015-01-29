@@ -37,6 +37,7 @@ pt-BR:
       orgao_expedidor_rg: "Órgão Expedidor de RG"
       logradouro_tipo: "Tipo de logradouro"
       logradouro_titulo: "Título de logradouro"
+      cep_tipo: "Tipo de CEP"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -104,6 +105,8 @@ pt-BR:
         descricao: "Descrição"
         descricao_abreviada: "Descrição abreviada"
         descricao_abreviada_completa: "Descrição abreviada completa"
+      cep_tipo:
+        descricao: "Descrição"
     errors:
       models:
         cep:
@@ -121,10 +124,17 @@ pt-BR:
               blank: "é obrigatório"
             logradouro:
               blank: "é obrigatório"
+              too_long: "deve possuir menos de 50 caracteres"
             uf:
               blank: "é obrigatório"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
+        cep_tipo:
+          attributes:
+            descricao:
+              too_long: "deve possuir menos de 20 caracteres"
+              blank: "é obrigatório"
+              taken: "já existe"
         municipio:
           attributes:
             nome:
