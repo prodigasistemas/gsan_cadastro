@@ -19,6 +19,7 @@ class BairroArea < ActiveRecord::Base
   belongs_to :distrito_operacional, foreign_key: :diop_id
 
   validates_presence_of :nome
+  validates_length_of   :nome, maximum: 40
 
   scope :join,                      -> { includes(:distrito_operacional).eager_load(:distrito_operacional).order(:nome) }
   scope :nome,                      -> (nome) { where("UPPER(brar_nmbairroarea) LIKE ?", "%#{nome.upcase}%") }
