@@ -49,6 +49,7 @@ if Rails.env.test?
                             RegiaoDesenvolvimento.create!(nome: "METROPOLITANA", ativo: 1)
                             RegiaoDesenvolvimento.create!(nome: "SUDESTE PARAENSE", ativo: 1)
 
+  uf_para_edicao = UnidadeFederacao.create!(descricao: "AMAZONAS", sigla: "AM")
   uf_para = UnidadeFederacao.create!(descricao: "PARA", sigla: "PA")
   uf_acre = UnidadeFederacao.create!(descricao: "ACRE", sigla: "AC")
 
