@@ -12,6 +12,8 @@ class UnidadeFederacao < ActiveRecord::Base
 
   validates_presence_of   :descricao, :sigla
   validates_uniqueness_of :descricao, :sigla
+  validates_length_of :descricao, maximum: 35
+  validates_length_of :sigla, maximum: 2
 
   default_scope     -> { order(:descricao) }
   scope :descricao, -> (descricao) { where("UPPER(unfe_dsuf) LIKE ?", "%#{descricao.upcase}%") }

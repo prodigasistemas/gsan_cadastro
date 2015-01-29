@@ -91,6 +91,8 @@ pt-BR:
       orgao_expedidor_rg:
         descricao: "Descrição"
         descricao_abreviada: "Descrição abreviada"
+      unidade_federacao:
+        descricao: "Descrição"
     errors:
       models:
         cep:
@@ -268,3 +270,13 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 6 caracteres"
+        unidade_federacao:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir menos de 35 caracteres"
+            sigla:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir menos de 2 caracteres"
