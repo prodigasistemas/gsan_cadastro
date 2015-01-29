@@ -120,8 +120,9 @@ if Rails.env.test?
   endereco_comercial        = EnderecoTipo.create!(descricao: "COMERCIAL", ativo: 1)
   endereco_tipo_para_edicao = EnderecoTipo.create!(descricao: "Me edite", ativo: 1)
 
-  referencia_numero =    EnderecoReferencia.create!(descricao: "NUMERO", ativo: 1)
-  referencia_em_frente = EnderecoReferencia.create!(descricao: "EM FRENTE", ativo: 1)
+  referencia_numero      = EnderecoReferencia.create!(descricao: "NUMERO",    descricao_abreviada: "NUMERO",    ativo: 1)
+  referencia_em_frente   = EnderecoReferencia.create!(descricao: "EM FRENTE", descricao_abreviada: "EM FRENTE", ativo: 1)
+  referencia_para_edicao = EnderecoReferencia.create!(descricao: "Me edite",  descricao_abreviada: "Por favor", ativo: 1)
 
   cliente_para_edicao.enderecos.create numero: 12345, referencia: referencia_numero, endereco_tipo: endereco_residencial,logradouro: logradouro_ceara, logradouro_cep: logradouro_oliveira_belo.logradouro_ceps.first, logradouro_bairro: logradouro_oliveira_belo.logradouro_bairros.first, correspondencia: 1
   cliente_para_edicao.telefones.create ddd: 21, numero: 11133344, ramal: 555, nome_contato: "O PROPRIO",    fone_tipo: fone_comercial

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :micro_regioes,           only: [:index, :show, :create, :update]
   resources :endereco_tipos,          only: [:index, :show, :create, :update]
   resources :ramos_atividades,        only: [:index, :show, :create, :update]
+  resources :unidade_federacoes,      only: [:index, :show, :create, :update]
+  resources :enderecos_referencia,    only: [:index, :show, :create, :update]
   resources :regioes_desenvolvimento, only: [:index, :show, :create, :update]
 
   resources :fone_tipos,              only: :index
@@ -23,8 +25,6 @@ Rails.application.routes.draw do
   resources :endereco_tipos,          only: :index
   resources :tipo_logradouros,        only: :index
   resources :titulo_logradouros,      only: :index
-  resources :unidade_federacoes,      only: [:index, :show, :create, :update]
-  resources :endereco_referencias,    only: :index
   resources :distrito_operacionais,   only: :index
   resources :orgaos_expedidores_rg,   only: :index
 end

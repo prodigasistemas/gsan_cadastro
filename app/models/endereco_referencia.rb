@@ -1,5 +1,7 @@
 class EnderecoReferencia < ActiveRecord::Base
   include IncrementableId
+  include Filterable
+
   self.table_name  = 'cadastro.endereco_referencia'
   self.primary_key = 'edrf_id'
 
@@ -9,5 +11,12 @@ class EnderecoReferencia < ActiveRecord::Base
   alias_attribute "ativo",               "edrf_icuso"                 # smallint, -- indicador de uso (1-ativo 2-inativo)
   alias_attribute "atualizado_em",       "edrf_tmultimaalteracao"     # timestamp without time zone NOT NULL DEFAULT now()
 
-  default_scope -> { order(:descricao) }
+  scope :descricao,           -> (descricao) { where("UPPER(edrf_dsenderecoreferencia) LIKE ?", "%#{descricao.upcase}%") }
+  scope :descricao_abreviada, -> (descricao) { where("UPPER(edrf_dsabreviado) LIKE ?", "%#{descricao.upcase}%") }
+
+  validates_presence_of   :descricao_abreviada, :descricao
+  validates_uniqueness_of :descricao_abreviada, :descricao
+  validates_inclusion_of  :ativo, in: [1,2]
+  validates_length_of     :descricao,           maximum: 20
+  validates_length_of     :descricao_abreviada, maximum: 18
 end
