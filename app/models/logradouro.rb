@@ -7,7 +7,7 @@ class Logradouro < ActiveRecord::Base
 
   alias_attribute "id",                   "logr_id"
   alias_attribute "nome",                 "logr_nmlogradouro"
-  alias_attribute "titulo_logradouro_id", "lgtt_id"
+  alias_attribute "logradouro_titulo_id", "lgtt_id"
   alias_attribute "logradouro_tipo_id",   "lgtp_id"
   alias_attribute "municipio_id",         "muni_id"
   alias_attribute "ativo",                "logr_icuso"
@@ -18,8 +18,8 @@ class Logradouro < ActiveRecord::Base
   has_many :ceps, through: :logradouro_ceps
   has_many :logradouro_bairros, foreign_key: "logr_id", inverse_of: :logradouro
   has_many :bairros, through: :logradouro_bairros
-  belongs_to :titulo_logradouro, foreign_key: "lgtt_id"
-  belongs_to :tipo_logradouro, foreign_key: "lgtp_id"
+  belongs_to :logradouro_titulo, foreign_key: "lgtt_id"
+  belongs_to :logradouro_tipo, foreign_key: "lgtp_id"
   belongs_to :municipio, foreign_key: "muni_id"
 
   accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
@@ -28,8 +28,8 @@ class Logradouro < ActiveRecord::Base
   scope :join,                  -> {
     includes(
       :municipio, { municipio: :uf },
-      :titulo_logradouro,
-      :tipo_logradouro,
+      :logradouro_titulo,
+      :logradouro_tipo,
       :logradouro_ceps, { logradouro_ceps: :cep },
       :logradouro_bairros, { logradouro_bairros: :bairro },
     ).
@@ -38,8 +38,8 @@ class Logradouro < ActiveRecord::Base
     ).
     eager_load(
       :municipio,
-      :titulo_logradouro,
-      :tipo_logradouro,
+      :logradouro_titulo,
+      :logradouro_tipo,
       :logradouro_ceps, { logradouro_ceps: :cep },
       :logradouro_bairros, { logradouro_bairros: :bairro },
     ).
@@ -48,8 +48,8 @@ class Logradouro < ActiveRecord::Base
   scope :nome,                  -> (nome) { where("UPPER(logr_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
   scope :nome_popular,          -> (nome) { where("UPPER(logr_nmpopular) LIKE ?", "%#{nome.upcase}%") }
   scope :municipio_id,          -> (id) { where municipio_id: id }
-  scope :titulo_logradouro_id,  -> (id) { where lgtt_id: id }
-  scope :tipo_logradouro_id,    -> (id) { where lgtp_id: id }
+  scope :logradouro_titulo_id,  -> (id) { where lgtt_id: id }
+  scope :logradouro_tipo_id,    -> (id) { where lgtp_id: id }
 
   validates_presence_of :nome, :municipio_id, :logradouro_tipo_id
   validate :validar_destrucao_logradouro_cep

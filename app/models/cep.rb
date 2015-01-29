@@ -14,7 +14,7 @@ class Cep < ActiveRecord::Base
   alias_attribute "bairro",           "cep_nmbairro"
   alias_attribute "tipo_id",          "cept_id"
   alias_attribute "ativo",            "cep_icuso"
-  alias_attribute "tipo_logradouro",  "cep_dslogradourotipo"
+  alias_attribute "logradouro_tipo",  "cep_dslogradourotipo"
   alias_attribute "logradouro",       "cep_nmlogradouro"
   alias_attribute "atualizado_em",    "cep_tmultimaalteracao"
   alias_attribute "intervalo",        "cep_dsintervalonumeracao"
@@ -23,7 +23,7 @@ class Cep < ActiveRecord::Base
   has_many :logradouro_ceps, foreign_key: :cep_id, inverse_of: :cep
   has_many :logradouros, through: :logradouro_ceps
 
-  validates_presence_of :codigo, :tipo_id, :municipio, :tipo_logradouro, :logradouro, :uf
+  validates_presence_of :codigo, :tipo_id, :municipio, :logradouro_tipo, :logradouro, :uf
   validates_uniqueness_of :codigo
   validates_format_of :codigo, with: /\A\d{8}\z/
   validates_inclusion_of :ativo, in: [1,2]
@@ -35,7 +35,7 @@ class Cep < ActiveRecord::Base
   scope :filtro_municipio, -> (nome) { where("UPPER(cep_nmmunicipio) LIKE ?", "%#{nome.upcase}%") }
   scope :tipo_id, -> (id) { where tipo_id: id }
   scope :uf, -> (uf) { where uf: uf }
-  scope :tipo_logradouro, -> (tipo) { where tipo_logradouro: tipo }
+  scope :logradouro_tipo, -> (tipo) { where logradouro_tipo: tipo }
   scope :codigo, -> (codigo) { where codigo: codigo }
 
 private

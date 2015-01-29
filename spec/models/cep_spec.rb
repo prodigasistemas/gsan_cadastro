@@ -6,7 +6,7 @@ describe Cep do
   it { should validate_presence_of    :uf }
   it { should validate_presence_of    :tipo_id }
   it { should validate_presence_of    :municipio }
-  it { should validate_presence_of    :tipo_logradouro }
+  it { should validate_presence_of    :logradouro_tipo }
   it { should validate_presence_of    :logradouro }
 
   describe "validacao do range dos ceps do municipio" do

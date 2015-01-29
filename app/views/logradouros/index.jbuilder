@@ -1,6 +1,6 @@
 json.logradouros do
   json.array! @logradouros do |logradouro|
-    json.extract! logradouro, :id, :nome, :titulo_logradouro_id, :logradouro_tipo_id, :municipio_id, :ativo, :nome_popular, :atualizado_em
+    json.extract! logradouro, :id, :nome, :logradouro_titulo_id, :logradouro_tipo_id, :municipio_id, :ativo, :nome_popular, :atualizado_em
 
     json.municipio do
       json.extract!(logradouro.municipio, :id, :nome)
@@ -21,8 +21,8 @@ json.logradouros do
       end
     end
 
-    json.titulo_logradouro(logradouro.titulo_logradouro, :id, :descricao) if logradouro.titulo_logradouro
-    json.tipo_logradouro(logradouro.tipo_logradouro, :id, :descricao) if logradouro.tipo_logradouro
+    json.logradouro_titulo(logradouro.logradouro_titulo, :id, :descricao) if logradouro.logradouro_titulo
+    json.logradouro_tipo(logradouro.logradouro_tipo, :id, :descricao) if logradouro.logradouro_tipo
   end
 end
 

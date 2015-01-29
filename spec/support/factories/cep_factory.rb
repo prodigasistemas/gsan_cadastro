@@ -4,7 +4,7 @@ FactoryGirl.define do
     uf 'PA'
     municipio 'BELEM'
     tipo_id 1
-    tipo_logradouro 'RUA'
+    logradouro_tipo 'RUA'
     logradouro 'DA MATA'
     bairro 'GUAMA'
     ativo 1

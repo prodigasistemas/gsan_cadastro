@@ -41,7 +41,7 @@ private
   end
 
   def logradouro_params
-    params.require(:logradouro).permit(:nome, :titulo_logradouro_id, :logradouro_tipo_id,
+    params.require(:logradouro).permit(:nome, :logradouro_titulo_id, :logradouro_tipo_id,
                                         :municipio_id, :ativo, :nome_popular,
                                         logradouro_ceps_attributes: [:id, :ativo, :cep_id, :_destroy],
                                         logradouro_bairros_attributes: [:id, :bairro_id, :_destroy]

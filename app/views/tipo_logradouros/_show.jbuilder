@@ -1,1 +1,0 @@
-json.extract! tipo_logradouro, :id, :descricao, :descricao_abreviada, :descricao_abreviada_completa, :ativo

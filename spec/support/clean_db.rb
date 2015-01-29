@@ -10,8 +10,8 @@ CepTipo.destroy_all
 RegiaoDesenvolvimento.destroy_all
 MicroRegiao.destroy_all
 Regiao.destroy_all
-TipoLogradouro.destroy_all
-TituloLogradouro.destroy_all
+LogradouroTipo.destroy_all
+LogradouroTitulo.destroy_all
 UnidadeFederacao.destroy_all
 EsferaPoder.destroy_all
 ClienteTipo.destroy_all

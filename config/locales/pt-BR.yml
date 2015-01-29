@@ -35,6 +35,8 @@ pt-BR:
       ramo_atividade: "Ramo de atividade"
       endereco_referencia: "Endereço de referência"
       orgao_expedidor_rg: "Órgão Expedidor de RG"
+      logradouro_tipo: "Tipo de logradouro"
+      logradouro_titulo: "Título de logradouro"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -47,7 +49,7 @@ pt-BR:
         tipo_id: "Tipo de CEP"
         uf: "Unidade da Federação"
         municipio: "Município"
-        tipo_logradouro: "Tipo de logradouro"
+        logradouro_tipo: "Tipo de logradouro"
         logradouro: "Logradouro"
       bairro:
         codigo: "Código"
@@ -93,6 +95,14 @@ pt-BR:
         descricao_abreviada: "Descrição abreviada"
       unidade_federacao:
         descricao: "Descrição"
+      logradouro_tipo:
+        descricao: "Descrição"
+        descricao_abreviada: "Descrição abreviada"
+        descricao_abreviada_completa: "Descrição abreviada completa"
+      logradouro_titulo:
+        descricao: "Descrição"
+        descricao_abreviada: "Descrição abreviada"
+        descricao_abreviada_completa: "Descrição abreviada completa"
     errors:
       models:
         cep:
@@ -106,7 +116,7 @@ pt-BR:
               blank: "é obrigatório"
             municipio:
               blank: "é obrigatório"
-            tipo_logradouro:
+            logradouro_tipo:
               blank: "é obrigatório"
             logradouro:
               blank: "é obrigatório"
@@ -280,3 +290,31 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir menos de 2 caracteres"
+        logradouro_tipo:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 20 caracteres"
+            descricao_abreviada:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 3 caracteres"
+            descricao_abreviada_completa:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 13 caracteres"
+        logradouro_titulo:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 25 caracteres"
+            descricao_abreviada:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 5 caracteres"
+            descricao_abreviada_completa:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 13 caracteres"

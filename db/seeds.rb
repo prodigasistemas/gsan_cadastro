@@ -11,8 +11,6 @@ if Rails.env.test?
   RegiaoDesenvolvimento.destroy_all
   MicroRegiao.destroy_all
   Regiao.destroy_all
-  TipoLogradouro.destroy_all
-  TituloLogradouro.destroy_all
   UnidadeFederacao.destroy_all
   EsferaPoder.destroy_all
   ClienteTipo.destroy_all
@@ -27,16 +25,21 @@ if Rails.env.test?
   EnderecoReferencia.destroy_all
   ClienteFone.destroy_all
   FoneTipo.destroy_all
+  LogradouroTipo.destroy_all
+  LogradouroTitulo.destroy_all
 
   CepTipo.create!(descricao: "ÚNICO",      ativo: 1)
   cep_tipo = CepTipo.create!(descricao: "LOGRADOURO", ativo: 1)
   cep_tipo_para_edicao = CepTipo.create!(descricao: "BECO", ativo: 1)
-  tipo_logradouro = TipoLogradouro.create!(descricao: "RUA")
-  tipo_logradouro2 = TipoLogradouro.create!(descricao: "AV")
-  tipo_logradouro3 = TipoLogradouro.create!(descricao: "TRAVESSA")
-  titulo_logradouro = TituloLogradouro.create!(descricao: "GOV")
-  titulo_logradouro2 = TituloLogradouro.create!(descricao: "ALM")
-  titulo_logradouro3 = TituloLogradouro.create!(descricao: "GEN")
+  logradouro_tipo               = LogradouroTipo.create!(descricao: "RUA",      ativo: 1)
+  logradouro_tipo2              = LogradouroTipo.create!(descricao: "AV",       ativo: 1)
+  logradouro_tipo3              = LogradouroTipo.create!(descricao: "TRAVESSA", ativo: 1)
+  logradouro_tipo_para_edicao   = LogradouroTipo.create!(descricao: "Me edite", ativo: 1)
+
+  logradouro_titulo             = LogradouroTitulo.create!(descricao: "GOV",      ativo: 1)
+  logradouro_titulo2            = LogradouroTitulo.create!(descricao: "ALM",      ativo: 1)
+  logradouro_titulo3            = LogradouroTitulo.create!(descricao: "GEN",      ativo: 1)
+  logradouro_titulo_para_edicao = LogradouroTitulo.create!(descricao: "Me edite", ativo: 1)
 
   regiao = Regiao.create!(nome: 'NORDESTE', ativo: 1)
   regiao_para_alterar = Regiao.create!(nome: "REGIAO VELHA", ativo: 1)
@@ -61,17 +64,17 @@ if Rails.env.test?
   Bairro.create!(nome: "NAZARE", ativo: 1, codigo: 77, municipio_id: belem.id)
   Bairro.create!(nome: "CONQUISTA", ativo: 1, codigo: 55, municipio_id: rio_branco.id)
   caladim = Bairro.create!(nome: "CALADIM", ativo: 1, codigo: 77, municipio_id: rio_branco.id)
-  cep_1 = Cep.create!(codigo: "66050380", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "OLIVEIRA BELO", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
-  cep_2 = Cep.create!(codigo: "77777777", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "CRAU", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
-  cep_3 = Cep.create!(codigo: "55050720", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "DEODORO", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
-  cep_para_edicao = Cep.create!(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", tipo_logradouro: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_1 = Cep.create!(codigo: "66050380", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "OLIVEIRA BELO", logradouro_tipo: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_2 = Cep.create!(codigo: "77777777", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "CRAU", logradouro_tipo: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_3 = Cep.create!(codigo: "55050720", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "DEODORO", logradouro_tipo: "LOGRADOURO", uf: "PA", ativo: 1)
+  cep_para_edicao = Cep.create!(codigo: "66666666", cep_tipo: cep_tipo, municipio: "BELEM", logradouro: "MARECHAL MERCHAN", logradouro_tipo: "LOGRADOURO", uf: "PA", ativo: 1)
 
-  logradouro_oliveira_belo = Logradouro.create!(municipio: belem, titulo_logradouro: titulo_logradouro,  tipo_logradouro: tipo_logradouro,  nome: "OLIVEIRA BELO", nome_popular: "OLIVEIRA-BELO", ativo: 1)
-  logradouro_14_marco = Logradouro.create!(municipio: belem,                                             tipo_logradouro: tipo_logradouro3, nome: "QUATORZE DE MARCO", nome_popular: "14 DE MARCO", ativo: 1)
-  logradouro_generalissimo = Logradouro.create!(municipio: belem, titulo_logradouro: titulo_logradouro3, tipo_logradouro: tipo_logradouro2, nome: "DEODORO", nome_popular: "GENERALISSIMO DEODORO", ativo: 1)
-  logradouro_diogo_moia = Logradouro.create!(municipio: belem,                                           tipo_logradouro: tipo_logradouro,  nome: "DIOGO MOIA", ativo: 1)
+  logradouro_oliveira_belo = Logradouro.create!(municipio: belem, logradouro_titulo: logradouro_titulo,  logradouro_tipo: logradouro_tipo,  nome: "OLIVEIRA BELO", nome_popular: "OLIVEIRA-BELO", ativo: 1)
+  logradouro_14_marco = Logradouro.create!(municipio: belem,                                             logradouro_tipo: logradouro_tipo3, nome: "QUATORZE DE MARCO", nome_popular: "14 DE MARCO", ativo: 1)
+  logradouro_generalissimo = Logradouro.create!(municipio: belem, logradouro_titulo: logradouro_titulo3, logradouro_tipo: logradouro_tipo2, nome: "DEODORO", nome_popular: "GENERALISSIMO DEODORO", ativo: 1)
+  logradouro_diogo_moia = Logradouro.create!(municipio: belem,                                           logradouro_tipo: logradouro_tipo,  nome: "DIOGO MOIA", ativo: 1)
 
-  logradouro_ceara = Logradouro.create!(municipio: rio_branco, tipo_logradouro: tipo_logradouro2, nome: "CEARA", nome_popular: "AV CEARA", ativo: 1)
+  logradouro_ceara = Logradouro.create!(municipio: rio_branco, logradouro_tipo: logradouro_tipo2, nome: "CEARA", nome_popular: "AV CEARA", ativo: 1)
 
   logradouro_ceara.logradouro_ceps.create cep: cep_2, ativo: 1
   logradouro_ceara.logradouro_bairros.create bairro: caladim

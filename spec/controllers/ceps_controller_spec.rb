@@ -22,10 +22,10 @@ describe CepsController, type: :controller do
           "query"=>
             {
               "tipo_id"=>"1",
-              "filtro_municipio"=>"bele", 
-              "uf"=>"PA", 
-              "filtro_logradouro"=>"MATA", 
-              "tipo_logradouro"=>"RUA"
+              "filtro_municipio"=>"bele",
+              "uf"=>"PA",
+              "filtro_logradouro"=>"MATA",
+              "logradouro_tipo"=>"RUA"
             }
         }
       end
@@ -73,7 +73,7 @@ describe CepsController, type: :controller do
     let(:municipio) { create(:municipio) }
 
     context "quando cep é criado com sucesso" do
-      let(:params) { 
+      let(:params) {
         {
           'cep'=>attributes_for(:cep).with_indifferent_access
         }
@@ -86,10 +86,10 @@ describe CepsController, type: :controller do
     end
 
     context "quando cep não é criado" do
-      let(:params) { 
-        { 
-          'cep'=>attributes_for(:cep, codigo: '').with_indifferent_access 
-        } 
+      let(:params) {
+        {
+          'cep'=>attributes_for(:cep, codigo: '').with_indifferent_access
+        }
       }
 
       it "retorna erros" do
@@ -120,7 +120,7 @@ describe CepsController, type: :controller do
     let!(:municipio) { create(:municipio) }
 
     context "quando cep é atualizado com sucesso" do
-      let(:params) { 
+      let(:params) {
         attributes_for(:cep, muni_id: municipio.id).with_indifferent_access
       }
 
@@ -131,8 +131,8 @@ describe CepsController, type: :controller do
     end
 
     context "quando cep não é atualizado" do
-      let(:params) { 
-        attributes_for(:cep, codigo: '').with_indifferent_access 
+      let(:params) {
+        attributes_for(:cep, codigo: '').with_indifferent_access
       }
 
       it "retorna erros" do
@@ -146,8 +146,8 @@ describe CepsController, type: :controller do
   describe "GET search" do
     context "quando cep é encontrado" do
       let(:params) {
-        { 
-          'query'=> { 'codigo'=>ceps.first.codigo } 
+        {
+          'query'=> { 'codigo'=>ceps.first.codigo }
         }
       }
 
@@ -159,8 +159,8 @@ describe CepsController, type: :controller do
 
     context "quando cep não é encontrado" do
       let(:params) {
-        { 
-          'query'=> { 'codigo'=>'6666666' } 
+        {
+          'query'=> { 'codigo'=>'6666666' }
         }
       }
 

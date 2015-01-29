@@ -34,7 +34,7 @@ class CepsController < ApplicationController
     @municipio = Municipio.find_by(id: params[:cep][:muni_id])
     create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
     @cep.municipio_model = @municipio
-    
+
     if @cep.update_attributes(create_cep_params)
       render :show
     else
@@ -57,7 +57,7 @@ class CepsController < ApplicationController
                                 :logradouro,
                                 :municipio,
                                 :tipo_id,
-                                :tipo_logradouro,
+                                :logradouro_tipo,
                                 :uf)
   end
 end

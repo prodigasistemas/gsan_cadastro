@@ -1,6 +1,6 @@
 json.ceps do
   json.array! @ceps do |cep|
-    json.extract! cep, :id, :codigo, :municipio, :uf, :ativo, :intervalo, :logradouro, :tipo_logradouro, :bairro, :tipo_id
+    json.extract! cep, :id, :codigo, :municipio, :uf, :ativo, :intervalo, :logradouro, :logradouro_tipo, :bairro, :tipo_id
 
     json.cep_tipo do
       json.extract! cep.cep_tipo, :id, :descricao
