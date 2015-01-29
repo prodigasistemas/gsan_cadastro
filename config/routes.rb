@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :ramos_atividades,        only: [:index, :show, :create, :update]
   resources :unidade_federacoes,      only: [:index, :show, :create, :update]
   resources :enderecos_referencia,    only: [:index, :show, :create, :update]
+  resources :orgaos_expedidores_rg,   only: [:index, :show, :create, :update]
   resources :regioes_desenvolvimento, only: [:index, :show, :create, :update]
 
   resources :fone_tipos,              only: :index
@@ -26,5 +27,4 @@ Rails.application.routes.draw do
   resources :tipo_logradouros,        only: :index
   resources :titulo_logradouros,      only: :index
   resources :distrito_operacionais,   only: :index
-  resources :orgaos_expedidores_rg,   only: :index
 end

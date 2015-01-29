@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe EnderecosReferenciaController, type: :controller do
+describe OrgaosExpedidoresRgController, type: :controller do
   render_views
 
   let(:json) { JSON.parse(response.body) }
-  let!(:enderecos_referencia) { create_list(:endereco_referencia, 3) }
+  let!(:orgaos_expedidores_rg) { create_list(:orgao_expedidor_rg, 3) }
 
   describe "GET index" do
     before do
@@ -21,7 +21,7 @@ describe EnderecosReferenciaController, type: :controller do
         {
           "query"=>
             {
-              "descricao"=>"End Refe"
+              "descricao"=>"Orgao Ex"
             }
         }
       end
@@ -31,9 +31,9 @@ describe EnderecosReferenciaController, type: :controller do
         expect(json['page']['total_pages']).to eq(1)
       end
 
-      it "retorna lista de enderecos de referencia" do
-        expect(json['enderecos_referencia'].size).to eq(3)
-        expect(json['enderecos_referencia'].collect{|l| l["descricao"]}).to include(enderecos_referencia.first.descricao)
+      it "retorna lista de orgaos expedidores de RG" do
+        expect(json['orgaos_expedidores_rg'].size).to eq(3)
+        expect(json['orgaos_expedidores_rg'].collect{|l| l["descricao"]}).to include(orgaos_expedidores_rg.first.descricao)
       end
     end
 
@@ -42,7 +42,7 @@ describe EnderecosReferenciaController, type: :controller do
         {
           "query"=>
             {
-              "descricao"=>"Nenhum endereco_referencia aqui"
+              "descricao"=>"Nenhum orgao_expedidor_rg aqui"
             }
         }
       end
@@ -53,15 +53,15 @@ describe EnderecosReferenciaController, type: :controller do
       end
 
       it "retorna lista de ceps vazia" do
-        expect(json['enderecos_referencia'].size).to eq(0)
+        expect(json['orgaos_expedidores_rg'].size).to eq(0)
       end
     end
   end
 
   describe "GET show" do
-    it "retorna uma endereco_referencia" do
+    it "retorna uma orgao_expedidor_rg" do
       get :show, id: 1, format: :json
-      expect(json['descricao']).to eq enderecos_referencia.first.descricao
+      expect(json['descricao']).to eq orgaos_expedidores_rg.first.descricao
     end
   end
 
@@ -69,7 +69,7 @@ describe EnderecosReferenciaController, type: :controller do
     context "quando cep é criado com sucesso" do
       let(:params) {
         {
-          'endereco_referencia'=>attributes_for(:endereco_referencia).with_indifferent_access
+          'orgao_expedidor_rg'=>attributes_for(:orgao_expedidor_rg).with_indifferent_access
         }
       }
 
@@ -79,10 +79,10 @@ describe EnderecosReferenciaController, type: :controller do
       end
     end
 
-    context "quando endereco_referencia não é criado" do
+    context "quando orgao_expedidor_rg não é criado" do
       let(:params) {
         {
-          'endereco_referencia'=>attributes_for(:endereco_referencia, descricao: '').with_indifferent_access
+          'orgao_expedidor_rg'=>attributes_for(:orgao_expedidor_rg, descricao: '').with_indifferent_access
         }
       }
 
@@ -95,24 +95,24 @@ describe EnderecosReferenciaController, type: :controller do
   end
 
   describe "PUT update" do
-    context "quando endereco de referencia é atualizado com sucesso" do
+    context "quando orgao expedidor de RG é atualizado com sucesso" do
       let(:params) {
-        attributes_for(:endereco_referencia).with_indifferent_access
+        attributes_for(:orgao_expedidor_rg).with_indifferent_access
       }
 
-      it "retorna a endereco_referencia" do
-        put :update, id: 1, endereco_referencia: params, format: :json
+      it "retorna a orgao_expedidor_rg" do
+        put :update, id: 1, orgao_expedidor_rg: params, format: :json
         expect(response).to be_success
       end
     end
 
-    context "quando endereco de referencia não é atualizado" do
+    context "quando orgao expedidor de RG não é atualizado" do
       let(:params) {
-        attributes_for(:endereco_referencia, descricao: '').with_indifferent_access
+        attributes_for(:orgao_expedidor_rg, descricao: '').with_indifferent_access
       }
 
       it "retorna erros" do
-        put :update, id: 1, endereco_referencia: params, format: :json
+        put :update, id: 1, orgao_expedidor_rg: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

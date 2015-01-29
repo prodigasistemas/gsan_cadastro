@@ -34,6 +34,7 @@ pt-BR:
       profissao: "Profissão"
       ramo_atividade: "Ramo de atividade"
       endereco_referencia: "Endereço de referência"
+      orgao_expedidor_rg: "Órgão Expedidor de RG"
     attributes:
       municipio:
         codigo_ibge: "Código do IBGE"
@@ -85,6 +86,9 @@ pt-BR:
       endereco_tipo:
         descricao: "Descrição"
       endereco_referencia:
+        descricao: "Descrição"
+        descricao_abreviada: "Descrição abreviada"
+      orgao_expedidor_rg:
         descricao: "Descrição"
         descricao_abreviada: "Descrição abreviada"
     errors:
@@ -254,3 +258,13 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 18 caracteres"
+        orgao_expedidor_rg:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 50 caracteres"
+            descricao_abreviada:
+              blank: "é obrigatório"
+              taken: "já existe"
+              too_long: "deve possuir até 6 caracteres"

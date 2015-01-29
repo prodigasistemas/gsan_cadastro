@@ -96,8 +96,10 @@ if Rails.env.test?
   ramo_atividade_acougue     = RamoAtividade.create! descricao: "ACOUGUE", codigo: 11, ativo: 1
   ramo_atividade_para_edicao = RamoAtividade.create! descricao: "Me edite", codigo: 1123, ativo: 1
 
-  OrgaoExpedidorRg.create!(descricao: "EXERCITO", ativo: 1)
-  OrgaoExpedidorRg.create!(descricao: "CREA", ativo: 1)
+                                    OrgaoExpedidorRg.create!(descricao: "EXERCITO", descricao_abreviada: "EXER",    ativo: 1)
+                                    OrgaoExpedidorRg.create!(descricao: "CREA",     descricao_abreviada: "CREA",    ativo: 1)
+  orgao_expedidor_rg_para_edicao =  OrgaoExpedidorRg.create!(descricao: "Me edite", descricao_abreviada: "PLEASE",  ativo: 1)
+
   PessoaSexo.create! descricao: "MASCULINO", ativo: 1
   PessoaSexo.create! descricao: "FEMININO", ativo: 1
 
