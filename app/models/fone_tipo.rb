@@ -8,4 +8,6 @@ class FoneTipo < ActiveRecord::Base
   alias_attribute "descricao",     "fnet_dsfonetipo"        # character varying(20), -- descricao do tipo de fone
   alias_attribute "ativo",         "fnet_icuso"             # smallint, -- indicador de uso(1-ativo 2-inativo)
   alias_attribute "atualizado_em", "fnet_tmultimaalteracao" # timestamp without time zone NOT NULL DEFAULT now(),
+
+  validates_length_of :descricao, maximum: 20
 end

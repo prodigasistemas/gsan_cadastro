@@ -39,7 +39,10 @@ pt-BR:
       logradouro_titulo: "Título de logradouro"
       cep_tipo: "Tipo de CEP"
       distrito_operacional: "Distrito Operacional"
+      fone_tipo: "Tipo de telefone"
     attributes:
+      fone_tipo:
+        descricao: "Descrição"
       distrito_operacional:
         descricao: "Descrição"
         abreviacao: "Abreviação"
@@ -113,11 +116,16 @@ pt-BR:
         descricao: "Descrição"
     errors:
       models:
+        fone_tipo:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              too_long: "deve possuir até 20 caracteres"
         distrito_operacional:
           attributes:
             descricao:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 30 caracteres"
+              too_long: "deve possuir até 30 caracteres"
         cep:
           attributes:
             codigo:
@@ -133,7 +141,7 @@ pt-BR:
               blank: "é obrigatório"
             logradouro:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 50 caracteres"
+              too_long: "deve possuir até 50 caracteres"
             uf:
               blank: "é obrigatório"
             ativo:
@@ -141,7 +149,7 @@ pt-BR:
         cep_tipo:
           attributes:
             descricao:
-              too_long: "deve possuir menos de 20 caracteres"
+              too_long: "deve possuir até 20 caracteres"
               blank: "é obrigatório"
               taken: "já existe"
         municipio:
@@ -172,12 +180,13 @@ pt-BR:
               blank: "é obrigatório"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
-              too_long: "deve possuir menos de 30 caracteres"
+              too_long: "deve possuir até 30 caracteres"
+              too_long: "deve possuir até 30 caracteres"
         bairro_area:
           attributes:
             nome:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 40 caracteres"
+              too_long: "deve possuir até 40 caracteres"
         logradouro:
           attributes:
             nome:
@@ -209,25 +218,25 @@ pt-BR:
               blank: "é obrigatório"
             cliente_tipo:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 50 caracteres"
+              too_long: "deve possuir até 50 caracteres"
             nome_abreviado:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 40 caracteres"
+              too_long: "deve possuir até 40 caracteres"
             cpf:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 11 caracteres"
+              too_long: "deve possuir até 11 caracteres"
             rg:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 13 caracteres"
+              too_long: "deve possuir até 13 caracteres"
             cnpj:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 14 caracteres"
+              too_long: "deve possuir até 14 caracteres"
             email:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 40 caracteres"
+              too_long: "deve possuir até 40 caracteres"
             nome_mae:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 50 caracteres"
+              too_long: "deve possuir até 50 caracteres"
             cliente_tipo_id:
               blank: "é obrigatório"
             base:
@@ -282,14 +291,14 @@ pt-BR:
             referencia:
               blank: "é obrigatória"
             cliente:
-              too_long: "deve possuir menos de 5 caracteres"
+              too_long: "deve possuir até 5 caracteres"
             logradouro_bairro_id:
               blank: "é obrigatório"
             endereco_tipo:
               blank: "é obrigatório"
             logradouro:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 25 caracteres"
+              too_long: "deve possuir até 25 caracteres"
         cliente_fone:
           attributes:
             ddd:
@@ -304,22 +313,22 @@ pt-BR:
               taken: "deve ser único"
             ddd:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 2 caracteres"
+              too_long: "deve possuir até 2 caracteres"
             numero:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 9 caracteres"
+              too_long: "deve possuir até 9 caracteres"
             ramal:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 4 caracteres"
+              too_long: "deve possuir até 4 caracteres"
             nome_contato:
               blank: "é obrigatório"
-              too_long: "deve possuir menos de 50 caracteres"
+              too_long: "deve possuir até 50 caracteres"
         cliente_tipo:
           attributes:
             descricao:
               blank: "é obrigatória"
               taken: "já existe"
-              too_long: "deve possuir menos de 50 caracteres"
+              too_long: "deve possuir até 50 caracteres"
             esfera_poder_id:
               blank: "é obrigatória"
             pessoa_fisica_juridica:
@@ -343,7 +352,7 @@ pt-BR:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
-              too_long: "deve possuir menos de 30 caracteres"
+              too_long: "deve possuir até 30 caracteres"
             codigo:
               blank: "é obrigatório"
               taken: "já existe"
@@ -354,7 +363,7 @@ pt-BR:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
-              too_long: "deve possuir menos de 30 caracteres"
+              too_long: "deve possuir até 30 caracteres"
             codigo:
               blank: "é obrigatório"
               taken: "já existe"
@@ -365,9 +374,10 @@ pt-BR:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
-              too_long: "deve possuir menos de 20 caracteres"
+              too_long: "deve possuir até 20 caracteres"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
+              too_long: "deve possuir até 20 caracteres"
         endereco_referencia:
           attributes:
             descricao:
@@ -397,11 +407,11 @@ pt-BR:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
-              too_long: "deve possuir menos de 35 caracteres"
+              too_long: "deve possuir até 35 caracteres"
             sigla:
               blank: "é obrigatório"
               taken: "já existe"
-              too_long: "deve possuir menos de 2 caracteres"
+              too_long: "deve possuir até 2 caracteres"
         logradouro_tipo:
           attributes:
             descricao:
@@ -434,3 +444,4 @@ pt-BR:
               too_long: "deve possuir até 13 caracteres"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
+              too_long: "deve possuir até 2 caracteres"
