@@ -5,6 +5,8 @@ describe ClienteTipo do
   it { should validate_presence_of    :esfera_poder_id }
   it { should validate_presence_of    :pessoa_fisica_juridica }
   it { should validate_uniqueness_of  :descricao }
+  it { should ensure_length_of(:descricao).is_at_most(50) }
+
   it_behaves_like 'ativo'
 
   describe "#pessoa_tipo" do

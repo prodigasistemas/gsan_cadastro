@@ -310,6 +310,7 @@ pt-BR:
             descricao:
               blank: "é obrigatória"
               taken: "já existe"
+              too_long: "deve possuir menos de 50 caracteres"
             esfera_poder_id:
               blank: "é obrigatória"
             pessoa_fisica_juridica:
