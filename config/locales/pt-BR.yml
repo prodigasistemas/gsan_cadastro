@@ -122,6 +122,8 @@ pt-BR:
               blank: "é obrigatório"
             uf:
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         municipio:
           attributes:
             nome:
@@ -136,6 +138,8 @@ pt-BR:
               blank: "é obrigatório"
             micro_regiao_id:
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         bairro:
           attributes:
             municipio_id:
@@ -146,6 +150,8 @@ pt-BR:
             nome:
               taken: "já existe para o Município"
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         bairro_area:
           attributes:
             nome:
@@ -163,16 +169,24 @@ pt-BR:
               cliente_endereco_are_present_in_cep: "Endereço de cliente ainda existem no CEP %{cep}"
               imoveis_are_present_in_bairro: "Imóveis ainda existem no bairro %{bairro}"
               cliente_endereco_are_present_in_bairro: "Endereço de cliente ainda existem no bairro %{bairro}"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         logradouro_cep:
           attributes:
             imoveis:
               are_present: "ainda existem"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         logradouro_bairro:
           attributes:
             imoveis:
               are_present: "ainda existem"
         cliente:
           attributes:
+            nome:
+              blank: "é obrigatório"
+            cliente_tipo:
+              blank: "é obrigatório"
             cliente_tipo_id:
               blank: "é obrigatório"
             base:
@@ -180,20 +194,30 @@ pt-BR:
               ao_menos_um_telefone_padrao: "Ao menos um dos telefones deve ser padrao"
               muitos_endereco_correspondencia: "Somente um endereço pode ser marcado como de correspondência"
               ao_menos_um_endereco_correspondencia: "Ao menos um dos endereços deve ser de correspondência"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         regiao:
           attributes:
             nome:
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         micro_regiao:
           attributes:
+            regiao:
+              blank: "é obrigatório"
             nome:
               blank: "é obrigatório"
               taken: "já existe"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         regiao_desenvolvimento:
           attributes:
             nome:
               blank: "é obrigatório"
               taken: "já existe"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         enderecos:
           attributes:
             correspondencia:
@@ -208,7 +232,13 @@ pt-BR:
               taken: "deve ser único"
             numero:
               blank: "é obrigatório"
-            logradouro_bairro_id:
+            logradouro_bairro:
+              blank: "é obrigatório"
+            logradouro_cep:
+              blank: "é obrigatório"
+            referencia:
+              blank: "é obrigatória"
+            cliente:
               blank: "é obrigatório"
             endereco_tipo:
               blank: "é obrigatório"
@@ -216,6 +246,14 @@ pt-BR:
               blank: "é obrigatório"
         cliente_fone:
           attributes:
+            ddd:
+              blank: "é obrigatório"
+            numero:
+              blank: "é obrigatório"
+            cliente:
+              blank: "é obrigatório"
+            fone_tipo:
+              blank: "é obrigatório"
             padrao:
               taken: "deve ser único"
         cliente_tipo:
@@ -227,6 +265,8 @@ pt-BR:
               blank: "é obrigatória"
             pessoa_fisica_juridica:
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         esfera_poder:
           attributes:
             descricao:
@@ -236,6 +276,8 @@ pt-BR:
               blank: "é obrigatório"
             permite_gerar_certidao_negativa_cliente:
               blank: "é obrigatório"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         profissao:
           attributes:
             descricao:
@@ -245,6 +287,8 @@ pt-BR:
             codigo:
               blank: "é obrigatório"
               taken: "já existe"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         ramo_atividade:
           attributes:
             descricao:
@@ -254,12 +298,16 @@ pt-BR:
             codigo:
               blank: "é obrigatório"
               taken: "já existe"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         endereco_tipo:
           attributes:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir menos de 20 caracteres"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         endereco_referencia:
           attributes:
             descricao:
@@ -270,6 +318,8 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 18 caracteres"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         orgao_expedidor_rg:
           attributes:
             descricao:
@@ -280,6 +330,8 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 6 caracteres"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         unidade_federacao:
           attributes:
             descricao:
@@ -304,6 +356,8 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 13 caracteres"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         logradouro_titulo:
           attributes:
             descricao:
@@ -318,3 +372,5 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
               too_long: "deve possuir até 13 caracteres"
+            ativo:
+              inclusion: "deve ser 1 (Sim) ou 2 (Não)"
