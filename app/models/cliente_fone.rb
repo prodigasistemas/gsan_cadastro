@@ -18,7 +18,11 @@ class ClienteFone < ActiveRecord::Base
   belongs_to :fone_tipo,  foreign_key: :fnet_id
 
   validates_presence_of :ddd, :numero, :cliente, :fone_tipo
-  validate :valida_telefone_padrao
+  validate              :valida_telefone_padrao
+  validates_length_of   :ddd, maximum: 2
+  validates_length_of   :numero, maximum: 9
+  validates_length_of   :ramal, maximum: 4
+  validates_length_of   :nome_contato, maximum: 50
 
   private
 

@@ -293,6 +293,18 @@ pt-BR:
               blank: "é obrigatório"
             padrao:
               taken: "deve ser único"
+            ddd:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 2 caracteres"
+            numero:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 9 caracteres"
+            ramal:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 4 caracteres"
+            nome_contato:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 50 caracteres"
         cliente_tipo:
           attributes:
             descricao:
