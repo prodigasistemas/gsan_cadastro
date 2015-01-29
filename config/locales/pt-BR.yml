@@ -253,11 +253,14 @@ pt-BR:
             referencia:
               blank: "é obrigatória"
             cliente:
+              too_long: "deve possuir menos de 5 caracteres"
+            logradouro_bairro_id:
               blank: "é obrigatório"
             endereco_tipo:
               blank: "é obrigatório"
             logradouro:
               blank: "é obrigatório"
+              too_long: "deve possuir menos de 25 caracteres"
         cliente_fone:
           attributes:
             ddd:

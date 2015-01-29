@@ -17,6 +17,8 @@ describe ClienteEndereco do
     it { should validate_presence_of :cliente }
     it { should validate_presence_of :endereco_tipo }
     it { should validate_presence_of :logradouro }
+    it { should ensure_length_of(:numero).is_at_most(5) }
+    it { should ensure_length_of(:complemento).is_at_most(25) }
 
     context "correspondencia" do
       let(:cliente)    { create :cliente }
