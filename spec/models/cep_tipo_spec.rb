@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe CepTipo do
-
   describe "validacoes" do
     it { should validate_uniqueness_of :descricao }
     it { should validate_presence_of :descricao }

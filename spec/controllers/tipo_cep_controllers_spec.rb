@@ -18,7 +18,7 @@ describe CepTiposController, type: :controller do
         {
           "query" =>
             {
-              "descricao" => "ÚNICO"
+              "descricao" => "UNICO"
             }
         }
       end

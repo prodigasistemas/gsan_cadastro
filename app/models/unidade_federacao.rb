@@ -9,5 +9,7 @@ class UnidadeFederacao < ActiveRecord::Base
   alias_attribute "sigla",         "unfe_dsufsigla"
   alias_attribute "atualizado_em", "unfe_tmultimaalteracao"
 
+  validates_presence_of   :descricao, :sigla
+
   default_scope -> { order(:descricao) }
 end
