@@ -40,8 +40,7 @@ class Cliente < ActiveRecord::Base
                           :cliente_tipo_id,
                           :nome_fantasia_conta,
                           :permite_negativacao,
-                          :negativacao_periodo,
-                          :cliente_tipo
+                          :negativacao_periodo
   validates_presence_of   :pessoa_sexo, if: :pessoa_fisica?
 
   validates_presence_of :cpf,                 if: :pessoa_fisica?

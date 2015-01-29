@@ -14,13 +14,13 @@ class Logradouro < ActiveRecord::Base
   alias_attribute "atualizado_em",        "logr_tmultimaalteracao"
   alias_attribute "nome_popular",         "logr_nmpopular"
 
-  has_many :logradouro_ceps, foreign_key: "logr_id", inverse_of: :logradouro
-  has_many :ceps, through: :logradouro_ceps
-  has_many :logradouro_bairros, foreign_key: "logr_id", inverse_of: :logradouro
-  has_many :bairros, through: :logradouro_bairros
-  belongs_to :logradouro_titulo, foreign_key: "lgtt_id"
-  belongs_to :logradouro_tipo, foreign_key: "lgtp_id"
-  belongs_to :municipio, foreign_key: "muni_id"
+  has_many    :logradouro_ceps,     foreign_key: "logr_id",     inverse_of: :logradouro
+  has_many    :ceps,                through: :logradouro_ceps
+  has_many    :logradouro_bairros,  foreign_key: "logr_id",     inverse_of: :logradouro
+  has_many    :bairros,             through: :logradouro_bairros
+  belongs_to  :logradouro_titulo,   foreign_key: "lgtt_id"
+  belongs_to  :logradouro_tipo,     foreign_key: "lgtp_id"
+  belongs_to  :municipio,           foreign_key: "muni_id"
 
   accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
   accepts_nested_attributes_for :logradouro_bairros, allow_destroy: true

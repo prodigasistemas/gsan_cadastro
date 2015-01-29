@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :cliente do
-    nome 'Fulano de Tal'
+    sequence(:nome) { |n| "FULANO #{n}" }
     nome_fantasia_conta 2
     permite_negativacao 1
     negativacao_periodo 2
@@ -10,8 +10,6 @@ FactoryGirl.define do
     sequence(:cpf)  { |n| "999#{rand(10)}999999#{rand(10)}" }
 
     trait :pessoa_fisica do
-      association :cliente_tipo, factory: [:cliente_tipo, :pessoa_fisica]
-      sequence(:cpf)  { |n| "999#{rand(10)}999999#{rand(10)}" }
       cnpj nil
     end
 

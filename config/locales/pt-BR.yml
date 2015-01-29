@@ -61,6 +61,7 @@ pt-BR:
         imoveis: "Imóveis no bairro de logradouro"
       cliente:
         cliente_tipo_id: "Tipo do cliente"
+        cpf: "CPF"
       regiao:
         nome: "Nome"
       micro_regiao:
@@ -196,6 +197,8 @@ pt-BR:
               ao_menos_um_endereco_correspondencia: "Ao menos um dos endereços deve ser de correspondência"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
+            cpf:
+              taken: "já existe"
         regiao:
           attributes:
             nome:

@@ -7,53 +7,66 @@ describe ProfissoesController, type: :controller do
   let!(:profissoes) { create_list(:profissao, 3) }
 
   describe "GET index" do
-    before do
-      get :index, params, format: :json
+    context "quando a consulta" do
+      before do
+        get :index, params, format: :json
 
-      expect(response).to be_success
-      expect(json['page']['first_page']).to be true
-      expect(json['page']['last_page']).to be true
-      expect(json['page']['current_page']).to eq(1)
+        expect(response).to be_success
+        expect(json['page']['first_page']).to be true
+        expect(json['page']['last_page']).to be true
+        expect(json['page']['current_page']).to eq(1)
+      end
+
+      context "retorna resultados" do
+        let(:params) do
+          {
+            "query"=>
+              {
+                "descricao"=>"Profissao"
+              }
+          }
+        end
+
+        it "retorna dados da paginacao" do
+          expect(json['page']['total']).to eq(3)
+          expect(json['page']['total_pages']).to eq(1)
+        end
+
+        it "retorna lista de profissoes" do
+          expect(json['profissoes'].size).to eq(3)
+          expect(json['profissoes'].collect{|l| l["descricao"]}).to include(profissoes.first.descricao)
+        end
+      end
+
+      context "não retorna resultados" do
+        let(:params) do
+          {
+            "query"=>
+              {
+                "descricao"=>"Nenhuma profissao aqui"
+              }
+          }
+        end
+
+        it "retorna dados da paginacao" do
+          expect(json['page']['total']).to eq(0)
+          expect(json['page']['total_pages']).to eq(0)
+        end
+
+        it "retorna lista de profissoes vazia" do
+          expect(json['profissoes'].size).to eq(0)
+        end
+      end
     end
 
-    context "quando a consulta retorna resultados" do
-      let(:params) do
-        {
-          "query"=>
-            {
-              "descricao"=>"Profissao"
-            }
-        }
+    context "quando a consulta não possuir filtros" do
+      before do
+        get :index, nil, format: :json
       end
 
-      it "retorna dados da paginacao" do
-        expect(json['page']['total']).to eq(3)
-        expect(json['page']['total_pages']).to eq(1)
-      end
-
-      it "retorna lista de ceps" do
-        expect(json['profissoes'].size).to eq(3)
+      it "retorna a lista de profissoes" do
+        expect(json['profissoes'].size).to eq 3
         expect(json['profissoes'].collect{|l| l["descricao"]}).to include(profissoes.first.descricao)
-      end
-    end
-
-    context "quando a consulta não retorna resultados" do
-      let(:params) do
-        {
-          "query"=>
-            {
-              "descricao"=>"Nenhuma profissao aqui"
-            }
-        }
-      end
-
-      it "retorna dados da paginacao" do
-        expect(json['page']['total']).to eq(0)
-        expect(json['page']['total_pages']).to eq(0)
-      end
-
-      it "retorna lista de ceps vazia" do
-        expect(json['profissoes'].size).to eq(0)
       end
     end
   end

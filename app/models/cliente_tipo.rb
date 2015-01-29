@@ -13,6 +13,7 @@ class ClienteTipo < ActiveRecord::Base
   alias_attribute "esfera_poder_id",        "epod_id"                     # integer, -- id da esfera de poder
 
   belongs_to :esfera_poder, foreign_key: "epod_id"
+  has_many   :clientes,     foreign_key: "cltp_id"
 
   scope :join,                   -> {
     includes(:esfera_poder).

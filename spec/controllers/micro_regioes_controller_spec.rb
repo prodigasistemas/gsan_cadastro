@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe MicroRegioesController, type: :controller do
   render_views
+  
   let!(:marajo)     { create(:micro_regiao, nome: 'MARAJO') }
   let!(:tapajos)    { create(:micro_regiao, nome: 'TAPAJOS') }
   let!(:tocantins)  { create(:micro_regiao, nome: 'TOCANTINS', ativo: 2) }
@@ -78,13 +79,6 @@ describe MicroRegioesController, type: :controller do
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
-    end
-  end
-
-  describe "GET show" do
-    it "retorna uma micro região" do
-      get :show, id: marajo.id, format: :json
-      expect(json['nome']).to eq marajo.nome
     end
   end
 
