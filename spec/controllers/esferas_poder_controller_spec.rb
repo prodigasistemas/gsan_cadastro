@@ -92,7 +92,7 @@ describe EsferasPoderController, type: :controller do
       end
     end
 
-    context "quando cep não é criado" do
+    context "quando a esfera de poder não é criada" do
       let(:params) {
         {
           'esfera_poder'=>attributes_for(:esfera_poder, descricao: '').with_indifferent_access
@@ -108,12 +108,12 @@ describe EsferasPoderController, type: :controller do
   end
 
   describe "PUT update" do
-    context "quando esfera de poder é atualizado com sucesso" do
+    context "quando a esfera de poder é atualizada com sucesso" do
       let(:params) {
         attributes_for(:esfera_poder).with_indifferent_access
       }
 
-      it "retorna o cep" do
+      it "retorna a esfera de poder" do
         put :update, id: 1, esfera_poder: params, format: :json
         expect(response).to be_success
       end

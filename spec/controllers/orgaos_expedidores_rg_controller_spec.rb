@@ -3,12 +3,11 @@ require 'rails_helper'
 describe OrgaosExpedidoresRgController, type: :controller do
   render_views
 
-<<<<<<< HEAD
   let(:json) { JSON.parse(response.body) }
   let!(:orgaos_expedidores_rg) { create_list(:orgao_expedidor_rg, 3) }
 
   describe "GET index" do
-    context "quando a consulta"
+    context "quando a consulta" do
       before do
         get :index, params, format: :json
 
@@ -60,16 +59,14 @@ describe OrgaosExpedidoresRgController, type: :controller do
       end
     end
 
-    describe "GET index" do
-      context "quando a consulta não possuir filtros" do
-        before do
-          get :index, nil, format: :json
-        end
+    context "quando a consulta não possuir filtros" do
+      before do
+        get :index, nil, format: :json
+      end
 
-        it "retorna a lista de orgãos expedidores de rg" do
-          expect(json.size).to eq 2
-          expect(json.collect{|l| l["descricao"]}).to include(segup.descricao)
-        end
+      it "retorna a lista de orgãos expedidores de rg" do
+        expect(json['orgaos_expedidores_rg'].size).to eq 3
+        expect(json['orgaos_expedidores_rg'].collect{|l| l["descricao"]}).to include(orgaos_expedidores_rg.first.descricao)
       end
     end
   end
@@ -95,7 +92,7 @@ describe OrgaosExpedidoresRgController, type: :controller do
       end
     end
 
-    context "quando orgao_expedidor_rg não é criado" do
+    context "quando o orgao_expedidor_rg não é criado" do
       let(:params) {
         {
           'orgao_expedidor_rg'=>attributes_for(:orgao_expedidor_rg, descricao: '').with_indifferent_access

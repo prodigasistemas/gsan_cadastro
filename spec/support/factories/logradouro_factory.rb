@@ -3,7 +3,7 @@ FactoryGirl.define do
     nome "PECADO"
     municipio
     logradouro_tipo
-    titulo_logradouro
+    logradouro_titulo
     ativo 1
   end
 end

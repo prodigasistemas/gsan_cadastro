@@ -3,8 +3,8 @@ require 'rails_helper'
 describe LogradourosController, type: :controller do
   render_views
 
-  let!(:titulo_logradouro)        { create(:titulo_logradouro) }
-  let!(:tipo_logradouro)          { create(:tipo_logradouro) }
+  let!(:logradouro_titulo)        { create(:logradouro_titulo) }
+  let!(:logradouro_tipo)          { create(:logradouro_tipo) }
   let!(:municipio)                { create(:municipio) }
   let!(:arabola)                  { create(:logradouro, nome: 'ARABOLA') }
   let!(:berilo)                   { create(:logradouro, nome: 'BERILO') }
@@ -63,8 +63,8 @@ describe LogradourosController, type: :controller do
         {
           'logradouro' => attributes_for(
             :logradouro,
-            titulo_logradouro_id: titulo_logradouro.id,
-            logradouro_tipo_id: tipo_logradouro.id,
+            logradouro_titulo_id: logradouro_titulo.id,
+            logradouro_tipo_id: logradouro_tipo.id,
             municipio_id: municipio.id
           ).with_indifferent_access
         }
@@ -96,8 +96,8 @@ describe LogradourosController, type: :controller do
       let(:params) {
         attributes_for(
           :logradouro,
-          titulo_logradouro_id: titulo_logradouro.id,
-          tipo_logradouro_id: tipo_logradouro.id,
+          logradouro_titulo_id: logradouro_titulo.id,
+          logradouro_tipo_id: logradouro_tipo.id,
           municipio_id: municipio.id
         ).with_indifferent_access
       }
