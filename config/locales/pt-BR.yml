@@ -38,7 +38,11 @@ pt-BR:
       logradouro_tipo: "Tipo de logradouro"
       logradouro_titulo: "Título de logradouro"
       cep_tipo: "Tipo de CEP"
+      distrito_operacional: "Distrito Operacional"
     attributes:
+      distrito_operacional:
+        descricao: "Descrição"
+        abreviacao: "Abreviação"
       municipio:
         codigo_ibge: "Código do IBGE"
         ddd: "DDD"
@@ -109,6 +113,11 @@ pt-BR:
         descricao: "Descrição"
     errors:
       models:
+        distrito_operacional:
+          attributes:
+            descricao:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 30 caracteres"
         cep:
           attributes:
             codigo:

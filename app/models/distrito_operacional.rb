@@ -13,4 +13,6 @@ class DistritoOperacional < ActiveRecord::Base
   alias_attribute "atualizado_em",             "diop_tmultimaalteracao"
 
   has_many :bairro_areas
+
+  validates_length_of :descricao, maximum: 30
 end
