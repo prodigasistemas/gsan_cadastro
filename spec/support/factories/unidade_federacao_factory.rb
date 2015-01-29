@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :unidade_federacao do
     id
     sequence(:descricao) { |n| "PARA#{n}" }
-    sequence(:sigla) { |n| "#{arr.sample}#{arr.sample}" }
+    sequence(:sigla, FGCustomSequence.new(89)) { |n| "#{n}" }
   end
 end
