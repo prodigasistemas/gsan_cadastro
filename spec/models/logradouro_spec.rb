@@ -4,6 +4,8 @@ describe Logradouro do
   it { should validate_presence_of :nome }
   it { should validate_presence_of :logradouro_tipo_id }
   it { should validate_presence_of :municipio_id }
+  it { should ensure_length_of(:nome).is_at_most(40) }
+  it { should ensure_length_of(:nome_popular).is_at_most(30) }
 
   describe "ativo" do
     it { should     allow_value(1).for :ativo }

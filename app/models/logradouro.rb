@@ -55,6 +55,8 @@ class Logradouro < ActiveRecord::Base
   validate :validar_destrucao_logradouro_cep
   validate :validar_destrucao_logradouro_bairro
   validates_inclusion_of :ativo, in: [1, 2]
+  validates_length_of :nome, maximum: 40
+  validates_length_of :nome_popular, maximum: 30
 
 private
 

@@ -191,6 +191,10 @@ pt-BR:
           attributes:
             nome:
               blank: "é obrigatório"
+              too_long: "deve possuir até 40 caracteres"
+            nome_popular:
+              blank: "é obrigatório"
+              too_long: "deve possuir até 30 caracteres"
             municipio_id:
               blank: "é obrigatório"
             logradouro_tipo_id:
