@@ -25,9 +25,10 @@ class Cep < ActiveRecord::Base
 
   validates_presence_of :codigo, :tipo_id, :municipio, :logradouro_tipo, :logradouro, :uf
   validates_uniqueness_of :codigo
-  validates_format_of :codigo, with: /\A\d{8}\z/
-  validates_inclusion_of :ativo, in: [1,2]
-  validate :valida_range_cep
+  validates_format_of     :codigo, with: /\A\d{8}\z/
+  validates_inclusion_of  :ativo, in: [1,2]
+  validate                :valida_range_cep
+  validates_length_of     :uf, maximum: 2
 
   scope :join, -> { includes(:cep_tipo).eager_load(:cep_tipo) }
   scope :filtro_logradouro, -> (nome) { where("UPPER(cep_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
