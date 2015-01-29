@@ -3,7 +3,18 @@ require "rails_helper"
 describe Cliente do
   describe "validacoes" do
     it { should validate_presence_of :nome }
+<<<<<<< HEAD
     it { should validate_presence_of :cliente_tipo_id }
+=======
+    it { should validate_presence_of :cliente_tipo }
+    it { should ensure_length_of(:nome).is_at_most(50) }
+    it { should ensure_length_of(:nome_abreviado).is_at_most(40) }
+    it { should ensure_length_of(:cpf).is_at_most(11) }
+    it { should ensure_length_of(:rg).is_at_most(13) }
+    it { should ensure_length_of(:cnpj).is_at_most(14) }
+    it { should ensure_length_of(:email).is_at_most(40) }
+    it { should ensure_length_of(:nome_mae).is_at_most(50) }
+>>>>>>> validacoes clientes
 
     context "endereco de correspondencia" do
       let(:cliente)     { create :cliente }

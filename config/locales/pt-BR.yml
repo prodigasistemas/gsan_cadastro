@@ -200,6 +200,25 @@ pt-BR:
               blank: "é obrigatório"
             cliente_tipo:
               blank: "é obrigatório"
+              too_long: "deve possuir menos de 50 caracteres"
+            nome_abreviado:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 40 caracteres"
+            cpf:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 11 caracteres"
+            rg:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 13 caracteres"
+            cnpj:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 14 caracteres"
+            email:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 40 caracteres"
+            nome_mae:
+              blank: "é obrigatório"
+              too_long: "deve possuir menos de 50 caracteres"
             cliente_tipo_id:
               blank: "é obrigatório"
             base:

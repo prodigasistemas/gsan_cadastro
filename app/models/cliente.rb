@@ -67,6 +67,14 @@ class Cliente < ActiveRecord::Base
   validate :valida_endereco_de_correspondencia
   validate :valida_telefone_padrao
 
+  validates_length_of :nome, maximum: 50
+  validates_length_of :nome_abreviado, maximum: 40
+  validates_length_of :cpf, maximum: 11
+  validates_length_of :rg, maximum: 13
+  validates_length_of :cnpj, maximum: 14
+  validates_length_of :email, maximum: 40
+  validates_length_of :nome_mae, maximum: 50
+
   scope :join,        -> {
     includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
     order(:nome)
