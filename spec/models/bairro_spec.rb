@@ -4,6 +4,7 @@ describe Bairro do
   it { should validate_presence_of :municipio_id }
   it { should validate_presence_of :codigo }
   it { should validate_presence_of :nome }
+  it { should ensure_length_of(:nome).is_at_most(30) }
 
   describe "ativo" do
     it { should     allow_value(1).for :ativo }

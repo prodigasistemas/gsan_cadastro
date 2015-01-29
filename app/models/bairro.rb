@@ -21,6 +21,7 @@ class Bairro < ActiveRecord::Base
   validates_uniqueness_of :codigo, scope: :muni_id
   validates_presence_of   :municipio_id, :codigo, :nome
   validates_inclusion_of  :ativo, in: [1, 2]
+  validates_length_of     :nome, maximum: 30
 
   scope :join,              -> {
     includes(:municipio, municipio: :uf).
