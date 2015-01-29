@@ -331,6 +331,7 @@ pt-BR:
             descricao:
               blank: "é obrigatório"
               taken: "já existe"
+              too_long: "deve possuir até 30 caracteres"
             permite_gerar_certidao_negativa_imovel:
               blank: "é obrigatório"
             permite_gerar_certidao_negativa_cliente:

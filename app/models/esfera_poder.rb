@@ -21,4 +21,5 @@ class EsferaPoder < ActiveRecord::Base
   validates_inclusion_of :ativo, in: [1,2]
   validates_inclusion_of :permite_gerar_certidao_negativa_imovel, in: [1,2]
   validates_inclusion_of :permite_gerar_certidao_negativa_cliente, in: [1,2]
+  validates_length_of :descricao, maximum: 30
 end
