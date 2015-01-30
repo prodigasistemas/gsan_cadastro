@@ -7,6 +7,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 
+group :production do
+  gem 'unicorn'
+end
+
 group :development do
   gem 'byebug'
   gem 'spring'
