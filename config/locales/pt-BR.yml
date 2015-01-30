@@ -156,6 +156,7 @@ pt-BR:
           attributes:
             nome:
               blank: "é obrigatório"
+              too_long: "deve possuir até 30 caracteres"
             codigo_ibge:
               blank: "é obrigatório"
             ddd:
@@ -180,7 +181,6 @@ pt-BR:
               blank: "é obrigatório"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
-              too_long: "deve possuir até 30 caracteres"
               too_long: "deve possuir até 30 caracteres"
         bairro_area:
           attributes:
@@ -265,6 +265,7 @@ pt-BR:
             nome:
               blank: "é obrigatório"
               taken: "já existe"
+              too_long: "deve possuir até 30 caracteres"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         regiao_desenvolvimento:

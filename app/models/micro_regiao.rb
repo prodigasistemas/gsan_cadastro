@@ -14,10 +14,10 @@ class MicroRegiao < ActiveRecord::Base
   validates_uniqueness_of :nome
   validates_presence_of :regiao
   validates_inclusion_of :ativo, in: [1,2]
+  validates_length_of :nome, maximum: 30
 
   belongs_to :regiao, foreign_key: :regi_id
-  validates_length_of :nome, maximum: 30
-  
+
   scope :join,      -> {
     includes(:regiao).
     joins(:regiao).

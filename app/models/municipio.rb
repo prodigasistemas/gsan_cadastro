@@ -29,6 +29,7 @@ class Municipio < ActiveRecord::Base
                         :micro_regiao_id, :regiao_desenvolvimento_id,
                         :uf_id, :ddd
   validates_inclusion_of :ativo, in: [1, 2]
+  validates_length_of :nome, maximum: 30
 
   scope :join,                      -> {
     includes(:uf, :micro_regiao, :regiao_desenvolvimento).
