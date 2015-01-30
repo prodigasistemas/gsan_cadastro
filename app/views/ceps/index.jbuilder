@@ -8,10 +8,4 @@ json.ceps do
   end
 end
 
-json.page do
-  json.total @total
-  json.current_page @ceps.current_page
-  json.total_pages @ceps.total_pages
-  json.first_page @ceps.first_page?
-  json.last_page @ceps.last_page?
-end
+json.partial! "shared/page", total: @total, models: @ceps

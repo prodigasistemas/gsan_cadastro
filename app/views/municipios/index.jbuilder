@@ -8,10 +8,4 @@ json.municipios do
   end
 end
 
-json.page do
-  json.total @total
-  json.current_page @municipios.current_page
-  json.total_pages @municipios.total_pages
-  json.first_page @municipios.first_page?
-  json.last_page @municipios.last_page?
-end if @total
+json.partial! "shared/page", total: @total, models: @municipios

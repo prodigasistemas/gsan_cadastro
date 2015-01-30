@@ -4,10 +4,4 @@ json.regioes_desenvolvimento do
   end
 end
 
-json.page do
-  json.total @total
-  json.current_page @regioes_desenvolvimento.current_page
-  json.total_pages @regioes_desenvolvimento.total_pages
-  json.first_page @regioes_desenvolvimento.first_page?
-  json.last_page @regioes_desenvolvimento.last_page?
-end if @total.present?
+json.partial! "shared/page", total: @total, models: @regioes_desenvolvimento

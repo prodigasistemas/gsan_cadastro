@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :cliente_tipos,           only: [:index, :show, :create, :update]
   resources :micro_regioes,           only: [:index, :show, :create, :update]
   resources :endereco_tipos,          only: [:index, :show, :create, :update]
-  resources :ramos_atividades,        only: [:index, :show, :create, :update]
+  resources :ramos_atividade,         only: [:index, :show, :create, :update]
   resources :logradouro_tipos,        only: [:index, :show, :create, :update]
   resources :logradouro_titulos,      only: [:index, :show, :create, :update]
   resources :unidade_federacoes,      only: [:index, :show, :create, :update]

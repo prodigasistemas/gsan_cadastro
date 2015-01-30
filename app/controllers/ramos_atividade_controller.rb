@@ -1,4 +1,4 @@
-class RamosAtividadesController < ApplicationController
+class RamosAtividadeController < ApplicationController
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys

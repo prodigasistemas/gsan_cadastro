@@ -6,10 +6,4 @@ json.bairros do
   end
 end
 
-json.page do
-  json.total @total
-  json.current_page @bairros.current_page
-  json.total_pages @bairros.total_pages
-  json.first_page @bairros.first_page?
-  json.last_page @bairros.last_page?
-end if @total
+json.partial! "shared/page", total: @total, models: @bairros

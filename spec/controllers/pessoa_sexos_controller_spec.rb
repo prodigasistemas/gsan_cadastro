@@ -8,7 +8,7 @@ describe PessoaSexosController, type: :controller do
 
     it "retorna lista de tipos de sexos" do
       get :index, format: :json
-      expect(json.size).to eq sexos.size
+      expect(json["pessoa_sexos"].size).to eq sexos.size
     end
   end
 end

@@ -13,8 +13,8 @@ describe FoneTiposController, type: :controller do
       end
 
       it "retorna a lista de tipos de telefone" do
-        expect(json.size).to eq 2
-        expect(json.collect{|l| l["descricao"]}).to include(comercial.descricao)
+        expect(json["fone_tipos"].size).to eq 2
+        expect(json["fone_tipos"].collect{|l| l["descricao"]}).to include(comercial.descricao)
       end
     end
   end

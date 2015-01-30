@@ -31,10 +31,4 @@ json.clientes do
   end
 end
 
-json.page do
-  json.total @total
-  json.current_page @clientes.current_page
-  json.total_pages @clientes.total_pages
-  json.first_page @clientes.first_page?
-  json.last_page @clientes.last_page?
-end if @total
+json.partial! "shared/page", total: @total, models: @clientes

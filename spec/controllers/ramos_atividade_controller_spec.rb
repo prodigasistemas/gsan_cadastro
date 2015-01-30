@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RamosAtividadesController, type: :controller do
+describe RamosAtividadeController, type: :controller do
   render_views
 
   let(:json) { JSON.parse(response.body) }

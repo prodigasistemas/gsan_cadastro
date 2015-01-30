@@ -35,5 +35,5 @@ json.enderecos @cliente.enderecos, partial: "cliente_enderecos/cliente_endereco"
 json.telefones @cliente.telefones, partial: 'cliente_fones/cliente_fone',         as: :cliente_fone
 
 json.ramo_atividade do
-  json.partial! 'ramos_atividades/ramo_atividade', ramo_atividade: @cliente.ramo_atividade if @cliente.ramo_atividade
+  json.partial! 'ramos_atividade/ramo_atividade', ramo_atividade: @cliente.ramo_atividade if @cliente.ramo_atividade
 end
