@@ -21,6 +21,7 @@ test:
 
 production:
   <<: *default
-  database: gsan_cadastro_api_production
-  username: gsan_cadastro_api
-  password: <%= ENV['GSAN_CADASTRO_API_DATABASE_PASSWORD'] %>
+  host:     <%= ENV['GSAN_CADASTRO_DATABASE_HOST'] %>
+  database: <%= ENV['GSAN_CADASTRO_DATABASE'] %>
+  username: <%= ENV['GSAN_CADASTRO_DATABASE_USERNAME'] %>
+  password: <%= ENV['GSAN_CADASTRO_DATABASE_PASSWORD'] %>

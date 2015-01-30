@@ -6,6 +6,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
+gem 'dotenv-rails'
 
 group :production do
   gem 'unicorn'
@@ -19,7 +20,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-  gem 'dotenv-rails'
 end
 
 group :test do
