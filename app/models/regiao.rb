@@ -12,7 +12,8 @@ class Regiao < ActiveRecord::Base
 
   validates_uniqueness_of :nome
   validates_presence_of   :nome
-  validates_inclusion_of :ativo, in: [1,2]
+  validates_inclusion_of  :ativo, in: [1,2]
+  validates_length_of     :nome, maximum: 20
 
   scope :ativos, -> { where ativo: 1 }
   scope :nome,   -> (nome) { where("UPPER(regi_nmregiao) LIKE ?", "%#{nome.upcase}%") }
