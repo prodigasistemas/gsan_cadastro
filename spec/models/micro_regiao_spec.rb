@@ -5,6 +5,7 @@ describe MicroRegiao do
   
   it { should validate_uniqueness_of  :nome }
   it { should validate_presence_of :regiao }
+  it { should ensure_length_of(:nome).is_at_most(30) }
 
   describe "ativo" do
     it { should     allow_value(1).for :ativo }
