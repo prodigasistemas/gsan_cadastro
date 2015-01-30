@@ -12,7 +12,7 @@ describe Cep do
   it { should ensure_length_of(:municipio).is_at_most(30) }
   it { should ensure_length_of(:bairro).is_at_most(30) }
   it { should ensure_length_of(:logradouro).is_at_most(50) }
-  it { should ensure_length_of(:tipo_logradouro).is_at_most(20) }
+  it { should ensure_length_of(:logradouro_tipo).is_at_most(20) }
 
   describe "validacao do range dos ceps do municipio" do
     subject(:cep) { build_stubbed(:cep, codigo: 13902093) }

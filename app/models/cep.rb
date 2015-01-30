@@ -32,7 +32,7 @@ class Cep < ActiveRecord::Base
   validates_length_of     :municipio, maximum: 30
   validates_length_of     :bairro, maximum: 30
   validates_length_of     :logradouro, maximum: 50
-  validates_length_of     :tipo_logradouro, maximum: 20
+  validates_length_of     :logradouro_tipo, maximum: 20
 
   scope :join, -> { includes(:cep_tipo).eager_load(:cep_tipo) }
   scope :filtro_logradouro, -> (nome) { where("UPPER(cep_nmlogradouro) LIKE ?", "%#{nome.upcase}%") }
