@@ -13,6 +13,7 @@ class RegiaoDesenvolvimento < ActiveRecord::Base
   validates_presence_of   :nome
   validates_uniqueness_of :nome
   validates_inclusion_of  :ativo, in: [1, 2]
+  validates_length_of     :nome, maximum: 20
 
   default_scope           -> { order(:nome) }
   scope :nome,            -> (nome) { where("UPPER(rdes_nmregiaodesenvolvimento) LIKE ?", "%#{nome.upcase}%") }

@@ -274,6 +274,7 @@ pt-BR:
             nome:
               blank: "é obrigatório"
               taken: "já existe"
+              too_long: "deve possuir até 20 caracteres"
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
         enderecos:

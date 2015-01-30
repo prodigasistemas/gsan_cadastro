@@ -3,6 +3,7 @@ require 'rails_helper'
 describe RegiaoDesenvolvimento do
   it { should validate_presence_of :nome }
   it { should validate_uniqueness_of :nome }
+  it { should ensure_length_of(:nome).is_at_most(20) }
 
   describe "ativo" do
     it { should     allow_value(1).for :ativo }
