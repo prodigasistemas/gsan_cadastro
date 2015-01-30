@@ -19,7 +19,7 @@ describe RamoAtividade do
     expect(ramo_atividade).to be_valid
     ramo_atividade.descricao = "Aqui tem 31 caracteres 12345678"
     expect(ramo_atividade).to be_invalid
-    expect(ramo_atividade.errors[:descricao]).to include "deve possuir menos de 30 caracteres"
+    expect(ramo_atividade.errors[:descricao]).to include "deve possuir até 30 caracteres"
   end
 
   describe "escopos" do

@@ -17,7 +17,7 @@ describe EnderecoTipo do
     expect(tipo).to be_valid
     tipo.descricao = "Aqui tem 21 caractere"
     expect(tipo).to be_invalid
-    expect(tipo.errors[:descricao]).to include "deve possuir menos de 20 caracteres"
+    expect(tipo.errors[:descricao]).to include "deve possuir até 20 caracteres"
   end
 
   describe "escopos" do

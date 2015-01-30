@@ -19,7 +19,7 @@ describe Profissao do
     expect(profissao).to be_valid
     profissao.descricao = "Aqui tem 31 caracteres 12345678"
     expect(profissao).to be_invalid
-    expect(profissao.errors[:descricao]).to include "deve possuir menos de 30 caracteres"
+    expect(profissao.errors[:descricao]).to include "deve possuir até 30 caracteres"
   end
 
   describe "escopos" do
