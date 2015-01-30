@@ -1,9 +1,3 @@
-GIT
-  remote: git@github.com:DatabaseCleaner/database_cleaner.git
-  revision: bef9fe27e7fdf470b737c4f9140c7f029f81b607
-  specs:
-    database_cleaner (1.4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -50,6 +44,7 @@ GEM
       slop (~> 3.6)
     coderay (1.1.0)
     columnize (0.9.0)
+    database_cleaner (1.4.0)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -173,7 +168,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  database_cleaner!
+  database_cleaner
   dotenv-rails
   factory_girl
   jbuilder (~> 2.0)
