@@ -20,6 +20,11 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
+
+  gem 'capistrano'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler', '~> 1.1.1'
+  gem 'capistrano-rails', '~> 1.1.1'
 end
 
 group :test do
@@ -28,4 +33,3 @@ group :test do
   gem 'simplecov', require: false
   gem 'database_cleaner'
 end
-

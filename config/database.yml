@@ -8,10 +8,6 @@ development:
   database: gsan_cadastro_api_development
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  # database: comercial
-  # username: pamela
-  # password: pamela
-  # host: 10.20.100.38
 
 test:
   <<: *default
@@ -21,7 +17,4 @@ test:
 
 production:
   <<: *default
-  host:     <%= ENV['GSAN_CADASTRO_DATABASE_HOST'] %>
-  database: <%= ENV['GSAN_CADASTRO_DATABASE'] %>
-  username: <%= ENV['GSAN_CADASTRO_DATABASE_USERNAME'] %>
-  password: <%= ENV['GSAN_CADASTRO_DATABASE_PASSWORD'] %>
+  url: <%= ENV['GSAN_CADASTRO_DATABASE_URL'] %>
