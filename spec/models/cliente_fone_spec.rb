@@ -7,10 +7,10 @@ describe ClienteFone do
     it { should validate_presence_of :numero }
     it { should validate_presence_of :cliente }
     it { should validate_presence_of :fone_tipo }
-    it { should ensure_length_of(:ddd).is_at_most(2) }
-    it { should ensure_length_of(:numero).is_at_most(9) }
-    it { should ensure_length_of(:ramal).is_at_most(4) }
-    it { should ensure_length_of(:nome_contato).is_at_most(50) }
+    it { should validate_length_of(:ddd).is_at_most(2) }
+    it { should validate_length_of(:numero).is_at_most(9) }
+    it { should validate_length_of(:ramal).is_at_most(4) }
+    it { should validate_length_of(:nome_contato).is_at_most(50) }
 
     context "padrao" do
       let(:cliente) { create :cliente }

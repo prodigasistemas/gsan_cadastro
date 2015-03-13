@@ -1,3 +1,5 @@
+require "#{Rails.root}/spec/support/custom_sequence"
+
 FactoryGirl.define do
   factory :logradouro_tipo do
     id

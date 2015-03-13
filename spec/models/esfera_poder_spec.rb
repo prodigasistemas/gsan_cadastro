@@ -5,7 +5,7 @@ describe EsferaPoder do
   it { should validate_presence_of    :permite_gerar_certidao_negativa_imovel }
   it { should validate_presence_of    :permite_gerar_certidao_negativa_cliente }
   it { should validate_uniqueness_of  :descricao }
-  it { should ensure_length_of(:descricao).is_at_most(30) }
+  it { should validate_length_of(:descricao).is_at_most(30) }
   
   it_behaves_like 'ativo'
 

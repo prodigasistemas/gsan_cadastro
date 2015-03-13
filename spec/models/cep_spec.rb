@@ -8,11 +8,11 @@ describe Cep do
   it { should validate_presence_of    :municipio }
   it { should validate_presence_of    :logradouro_tipo }
   it { should validate_presence_of    :logradouro }
-  it { should ensure_length_of(:uf).is_at_most(2) }
-  it { should ensure_length_of(:municipio).is_at_most(30) }
-  it { should ensure_length_of(:bairro).is_at_most(30) }
-  it { should ensure_length_of(:logradouro).is_at_most(50) }
-  it { should ensure_length_of(:logradouro_tipo).is_at_most(20) }
+  it { should validate_length_of(:uf).is_at_most(2) }
+  it { should validate_length_of(:municipio).is_at_most(30) }
+  it { should validate_length_of(:bairro).is_at_most(30) }
+  it { should validate_length_of(:logradouro).is_at_most(50) }
+  it { should validate_length_of(:logradouro_tipo).is_at_most(20) }
 
   describe "validacao do range dos ceps do municipio" do
     subject(:cep) { build_stubbed(:cep, codigo: 13902093) }

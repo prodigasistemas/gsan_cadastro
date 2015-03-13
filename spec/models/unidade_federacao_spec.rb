@@ -10,7 +10,7 @@ describe UnidadeFederacao do
     it { should validate_uniqueness_of :descricao }
     it { should validate_uniqueness_of :sigla }
 
-    it { should ensure_length_of(:descricao).is_at_most(35) }
-    it { should ensure_length_of(:sigla).is_at_most(2) }
+    it { should validate_length_of(:descricao).is_at_most(35) }
+    it { should validate_length_of(:sigla).is_at_most(2) }
   end
 end
