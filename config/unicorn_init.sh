@@ -15,7 +15,7 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/var/www/gsan_cadastro/current
 PID=/tmp/.unicorn.gsan_cadastro.pid
 CMD="cd $APP_ROOT; bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
-AS_USER=deploy
+AS_USER=jenkins
 set -u
 
 OLD_PIN="$PID.oldbin"
