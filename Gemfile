@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.1'
 gem 'pg'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
@@ -20,7 +20,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-
   gem 'capistrano'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler', '~> 1.1.1'
