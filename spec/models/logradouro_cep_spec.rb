@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe LogradouroCep do
+  let!(:cep_tipo)   { create :cep_tipo }
+
   describe "ativo" do
     it { should     allow_value(1).for :ativo }
     it { should     allow_value(2).for :ativo }

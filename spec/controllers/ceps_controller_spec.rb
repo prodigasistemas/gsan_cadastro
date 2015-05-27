@@ -3,8 +3,9 @@ require 'rails_helper'
 describe CepsController, type: :controller do
   render_views
 
-  let(:json) { JSON.parse(response.body) }
-  let!(:ceps) { create_list(:cep, 3) }
+  let(:json)      { JSON.parse(response.body) }
+  let!(:cep_tipo) { create(:cep_tipo) }
+  let!(:ceps)     { create_list(:cep, 3) }
 
   describe "GET index" do
     before do

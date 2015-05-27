@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe LogradouroBairro do
+  let!(:cep_tipo)   { create :cep_tipo }
+
   context "valida" do
     context "antes de destruir" do
       it "presenca de imovel" do

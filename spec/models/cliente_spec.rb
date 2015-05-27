@@ -13,7 +13,8 @@ describe Cliente do
     it { should validate_length_of(:nome_mae).is_at_most(50) }
 
     context "endereco de correspondencia" do
-      let(:cliente)     { create :cliente }
+      let!(:cep_tipo)   { create :cep_tipo }
+      let!(:cliente)    { create :cliente }
       let!(:endereco_1) { create :cliente_endereco, cliente: cliente, correspondencia: 1 }
       let!(:endereco_2) { create :cliente_endereco, cliente: cliente, correspondencia: 2 }
       let!(:params)     { build(:cliente_endereco, correspondencia: 1, cliente: nil).attributes }
@@ -57,10 +58,11 @@ describe Cliente do
     end
 
     context "telefone padrao" do
-      let(:cliente) { create :cliente }
-      let!(:fone_1) { create :cliente_fone, cliente: cliente, padrao: 1 }
-      let!(:fone_2) { create :cliente_fone, cliente: cliente, padrao: 2 }
-      let!(:params) { build(:cliente_fone, padrao: 1, cliente: nil).attributes }
+      let!(:cep_tipo) { create :cep_tipo }
+      let!(:cliente)  { create :cliente }
+      let!(:fone_1)   { create :cliente_fone, cliente: cliente, padrao: 1 }
+      let!(:fone_2)   { create :cliente_fone, cliente: cliente, padrao: 2 }
+      let!(:params)   { build(:cliente_fone, padrao: 1, cliente: nil).attributes }
 
       it "somente um telefone pode ser marcado como padrao" do
         expect(cliente.reload).to be_valid
@@ -106,7 +108,7 @@ describe Cliente do
       subject(:novo_cliente) { build(:cliente, :pessoa_fisica, cliente_tipo: pessoa_fisica) }
 
       it { should validate_presence_of :pessoa_sexo }
-      
+
       it "cpf deve ser único" do
         expect(novo_cliente).to be_valid
         novo_cliente.cpf = cliente.cpf

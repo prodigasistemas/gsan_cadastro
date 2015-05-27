@@ -16,8 +16,9 @@ describe Logradouro do
 
   context "antes de deletar logradouro ceps" do
     let!(:logradouro)       { create :logradouro }
+    let!(:cep_tipo)         { create :cep_tipo }
     let!(:cep)              { create :cep }
-    let!(:logradouro_cep)   { create :logradouro_cep,   logradouro: logradouro,         cep: cep }
+    let!(:logradouro_cep)   { create :logradouro_cep,   logradouro: logradouro, cep: cep }
     let!(:imovel)           { create :imovel,           logradouro_cep: logradouro_cep }
     let!(:cliente_endereco) { create :cliente_endereco, logradouro_cep: logradouro_cep }
 
@@ -37,6 +38,7 @@ describe Logradouro do
   end
 
   context "antes de deletar logradouro bairros" do
+    let!(:cep_tipo)          { create :cep_tipo }
     let!(:logradouro)        { create :logradouro }
     let!(:bairro)            { create :bairro, nome: "VICENTE DE MAUA" }
     let!(:logradouro_bairro) { create :logradouro_bairro, logradouro: logradouro, bairro: bairro }

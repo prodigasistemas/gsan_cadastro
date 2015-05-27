@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe ClienteEndereco do
+  let!(:cep_tipo) { create(:cep_tipo) }
   let(:cliente_tipo) { create(:cliente_tipo, :pessoa_fisica) }
   let(:logradouro_cep) { create(:logradouro_cep) }
   let(:logradouro_bairro) { create(:logradouro_bairro) }
@@ -50,7 +51,7 @@ describe ClienteEndereco do
     #   let(:cliente) { create(:cliente, :pessoa_fisica, cliente_tipo: cliente_tipo) }
     #   subject(:cliente_endereco) {
     #     create(
-    #       :cliente_endereco, 
+    #       :cliente_endereco,
     #       cliente_id: cliente.id,
     #       logradouro_cep: nil,
     #       logradouro_bairro: nil
