@@ -1,17 +1,8 @@
 if Rails.env.test?
   Imovel.destroy_all
-  Cep.destroy_all
-  Municipio.destroy_all
-  Bairro.destroy_all
   ClienteEndereco.destroy_all
-  Logradouro.destroy_all
   LogradouroCep.destroy_all
   LogradouroBairro.destroy_all
-  CepTipo.destroy_all
-  RegiaoDesenvolvimento.destroy_all
-  MicroRegiao.destroy_all
-  Regiao.destroy_all
-  UnidadeFederacao.destroy_all
   EsferaPoder.destroy_all
   ClienteTipo.destroy_all
   OrgaoExpedidorRg.destroy_all
@@ -25,8 +16,17 @@ if Rails.env.test?
   EnderecoReferencia.destroy_all
   ClienteFone.destroy_all
   FoneTipo.destroy_all
-  LogradouroTipo.destroy_all
+  Logradouro.destroy_all
   LogradouroTitulo.destroy_all
+  LogradouroTipo.destroy_all
+  Bairro.destroy_all
+  Municipio.destroy_all
+  UnidadeFederacao.destroy_all
+  MicroRegiao.destroy_all
+  Regiao.destroy_all
+  RegiaoDesenvolvimento.destroy_all
+  Cep.destroy_all
+  CepTipo.destroy_all
 
   CepTipo.create!(descricao: "ÚNICO",      ativo: 1)
   cep_tipo = CepTipo.create!(descricao: "LOGRADOURO", ativo: 1)
