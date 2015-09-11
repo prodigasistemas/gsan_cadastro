@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BairroAreasController, type: :controller do
   render_views
 
-  let!(:centro)               { create(:bairro_are, nome: 'CENTRO') }
+  let!(:centro)               { create(:bairro_area, nome: 'CENTRO') }
   let!(:industrial)           { create(:bairro_area, nome: 'INDUSTRIAL') }
   let!(:bairro)               { create(:bairro) }
   let!(:distrito_operacional) { create(:distrito_operacional) }
