@@ -30,5 +30,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'factory_girl'
   gem 'simplecov', require: false
+  gem 'simplecov-rcov', require: false
   gem 'database_cleaner'
 end
