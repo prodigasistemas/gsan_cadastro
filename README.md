@@ -1,6 +1,6 @@
 # GSAN Cadastro
 
-Parte servidor/api dos cadastros do GSAN
+Parte servidor/api dos cadastros do GSAN, que é utilizado em conjunto com o gsan_online
 
 ### Instalar o gerenciador de versões Ruby (http://rvm.io)
     curl -sSL https://get.rvm.io | bash -s stable
@@ -25,8 +25,8 @@ Parte servidor/api dos cadastros do GSAN
 ## Ambiente de Teste
 
 ### Gerar usuário e senha
-    echo "DB_TEST_USER=usuario" >> .env
-    echo "DB_TEST_PASSWORD=senha" >> .env
+    echo "DB_USER=usuario" >> .env
+    echo "DB_PASSWORD=senha" >> .env
 
 ### Executar a bateria de testes
     rake spec:coverage
