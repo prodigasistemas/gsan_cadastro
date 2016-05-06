@@ -9,7 +9,7 @@ Parte servidor/api dos cadastros do GSAN, que é utilizado em conjunto com o gsa
     rvm install 2.3.0
 
 ### Fazer o clone do projeto
-    git clone git@github.com:prodigasistemas/gsan_cadastro.git
+    git clone [URL DO REPOSITÓRIO]
 
 ### Acessar o projeto
     cd gsan_cadastro
@@ -28,5 +28,5 @@ Parte servidor/api dos cadastros do GSAN, que é utilizado em conjunto com o gsa
     echo "DB_USER=usuario" >> .env
     echo "DB_PASSWORD=senha" >> .env
 
-### Executar a bateria de testes
+### Executar os testes com a geração do relatório de cobertura, que será gravado na pasta coverage
     rake spec:coverage
