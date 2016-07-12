@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :municipios,              only: [:index, :show, :create, :update]
   resources :profissoes,              only: [:index, :show, :create, :update]
   resources :logradouros,             only: [:index, :show, :create, :update]
+  resources :autenticacao,            only: [:create]
   resources :esferas_poder,           only: [:index, :show, :create, :update]
   resources :cliente_tipos,           only: [:index, :show, :create, :update]
   resources :micro_regioes,           only: [:index, :show, :create, :update]
