@@ -5,13 +5,13 @@ default: &default
 
 development:
   <<: *default
-  database: gsan_cadastro_api_development
+  database: <%= ENV['DATABASE_DEV'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
 
 test:
   <<: *default
-  database: gsan_cadastro_api_test
+  database: <%= ENV['DATABASE_TEST'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
 
