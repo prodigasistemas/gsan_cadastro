@@ -1,11 +1,12 @@
 class ContratosMedicaoController < ApplicationController
+  before_action :set_contrato, only: [:show, :update]
+
   def index
       @total = ContratoMedicao.count
       @contratos = ContratoMedicao.all
   end
 
   def show
-    @contrato = ContratoMedicao.find(params[:id])
   end
 
   def create
@@ -18,7 +19,20 @@ class ContratosMedicaoController < ApplicationController
     end
   end
 
+  def update
+    if @contrato.update contrato_params
+      render json: {}, status: :ok
+    else
+      render json: { errors: @contrato.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private 
+
+  def set_contrato
+    @contrato = ContratoMedicao.find(params[:id])
+  end
+
   def contrato_params
     params.require(:contrato)
       .permit(:numero,

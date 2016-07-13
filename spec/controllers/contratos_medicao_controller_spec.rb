@@ -59,4 +59,29 @@ describe ContratosMedicaoController, type: :controller do
       end
     end    
   end  
+
+  describe "PUT update" do
+    context "quando o contrato é atualizado com sucesso" do
+      let(:params) {
+        attributes_for(:contrato_medicao).with_indifferent_access
+      }
+
+      it "retorna o contrato" do
+        put :update, id: 1, contrato: params, format: :json
+        expect(response).to be_success
+      end
+    end
+
+    context "quando contrato não é atualizado" do
+      let(:params) {
+        attributes_for(:contrato_medicao, numero: '').with_indifferent_access
+      }
+
+      it "retorna erros" do
+        put :update, id: 1, contrato: params, format: :json
+        expect(response.status).to eq 422
+        expect(json['errors']).to_not be_nil
+      end
+    end    
+  end  
 end
