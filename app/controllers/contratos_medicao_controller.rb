@@ -1,5 +1,5 @@
 class ContratosMedicaoController < ApplicationController
-  before_action :set_contrato, only: [:show, :update]
+  before_action :find_contrato, only: [:show, :update]
 
   def index
       @total = ContratoMedicao.count
@@ -29,7 +29,7 @@ class ContratosMedicaoController < ApplicationController
 
   private 
 
-  def set_contrato
+  def find_contrato
     @contrato = ContratoMedicao.find(params[:id])
   end
 
