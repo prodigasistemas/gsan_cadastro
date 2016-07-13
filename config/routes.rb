@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :endereco_tipos,          only: [:index, :show, :create, :update]
   resources :ramos_atividade,         only: [:index, :show, :create, :update]
   resources :logradouro_tipos,        only: [:index, :show, :create, :update]
-  resources :contratos_medicao,       only: [:index]
+  resources :contratos_medicao,       only: [:index, :show]
   resources :logradouro_titulos,      only: [:index, :show, :create, :update]
   resources :unidade_federacoes,      only: [:index, :show, :create, :update]
   resources :enderecos_referencia,    only: [:index, :show, :create, :update]

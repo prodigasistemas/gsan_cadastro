@@ -14,7 +14,15 @@ describe ContratosMedicaoController, type: :controller do
       it "retorna a lista de contratos" do
         expect(json['contratos'].size).to eq 1
         expect(json['contratos'].collect{|l| l["numero"]}).to include(contrato.numero)
+        expect(json['contratos'].collect{|l| l["numero"]}).to include(contrato.numero)
       end
     end
   end
+
+  describe "GET show" do
+    it "retorna apenas um contrato" do
+      get :show, id: contrato.id, format: :json
+      expect(json['numero']).to eq contrato.numero
+    end
+  end  
 end
