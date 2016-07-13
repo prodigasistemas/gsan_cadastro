@@ -33,6 +33,7 @@ describe ContratosMedicaoController, type: :controller do
         {
           'contrato' => attributes_for(
             :contrato_medicao,
+            numero: "20160102",
             empresa_id: empresa.id
           ).with_indifferent_access
         }
@@ -43,5 +44,19 @@ describe ContratosMedicaoController, type: :controller do
         expect(json['numero']).to eq params['contrato']['numero']
       end
     end
+
+    context "quando o contrato nao é criado" do
+      let(:params) {
+        {
+          'contrato'=>attributes_for(:contrato_medicao, numero: '').with_indifferent_access
+        }
+      }
+
+      it "retorna erros" do
+        post :create, params, format: :json
+        expect(response.status).to eq 422
+        expect(json['errors']).to_not be_nil
+      end
+    end    
   end  
 end

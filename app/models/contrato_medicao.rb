@@ -14,4 +14,7 @@ class ContratoMedicao < ActiveRecord::Base
   alias_attribute "atualizado_em",      "cmed_tmultimaalteracao"
 
   belongs_to :empresa,  foreign_key: "empr_id"
+
+  validates_presence_of   :numero, :vigencia_inicial
+  validates_uniqueness_of :numero
 end

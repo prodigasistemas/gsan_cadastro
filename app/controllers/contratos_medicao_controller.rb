@@ -13,6 +13,8 @@ class ContratosMedicaoController < ApplicationController
 
     if @contrato.save
       render :show
+    else
+      render json: { errors: @contrato.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
