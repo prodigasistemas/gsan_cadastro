@@ -4,7 +4,7 @@ class AutenticacaoController < ApplicationController
     if @usuario
       render json: { mensagem: 'Autenticacao realizada com sucesso!', usuario: @usuario.attributes }, status: :ok
     else
-      render json: { mensagem: 'Falha ao autenticar usuario!', usuario: nil }, status: :ok
+      render json: { }, status: :unauthorized
     end
   end
 end

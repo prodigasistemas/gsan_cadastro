@@ -5,7 +5,7 @@ class UsuariosController < ApplicationController
     if @usuario
       render json: { usuario: @usuario.attributes }, status: :ok
     else
-      render json: { usuario: @usuario }, status: :ok
+      render json: { }, status: :not_found
     end
   end
 end
