@@ -1,10 +1,10 @@
 class AutenticacaoController < ApplicationController
-
   def create
-    if Usuario.login params[:login], params[:senha]
-      render json: { message: 'Autenticacao realizada com sucesso!' }, status: :ok
+    @usuario = Usuario.login params[:login], params[:senha]
+    if @usuario
+      render json: { mensagem: 'Autenticacao realizada com sucesso!', usuario: @usuario.attributes }, status: :ok
     else
-      render json: { message: 'Falha ao autenticar usuario!' }, status: :unauthorized
+      render json: { }, status: :unauthorized
     end
   end
 end
