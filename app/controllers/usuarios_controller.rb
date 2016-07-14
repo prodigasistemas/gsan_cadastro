@@ -1,9 +1,18 @@
 class UsuariosController < ApplicationController
+  def index
+    @usuarios = Usuario.all
+    if @usuarios.blank?
+      render json: { }, status: :not_found
+    else
+      render json: { entidades: @usuarios.map(&:attributes) }, status: :ok
+    end
+  end
+
   def show
     @usuario = Usuario.find params[:id]
 
     if @usuario
-      render json: { usuario: @usuario.attributes }, status: :ok
+      render json: { entidade: @usuario.attributes }, status: :ok
     else
       render json: { }, status: :not_found
     end
