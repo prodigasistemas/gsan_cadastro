@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :usuarios,                only: [:show]
+
   resources :ceps do
     get :search, :on => :collection
   end

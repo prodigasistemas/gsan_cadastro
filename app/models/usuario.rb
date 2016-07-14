@@ -17,4 +17,12 @@ class Usuario <ActiveRecord::Base
 
     return Usuario.find_by(login: login, senha: sha1)
   end
+
+  def attributes
+    {
+      id: id,
+      nome_usuario: login,
+      nome: nome
+    }
+  end
 end
