@@ -39,5 +39,7 @@ module GsanApi
         resource '*', :headers => :any, :methods => [:get, :post, :patch, :put, :options]
       end
     end
+
+    config.filter_parameters += [:senha]
   end
 end
