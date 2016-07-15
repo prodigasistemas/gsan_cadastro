@@ -27,14 +27,14 @@ class ContratoMedicoesController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def find_contrato
     @contrato = ContratoMedicao.find(params[:id])
   end
 
   def contrato_params
-    params.require(:contrato)
+    params.require(:contrato_medicao)
       .permit(:numero,
               :vigencia_inicial,
               :vigencia_final,
