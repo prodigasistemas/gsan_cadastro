@@ -15,7 +15,7 @@ class ContratoMedicoesController < ApplicationController
     if @contrato.save
       render :show
     else
-      render json: { errors: @contrato.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @contrato.errors }, status: :unprocessable_entity
     end
   end
 
@@ -23,7 +23,7 @@ class ContratoMedicoesController < ApplicationController
     if @contrato.update contrato_params
       render json: {}, status: :ok
     else
-      render json: { errors: @contrato.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @contrato.errors }, status: :unprocessable_entity
     end
   end
 
@@ -38,7 +38,7 @@ class ContratoMedicoesController < ApplicationController
       .permit(:numero,
               :vigencia_inicial,
               :vigencia_final,
-              :data_asinatura,
+              :data_assinatura,
               :empresa_id)
 
   end
