@@ -200,6 +200,3 @@ DEPENDENCIES
   simplecov
   spring
   unicorn
-
-BUNDLED WITH
-   1.12.3
