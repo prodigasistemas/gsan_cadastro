@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get :search, :on => :collection
     end
 
+<<<<<<< HEAD
     resources :bairros,                 only: [:index, :show, :create, :update]
     resources :clientes,                only: [:index, :show, :create, :update]
     resources :regioes,                 only: [:index, :show, :create, :update]
@@ -22,7 +23,7 @@ Rails.application.routes.draw do
     resources :endereco_tipos,          only: [:index, :show, :create, :update]
     resources :ramos_atividade,         only: [:index, :show, :create, :update]
     resources :logradouro_tipos,        only: [:index, :show, :create, :update]
-    resources :contrato_medicoes,       only: [:index, :show, :create, :update] do
+    resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
       resources :coeficientes,          only: [:create, :update]
     end
     resources :coeficientes,            only: [:show]
@@ -32,7 +33,6 @@ Rails.application.routes.draw do
     resources :enderecos_referencia,    only: [:index, :show, :create, :update]
     resources :orgaos_expedidores_rg,   only: [:index, :show, :create, :update]
     resources :regioes_desenvolvimento, only: [:index, :show, :create, :update]
-
     resources :fone_tipos,              only: :index
     resources :pessoa_sexos,            only: :index
     resources :bairro_areas,            only: :index

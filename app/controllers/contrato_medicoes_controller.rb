@@ -1,5 +1,5 @@
 class ContratoMedicoesController < ApplicationController
-  before_action :find_contrato, only: [:show, :update]
+  before_action :find_contrato, only: [:show, :update, :destroy]
 
   def index
     @total = ContratoMedicao.count
@@ -21,6 +21,14 @@ class ContratoMedicoesController < ApplicationController
 
   def update
     if @contrato.update contrato_params
+      render :show
+    else
+      render json: { errors: @contrato.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @contrato.destroy
       render json: {}, status: :ok
     else
       render json: { errors: @contrato.errors }, status: :unprocessable_entity
