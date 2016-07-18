@@ -7,7 +7,6 @@ Rails.application.routes.draw do
       get :search, :on => :collection
     end
 
-<<<<<<< HEAD
     resources :bairros,                 only: [:index, :show, :create, :update]
     resources :clientes,                only: [:index, :show, :create, :update]
     resources :regioes,                 only: [:index, :show, :create, :update]
