@@ -22,7 +22,7 @@ class CoeficientesController < ApplicationController
 
   def update
     @coeficiente = Coeficiente.find params[:id]
-    binding.pry
+
     if @coeficiente.update coeficiente_params
       render json: { entidade: @coeficiente.atributos }, status: :ok
     else
