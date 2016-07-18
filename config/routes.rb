@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
       resources :coeficientes,          only: [:create, :update]
     end
-    resources :coeficientes,            only: [:show]
+    resources :coeficientes,            only: [:index, :show]
     resources :ligacao_agua_situacoes,  only: [:index]
     resources :logradouro_titulos,      only: [:index, :show, :create, :update]
     resources :unidade_federacoes,      only: [:index, :show, :create, :update]

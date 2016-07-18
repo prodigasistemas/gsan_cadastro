@@ -1,5 +1,15 @@
 class CoeficientesController < ApplicationController
 
+  def index
+    @coeficientes = Coeficiente.all
+
+    if @coeficientes
+      render json: {entidades: @coeficientes.map(&:atributos)}, status: :ok
+    else
+      render json: {entidades: []}, status: :ok
+    end
+  end
+
   def show
     @coeficiente = Coeficiente.find params[:id]
 
