@@ -2,8 +2,8 @@ class ContratoMedicoesController < ApplicationController
   before_action :find_contrato, only: [:show, :update]
 
   def index
-      @total = ContratoMedicao.count
-      @contratos = ContratoMedicao.all
+    @total = ContratoMedicao.count
+    @contratos = ContratoMedicao.all
   end
 
   def show
