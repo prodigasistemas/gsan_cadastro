@@ -21,7 +21,7 @@ class ContratoMedicoesController < ApplicationController
 
   def update
     if @contrato.update contrato_params
-      render json: {}, status: :ok
+      render :show
     else
       render json: { errors: @contrato.errors }, status: :unprocessable_entity
     end
