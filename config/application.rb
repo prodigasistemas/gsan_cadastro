@@ -18,19 +18,13 @@ Dotenv::Railtie.load
 
 module GsanApi
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'Buenos Aires'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    config.active_record.raise_in_transactional_callbacks = true
+    config.i18n.load_path += Dir["config/locales/**/*.yml"]
     config.i18n.default_locale = "pt-BR"
-
-    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.time_zone = 'Buenos Aires'
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
+    config.i18n.available_locales = ["pt-BR"]
     config.active_record.raise_in_transactional_callbacks = true
 
     config.middleware.insert_before 0, "Rack::Cors" do
