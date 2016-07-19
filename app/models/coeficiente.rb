@@ -11,4 +11,6 @@ class Coeficiente < ActiveRecord::Base
   alias_attribute "ligacao_agua_id",  "last_id"
 
   belongs_to :contrato_medicao, foreign_key: 'cmed_id'
+
+  validates :coeficiente, :ligacao_agua_id , presence: true
 end

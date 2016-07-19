@@ -41,6 +41,8 @@ pt-BR:
       distrito_operacional: "Distrito Operacional"
       fone_tipo: "Tipo de telefone"
       contrato_medicao: "Contrato de Medição"
+      coeficiente: "Coeficiente"
+      ligacao_agua_situacao: "Situação da Ligação"
     attributes:
       fone_tipo:
         descricao: "Descrição"
@@ -465,4 +467,10 @@ pt-BR:
               blank: "é obrigatório"
               taken: "já existe"
             vigencia_inicial:
+              blank: "é obrigatório"
+        coeficiente:
+          attributes:
+            coeficiente:
+              blank: "é obrigatório"
+            ligacao_agua_id:
               blank: "é obrigatório"
