@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :ramos_atividade,         only: [:index, :show, :create, :update]
     resources :logradouro_tipos,        only: [:index, :show, :create, :update]
     resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
-      resources :coeficientes,          only: [:create, :update]
+      resources :coeficientes,          only: [:create, :update, :destroy]
     end
     resources :coeficientes,            only: [:index, :show]
     resources :ligacao_agua_situacoes,  only: [:index]

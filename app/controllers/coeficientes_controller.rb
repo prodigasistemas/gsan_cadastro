@@ -4,7 +4,7 @@ class CoeficientesController < ApplicationController
     @coeficientes = Coeficiente.all
 
     if @coeficientes
-      render json: {entidades: @coeficientes.map(&:atributos)}, status: :ok
+      render json: {entidades: @coeficientes.map {|coeficiente| coeficiente.atributos(:contrato_medicao)}}, status: :ok
     else
       render json: {entidades: []}, status: :ok
     end
@@ -14,7 +14,7 @@ class CoeficientesController < ApplicationController
     @coeficiente = Coeficiente.find params[:id]
 
     if @coeficiente
-      render json: {entidade: @coeficiente.atributos}, status: :ok
+      render json: {entidade: @coeficiente.atributos(:contrato_medicao)}, status: :ok
     else
       render json: {}, status: :not_found
     end
@@ -37,6 +37,16 @@ class CoeficientesController < ApplicationController
       render json: { entidade: @coeficiente.atributos }, status: :ok
     else
       render json: { errors: @coeficiente.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @coeficiente = Coeficiente.find params[:id]
+
+    if @coeficiente.destroy
+      render json: {}, status: :ok
+    else
+      render json: {}, status: :unprocessable_entity
     end
   end
 
