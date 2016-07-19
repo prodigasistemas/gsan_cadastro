@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ContratosMedicaoController, type: :controller do
+describe ContratoMedicoesController, type: :controller do
   render_views
 
   let!(:contrato) { create(:contrato_medicao) }
@@ -13,9 +13,8 @@ describe ContratosMedicaoController, type: :controller do
       end
 
       it "retorna a lista de contratos" do
-        expect(json['contratos'].size).to eq 1
-        expect(json['contratos'].collect{|l| l["numero"]}).to include(contrato.numero)
-        expect(json['contratos'].collect{|l| l["numero"]}).to include(contrato.numero)
+        expect(json['entidades'].size).to eq 1
+        expect(json['entidades'].collect{|l| l["numero"]}).to include(contrato.numero)
       end
     end
   end
@@ -23,7 +22,7 @@ describe ContratosMedicaoController, type: :controller do
   describe "GET show" do
     it "retorna apenas um contrato" do
       get :show, id: contrato.id, format: :json
-      expect(json['numero']).to eq contrato.numero
+      expect(json['entidade']['numero']).to eq contrato.numero
     end
   end
 
@@ -31,7 +30,7 @@ describe ContratosMedicaoController, type: :controller do
     context "quando o contrato é criado com sucesso" do
       let(:params) do
         {
-          'contrato' => attributes_for(
+          'contrato_medicao' => attributes_for(
             :contrato_medicao,
             numero: "20160102",
             empresa_id: empresa.id
@@ -41,14 +40,14 @@ describe ContratosMedicaoController, type: :controller do
 
       it "cadastra um novo contrato" do
         post :create, params, format: :json
-        expect(json['numero']).to eq params['contrato']['numero']
+        expect(json['entidade']['numero']).to eq params['contrato_medicao']['numero']
       end
     end
 
     context "quando o contrato nao é criado" do
       let(:params) {
         {
-          'contrato'=>attributes_for(:contrato_medicao, numero: '').with_indifferent_access
+          'contrato_medicao'=>attributes_for(:contrato_medicao, numero: '').with_indifferent_access
         }
       }
 
@@ -57,8 +56,8 @@ describe ContratosMedicaoController, type: :controller do
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
-    end    
-  end  
+    end
+  end
 
   describe "PUT update" do
     context "quando o contrato é atualizado com sucesso" do
@@ -67,7 +66,7 @@ describe ContratosMedicaoController, type: :controller do
       }
 
       it "retorna o contrato" do
-        put :update, id: 1, contrato: params, format: :json
+        put :update, id: 1, contrato_medicao: params, format: :json
         expect(response).to be_success
       end
     end
@@ -78,10 +77,10 @@ describe ContratosMedicaoController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, contrato: params, format: :json
+        put :update, id: 1, contrato_medicao: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
-    end    
-  end  
+    end
+  end
 end
