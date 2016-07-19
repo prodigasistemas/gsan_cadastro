@@ -1,6 +1,6 @@
 class ContratoMedicao < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
   include API::Model
 
   self.table_name  = "cadastro.contrato_medicao"

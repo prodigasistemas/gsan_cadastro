@@ -8,7 +8,7 @@ describe AutenticacaoController, type: :controller do
     context "dados validos de autenticacao" do
       let(:params) do
         {
-          "login"  => "usuario",
+          "nome_usuario"  => "usuario",
           "senha" => "123456"
         }
       end
@@ -27,7 +27,7 @@ describe AutenticacaoController, type: :controller do
     context "dados incorretos de autenticacao" do
       let(:params) do
         {
-          "login"  => "usuario",
+          "nome_usuario"  => "usuario",
           "senha" => "senha_nao_confere"
         }
       end
