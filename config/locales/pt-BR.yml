@@ -40,6 +40,9 @@ pt-BR:
       cep_tipo: "Tipo de CEP"
       distrito_operacional: "Distrito Operacional"
       fone_tipo: "Tipo de telefone"
+      contrato_medicao: "Contrato de Medição"
+      coeficiente: "Coeficiente"
+      ligacao_agua_situacao: "Situação da Ligação"
     attributes:
       fone_tipo:
         descricao: "Descrição"
@@ -114,6 +117,12 @@ pt-BR:
         descricao_abreviada_completa: "Descrição abreviada completa"
       cep_tipo:
         descricao: "Descrição"
+      contrato_medicao:
+        numero: Número
+        vigencia_inicial: Vigência Inicial
+        vigencia_final: Vigência Final
+        data_assinatura: Data Assinatura
+        empresa_id: Empresa
     errors:
       models:
         fone_tipo:
@@ -452,3 +461,16 @@ pt-BR:
             ativo:
               inclusion: "deve ser 1 (Sim) ou 2 (Não)"
               too_long: "deve possuir até 2 caracteres"
+        contrato_medicao:
+          attributes:
+            numero:
+              blank: "é obrigatório"
+              taken: "já existe"
+            vigencia_inicial:
+              blank: "é obrigatório"
+        coeficiente:
+          attributes:
+            coeficiente:
+              blank: "é obrigatório"
+            ligacao_agua_id:
+              blank: "é obrigatório"

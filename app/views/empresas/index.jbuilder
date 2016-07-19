@@ -1,4 +1,4 @@
-json.empresas do
+json.entidades do
   json.array! @empresas do |empresa|
     json.extract! empresa, :id, 
                            :nome

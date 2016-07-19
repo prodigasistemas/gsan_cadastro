@@ -4,7 +4,7 @@ class UsuariosController < ApplicationController
     if @usuarios.blank?
       render json: { }, status: :not_found
     else
-      render json: { entidades: @usuarios.map(&:attributes) }, status: :ok
+      render json: { entidades: @usuarios.map(&:atributos) }, status: :ok
     end
   end
 
@@ -12,7 +12,7 @@ class UsuariosController < ApplicationController
     @usuario = Usuario.find params[:id]
 
     if @usuario
-      render json: { entidade: @usuario.attributes }, status: :ok
+      render json: { entidade: @usuario.atributos }, status: :ok
     else
       render json: { }, status: :not_found
     end

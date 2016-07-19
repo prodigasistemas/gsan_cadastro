@@ -1,6 +1,7 @@
 class ContratoMedicao < ActiveRecord::Base
   include IncrementableId
   include Filterable
+  include API::Model
 
   self.table_name  = "cadastro.contrato_medicao"
   self.primary_key = "cmed_id"
@@ -14,6 +15,7 @@ class ContratoMedicao < ActiveRecord::Base
   alias_attribute "atualizado_em",      "cmed_tmultimaalteracao"
 
   belongs_to :empresa,  foreign_key: "empr_id"
+  has_many :coeficientes, foreign_key: "cmed_id"
 
   validates_presence_of   :numero, :vigencia_inicial
   validates_uniqueness_of :numero
