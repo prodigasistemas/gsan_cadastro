@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class Usuario < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
   include API::Model
 
   self.table_name  = 'seguranca.usuario'

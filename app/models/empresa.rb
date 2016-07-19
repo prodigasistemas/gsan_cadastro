@@ -1,7 +1,7 @@
 class Empresa < ActiveRecord::Base
   include IncrementableId
   include API::Model
-  include Filterable
+  include API::Filterable
 
   self.table_name = 'cadastro.empresa'
   self.primary_key = 'empr_id'

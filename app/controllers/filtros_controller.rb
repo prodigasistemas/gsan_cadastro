@@ -16,7 +16,7 @@ class FiltrosController < ApplicationController
   end
 
   def index
-    @retorno = @tipo.filter(filtros)
+    @retorno = @tipo.filter(filtros[:termo])
 
     render json: { entidades: @retorno.map(&:atributos) }
   end
@@ -28,6 +28,6 @@ class FiltrosController < ApplicationController
   end
 
   def filtros
-    params.require(:filtros).permit(@tipo.filterable_fields)
+    params.require(:filtros).permit(:termo)
   end
 end
