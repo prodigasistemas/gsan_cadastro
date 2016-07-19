@@ -13,8 +13,8 @@ describe EmpresasController, type: :controller do
       end
 
       it "retorna a lista de empresas" do
-        expect(json['empresas'].size).to eq 1
-        expect(json['empresas'].collect{|l| l["nome"]}).to include(empresa.nome)
+        expect(json['entidades'].size).to eq 1
+        expect(json['entidades'].collect{|l| l["nome"]}).to include(empresa.nome)
       end
     end
   end
