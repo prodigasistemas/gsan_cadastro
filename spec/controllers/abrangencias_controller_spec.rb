@@ -21,9 +21,7 @@ describe AbrangenciasController, type: :controller do
       it "autenticacao realizada com sucesso" do
         expect(response).to be_success
         body = JSON.parse(response.body)
-        expect(body['entidades'].size).to eql(2)
-        expect(body['entidades'].first["id"]).to eql(imovel_1.atributos["id"])
-        expect(body['entidades'].last["id"]).to eql(imovel_2.atributos["id"])
+        expect(body['status']).to be true
       end
     end
   end

@@ -8,9 +8,9 @@ class  AbrangenciasController < ApplicationController
     @contrato_medicao.imoveis = imoveis
 
     if @contrato_medicao.save
-      render json: { entidades: @contrato_medicao.imoveis.map(&:atributos) }, status: :ok
+      render json: { status: true }, status: :ok
     else
-      render json: {}, status: :unprocessable_entity
+      render json: { status: false }, status: :unprocessable_entity
     end
   end
 
