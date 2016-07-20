@@ -8,6 +8,7 @@ describe Filterable do
   context "por empresa" do
     subject{ Empresa }
 
+    it{ expect(subject.filter("")).to include(empresa) }
     it{ expect(subject.filter("emp")).to include(empresa) }
     it{ expect(subject.filter("847")).to_not include(empresa) }
 
@@ -20,6 +21,8 @@ describe Filterable do
   context "por contrato_medicao" do
     subject{ ContratoMedicao }
 
+    it{ expect(subject.filter("")).to include(contrato_medicao1) }
+    it{ expect(subject.filter("")).to include(contrato_medicao2) }
     it{ expect(subject.filter("847")).to include(contrato_medicao1) }
     it{ expect(subject.filter("emp")).to be_empty }
 

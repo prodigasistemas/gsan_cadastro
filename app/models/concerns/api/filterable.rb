@@ -4,43 +4,31 @@ module API
 
     module ClassMethods
       def filter(terms, includable = [])
-        joins_with = []
-        conditions = []
-        relations  = [self]
+        valid_associations = build_valid_associations(includable || [])
 
-        results = self.where(nil)
+        joins_with = valid_associations[:joins]
+        conditions = build_conditions(terms, valid_associations[:relations])
 
-        # valid joins
-        includable = includable || []
-        includable.map do |r|
-          if relation = valid_relation(r.to_sym)
-            joins_with << r.to_sym
-            relations << relation
-          end
-        end
-
-        results = results.joins(joins_with)
-
-        # query
-        query = relations.map do |relation|
-          relation.normalize_conditions(terms)
-        end.flatten.join(" OR ")
-
-        results.where(query)
+        self.joins(joins_with).where(conditions)
       end
 
       def filterable_fields
         self.attribute_aliases.keys.map(&:to_sym)
       end
 
-      def normalize_conditions(terms)
-        return unless terms
+      private
 
-        filterable_fields.map do |field|
-          next unless attribute = attribute_alias(field)
+      def build_valid_associations(includable)
+        valid_associations = { joins: [], relations: [self] }
 
-          "cast(#{self.table_name}.#{attribute} as text) ILIKE '%#{terms}%'"
+        includable.each do |i|
+          if relation = valid_relation(i.to_sym)
+            valid_associations[:joins]     << i.to_sym
+            valid_associations[:relations] << relation
+          end
         end
+
+        valid_associations
       end
 
       def valid_relation(relation)
@@ -53,6 +41,22 @@ module API
           klass
         rescue
           nil
+        end
+      end
+
+      def build_conditions(terms, includable)
+        includable.map do |relation|
+          relation.send(:normalize_conditions, terms)
+        end.flatten.join(" OR ")
+      end
+
+      def normalize_conditions(terms)
+        return unless terms
+
+        filterable_fields.map do |field|
+          next unless attribute = attribute_alias(field)
+
+          "cast(#{self.table_name}.#{attribute} as text) ILIKE '%#{terms}%'"
         end
       end
     end
