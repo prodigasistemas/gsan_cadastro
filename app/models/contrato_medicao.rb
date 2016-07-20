@@ -16,6 +16,8 @@ class ContratoMedicao < ActiveRecord::Base
 
   belongs_to :empresa,  foreign_key: "empr_id"
   has_many :coeficientes, foreign_key: "cmed_id"
+  has_many :abrangencias, foreign_key: "cmed_id"
+  has_many :imoveis, through: :abrangencias
 
   validates_presence_of   :numero, :vigencia_inicial
   validates_uniqueness_of :numero
