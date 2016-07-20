@@ -20,4 +20,6 @@ class Empresa < ActiveRecord::Base
 
   validates :ativo, :principal, :leitura, :cobranca,
             :validar_pagamento, inclusion: [1, 2]
+
+  has_many :contrato_medicoes, foreign_key: "empr_id"
 end

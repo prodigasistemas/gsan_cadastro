@@ -3,7 +3,7 @@ class ContratoMedicoesController < ApplicationController
 
   def index
     @total = ContratoMedicao.count
-    @contratos = ContratoMedicao.all
+    @contratos = ContratoMedicao.includes(:empresa).all
   end
 
   def show

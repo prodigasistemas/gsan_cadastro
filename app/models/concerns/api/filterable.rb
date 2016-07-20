@@ -3,13 +3,13 @@ module API
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def filter(terms)
-        query = normalize_query(terms)
+      def filter(terms, includable = [])
+        valid_associations = build_valid_associations(includable || [])
 
-        results = self.where(nil)
-        results = results.where(query) if query.present?
+        joins_with = valid_associations[:joins]
+        conditions = build_conditions(terms, valid_associations[:relations])
 
-        results
+        self.joins(joins_with).where(conditions)
       end
 
       def filterable_fields
@@ -18,18 +18,46 @@ module API
 
       private
 
-      def normalize_query(terms)
-        return unless terms
+      def build_valid_associations(includable)
+        valid_associations = { joins: [], relations: [self] }
 
-        query = []
-
-        filterable_fields.each do |field|
-          next unless attribute = attribute_alias(field)
-
-          query << "cast(#{self.table_name}.#{attribute} as text) ILIKE '%#{terms}%'"
+        includable.each do |i|
+          if relation = valid_relation(i.to_sym)
+            valid_associations[:joins]     << i.to_sym
+            valid_associations[:relations] << relation
+          end
         end
 
-        query.compact.join(" OR ")
+        valid_associations
+      end
+
+      def valid_relation(relation)
+        begin
+          klass = relation.to_s.classify.constantize
+
+          return unless self.instance_methods.include?(relation)
+          return unless klass.respond_to?(:filter)
+
+          klass
+        rescue
+          nil
+        end
+      end
+
+      def build_conditions(terms, includable)
+        includable.map do |relation|
+          relation.send(:normalize_conditions, terms)
+        end.flatten.join(" OR ")
+      end
+
+      def normalize_conditions(terms)
+        return unless terms
+
+        filterable_fields.map do |field|
+          next unless attribute = attribute_alias(field)
+
+          "cast(#{self.table_name}.#{attribute} as text) ILIKE '%#{terms}%'"
+        end
       end
     end
   end
