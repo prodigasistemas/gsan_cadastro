@@ -3,7 +3,7 @@ class ContratoMedicoesController < ApplicationController
 
   def index
     @total = ContratoMedicao.count
-    @contratos = ContratoMedicao.all
+    @contratos = ContratoMedicao.includes(:empresa).all
 
     if @contratos.any?
       render json: { entidades: @contratos.map {|contrato| contrato.atributos(:imoveis) }, total: @total }, status: :ok

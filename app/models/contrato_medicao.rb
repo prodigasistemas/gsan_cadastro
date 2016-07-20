@@ -14,11 +14,15 @@ class ContratoMedicao < ActiveRecord::Base
   alias_attribute "empresa_id",         "empr_id"
   alias_attribute "atualizado_em",      "cmed_tmultimaalteracao"
 
-  belongs_to :empresa,  foreign_key: "empr_id"
+  belongs_to :empresa, foreign_key: "empr_id"
   has_many :coeficientes, foreign_key: "cmed_id"
   has_many :abrangencias, foreign_key: "cmed_id"
   has_many :imoveis, through: :abrangencias
 
-  validates_presence_of   :numero, :vigencia_inicial
-  validates_uniqueness_of :numero
+  validates :numero, :vigencia_inicial, :empresa_id, presence: true
+  validates :numero, uniqueness: true
+
+  def atributos
+    super([:empresa])
+  end
 end
