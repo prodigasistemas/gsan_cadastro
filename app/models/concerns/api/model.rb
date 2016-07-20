@@ -14,7 +14,11 @@ module API
     def transform_params(params)
       new_params = {}
       params.each do |key, value|
-        new_params[key] = value.atributos
+        if value.respond_to? :size
+          new_params[key] = transform_params(value)
+        else
+          new_params[key] = value.atributos
+        end
       end
       new_params
     end
