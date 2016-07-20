@@ -6,13 +6,20 @@ class ContratoMedicoesController < ApplicationController
     @contratos = ContratoMedicao.includes(:empresa).all
 
     if @contratos.any?
-      render json: { entidades: @contratos.map {|contrato| contrato.atributos(:imoveis) }, total: @total }, status: :ok
+      render json: { entidades: @contratos.map(&:atributos), total: @total }, status: :ok
     else
       render json: { entidades: [], total: @total }, status: :ok
     end
   end
 
   def show
+    @contrato = ContratoMedicao.find params[:id]
+
+    if @contrato
+      render json: { entidade: @contrato.atributos }, status: :ok
+    else
+      render json: {}, status: :not_found
+    end
   end
 
   def create

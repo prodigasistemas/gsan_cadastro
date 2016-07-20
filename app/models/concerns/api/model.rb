@@ -15,7 +15,7 @@ module API
       new_params = {}
       params.each do |key, value|
         if value.respond_to? :size
-          new_params[key] = transform_params(value)
+          new_params[key] = value.map(&:atributos)
         else
           new_params[key] = value.atributos
         end

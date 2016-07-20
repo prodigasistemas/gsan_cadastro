@@ -23,6 +23,6 @@ class ContratoMedicao < ActiveRecord::Base
   validates :numero, uniqueness: true
 
   def atributos
-    super([:empresa])
+    super([:empresa, :imoveis])
   end
 end
