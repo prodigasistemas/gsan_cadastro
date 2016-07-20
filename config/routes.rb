@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :endereco_tipos,          only: :index
   resources :distrito_operacionais,   only: :index
   resources :localidades,             only: :index
+  resources :imoveis,                 only: :index
 
   resources :filtros, only: :index
 end
