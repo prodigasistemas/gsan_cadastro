@@ -16,7 +16,7 @@ class ContratoMedicoesController < ApplicationController
     @contrato = ContratoMedicao.find params[:id]
 
     if @contrato
-      render :show
+      render json: { entidade: @contrato.atributos }, status: :ok
     else
       render json: {}, status: :not_found
     end
