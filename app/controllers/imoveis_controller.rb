@@ -1,12 +1,9 @@
 class ImoveisController < ApplicationController
   def index
-    if params[:query].present?
-      query = params[:query].deep_symbolize_keys
-      @imoveis = Imovel.where(query)
-    end
+    @imoveis = Imovel.buscar(params[:query]) if params[:query].present?
 
     if @imoveis
-      render json: {entidades: @imoveis.map {|imovel| imovel.atributos([:localidade, :setor_comercial])}}, status: :ok
+      render json: {entidades: @imoveis.map(&:atributos)}, status: :ok
     else
       render json: { entidades: [] }, status: :ok
     end

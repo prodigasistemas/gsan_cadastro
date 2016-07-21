@@ -1,6 +1,6 @@
 class Imovel < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
   include API::Model
 
   self.table_name  = 'cadastro.imovel'
@@ -105,4 +105,16 @@ class Imovel < ActiveRecord::Base
   alias_attribute "utiliza_rateio_area_comum",                                          "imov_icimovelareacomum"
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
+
+  def atributos
+    super([:localidade, :setor_comercial])
+  end
+
+  def self.buscar(query={})
+    return [] if query.blank?
+    query = query.deep_symbolize_keys
+    query = query.delete_if { |key, value| value.blank? }
+    imoveis = Imovel.where(query) unless query.blank?
+    imoveis || []
+  end
 end
