@@ -5,7 +5,7 @@ class  AbrangenciasController < ApplicationController
   def create
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
     imoveis = Imovel.where(id: params[:imoveis])
-    @contrato_medicao.imoveis = imoveis
+    @contrato_medicao.imoveis << imoveis
 
     if @contrato_medicao.save
       render json: { entidade: @contrato_medicao.atributos }, status: :ok

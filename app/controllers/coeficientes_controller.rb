@@ -4,7 +4,7 @@ class CoeficientesController < ApplicationController
     @coeficientes = Coeficiente.all
 
     if @coeficientes
-      render json: {entidades: @coeficientes.map {|coeficiente| coeficiente.atributos(:contrato_medicao)}}, status: :ok
+      render json: {entidades: @coeficientes.map(&:atributos)}, status: :ok
     else
       render json: {entidades: []}, status: :ok
     end
@@ -14,7 +14,7 @@ class CoeficientesController < ApplicationController
     @coeficiente = Coeficiente.find params[:id]
 
     if @coeficiente
-      render json: {entidade: @coeficiente.atributos(:contrato_medicao)}, status: :ok
+      render json: {entidade: @coeficientes.atributos}, status: :ok
     else
       render json: {}, status: :not_found
     end

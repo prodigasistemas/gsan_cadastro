@@ -106,8 +106,8 @@ class Imovel < ActiveRecord::Base
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
 
-  def atributos
-    super([:localidade, :setor_comercial])
+  def atributos(referencia=nil)
+    super([:localidade, :setor_comercial], referencia)
   end
 
   def self.buscar(query={})
