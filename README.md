@@ -1,4 +1,4 @@
-# GSAN Cadastro
+# GSAN API
 
 Parte servidor/api dos cadastros do GSAN, que é utilizado em conjunto com o gsan_online
 
@@ -19,7 +19,7 @@ Parte servidor/api dos cadastros do GSAN, que é utilizado em conjunto com o gsa
 ### Instalar as dependências do projeto
     bundle install
 
-### Executar o gsan_cadastro em localhost:3001
+### Executar o gsan-api no localhost:3001
     rails server -p 3001
 
 ## Ambiente de Teste
