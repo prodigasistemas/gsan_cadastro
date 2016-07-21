@@ -26,7 +26,7 @@ class ContratoMedicoesController < ApplicationController
     @contrato = ContratoMedicao.new(contrato_params)
 
     if @contrato.save
-      render :show
+      render json: { entidade: @contrato.atributos }, status: :ok
     else
       render json: { errors: @contrato.errors }, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class ContratoMedicoesController < ApplicationController
 
   def update
     if @contrato.update contrato_params
-      render :show
+      render json: { entidade: @contrato.atributos }, status: :ok
     else
       render json: { errors: @contrato.errors }, status: :unprocessable_entity
     end
