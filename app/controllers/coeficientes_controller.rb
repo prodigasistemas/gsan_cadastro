@@ -14,7 +14,7 @@ class CoeficientesController < ApplicationController
     @coeficiente = Coeficiente.find params[:id]
 
     if @coeficiente
-      render json: {entidade: @coeficientes.atributos}, status: :ok
+      render json: {entidade: @coeficiente.atributos}, status: :ok
     else
       render json: {}, status: :not_found
     end
