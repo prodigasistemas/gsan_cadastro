@@ -14,6 +14,17 @@ class  AbrangenciasController < ApplicationController
     end
   end
 
+  def redefinir
+    @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
+    @contrato_medicao.imoveis = []
+
+    if @contrato_medicao.save
+      render json: { entidade: @contrato_medicao.atributos }, status: :ok
+    else
+      render json: { errors: @contrato_medicao.errors }, status: :unprocessable_entity
+    end
+  end
+
   protected
 
   def abrangencia_params
