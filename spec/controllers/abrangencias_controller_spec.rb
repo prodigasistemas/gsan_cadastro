@@ -20,8 +20,7 @@ describe AbrangenciasController, type: :controller do
 
       it "autenticacao realizada com sucesso" do
         expect(response).to be_success
-        body = JSON.parse(response.body)
-        expect(body['status']).to be true
+        expect(json['entidade']['imoveis'].size).to eq 2
       end
     end
   end
