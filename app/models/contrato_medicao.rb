@@ -21,8 +21,4 @@ class ContratoMedicao < ActiveRecord::Base
 
   validates :numero, :vigencia_inicial, :empresa_id, presence: true
   validates :numero, uniqueness: true
-
-  def atributos(referencia=nil)
-    super([:empresa, :imoveis, :coeficientes], referencia)
-  end
 end

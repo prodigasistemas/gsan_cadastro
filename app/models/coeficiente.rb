@@ -14,8 +14,4 @@ class Coeficiente < ActiveRecord::Base
   belongs_to :ligacao_agua_situacao, foreign_key: 'last_id'
 
   validates :coeficiente, :ligacao_agua_id , presence: true
-
-  def atributos(referencia=nil)
-    super([:contrato_medicao, :ligacao_agua_situacao], referencia)
-  end
 end
