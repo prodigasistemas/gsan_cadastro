@@ -9,4 +9,6 @@ class LigacaoAguaSituacao < ActiveRecord::Base
   alias_attribute "descricao",          "last_dsligacaoaguasituacao"
   alias_attribute "indicador_uso",      "last_icuso"
   alias_attribute "ultima_alteracao",   "last_tmultimaalteracao"
+
+  has_many :coeficientes, foreign_key: "last_id"
 end

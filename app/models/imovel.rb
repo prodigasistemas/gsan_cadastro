@@ -1,5 +1,7 @@
 class Imovel < ActiveRecord::Base
   include IncrementableId
+  include API::Filterable
+  include API::Model
 
   self.table_name  = 'cadastro.imovel'
   self.primary_key = 'imov_id'
@@ -13,6 +15,8 @@ class Imovel < ActiveRecord::Base
 
   belongs_to :logradouro_cep, foreign_key: :lgcp_id
   belongs_to :logradouro_bairro, foreign_key: :lgbr_id
+  belongs_to :localidade, foreign_key: :loca_id
+  belongs_to :setor_comercial, foreign_key: :stcm_id
 
   alias_attribute "localidade_id",                                                      "loca_id"
   alias_attribute "setor_comercial_id",                                                 "stcm_id"
@@ -72,8 +76,8 @@ class Imovel < ActiveRecord::Base
   alias_attribute "suspensao_abastecimento",                                            "imov_icsuspensaoabastecimento"
   alias_attribute "faturamento_situacao_motivo_id",                                     "ftsm_id"
   alias_attribute "area_construida",                                                    "imov_nnareaconstruida"
-  alias_attribute "tipo_cobranca_situacao_id",                                          "cbsp_id integer"
-  alias_attribute "tipo_envio_conta_id",                                                "icte_id integer"
+  alias_attribute "tipo_cobranca_situacao_id",                                          "cbsp_id"
+  alias_attribute "tipo_envio_conta_id",                                                "icte_id"
   alias_attribute "jardim",                                                             "imov_icjardim"
   alias_attribute "sequencial_rota_leitura",                                            "imov_nnsequencialrota"
   alias_attribute "nome",                                                               "imov_nmimovel"
@@ -101,4 +105,16 @@ class Imovel < ActiveRecord::Base
   alias_attribute "utiliza_rateio_area_comum",                                          "imov_icimovelareacomum"
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
+
+  def atributos(referencia=nil)
+    super([:localidade, :setor_comercial], referencia)
+  end
+
+  def self.buscar(query={})
+    return [] if query.blank?
+    query = query.deep_symbolize_keys
+    query = query.delete_if { |key, value| value.blank? }
+    imoveis = Imovel.where(query) unless query.blank?
+    imoveis || []
+  end
 end

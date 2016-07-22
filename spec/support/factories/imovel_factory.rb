@@ -13,5 +13,6 @@ FactoryGirl.define do
     perfil_imovel_id 1
     indicador_debito_conta 1
     tarifa_id 1
+    atualizado_em Time.zone.now
   end
 end

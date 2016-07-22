@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   resources :logradouro_tipos,        only: [:index, :show, :create, :update]
   resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
     resources :coeficientes,          only: [:create, :update, :destroy]
+    resources :abrangencias,          only: [:create, :update]
+    resource :abrangencias,           only: :none do
+      delete :redefinir
+    end
   end
   resources :coeficientes,            only: [:index, :show]
   resources :ligacao_agua_situacoes,  only: [:index]
@@ -35,6 +39,8 @@ Rails.application.routes.draw do
   resources :bairro_areas,            only: :index
   resources :endereco_tipos,          only: :index
   resources :distrito_operacionais,   only: :index
+  resources :localidades,             only: :index
+  resources :imoveis,                 only: :index
 
   resources :filtros, only: :index
 end
