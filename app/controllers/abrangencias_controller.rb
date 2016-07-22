@@ -1,4 +1,4 @@
-class  AbrangenciasController < ApplicationController
+class AbrangenciasController < ApplicationController
   def index
   end
 

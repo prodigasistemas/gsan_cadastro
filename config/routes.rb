@@ -43,4 +43,5 @@ Rails.application.routes.draw do
   resources :imoveis,                 only: :index
 
   resources :filtros, only: :index
+  resources :associacoes, only: :index
 end
