@@ -1,6 +1,7 @@
 class Coeficiente < ActiveRecord::Base
   include IncrementableId
   include API::Model
+  include ConvertDecimalAttributes
 
   self.table_name  = 'cadastro.contrato_medicao_coeficiente'
   self.primary_key = 'cmco_id'
@@ -12,6 +13,8 @@ class Coeficiente < ActiveRecord::Base
 
   belongs_to :contrato_medicao, foreign_key: 'cmed_id'
   belongs_to :ligacao_agua_situacao, foreign_key: 'last_id'
+
+  convert_decimal :cmco_coeficiente
 
   validates :coeficiente, :ligacao_agua_id , presence: true
 end
