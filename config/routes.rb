@@ -28,9 +28,6 @@ Rails.application.routes.draw do
     end
   end
   resources :abrangencias,            only: [:index]
-  resource :abrangencias,             only: :none do
-    get :search
-  end
   resources :coeficientes,            only: [:index, :show]
   resources :ligacao_agua_situacoes,  only: [:index]
   resources :logradouro_titulos,      only: [:index, :show, :create, :update]
