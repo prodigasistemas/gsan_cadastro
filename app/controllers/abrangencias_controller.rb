@@ -5,7 +5,7 @@ class AbrangenciasController < ApplicationController
     if @abrangencias.any?
       render json: { entidades: @abrangencias.map(&:atributos) }, status: :ok
     else
-      render json: { entidades: [], total: @total }, status: :ok
+      render json: { entidades: [] }, status: :ok
     end
   end
 
