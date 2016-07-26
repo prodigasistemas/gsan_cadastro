@@ -1,6 +1,7 @@
 class AbrangenciasController < ApplicationController
   def index
-    @abrangencias = Abrangencia.all
+    @abrangencias = Abrangencia.buscar params.require(:query).permit! if params[:query].present?
+    @abrangencias ||= Abrangencia.all
 
     if @abrangencias.any?
       render json: { entidades: @abrangencias.map(&:atributos) }, status: :ok
@@ -38,17 +39,6 @@ class AbrangenciasController < ApplicationController
       render json: { }, status: :ok
     else
       render json: { errors: @abrangencia.errors }, status: :unprocessable_entity
-    end
-  end
-
-  def search
-    search_params = params.require(:query).permit!.symbolize_keys
-    @abrangencias = Abrangencia.where search_params
-
-    if @abrangencias.any?
-      render json: { entidades: @abrangencias.map(&:atributos) }, status: :ok
-    else
-      render json: { entidades: [] }, status: :ok
     end
   end
 
