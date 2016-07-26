@@ -34,6 +34,7 @@ class CoeficientesController < ApplicationController
     @coeficiente = Coeficiente.find params[:id]
 
     if @coeficiente.update coeficiente_params
+      binding.pry
       render json: { entidade: @coeficiente.atributos }, status: :ok
     else
       render json: { errors: @coeficiente.errors }, status: :unprocessable_entity
@@ -53,6 +54,6 @@ class CoeficientesController < ApplicationController
   protected
 
   def coeficiente_params
-    params.require(:coeficiente).permit(:ligacao_agua_id, :coeficiente, :contrato_medicao_id)
+    params.require(:coeficiente).permit(:ligacao_agua_id, :coeficiente, :contrato_medicao_id, :usuario_id)
   end
 end

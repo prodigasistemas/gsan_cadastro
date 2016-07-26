@@ -43,6 +43,7 @@ pt-BR:
       contrato_medicao: "Contrato de Medição"
       coeficiente: "Coeficiente"
       ligacao_agua_situacao: "Situação da Ligação"
+      historico_coficiente: "Histórico do Coeficiente"
     attributes:
       fone_tipo:
         descricao: "Descrição"
@@ -123,6 +124,8 @@ pt-BR:
         vigencia_final: Vigência Final
         data_assinatura: Data Assinatura
         empresa_id: Empresa
+      historico_coficiente:
+        coeficiente_id: "Coeficiente"
     errors:
       models:
         fone_tipo:
@@ -473,4 +476,8 @@ pt-BR:
             coeficiente:
               blank: "é obrigatório"
             ligacao_agua_id:
+              blank: "é obrigatório"
+        historico_coficiente:
+          attributes:
+            coeficiente_id:
               blank: "é obrigatório"
