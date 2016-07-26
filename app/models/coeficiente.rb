@@ -20,6 +20,7 @@ class Coeficiente < ActiveRecord::Base
   convert_decimal :cmco_coeficiente
 
   validates :coeficiente, :ligacao_agua_id , presence: true
+  validates :contrato_medicao_id, uniqueness: { scope: :last_id }
 
   after_save :salvar_historico
 
@@ -27,7 +28,7 @@ class Coeficiente < ActiveRecord::Base
 
   def salvar_historico
     HistoricoCoeficiente.create(
-                            coeficiente_id: self.id, 
+                            coeficiente_id: self.id,
                             numero_coeficiente: self.coeficiente,
                             usuario_id: self.usuario_id,
                             ligacao_agua_id: self.ligacao_agua_id

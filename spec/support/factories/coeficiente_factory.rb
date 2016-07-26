@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :coeficiente do
-    id
-    coeficiente 0.5
-    contrato_medicao_id 1
-    ligacao_agua_id 1
+    association :contrato_medicao
+    association :ligacao_agua_situacao
+    coeficiente { 0.2 }
   end
 end
