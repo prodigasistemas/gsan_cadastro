@@ -33,5 +33,19 @@ module API
       @objeto_referencia = refer.is_a?(String) ? refer : refer.class.to_s.underscore.downcase unless refer.nil?
       @objeto_referencia
     end
+
+    module ClassMethods
+      def buscar(query={})
+        return [] if query.blank?
+        query = query.deep_symbolize_keys
+        query = query.delete_if { |key, value| value.blank? }
+        entidades = where(query) unless query.blank?
+        entidades || []
+      end
+    end
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
   end
 end

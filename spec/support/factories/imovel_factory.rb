@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :imovel do
-    id
     localidade_id 1
     setor_comercial_id 2
     quadra_id 1
