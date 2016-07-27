@@ -105,4 +105,12 @@ class Imovel < ActiveRecord::Base
   alias_attribute "utiliza_rateio_area_comum",                                          "imov_icimovelareacomum"
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
+
+  scope :com_dados, -> {
+    includes(:localidade, :setor_comercial)
+  }
+
+  def atributos_busca
+    atributos([:localidade, :setor_comercial])
+  end
 end
