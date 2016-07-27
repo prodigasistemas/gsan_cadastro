@@ -30,8 +30,9 @@ class CoeficientesController < ApplicationController
 
   def update
     @coeficiente = Coeficiente.find params[:id]
+    @coeficiente.assign_attributes(coeficiente_params_for_update)
 
-    if @coeficiente.update coeficiente_params_for_update
+    if !@coeficiente.changed? || @coeficiente.save
       render json: { entidade: @coeficiente.atributos }, status: :ok
     else
       render json: { errors: @coeficiente.errors }, status: :unprocessable_entity
