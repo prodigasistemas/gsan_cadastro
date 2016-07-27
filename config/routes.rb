@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       delete :redefinir
     end
   end
+  resources :abrangencias,            only: [:index]
   resources :coeficientes,            only: [:index, :show, :create, :update]
   resources :ligacao_agua_situacoes,  only: [:index]
   resources :logradouro_titulos,      only: [:index, :show, :create, :update]
