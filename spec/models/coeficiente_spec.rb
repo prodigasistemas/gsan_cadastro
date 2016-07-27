@@ -17,6 +17,7 @@ describe Coeficiente do
     it { is_expected.to validate_presence_of(:ligacao_agua_id) }
     it { is_expected.to validate_uniqueness_of(:contrato_medicao_id)
           .scoped_to(:ligacao_agua_id) }
+    it { is_expected.to validate_numericality_of(:coeficiente) }
   end
 
   describe "salvar histórico" do

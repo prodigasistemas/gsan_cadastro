@@ -21,6 +21,7 @@ class Coeficiente < ActiveRecord::Base
 
   validates :coeficiente, :ligacao_agua_id , presence: true
   validates :contrato_medicao_id, uniqueness: { scope: :last_id }
+  validates :coeficiente, numericality: true
 
   after_save :salvar_historico
 
