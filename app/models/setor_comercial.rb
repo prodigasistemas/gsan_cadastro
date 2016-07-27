@@ -9,5 +9,6 @@ class SetorComercial < ActiveRecord::Base
   alias_attribute "id", "stcm_id"
   alias_attribute "nome", "stcm_nmsetorcomercial"
 
-  belongs_to :imovel, foreign_key: "imov_id"
+  has_many :imoveis, foreign_key: :stcm_id
+  has_many :rotas,   foreign_key: :stcm_id
 end
