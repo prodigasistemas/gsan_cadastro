@@ -12,4 +12,7 @@ class SetorComercial < ActiveRecord::Base
 
   has_many :imoveis, foreign_key: :stcm_id
   has_many :rotas,   foreign_key: :stcm_id
+
+  scope :nome,          -> (nome) { where("UPPER(stcm_nmsetorcomercial) LIKE ?", "%#{nome.upcase}%") }
+  scope :localidade_id, -> (id) { where localidade_id: id }
 end
