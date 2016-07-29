@@ -13,4 +13,6 @@ class Rota < ActiveRecord::Base
   belongs_to :setor_comercial, foreign_key: :stcm_id
 
   validates :codigo, :ativo, presence: true
+
+  scope :setor_comercial_id, -> (id) { where setor_comercial_id: id }
 end

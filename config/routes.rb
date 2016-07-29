@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   resources :localidades,             only: :index
   resources :imoveis,                 only: :index
   resources :setor_comercial,         only: :index
+  resources :rotas,                   only: :index
+  resources :quadras,                 only: :index
 
   resources :filtros, only: :index
   resources :associacoes, only: :index
