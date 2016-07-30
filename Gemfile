@@ -20,7 +20,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-  gem 'capistrano'
+  gem 'capistrano', '3.5.0'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
