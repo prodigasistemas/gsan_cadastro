@@ -37,10 +37,24 @@ module API
     module ClassMethods
       def buscar(query={})
         return [] if query.blank?
-        query = query.deep_symbolize_keys
-        query = query.delete_if { |key, value| value.blank? }
+
+        query = check_params(query.deep_symbolize_keys)
         entidades = where(query) unless query.blank?
         entidades || []
+      end
+
+      def check_params(query)
+        params = {}
+
+        query.each_pair do |key, value|
+          value = check_params(value) if value.is_a? Hash
+
+          next if value.blank?
+
+          params.merge!({ key => value })
+        end
+
+        params
       end
     end
 
