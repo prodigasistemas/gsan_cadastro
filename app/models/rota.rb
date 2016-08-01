@@ -11,6 +11,8 @@ class Rota < ActiveRecord::Base
   alias_attribute "ativo",               "rota_icuso"
 
   belongs_to :setor_comercial, foreign_key: :stcm_id
+  has_many :quadras, foreign_key: :rota_id
+  has_many :imoveis, through: :quadras
 
   validates :codigo, :ativo, presence: true
 

@@ -17,6 +17,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :logradouro_bairro, foreign_key: :lgbr_id
   belongs_to :localidade, foreign_key: :loca_id
   belongs_to :setor_comercial, foreign_key: :stcm_id
+  belongs_to :quadra, foreign_key: :qdra_id
 
   alias_attribute "localidade_id",                                                      "loca_id"
   alias_attribute "setor_comercial_id",                                                 "stcm_id"
@@ -107,7 +108,8 @@ class Imovel < ActiveRecord::Base
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
 
   scope :com_dados, -> {
-    includes(:localidade, :setor_comercial)
+    joins(:quadra)
+    .includes(:localidade, :setor_comercial)
   }
 
   def atributos_busca
