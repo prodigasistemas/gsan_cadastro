@@ -6,6 +6,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 gem 'dotenv-rails'
+gem 'composite_primary_keys', '~> 8.0'
 
 group :production do
   gem 'unicorn'
