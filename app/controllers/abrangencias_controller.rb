@@ -1,5 +1,13 @@
 class AbrangenciasController < ApplicationController
   def index
+    @abrangencias = Abrangencia.buscar params.require(:query).permit! if params[:query].present?
+    @abrangencias ||= Abrangencia.all
+
+    if @abrangencias.any?
+      render json: { entidades: @abrangencias.map(&:atributos) }, status: :ok
+    else
+      render json: { entidades: [] }, status: :ok
+    end
   end
 
   def create
@@ -22,6 +30,15 @@ class AbrangenciasController < ApplicationController
       render json: { entidade: @contrato_medicao.atributos }, status: :ok
     else
       render json: { errors: @contrato_medicao.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @abrangencia = Abrangencia.find params[:id]
+    if @abrangencia.destroy
+      render json: { }, status: :ok
+    else
+      render json: { errors: @abrangencia.errors }, status: :unprocessable_entity
     end
   end
 
