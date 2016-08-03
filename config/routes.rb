@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   resources :distrito_operacionais,   only: :index
   resources :localidades,             only: :index
   resources :imoveis,                 only: :index
-  resources :imovel_retornos
+  resources :imovel_retornos,         only: :index
 
   resources :filtros, only: :index
   resources :associacoes, only: :index
