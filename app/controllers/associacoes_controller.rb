@@ -21,6 +21,7 @@ class AssociacoesController < ApplicationController
 
   def index
     @retorno = @objeto.send(params[:associacao])
+    @retorno = @retorno.com_escopo if @retorno.respond_to? :com_escopo
 
     if @retorno.respond_to? :size
       render json: { entidades: @retorno.map(&:atributos) }

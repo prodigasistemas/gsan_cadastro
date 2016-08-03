@@ -107,10 +107,16 @@ class Imovel < ActiveRecord::Base
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
 
-  default_scope{ includes(:localidade, :setor_comercial) }
-  scope :com_dados, -> { joins(:quadra) }
+  scope :com_dados, -> { com_escopo.joins(:quadra) }
+
+  has_one :abrangencia, foreign_key: :imov_id
+  has_one :contrato_medicao, through: :abrangencia
 
   def atributos
     super([:localidade, :setor_comercial])
+  end
+
+  def self.com_escopo
+    includes(:localidade, :setor_comercial)
   end
 end
