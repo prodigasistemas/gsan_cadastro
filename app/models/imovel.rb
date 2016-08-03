@@ -107,12 +107,10 @@ class Imovel < ActiveRecord::Base
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
 
-  scope :com_dados, -> {
-    joins(:quadra)
-    .includes(:localidade, :setor_comercial)
-  }
+  default_scope{ includes(:localidade, :setor_comercial) }
+  scope :com_dados, -> { joins(:quadra) }
 
-  def atributos_busca
-    atributos([:localidade, :setor_comercial])
+  def atributos
+    super([:localidade, :setor_comercial])
   end
 end

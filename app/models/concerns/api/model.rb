@@ -36,11 +36,17 @@ module API
 
     module ClassMethods
       def buscar(query={})
+        query = check_params(query.deep_symbolize_keys)
+
         return [] if query.blank?
 
-        query = check_params(query.deep_symbolize_keys)
-        entidades = where(query) unless query.blank?
-        entidades || []
+        entidades = where(query)
+
+        page      = (query[:page] || 1).to_i
+        per_page  = (query[:per_page] || 50).to_i
+        entidades = entidades.page(page).per(per_page)
+
+        entidades
       end
 
       def check_params(query)
@@ -49,7 +55,7 @@ module API
         query.each_pair do |key, value|
           value = check_params(value) if value.is_a? Hash
 
-          next if value.blank?
+          next if value.blank? || [:page, :per_page].include?(key)
 
           params.merge!({ key => value })
         end

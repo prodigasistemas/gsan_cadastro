@@ -4,7 +4,13 @@ class ImoveisController < ApplicationController
     @imoveis ||= Imovel.all
 
     if @imoveis.any?
-      render json: {entidades: @imoveis.map(&:atributos_busca)}, status: :ok
+      meta = {
+        total: @imoveis.total_count,
+        pagina: @imoveis.current_page,
+        por_pagina: params[:query][:per_page]
+      }
+
+      render json: { meta: meta, entidades: @imoveis.map(&:atributos) }, status: :ok
     else
       render json: { entidades: [] }, status: :ok
     end
