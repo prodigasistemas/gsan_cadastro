@@ -36,16 +36,13 @@ module API
 
     module ClassMethods
       def buscar(query={})
-        query = check_params(query.deep_symbolize_keys)
+        page      = (query[:page] || 1).to_i
+        per_page  = (query[:per_page] || 50).to_i
+        query     = check_params(query.deep_symbolize_keys)
 
         return [] if query.blank?
 
-        entidades = where(query)
-
-        page      = (query[:page] || 1).to_i
-        per_page  = (query[:per_page] || 50).to_i
-        entidades = entidades.page(page).per(per_page)
-
+        entidades = where(query).page(page).per(per_page)
         entidades
       end
 
