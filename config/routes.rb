@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :ramos_atividade,         only: [:index, :show, :create, :update]
   resources :logradouro_tipos,        only: [:index, :show, :create, :update]
   resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
-    resources :abrangencias,          only: [:create, :update]
+    resources :abrangencias,          only: [:create, :update, :destroy]
     resource :abrangencias,           only: :none do
       delete :redefinir
     end
