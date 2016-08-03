@@ -1,7 +1,7 @@
 class AssociacoesController < ApplicationController
   BLACKLIST = %w(destroy save delete update delete_all update_all)
 
-  before_action :define_objeto, :verifica_params
+  before_action :define_objeto, :verifica_params, :verifica_paginacao
 
   rescue_from NameError do
     render json: { error: "Não existe model #{params[:objeto]}".strip }, status: :bad_request
@@ -23,22 +23,41 @@ class AssociacoesController < ApplicationController
     @retorno = @objeto.send(params[:associacao])
     @retorno = @retorno.com_escopo if @retorno.respond_to? :com_escopo
 
-    if @retorno.respond_to? :size
-      render json: { entidades: @retorno.map(&:atributos) }
-    else
-      render json: { entidade: @retorno.try(:atributos) }
-    end
+    render json: resposta, status: :ok
   end
 
-  protected
+  private
 
   def define_objeto
     @objeto = params[:objeto].downcase.classify.constantize.find(params[:objeto_id])
   end
 
   def verifica_params
-    if BLACKLIST.include?(params[:associacao])
-      raise RuntimeError
+    raise RuntimeError if BLACKLIST.include?(params[:associacao])
+  end
+
+  def verifica_paginacao
+    @pagina     = params[:page]
+    @por_pagina = params[:per_page].present? ? params[:per_page] : 50
+  end
+
+  def resposta
+    if @retorno.respond_to? :size
+      meta = {}
+
+      if @pagina
+        @retorno = @retorno.page(@pagina).per(@por_pagina)
+
+        meta.merge!({
+          total: @retorno.total_count,
+          pagina: @retorno.current_page,
+          por_pagina: @por_pagina
+        })
+      end
+
+      { meta: meta, entidades: @retorno.map(&:atributos) }
+    else
+      { entidade: @retorno.try(:atributos) }
     end
   end
 end
