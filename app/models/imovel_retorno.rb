@@ -60,4 +60,7 @@ class ImovelRetorno < ActiveRecord::Base
   belongs_to :hidrometro_protecao, "foreign_key": "hipr_id"
   belongs_to :hidrometro_marca, foreign_key: "himc_id"
   belongs_to :hidrometro_capacidade, foreign_key: "hicp_id"
+
+  has_many :cliente_imovel_retornos
+  has_many :cliente_retornos, through: :cliente_imovel_retornos, class_name: 'ClienteRetorno'
 end
