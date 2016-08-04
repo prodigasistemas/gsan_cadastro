@@ -1,17 +1,21 @@
 module Recadastramento
   module Arquivo
     class Imovel
-      attr_accessor :id, :tipo_operacao, :codigo_cliente, :inscricao,
-                    :rota, :face, :codigo_municipio, :numero_iptu, :numero_celpa,
-                    :pontos_utilizacao, :numero_moradores, :tipo_logradouro_imovel,
-                    :descricao_logradouro, :numero_imovel, :complemento_endereco,
-                    :nome_bairro, :codigo_cep, :nome_municipio, :codigo_logradouro_imovel,
+      attr_accessor :id, :classe_social, :codigo_cep, :complemento_endereco,
+                    :tipo_operacao, :descricao_logradouro, :nome_bairro, :nome_municipio,
+                    :numero_hidrometro, :numero_imovel, :numero_iptu, :numero_moradores,
+                    :pontos_utilizacao, :quantidade_animais_domesticos, :quantidade_economias_social,
+                    :quantidade_economias_outros, :volume_cisterna, :volume_caixa_dagua,
+
+                    # ainda nao mapeados
+                    :volume_piscina, :codigo_cliente, :inscricao,
+                    :rota, :face, :codigo_municipio, :numero_celpa,
+                    :tipo_logradouro_imovel, :codigo_logradouro_imovel,
                     :sub_categoria_residenciais, :sub_categoria_comerciais, :sub_categoria_publicas,
-                    :sub_categoria_industriais, :classe_social, :area_construida, :tipo_ligacao,
-                    :quantidade_animais_domesticos, :volume_cisterna, :volume_piscina, :volume_caixa_dagua,
-                    :tipo_dormitorio, :fonte_alternativa, :quantidade_economias_social, :quantidade_economias_outros,
+                    :sub_categoria_industriais, :area_construida, :tipo_ligacao,
+                    :tipo_dormitorio, :fonte_alternativa,
                     :quantidade_criancas, :quantidade_adultos, :quantidade_idosos, :quantidade_empregados,
-                    :quantidade_alunos, :quantidade_caes, :quantidade_outros, :numero_hidrometro
+                    :quantidade_alunos, :quantidade_caes, :quantidade_outros
 
       attr_accessor :imovel
 
