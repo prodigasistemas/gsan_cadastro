@@ -15,11 +15,11 @@ module Recadastramento
 
       attr_accessor :imovel
 
-      def initialize(imovel)
-        @imovel = imovel
-
-        carregar_infos(@imovel)
+      def initialize(*modelos)
+        modelos.each { |modelo| carregar_infos(modelo) }
       end
+
+      private
 
       def carregar_infos(modelo)
         modelo.attribute_aliases.keys.each do |campo|
