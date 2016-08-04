@@ -40,6 +40,8 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.3)
     builder (3.2.2)
+    bulk_insert (1.2.0)
+      activerecord (>= 4.1.0)
     byebug (9.0.3)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
@@ -183,6 +185,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bulk_insert
   byebug
   capistrano
   capistrano-bundler
