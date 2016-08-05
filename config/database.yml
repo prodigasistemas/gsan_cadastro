@@ -17,6 +17,10 @@ test:
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
 
+stage:
+  <<: *default
+  url: <%= ENV['GSAN_CADASTRO_DATABASE_URL'] %>
+
 production:
   <<: *default
   url: <%= ENV['GSAN_CADASTRO_DATABASE_URL'] %>
