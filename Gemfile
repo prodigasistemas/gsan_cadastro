@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.7'
 gem 'pg'
 gem 'jbuilder', '~> 2.0'
 gem 'rack-cors', :require => 'rack/cors'
@@ -15,12 +15,13 @@ end
 group :development do
   gem 'byebug'
   gem 'spring'
+  gem 'thin'
 end
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-  gem 'capistrano'
+  gem 'capistrano', '3.5.0'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'

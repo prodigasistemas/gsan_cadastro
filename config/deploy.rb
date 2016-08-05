@@ -2,7 +2,6 @@
 lock '3.5.0'
 
 set :application, 'gsan_cadastro'
-#set :repo_url, 'https://github.com/prodigasistemas/gsan_cadastro.git'
 set :repo_url, 'ssh://git@gitlab.cosanpa.pa.gov.br:64422/cosanpa/gsan-api.git'
 
 # Default branch is :master
