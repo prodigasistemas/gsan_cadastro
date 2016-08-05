@@ -19,6 +19,7 @@ class AbrangenciasController < ApplicationController
 
     abrangencia_attrs = []
     lastId = Abrangencia.maximum(:id)
+    lastId = 0 if lastId.nil?
 
     imoveis.each do |imovel|
       lastId += 1
