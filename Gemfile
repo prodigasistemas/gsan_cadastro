@@ -6,6 +6,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 gem 'dotenv-rails'
+gem 'bulk_insert'
 
 group :production do
   gem 'unicorn'

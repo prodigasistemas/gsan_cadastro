@@ -17,6 +17,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :logradouro_bairro, foreign_key: :lgbr_id
   belongs_to :localidade, foreign_key: :loca_id
   belongs_to :setor_comercial, foreign_key: :stcm_id
+  belongs_to :quadra, foreign_key: :qdra_id
 
   alias_attribute "localidade_id",                                                      "loca_id"
   alias_attribute "setor_comercial_id",                                                 "stcm_id"
@@ -105,4 +106,17 @@ class Imovel < ActiveRecord::Base
   alias_attribute "utiliza_rateio_area_comum",                                          "imov_icimovelareacomum"
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
+
+  scope :com_dados, -> { com_escopo.joins(:quadra) }
+
+  has_one :abrangencia, foreign_key: :imov_id
+  has_one :contrato_medicao, through: :abrangencia
+
+  def atributos
+    super([:localidade, :setor_comercial])
+  end
+
+  def self.com_escopo
+    includes(:localidade, :setor_comercial)
+  end
 end
