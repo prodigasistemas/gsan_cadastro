@@ -33,5 +33,36 @@ module API
       @objeto_referencia = refer.is_a?(String) ? refer : refer.class.to_s.underscore.downcase unless refer.nil?
       @objeto_referencia
     end
+
+    module ClassMethods
+      def buscar(query={})
+        page      = (query[:page] || 1).to_i
+        per_page  = (query[:per_page] || 50).to_i
+        query     = check_params(query.deep_symbolize_keys)
+
+        return [] if query.blank?
+
+        entidades = where(query).page(page).per(per_page)
+        entidades
+      end
+
+      def check_params(query)
+        params = {}
+
+        query.each_pair do |key, value|
+          value = check_params(value) if value.is_a? Hash
+
+          next if value.blank? || [:page, :per_page].include?(key)
+
+          params.merge!({ key => value })
+        end
+
+        params
+      end
+    end
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
   end
 end

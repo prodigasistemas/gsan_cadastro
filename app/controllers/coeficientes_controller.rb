@@ -21,10 +21,8 @@ class CoeficientesController < ApplicationController
   end
 
   def create
-    @coeficiente = Coeficiente.new coeficiente_params
-
-    if @coeficiente.save
-      render json: { entidade: @coeficiente.atributos }, status: :ok
+    if Coeficiente.create(coeficiente_params_for_create[:coeficientes])
+      render json: { entidade: Coeficiente.last.atributos }, status: :ok
     else
       render json: { errors: @coeficiente.errors }, status: :unprocessable_entity
     end
@@ -32,27 +30,24 @@ class CoeficientesController < ApplicationController
 
   def update
     @coeficiente = Coeficiente.find params[:id]
+    @coeficiente.assign_attributes(coeficiente_params_for_update)
 
-    if @coeficiente.update coeficiente_params
+    if !@coeficiente.changed? || @coeficiente.save
       render json: { entidade: @coeficiente.atributos }, status: :ok
     else
       render json: { errors: @coeficiente.errors }, status: :unprocessable_entity
     end
   end
 
-  def destroy
-    @coeficiente = Coeficiente.find params[:id]
-
-    if @coeficiente.destroy
-      render json: {}, status: :ok
-    else
-      render json: {}, status: :unprocessable_entity
-    end
-  end
-
   protected
 
-  def coeficiente_params
-    params.require(:coeficiente).permit(:ligacao_agua_id, :coeficiente, :contrato_medicao_id)
+  def coeficiente_params_for_create
+    params.require(:coeficiente).permit(
+      coeficientes: [:contrato_medicao_id, :ligacao_agua_id, :coeficiente, :usuario_id]
+    )
+  end
+
+  def coeficiente_params_for_update
+    params.require(:coeficiente).permit(:ligacao_agua_id, :coeficiente, :contrato_medicao_id, :usuario_id)
   end
 end

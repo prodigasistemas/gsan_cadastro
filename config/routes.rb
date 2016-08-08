@@ -21,13 +21,14 @@ Rails.application.routes.draw do
   resources :ramos_atividade,         only: [:index, :show, :create, :update]
   resources :logradouro_tipos,        only: [:index, :show, :create, :update]
   resources :contrato_medicoes,       only: [:index, :show, :create, :update, :destroy] do
-    resources :coeficientes,          only: [:create, :update, :destroy]
-    resources :abrangencias,          only: [:create, :update]
-    resource :abrangencias,           only: :none do
-      delete :redefinir
+    resources :abrangencias,          only: [:create, :update, :destroy] do
+      collection do
+        delete :redefinir
+      end
     end
   end
-  resources :coeficientes,            only: [:index, :show]
+  resources :abrangencias,            only: [:index]
+  resources :coeficientes,            only: [:index, :show, :create, :update]
   resources :ligacao_agua_situacoes,  only: [:index]
   resources :logradouro_titulos,      only: [:index, :show, :create, :update]
   resources :unidade_federacoes,      only: [:index, :show, :create, :update]
@@ -41,6 +42,10 @@ Rails.application.routes.draw do
   resources :distrito_operacionais,   only: :index
   resources :localidades,             only: :index
   resources :imoveis,                 only: :index
+  resources :setor_comercial,         only: :index
+  resources :rotas,                   only: :index
+  resources :quadras,                 only: :index
+  resources :imovel_retornos,         only: :index
 
   resources :filtros, only: :index
   resources :associacoes, only: :index

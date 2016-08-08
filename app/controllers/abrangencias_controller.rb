@@ -1,13 +1,41 @@
 class AbrangenciasController < ApplicationController
   def index
+    @abrangencias = Abrangencia.buscar params.require(:query).permit! if params[:query].present?
+    @abrangencias ||= Abrangencia.all
+
+    if @abrangencias.any?
+      render json: { entidades: @abrangencias.map(&:atributos) }, status: :ok
+    else
+      render json: { entidades: [] }, status: :ok
+    end
   end
 
   def create
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
-    imoveis = Imovel.where(id: params[:imoveis])
-    @contrato_medicao.imoveis << imoveis
 
-    if @contrato_medicao.save
+    query = Imovel.check_params(params[:query])
+
+    imoveis = Imovel.select(:id).where(query.symbolize_keys)
+
+    abrangencia_attrs = []
+    lastId = Abrangencia.maximum(:id)
+    lastId = 0 if lastId.nil?
+
+    imoveis.each do |imovel|
+      lastId += 1
+
+      abrangencia_attrs << {
+        cmab_id: lastId, 
+        cmed_id:  @contrato_medicao.id, 
+        imov_id: imovel.id,
+        cmab_tmcriacao: Time.zone.now,
+        cmab_tmultimaalteracao: Time.zone.now
+      }
+    end
+    
+    Abrangencia.bulk_insert(set_size: abrangencia_attrs.size, values: abrangencia_attrs)
+    
+    if @contrato_medicao.imoveis.count >= abrangencia_attrs.size
       render json: { entidade: @contrato_medicao.atributos }, status: :ok
     else
       render json: { errors: @contrato_medicao.errors }, status: :unprocessable_entity
@@ -25,9 +53,18 @@ class AbrangenciasController < ApplicationController
     end
   end
 
+  def destroy
+    @abrangencia = Abrangencia.find params[:id]
+    if @abrangencia.destroy
+      render json: { }, status: :ok
+    else
+      render json: { errors: @abrangencia.errors }, status: :unprocessable_entity
+    end
+  end
+
   protected
 
   def abrangencia_params
-    params.permit([:contrato_medicao_id, :imoveis])
+    params.permit([:contrato_medicao_id, query: [ :id, :localidade_id, :setor_comercial_id, :qdra_id]])
   end
 end
