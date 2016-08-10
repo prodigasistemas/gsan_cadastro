@@ -7,7 +7,7 @@ class HidrometroCapacidade < ActiveRecord::Base
   self.primary_key = 'hicp_id'
 
   alias_attribute "id", "hicp_id"
-  alias_attribute "descricao", "hicp_dshidrometrocapacidade"
+  alias_attribute "descricao_capacidade", "hicp_dshidrometrocapacidade"
   alias_attribute "abreviacao", "hicp_dsabreviadahidrcapacidade"
   alias_attribute "leitura_minima", "hicp_nndigitosleituraminimo"
   alias_attribute "leitura_maxima", "hicp_nndigitosleituramaximo"

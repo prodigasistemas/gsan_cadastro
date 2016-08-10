@@ -7,7 +7,7 @@ class HidrometroMarca < ActiveRecord::Base
   self.primary_key = 'himc_id'
 
   alias_attribute "id", "himc_id"
-  alias_attribute "descricao", "himc_dshidrometromarca"
+  alias_attribute "descricao_marca", "himc_dshidrometromarca"
   alias_attribute "abreviacao", "himc_dsabreviadahidrmarca"
   alias_attribute "dia_revisao", "himc_nndiarevisao"
   alias_attribute "indicador_uso", "himc_icuso"
