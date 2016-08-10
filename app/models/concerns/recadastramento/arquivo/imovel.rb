@@ -1,6 +1,7 @@
 module Recadastramento
   module Arquivo
-    class Imovel
+    class Imovel < Recadastramento::Base
+
       attr_accessor :id, :classe_social, :codigo_cep, :complemento_endereco,
                     :tipo_operacao, :descricao_logradouro, :nome_bairro, :nome_municipio,
                     :numero_hidrometro, :numero_imovel, :numero_iptu, :numero_moradores,
@@ -18,18 +19,6 @@ module Recadastramento
                     :quantidade_alunos, :quantidade_caes, :quantidade_outros
 
       attr_accessor :imovel
-
-      def initialize(*modelos)
-        modelos.each { |modelo| carregar_infos(modelo) }
-      end
-
-      private
-
-      def carregar_infos(modelo)
-        modelo.attribute_aliases.keys.each do |campo|
-          self.send("#{campo}=".to_sym, modelo.send(campo.to_sym)) if self.respond_to?(campo.to_sym)
-        end
-      end
     end
   end
 end
