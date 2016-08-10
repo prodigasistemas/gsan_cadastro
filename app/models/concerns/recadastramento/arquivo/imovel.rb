@@ -17,8 +17,6 @@ module Recadastramento
                     :tipo_dormitorio, :fonte_alternativa,
                     :quantidade_criancas, :quantidade_adultos, :quantidade_idosos, :quantidade_empregados,
                     :quantidade_alunos, :quantidade_caes, :quantidade_outros
-
-      attr_accessor :imovel
     end
   end
 end
