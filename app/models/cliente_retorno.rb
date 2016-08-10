@@ -24,5 +24,5 @@ class ClienteRetorno < ActiveRecord::Base
   belongs_to :cliente_tipo, foreign_key: "cltp_id"
   belongs_to :cliente, foreign_key: "clie_id"
 
-  has_many :cliente_fone_retornos
+  has_many :cliente_fone_retornos, foreign_key: "clir_id"
 end
