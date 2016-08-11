@@ -18,6 +18,7 @@ class ClienteRetorno < ActiveRecord::Base
   alias_attribute "cliente_tipo_id", "cltp_id"
   alias_attribute "cliente_id", "clie_id"
   alias_attribute "tipo_operacao", "clir_tipooperacao"
+  alias_attribute "gerencia", "gerencia_nome"
 
   belongs_to :pessoa_sexo, foreign_key: "psex_id"
   belongs_to :unidade_federacao, foreign_key: "unfe_id"
@@ -25,4 +26,10 @@ class ClienteRetorno < ActiveRecord::Base
   belongs_to :cliente, foreign_key: "clie_id"
 
   has_many :cliente_fone_retornos, foreign_key: "clir_id"
+
+  def gerencia_nome
+    return "" if cliente.gerencia.nil?
+    @gerencia_nome = cliente.gerencia.nome
+  end
+
 end
