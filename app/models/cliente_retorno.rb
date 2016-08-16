@@ -22,6 +22,7 @@ class ClienteRetorno < ActiveRecord::Base
   alias_attribute "cpf_cnpj", "cnpj_ou_cpf"
   alias_attribute "uf", "sigla_unidade_federacao"
   alias_attribute "tipo_sexo", "descricao_pessoa_sexo"
+  alias_attribute "telefone", "cliente_telefone"
 
   belongs_to :pessoa_sexo, foreign_key: "psex_id"
   belongs_to :unidade_federacao, foreign_key: "unfe_id"
@@ -45,6 +46,14 @@ class ClienteRetorno < ActiveRecord::Base
 
   def descricao_pessoa_sexo
     pessoa_sexo.descricao
+  end
+
+  def cliente_telefone
+    if cliente_fone_retornos.present?
+      "#{cliente_fone_retornos.first.ddd}#{cliente_fone_retornos.first.fone}"
+    else
+      ""
+    end
   end
 
 end
