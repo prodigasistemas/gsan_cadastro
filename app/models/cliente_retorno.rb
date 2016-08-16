@@ -20,6 +20,7 @@ class ClienteRetorno < ActiveRecord::Base
   alias_attribute "tipo_operacao", "clir_tipooperacao"
   alias_attribute "tipo_pessoa", "cliente_pessoa_tipo"
   alias_attribute "cpf_cnpj", "cnpj_ou_cpf"
+  alias_attribute "uf", "sigla_unidade_federacao"
 
   belongs_to :pessoa_sexo, foreign_key: "psex_id"
   belongs_to :unidade_federacao, foreign_key: "unfe_id"
@@ -35,6 +36,10 @@ class ClienteRetorno < ActiveRecord::Base
   def cnpj_ou_cpf
     return cliente.cpf if cliente.pessoa_fisica?
     cliente.cnpj
+  end
+
+  def sigla_unidade_federacao
+    unidade_federacao.sigla
   end
 
 end
