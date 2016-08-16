@@ -17,7 +17,7 @@ describe Recadastramento::Arquivo::Cliente do
     it { expect(cliente_arquivo.cpf_cnpj).to eq cliente_retorno.cpf_cnpj }
     it { expect(cliente_arquivo.rg).to eq cliente_retorno.rg }
     it { expect(cliente_arquivo.uf).to eq cliente_retorno.uf }
-    # it { expect(cliente_arquivo.tipo_sexo_usuario).to eq cliente_retorno.nome }
+    it { expect(cliente_arquivo.tipo_sexo).to eq cliente_retorno.tipo_sexo }
     # it { expect(cliente_arquivo.telefone_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.celular_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.email_usuario).to eq cliente_retorno.nome }
