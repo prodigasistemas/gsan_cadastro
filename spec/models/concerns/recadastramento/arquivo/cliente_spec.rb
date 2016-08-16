@@ -13,7 +13,7 @@ describe Recadastramento::Arquivo::Cliente do
     # it { expect(cliente_arquivo.matricula_usuario).to eq cliente_retorno.nome }
     it { expect(cliente_arquivo.nome_usuario).to eq cliente_retorno.nome }
     it { expect(cliente_arquivo.tipo_pessoa).to eq cliente_retorno.tipo_pessoa }
-    # it { expect(cliente_arquivo.cpf_cnpj_usuario).to eq cliente_retorno.nome }
+    it { expect(cliente_arquivo.cpf_cnpj).to eq cliente_retorno.cpf_cnpj }
     # it { expect(cliente_arquivo.rg_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.uf_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.tipo_sexo_usuario).to eq cliente_retorno.nome }
