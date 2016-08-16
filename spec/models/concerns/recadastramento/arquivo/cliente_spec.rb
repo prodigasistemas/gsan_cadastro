@@ -1,25 +1,17 @@
 require 'rails_helper'
 
 describe Recadastramento::Arquivo::Cliente do
-  let!(:gerencia) { create(:gerencia_regional) }
-  let!(:localidade) { create(:localidade, gerencia_regional_id: gerencia.id) }
-  let!(:imovel) { create(:imovel, localidade: localidade) }
   let!(:cliente) { create(:cliente) }
-  let!(:cliente_imovel) { create(:cliente_imovel, imovel: imovel, cliente: cliente) }
   let!(:cliente_retorno) { create(:cliente_retorno, cliente: cliente) }
 
   describe "cliente_infos" do
     let(:cliente_arquivo) { Recadastramento::Arquivo::Cliente.new cliente_retorno }
 
-    it { expect(cliente_arquivo.id).to eq cliente_retorno.id }
-    it { expect(cliente_arquivo.matricula).to eq cliente_retorno.id }
-    it { expect(cliente_arquivo.gerencia).to eq cliente_retorno.gerencia }
-    # it { expect(cliente_arquivo.tipo_endereco_proprietario).to eq cliente_retorno.nome }
+    it { expect(cliente_arquivo.matricula_usuario).to eq cliente_retorno.id }
     # it { expect(cliente_arquivo.tipo_endereco_reponsavel).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.usuario_responsavel).to eq cliente_retorno.nome }
-    # it { expect(cliente_arquivo.tipo_responsavel).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.matricula_usuario).to eq cliente_retorno.nome }
-    # it { expect(cliente_arquivo.nome_usuario).to eq cliente_retorno.nome }
+    it { expect(cliente_arquivo.nome_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.tipo_pessoa_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.cpf_cnpj_usuario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.rg_usuario).to eq cliente_retorno.nome }
@@ -46,6 +38,7 @@ describe Recadastramento::Arquivo::Cliente do
     # it { expect(cliente_arquivo.bairro_proprietario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.cep_proprietario).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.municipio_proprietario).to eq cliente_retorno.nome }
+    # it { expect(cliente_arquivo.tipo_endereco_proprietario).to eq cliente_retorno.nome }
 
     # it { expect(cliente_arquivo.usuario_responsavel).to eq cliente_retorno.nome }
     # it { expect(cliente_arquivo.nome_usuario).to eq cliente_retorno.nome }
@@ -54,5 +47,6 @@ describe Recadastramento::Arquivo::Cliente do
     # it { expect(cliente_arquivo.email).to eq cliente_retorno.email }
     # it { expect(cliente_arquivo.pessoa_sexo_id).to eq cliente_retorno.pessoa_sexo_id }
     # it { expect(cliente_arquivo.unidade_federacao_id).to eq cliente_retorno.unidade_federacao_id }
+    # it { expect(cliente_arquivo.tipo_responsavel).to eq cliente_retorno.nome }
   end
 end

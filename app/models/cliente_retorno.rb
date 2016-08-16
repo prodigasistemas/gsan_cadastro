@@ -19,6 +19,7 @@ class ClienteRetorno < ActiveRecord::Base
   alias_attribute "cliente_id", "clie_id"
   alias_attribute "tipo_operacao", "clir_tipooperacao"
   alias_attribute "gerencia", "gerencia_nome"
+  alias_attribute "gerencia", "gerencia_nome"
 
   belongs_to :pessoa_sexo, foreign_key: "psex_id"
   belongs_to :unidade_federacao, foreign_key: "unfe_id"

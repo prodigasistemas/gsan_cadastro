@@ -13,7 +13,9 @@ class ClienteImovel < ActiveRecord::Base
   alias_attribute "ultima_alteracao", "clim_tmultimaalteracao"
   alias_attribute "tipo_relacao", "crtp_id"
   alias_attribute "nome_conta", "clim_icnomeconta"
+  alias_attribute "cliente_relacao_tipo_id", "crtp_id"
 
-  belongs_to :imovel, foreign_key: "imov_id"
-  belongs_to :cliente, foreign_key: "clie_id"
+  belongs_to :imovel, foreign_key:  :imov_id
+  belongs_to :cliente, foreign_key: :clie_id
+  belongs_to :cliente_relacao_tipo, foreign_key: :crtp_id
 end

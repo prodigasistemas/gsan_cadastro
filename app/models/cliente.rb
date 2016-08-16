@@ -2,6 +2,12 @@ class Cliente < ActiveRecord::Base
   include IncrementableId
   include Filterable
 
+  TIPO = {
+    proprietario:  1,
+    usuario:       2,
+    reponsavel:    3
+  }
+
   self.table_name  = 'cadastro.cliente'
   self.primary_key = 'clie_id'
 
