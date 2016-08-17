@@ -9,7 +9,7 @@ module Recadastramento
                     :quantidade_economias_outros, :volume_cisterna, :volume_caixa_dagua, :tipo_uso,
                     :fonte_abastecimento_nome, :quantidade_criancas, :quantidade_adultos,
                     :quantidade_idosos, :quantidade_empregados, :quantidade_alunos, :quantidade_caes,
-                    :quantidade_outros, :rota,
+                    :quantidade_outros, :rota, :ramal_local_instalacao_nome,
 
                     # ainda nao mapeados
                     :area_construida, :volume_piscina

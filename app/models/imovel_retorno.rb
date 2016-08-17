@@ -50,6 +50,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "rota", "rota_id"
 
   alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
+  alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -59,7 +60,7 @@ class ImovelRetorno < ActiveRecord::Base
   belongs_to :ligacao_agua_situacao, foreign_key: "last_id"
   belongs_to :fonte_abastecimento, foreign_key: "ftab_id"
   belongs_to :ligacao_esgoto_situacao, foreign_key: "lest_id"
-  belongs_to :ramal_local_instalacao_id, foreign_key: "rlin_id"
+  belongs_to :ramal_local_instalacao, foreign_key: "rlin_id"
   belongs_to :hidrometro_protecao, "foreign_key": "hipr_id"
   belongs_to :hidrometro_marca, foreign_key: "himc_id"
   belongs_to :hidrometro_capacidade, foreign_key: "hicp_id"
@@ -70,6 +71,10 @@ class ImovelRetorno < ActiveRecord::Base
 
   def fonte_abastecimento_descricao
     fonte_abastecimento.descricao
+  end
+
+  def ramal_local_instalacao_descricao
+    ramal_local_instalacao.descricao
   end
 
   def carregar_relacionamentos
