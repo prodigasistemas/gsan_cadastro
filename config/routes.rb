@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :usuarios,                only: [:index, :show]
+  resources :usuarios,                only: [:index, :show] do
+    get "/empresa", action: :empresa
+  end
 
   resources :ceps do
     get :search, :on => :collection

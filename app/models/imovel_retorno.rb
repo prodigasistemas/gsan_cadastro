@@ -48,9 +48,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "acesso_hidrometro", "imre_acesso_hidrometro"
   alias_attribute "quantidade_economias_social", "imre_qtd_economias_social"
   alias_attribute "quatidade_economias_outra", "imre_qtd_economias_outra"
-  alias_attribute "rota", "rota_id"
   alias_attribute "area_construida", "imre_areaconstruida"
-
   alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
   alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
   alias_attribute "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao"
@@ -67,6 +65,7 @@ class ImovelRetorno < ActiveRecord::Base
   belongs_to :hidrometro_protecao, "foreign_key": "hipr_id"
   belongs_to :hidrometro_marca, foreign_key: "himc_id"
   belongs_to :hidrometro_capacidade, foreign_key: "hicp_id"
+  belongs_to :rota, foreign_key: "rota_id"
 
   has_many :cliente_imovel_retornos
   has_many :cliente_retornos, through: :cliente_imovel_retornos, class_name: 'ClienteRetorno'

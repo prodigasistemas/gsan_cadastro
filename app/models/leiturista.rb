@@ -1,5 +1,5 @@
 class Leiturista < ActiveRecord::Base
-    include IncrementableId
+  include IncrementableId
   include API::Model
   include API::Filterable
 
@@ -22,4 +22,7 @@ class Leiturista < ActiveRecord::Base
 
   belongs_to :usuario, foreign_key: "usur_id"
   belongs_to :empresa, foreign_key: "empr_id"
+
+  has_many :arquivo_texto_atlz_cads, foreign_key: :leit_id
+  has_many :imovel_retornos, through: :arquivo_texto_atlz_cads, foreign_key: :rota_id
 end
