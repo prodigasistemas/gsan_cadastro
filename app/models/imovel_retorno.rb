@@ -67,7 +67,7 @@ class ImovelRetorno < ActiveRecord::Base
   belongs_to :hidrometro_capacidade, foreign_key: "hicp_id"
   belongs_to :rota, foreign_key: "rota_id"
 
-  has_many :cliente_imovel_retornos
+  has_many :cliente_imovel_retornos, foreign_key: "imre_id"
   has_many :cliente_retornos, through: :cliente_imovel_retornos, class_name: 'ClienteRetorno'
   has_many :imovel_tipo_ocupante_quantidade_retornos, foreign_key: :imre_id
 
@@ -75,15 +75,22 @@ class ImovelRetorno < ActiveRecord::Base
   has_one :situacao_atualizacao_cadastral, through: :imovel_controle_atualizacao_cadastral, foreign_key: :imre_id
 
   def fonte_abastecimento_descricao
+    return nil if fonte_abastecimento.nil?
     fonte_abastecimento.descricao
   end
 
   def ramal_local_instalacao_descricao
+    return nil if ramal_local_instalacao.nil?
     ramal_local_instalacao.descricao
   end
 
   def situacao_atualizacao_cadastral_descricao
+    return nil if situacao_atualizacao_cadastral.nil?
     situacao_atualizacao_cadastral.descricao
+  end
+
+  def cliente_usuario_retorno
+    cliente_imovel_retornos.usuario.first
   end
 
   def carregar_relacionamentos

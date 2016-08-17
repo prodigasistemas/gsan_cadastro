@@ -1,9 +1,9 @@
 module Recadastramento
   class Dado
-    attr_accessor :imovel, :cliente, :servico, :hidrometro
+    attr_accessor :imovel, :cliente, :hidrometro
 
-    def initialize imovel, cliente, servico, hidrometro
-      @imovel, @cliente, @servico, @hidrometro = imovel, cliente, servico, hidrometro
+    def initialize imovel, cliente, hidrometro
+      @imovel, @cliente, @hidrometro = imovel, cliente, hidrometro
     end
   end
 end
