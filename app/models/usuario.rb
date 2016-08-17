@@ -13,6 +13,9 @@ class Usuario < ActiveRecord::Base
   alias_attribute "senha",           "usur_nmsenha"
   alias_attribute "nome",            "usur_nmusuario"
 
+  has_many :leituristas, foreign_key: "usur_id"
+  has_many :empresas, through: :leituristas, foreign_key: "empr_id"
+
   def self.login(login, senha)
     sha1 = Digest::SHA1.base64digest senha
 
