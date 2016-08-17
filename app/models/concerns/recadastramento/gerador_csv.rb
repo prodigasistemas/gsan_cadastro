@@ -16,27 +16,30 @@ module Recadastramento
     private
 
     def gerar_arquivo
-      path = Rails.root.join("tmp", "#{Time.zone.now.to_i}.csv")
-      meta = obter_meta(@dados.first)
+      caminho   = Rails.root.join("tmp", "#{Time.zone.now.to_i}.csv")
+      metadados = obter_meta(@dados.first)
+      cabecalho = metadados.values.flatten
 
-      CSV.open(path, "wb", col_sep: @separador) do |csv|
-        csv << meta.values.flatten
+      CSV.open(caminho, "wb", col_sep: @separador) do |csv|
+        csv << cabecalho
 
         @dados.each do |dado|
-          info = []
-
-          meta.each_pair do |tipo, atributos|
-            objeto = dado.send(tipo)
-
-            atributos.each do |atributo|
-              info << normalizar_info(objeto.send(atributo))
-            end
-          end
-
-          csv << info
+          csv << obter_info(metadados, dado)
         end
 
         csv
+      end
+    end
+
+    def obter_info(metadados, dado)
+      [].tap do |info|
+        metadados.each_pair do |tipo, atributos|
+          objeto = dado.send(tipo)
+
+          atributos.each do |atributo|
+            info << normalizar_info(objeto.send(atributo))
+          end
+        end
       end
     end
 
