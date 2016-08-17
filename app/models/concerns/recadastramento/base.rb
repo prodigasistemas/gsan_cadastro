@@ -2,7 +2,13 @@
 module Recadastramento
   class Base
     def initialize(*modelos)
-      modelos.each { |modelo| carregar_infos(modelo) }
+      if modelos.any?
+        modelos.each { |modelo| carregar_infos(modelo) }
+      else
+        self.class.instance_methods.each do |method|
+          send(method, nil) if method.to_s =~ /\=$/
+        end
+      end
     end
 
     private
