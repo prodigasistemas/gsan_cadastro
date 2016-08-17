@@ -11,7 +11,7 @@ describe Cliente do
     it { should validate_length_of(:cnpj).is_at_most(14) }
     it { should validate_length_of(:email).is_at_most(40) }
     it { should validate_length_of(:nome_mae).is_at_most(50) }
-    it { should belong_to(:cliente_relacao_tipo) }
+    it { should belong_to(:cliente_tipo) }
 
     context "endereco de correspondencia" do
       let!(:cep_tipo)   { create :cep_tipo }

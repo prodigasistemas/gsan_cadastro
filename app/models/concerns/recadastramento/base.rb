@@ -8,7 +8,7 @@ module Recadastramento
     private
 
     def carregar_infos(modelo)
-      modelo.carregar_relacionamentos
+      modelo.carregar_relacionamentos if modelo.respond_to?(:carregar_relacionamentos)
       modelo.attribute_aliases.keys.each do |campo|
         self.send("#{campo}=".to_sym, modelo.send(campo.to_sym)) if self.respond_to?(campo.to_sym)
       end
