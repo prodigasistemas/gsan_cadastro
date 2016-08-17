@@ -43,14 +43,17 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "quantidade_animais_domesticos", "imre_quantidade_animais_domesticos"
   alias_attribute "volume_cisterna", "imre_vol_cisterna"
   alias_attribute "volume_caixa_dagua", "imre_vol_cx_dagua"
+  alias_attribute "volume_piscina", "imre_volumepiscina"
   alias_attribute "tipo_uso", "imre_tipo_uso"
   alias_attribute "acesso_hidrometro", "imre_acesso_hidrometro"
   alias_attribute "quantidade_economias_social", "imre_qtd_economias_social"
   alias_attribute "quatidade_economias_outra", "imre_qtd_economias_outra"
   alias_attribute "rota", "rota_id"
+  alias_attribute "area_construida", "imre_areaconstruida"
 
   alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
   alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
+  alias_attribute "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao"
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -69,12 +72,19 @@ class ImovelRetorno < ActiveRecord::Base
   has_many :cliente_retornos, through: :cliente_imovel_retornos, class_name: 'ClienteRetorno'
   has_many :imovel_tipo_ocupante_quantidade_retornos, foreign_key: :imre_id
 
+  has_one :imovel_controle_atualizacao_cadastral, foreign_key: :imre_id
+  has_one :situacao_atualizacao_cadastral, through: :imovel_controle_atualizacao_cadastral, foreign_key: :imre_id
+
   def fonte_abastecimento_descricao
     fonte_abastecimento.descricao
   end
 
   def ramal_local_instalacao_descricao
     ramal_local_instalacao.descricao
+  end
+
+  def situacao_atualizacao_cadastral_descricao
+    situacao_atualizacao_cadastral.descricao
   end
 
   def carregar_relacionamentos

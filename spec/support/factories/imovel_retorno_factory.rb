@@ -35,6 +35,8 @@ FactoryGirl.define do
     quantidade_animais_domesticos 1
     volume_cisterna 50
     volume_caixa_dagua 50
+    volume_piscina 50
+    area_construida 100
     tipo_uso 1
     acesso_hidrometro 1
     quantidade_economias_social 1

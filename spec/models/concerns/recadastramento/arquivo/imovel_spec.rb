@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Recadastramento::Arquivo::Imovel do
   let!(:fonte_abastecimento) { create(:fonte_abastecimento) }
   let!(:imovel_retorno) { create(:imovel_retorno, fonte_abastecimento: fonte_abastecimento) }
+  let!(:imovel_controle_atualizacao_cadastral) { create(:imovel_controle_atualizacao_cadastral, imovel_retorno: imovel_retorno) }
 
   let!(:tipo_ocupante_criancas_retorno) { create(:tipo_ocupante_criancas_retorno, imovel_retorno: imovel_retorno)}
   let!(:tipo_ocupante_adultos_retorno) { create(:tipo_ocupante_adultos_retorno, imovel_retorno: imovel_retorno)}
