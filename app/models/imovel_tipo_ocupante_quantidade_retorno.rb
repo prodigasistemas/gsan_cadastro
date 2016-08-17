@@ -16,4 +16,8 @@ class ImovelTipoOcupanteQuantidadeRetorno < ActiveRecord::Base
   belongs_to :imovel_tipo_ocupante, foreign_key: "itpo_id"
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :imovel_retorno, foreign_key: "imre_id"
+
+  def descricao
+    imovel_tipo_ocupante.descricao
+  end
 end

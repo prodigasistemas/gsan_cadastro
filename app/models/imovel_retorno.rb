@@ -47,6 +47,9 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "acesso_hidrometro", "imre_acesso_hidrometro"
   alias_attribute "quantidade_economias_social", "imre_qtd_economias_social"
   alias_attribute "quatidade_economias_outra", "imre_qtd_economias_outra"
+  alias_attribute "rota", "rota_id"
+
+  alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -63,4 +66,26 @@ class ImovelRetorno < ActiveRecord::Base
 
   has_many :cliente_imovel_retornos
   has_many :cliente_retornos, through: :cliente_imovel_retornos, class_name: 'ClienteRetorno'
+  has_many :imovel_tipo_ocupante_quantidade_retornos, foreign_key: :imre_id
+
+  def fonte_abastecimento_descricao
+    fonte_abastecimento.descricao
+  end
+
+  def carregar_relacionamentos
+    carregar_relacionamento_tipo_ocupante
+  end
+
+  private
+
+  def carregar_relacionamento_tipo_ocupante
+    imovel_tipo_ocupante_quantidade_retornos.each do |tipo|
+      nome_metodo = "quantidade_tipo_ocupante_#{tipo.descricao.parameterize}"
+      self.class.send(:define_method, nome_metodo) do
+        tipo.quantidade
+      end
+
+      self.class.send(:alias_attribute, "quantidade_#{tipo.descricao.parameterize}", nome_metodo)
+    end
+  end
 end
