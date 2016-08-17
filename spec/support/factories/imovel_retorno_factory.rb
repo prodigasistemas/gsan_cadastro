@@ -28,7 +28,7 @@ FactoryGirl.define do
     codigo_setor_comercial 1
     numero_quadra 1
     ligacao_esgoto_situacao_id 1
-    ramal_local_instalacao_id 1
+    ramal_local_instalacao
     hidrometro_marca_id 1
     hidrometro_capacidade_id 1
     classe_social 3
