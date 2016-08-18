@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   resources :quadras,                 only: :index
   resources :imovel_retornos,         only: :index
 
-  resource :recadastramento
+  resource :arquivo_recadastramento, only: :create
 
   resources :filtros, only: :index
   resources :associacoes, only: :index
