@@ -12,14 +12,14 @@ module Recadastramento
       irs = empresa.imovel_retornos.includes(inclusoes).limit(limit) if limit.present? and limit > 0
       irs ||= empresa.imovel_retornos.includes(inclusoes)
 
-      dados = irs.map do |ir|
-        imovel     = Recadastramento::Arquivo::Imovel.new(ir)
+       dados = irs.map do |ir|
+        imovel     = Recadastramento::Arquivo::Imovel.new(ir)
         hidrometro = Recadastramento::Arquivo::Hidrometro.new(ir.hidrometro_marca, ir.hidrometro_capacidade, ir.hidrometro_protecao)
-        cliente    = Recadastramento::Arquivo::Cliente.new(ir.cliente_usuario_retorno.first)
+        cliente    = Recadastramento::Arquivo::Cliente.new(ir.cliente_usuario_retorno)
 
-        Recadastramento::Dado.new(imovel, cliente, hidrometro)
+        Recadastramento::Dado.new(imovel, cliente, hidrometro)
       end
-      
+
       Recadastramento::GeradorCSV.new(dados).gerar
     end
   end
