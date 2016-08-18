@@ -20,7 +20,7 @@ module Recadastramento
       metadados = obter_meta(@dados.first)
       cabecalho = metadados.values.flatten
 
-      CSV.generate do |csv|
+      CSV.open(caminho, "wb", col_sep: @separador) do |csv|
         csv << cabecalho
 
         @dados.each do |dado|
