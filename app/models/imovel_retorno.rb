@@ -90,7 +90,7 @@ class ImovelRetorno < ActiveRecord::Base
   end
 
   def cliente_usuario_retorno
-    cliente_imovel_retornos.usuario.first
+    cliente_imovel_retornos.usuario
   end
 
   def carregar_relacionamentos

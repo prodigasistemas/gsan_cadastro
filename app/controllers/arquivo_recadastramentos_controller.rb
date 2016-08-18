@@ -15,8 +15,7 @@ class ArquivoRecadastramentosController < ApplicationController
     arquivo = Recadastramento::GeradorCSV.new(dados).gerar
 
     respond_to do |format|
-      # format.csv { send_data arquivo }
-      format.csv { render csv: arquivo, filename: "nome.csv" }
+      format.csv { send_data arquivo }
     end
   end
 end
