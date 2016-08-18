@@ -41,7 +41,7 @@ class ClienteRetorno < ActiveRecord::Base
   end
 
   def sigla_unidade_federacao
-    unidade_federacao.sigla
+    unidade_federacao.try(:sigla)
   end
 
   def descricao_pessoa_sexo
