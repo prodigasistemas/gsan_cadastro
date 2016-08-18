@@ -8,6 +8,7 @@ class ImovelRetorno < ActiveRecord::Base
 
   alias_attribute "id", "imre_id"
 
+  alias_attribute "matricula", "id"
   alias_attribute "numero_imovel", "imac_nnimovel"
   alias_attribute "complemento_endereco", "imac_dscomplementoendereco"
   alias_attribute "pontos_utilizacao", "imac_nnpontosutilizacao"
@@ -90,7 +91,7 @@ class ImovelRetorno < ActiveRecord::Base
   end
 
   def cliente_usuario_retorno
-    cliente_imovel_retornos.usuario.first
+    cliente_imovel_retornos.usuario.first.try(:cliente_retorno)
   end
 
   def carregar_relacionamentos
