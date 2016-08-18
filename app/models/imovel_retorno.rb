@@ -8,7 +8,7 @@ class ImovelRetorno < ActiveRecord::Base
 
   alias_attribute "id", "imre_id"
 
-  alias_attribute "matricula", "id"
+  alias_attribute "matricula", "imovel_id"
   alias_attribute "numero_imovel", "imac_nnimovel"
   alias_attribute "complemento_endereco", "imac_dscomplementoendereco"
   alias_attribute "pontos_utilizacao", "imac_nnpontosutilizacao"
