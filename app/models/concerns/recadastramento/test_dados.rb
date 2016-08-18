@@ -4,7 +4,7 @@ module Recadastramento
     def gerar_para(empresa, limit = 10)
       return unless empresa
 
-      inclusoes = [:hidrometro_marca, :hidrometro_capacidade, :hidrometro_protecao,
+      inclusoes = [:hidrometro_marca, :hidrometro_capacidade, :hidrometro_protecao,
         :cliente_retornos, :fonte_abastecimento, :ramal_local_instalacao,
         :imovel_tipo_ocupante_quantidade_retornos, :situacao_atualizacao_cadastral]
 
