@@ -41,6 +41,6 @@ FactoryGirl.define do
     acesso_hidrometro 1
     quantidade_economias_social 1
     quatidade_economias_outra 1
-    rota 1
+    rota
   end
 end

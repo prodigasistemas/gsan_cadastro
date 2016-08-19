@@ -1,10 +1,10 @@
 module Recadastramento
   module Arquivo
     class Hidrometro < Recadastramento::Base
-      attr_accessor :marca_hidrometro, :capacidade_hidrometro, :protecao_hidrometro
+      attr_accessor :descricao_marca, :descricao_capacidade, :descricao_protecao
 
       def possui_medidor
-        marca_hidrometro.present? and capacidade_hidrometro.present? and protecao_hidrometro.present?
+        descricao_marca.present? and descricao_capacidade.present? and descricao_protecao.present?
       end
     end
   end
