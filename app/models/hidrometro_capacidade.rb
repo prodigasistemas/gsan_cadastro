@@ -15,4 +15,5 @@ class HidrometroCapacidade < ActiveRecord::Base
   alias_attribute "ultima_alteracao", "hicp_tmultimaalteracao"
   alias_attribute "ordem", "hicp_nnordem"
   alias_attribute "codigo_capacidade", "hicp_cdhidrometrocapacidade"
+  alias_attribute "hidrometro_capacidade", "descricao_capacidade"
 end

@@ -11,4 +11,5 @@ class HidrometroProtecao < ActiveRecord::Base
   alias_attribute "abreviacao", "hipr_dsabrvhidmtprotecao"
   alias_attribute "indicador_uso", "hipr_icuso"
   alias_attribute "ultima_alteracao", "hipr_tmultimaalteracao"
+  alias_attribute "hidrometro_protecao", "descricao_protecao"
 end

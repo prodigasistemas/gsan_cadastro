@@ -15,4 +15,5 @@ class HidrometroMarca < ActiveRecord::Base
   alias_attribute "codigo", "himc_cdhidrometromarca"
   alias_attribute "indicador_micro", "himc_icmicro"
   alias_attribute "indicador_macro", "himc_icmacro"
+  alias_attribute "hidrometro_marca", "descricao_marca"
 end
