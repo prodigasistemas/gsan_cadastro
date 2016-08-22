@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.5.0'
 
-set :application, 'gsan_cadastro'
+set :application, 'gsan-api'
 set :repo_url, 'ssh://git@gitlab.cosanpa.pa.gov.br:64422/cosanpa/gsan-api.git'
 
 # Default branch is :master

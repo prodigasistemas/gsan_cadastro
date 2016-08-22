@@ -12,8 +12,8 @@ set -e
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
-APP_ROOT=/var/www/gsan_cadastro/current
-PID=/tmp/.unicorn.gsan_cadastro.pid
+APP_ROOT=/var/www/gsan-api/current
+PID=/tmp/.unicorn.gsan-api.pid
 CMD="cd $APP_ROOT; bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
 AS_USER=jenkins
 set -u
