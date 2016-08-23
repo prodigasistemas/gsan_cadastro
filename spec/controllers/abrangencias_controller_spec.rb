@@ -10,7 +10,9 @@ describe AbrangenciasController, type: :controller do
       let(:params) do
         {
           "contrato_medicao_id"  => contrato_medicao.id,
-          "imoveis" => [imovel_1.id, imovel_2.id]
+          "query" => {
+            "localidade_id" => "1"
+          }
         }
       end
 

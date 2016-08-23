@@ -7,6 +7,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 gem 'dotenv-rails'
 gem 'composite_primary_keys', '~> 8.0'
+gem 'bulk_insert'
 
 group :production do
   gem 'unicorn'
