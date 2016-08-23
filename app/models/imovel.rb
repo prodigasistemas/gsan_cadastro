@@ -18,6 +18,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :localidade, foreign_key: :loca_id
   belongs_to :setor_comercial, foreign_key: :stcm_id
   belongs_to :quadra, foreign_key: :qdra_id
+  has_one :gerencia_regional, through: :localidade
 
   alias_attribute "localidade_id",                                                      "loca_id"
   alias_attribute "setor_comercial_id",                                                 "stcm_id"

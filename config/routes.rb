@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :usuarios,                only: [:index, :show]
+  resources :usuarios,                only: [:index, :show] do
+    get "/empresa", action: :empresa
+  end
 
   resources :ceps do
     get :search, :on => :collection
@@ -47,6 +49,8 @@ Rails.application.routes.draw do
   resources :rotas,                   only: :index
   resources :quadras,                 only: :index
   resources :imovel_retornos,         only: :index
+
+  resource :arquivo_recadastramento, only: :create
 
   resources :filtros, only: :index
   resources :associacoes, only: :index
