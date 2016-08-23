@@ -25,11 +25,11 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'factory_girl'
 end
 
 group :test do
   gem 'shoulda-matchers', '~> 2.0'
-  gem 'factory_girl'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
   gem 'database_cleaner'

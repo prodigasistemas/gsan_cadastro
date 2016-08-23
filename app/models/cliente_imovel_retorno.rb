@@ -19,4 +19,6 @@ class ClienteImovelRetorno < ActiveRecord::Base
   belongs_to :cliente_relacao_tipo, foreign_key: "crtp_id"
   belongs_to :imovel_retorno, foreign_key: "imre_id"
   belongs_to :cliente_retorno, foreign_key: "clir_id"
+
+  scope :usuario, -> { where(crtp_id: 2) }
 end
