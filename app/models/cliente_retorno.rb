@@ -45,7 +45,7 @@ class ClienteRetorno < ActiveRecord::Base
   end
 
   def descricao_pessoa_sexo
-    pessoa_sexo.descricao
+    pessoa_sexo.try(:descricao)
   end
 
   def cliente_telefone
