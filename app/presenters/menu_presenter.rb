@@ -18,6 +18,7 @@ class MenuPresenter
         acao = Menu.new(funcionalidade.descricao, "url")
         item_menu.submenu << acao
         item_menu.url = ""
+        item_menu.id = funcionalidade.id
       end if funcionalidade.funcionalidade_categoria
     end 
 
