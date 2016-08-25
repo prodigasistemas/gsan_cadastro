@@ -50,7 +50,8 @@ Rails.application.routes.draw do
   resources :quadras,                 only: :index
   resources :imovel_retornos,         only: :index
 
-  resource :arquivo_recadastramento, only: :create
+  resource :arquivo_recadastramento, only: [:create, :show]
+  get "/verifica_arquivo_recadastramento", controller: :arquivo_recadastramentos, action: :verify
 
   resources :filtros, only: :index
   resources :associacoes, only: :index

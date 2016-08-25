@@ -179,6 +179,8 @@ GEM
     sshkit (1.11.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sucker_punch (2.0.2)
+      concurrent-ruby (~> 1.0.0)
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -216,6 +218,7 @@ DEPENDENCIES
   simplecov
   simplecov-rcov
   spring
+  sucker_punch
   thin
   unicorn
 
