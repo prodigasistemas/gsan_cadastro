@@ -7,6 +7,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
 gem 'dotenv-rails'
 gem 'bulk_insert'
+gem 'sucker_punch'
 
 group :production do
   gem 'unicorn'

@@ -1,21 +1,30 @@
 class ArquivoRecadastramentosController < ApplicationController
+  def show
+    caminho ="#{Rails.root}/tmp/#{params[:nome_arquivo]}.csv"
+    send_file caminho, :type=>"text/csv", :x_sendfile=>true
+  end
+
+  def verify
+    nome = params[:nome_arquivo]
+    caminho ="#{Rails.root}/tmp/#{nome}.csv"
+
+    if File.exists?(caminho)
+      render json: { success: true }, status: :ok
+    else
+      render json: { success: false }, status: :ok
+    end
+  end
+
   def create
     usuario = Usuario.find params[:usuario_id]
-    dados = []
 
-    usuario.empresas.each do |empresa|
-      empresa.imovel_retornos.each do |ir|
-        imovel = Recadastramento::Arquivo::Imovel.new ir
-        hidrometro = Recadastramento::Arquivo::Hidrometro.new ir.hidrometro_marca, ir.hidrometro_capacidade, ir.hidrometro_protecao
-        cliente = Recadastramento::Arquivo::Cliente.new ir.cliente_usuario_retorno
-        dados << Recadastramento::Dado.new(imovel, cliente, hidrometro)
-      end
-    end
+    if usuario.leituristas.present?
+      @nome_arquivo = "#{Time.zone.now.to_i}#{usuario.id}"
+      ArquivoRecadastramentoJob.perform_async(usuario, @nome_arquivo)
 
-    arquivo = Recadastramento::GeradorCSV.new(dados).gerar
-
-    respond_to do |format|
-      format.csv { send_data arquivo }
+      render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok      
+    else
+      render json: { success: false, message: "Usuário #{usuario.nome} não possui dados para gerar o arquivo." }, status: :ok
     end
   end
 end
