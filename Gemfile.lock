@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/prodigasistemas/log_file.git
+  revision: 2dd193dc582dfd2a40790dbea8feade50be9485e
+  specs:
+    log_file (0.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -206,6 +212,7 @@ DEPENDENCIES
   factory_girl
   jbuilder (~> 2.0)
   kaminari
+  log_file!
   pg
   pry-rails
   rack-cors

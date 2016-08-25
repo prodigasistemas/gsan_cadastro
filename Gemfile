@@ -8,6 +8,7 @@ gem 'kaminari'
 gem 'dotenv-rails'
 gem 'bulk_insert'
 gem 'sucker_punch'
+gem 'log_file', github: 'prodigasistemas/log_file'
 
 group :production do
   gem 'unicorn'

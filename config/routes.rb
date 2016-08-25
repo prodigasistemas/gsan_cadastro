@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: 'home#index'
+
   resources :usuarios,                only: [:index, :show] do
     get "/empresa", action: :empresa
   end
