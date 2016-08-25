@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/prodigasistemas/log_file.git
+  revision: 2dd193dc582dfd2a40790dbea8feade50be9485e
+  specs:
+    log_file (0.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -177,6 +183,8 @@ GEM
     sshkit (1.11.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sucker_punch (2.0.2)
+      concurrent-ruby (~> 1.0.0)
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -204,6 +212,7 @@ DEPENDENCIES
   factory_girl
   jbuilder (~> 2.0)
   kaminari
+  log_file!
   pg
   pry-rails
   rack-cors
@@ -213,6 +222,7 @@ DEPENDENCIES
   simplecov
   simplecov-rcov
   spring
+  sucker_punch
   thin
   unicorn
 
