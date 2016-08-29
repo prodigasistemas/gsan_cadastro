@@ -1,5 +1,5 @@
 class Menu
-  attr_reader :id, :descricao
+  attr_reader :descricao
   attr_accessor :submenu, :url, :id
 
   def initialize(descricao, url = "")
