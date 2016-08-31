@@ -21,4 +21,6 @@ class ClienteImovelRetorno < ActiveRecord::Base
   belongs_to :cliente_retorno, foreign_key: "clir_id"
 
   scope :usuario, -> { where(crtp_id: 2) }
+  scope :proprietario, -> { where(crtp_id: 1) }
+  scope :responsavel, -> { where(crtp_id: 3) }
 end
