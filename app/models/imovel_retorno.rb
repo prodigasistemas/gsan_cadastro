@@ -53,6 +53,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
   alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
   alias_attribute "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao"
+  alias_attribute "cadastro_ocorrencia_nome", "cadastro_ocorrencia_descricao"
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -92,6 +93,10 @@ class ImovelRetorno < ActiveRecord::Base
 
   def cliente_usuario_retorno
     cliente_imovel_retornos.usuario.first.try(:cliente_retorno)
+  end
+
+  def cadastro_ocorrencia_descricao
+    imovel_controle_atualizacao_cadastral.try(:descricao_ocorrencia)
   end
 
   def carregar_relacionamentos
