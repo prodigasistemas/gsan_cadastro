@@ -19,7 +19,7 @@ module Recadastramento
         Recadastramento::Dado.new(imovel, cliente, hidrometro)
       end
 
-      Recadastramento::GeradorCSV.new(dados).gerar
+      Recadastramento::GeradorCSV.new(dados, "imovel_retorno_31082016-2").gerar
     end
   end
 end

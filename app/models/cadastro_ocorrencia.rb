@@ -1,4 +1,4 @@
-class CadastroOcorrencia <  < ActiveRecord::Base
+class CadastroOcorrencia <  ActiveRecord::Base
   include IncrementableId
   include API::Filterable
   include API::Model

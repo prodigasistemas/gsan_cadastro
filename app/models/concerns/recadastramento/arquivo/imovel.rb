@@ -11,7 +11,8 @@ module Recadastramento
                     :quantidade_idosos, :quantidade_empregados, :quantidade_alunos, :quantidade_caes,
                     :quantidade_outros, :rota, :ramal_local_instalacao_nome, :situacao_atualizacao_cadastral_nome,
                     :area_construida, :volume_piscina, :codigo_setor_comercial, :cadastro_ocorrencia_nome,
-                    :outras_informacoes
+                    :comentarios, :datahora_geracao, :datahora_retorno, :datahora_aprovacao,
+                    :datahora_processamento
     end
   end
 end

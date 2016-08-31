@@ -18,7 +18,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "coordenada_y", "imac_nncoordenaday"
   alias_attribute "numero_hidrometro", "imac_nnhidrometro"
   alias_attribute "numero_medidor_energia", "imac_nnmedidorenergia"
-  alias_attribute "outras_informacoes", "imac_dsoutrasinformacoes"
+  alias_attribute "comentarios", "imac_dsoutrasinformacoes"
   alias_attribute "tipo_entrevistado", "imac_tipoentrevistado"
   alias_attribute "tipo_operacao", "imac_tipooperacao"
   alias_attribute "ultima_alteracao", "imac_tmultimaalteracao"
@@ -54,6 +54,10 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
   alias_attribute "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao"
   alias_attribute "cadastro_ocorrencia_nome", "cadastro_ocorrencia_descricao"
+  alias_attribute "datahora_geracao", "tempo_geracao"
+  alias_attribute "datahora_retorno", "tempo_retorno"
+  alias_attribute "datahora_aprovacao", "tempo_aprovacao"
+  alias_attribute "datahora_processamento", "tempo_processamento"
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -97,6 +101,22 @@ class ImovelRetorno < ActiveRecord::Base
 
   def cadastro_ocorrencia_descricao
     imovel_controle_atualizacao_cadastral.try(:descricao_ocorrencia)
+  end
+
+  def tempo_geracao
+    imovel_controle_atualizacao_cadastral.try(:tempo_geracao)
+  end
+
+  def tempo_retorno
+    imovel_controle_atualizacao_cadastral.try(:tempo_retorno)
+  end
+
+  def tempo_aprovacao
+    imovel_controle_atualizacao_cadastral.try(:tempo_aprovacao)
+  end
+
+  def tempo_processamento
+    imovel_controle_atualizacao_cadastral.try(:tempo_processamento)
   end
 
   def carregar_relacionamentos
