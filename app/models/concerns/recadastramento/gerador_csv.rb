@@ -2,8 +2,9 @@ require 'csv'
 
 module Recadastramento
   class GeradorCSV
-    def initialize dados, options = {}
+    def initialize dados, nome, options = {}
       @dados     = dados
+      @nome      = nome
       @separador = options.fetch(:separador, ";")
     end
 
@@ -16,11 +17,11 @@ module Recadastramento
     private
 
     def gerar_arquivo
-      caminho   = Rails.root.join("tmp", "#{Time.zone.now.to_i}.csv")
+      caminho   = Rails.root.join("tmp", "#{@nome}.csv")
       metadados = obter_meta(@dados.first)
       cabecalho = metadados.values.flatten
 
-      CSV.open(caminho, 'wb') do |csv|
+      CSV.open(caminho, "wb", col_sep: @separador) do |csv|
         csv << cabecalho
 
         @dados.each do |dado|
