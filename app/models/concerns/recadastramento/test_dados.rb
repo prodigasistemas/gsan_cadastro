@@ -15,16 +15,9 @@ module Recadastramento
         irs = empresa.imovel_retornos.includes(inclusoes)
       end
 
-      dados = irs.map do |ir|
-        imovel = Recadastramento::Arquivo::Imovel.new(ir)
-        hidrometro = Recadastramento::Arquivo::Hidrometro.new(ir.hidrometro_marca, ir.hidrometro_capacidade, ir.hidrometro_protecao)
-        cliente_usuario = Recadastramento::Arquivo::Clientes::ClienteUsuario.new(ir.cliente_usuario_retorno)
-        cliente_proprietario = Recadastramento::Arquivo::Clientes::ClienteProprietario.new(ir.cliente_proprietario_retorno)
-        cliente_responsavel = Recadastramento::Arquivo::Clientes::ClienteResponsavel.new(ir.cliente_responsavel_retorno)
-        Recadastramento::Dado.new(imovel, cliente_usuario, cliente_responsavel, cliente_proprietario, hidrometro)
-      end
+      dados = irs.map{ |ir| Recadastramento::Dado.new(ir) }
 
-      Recadastramento::GeradorCSV.new(dados, "imovel_retorno_31082016-2").gerar
+      Recadastramento::GeradorCSV.new(dados, "imovel_retorno_31082016-3").gerar
     end
   end
 end

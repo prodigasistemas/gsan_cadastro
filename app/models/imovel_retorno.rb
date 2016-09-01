@@ -51,6 +51,16 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "quatidade_economias_outra", "imre_qtd_economias_outra"
   alias_attribute "area_construida", "imre_areaconstruida"
 
+  # custom attributes
+  alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
+  alias_attribute "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao"
+  alias_attribute "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao"
+  alias_attribute "cadastro_ocorrencia_nome", "cadastro_ocorrencia_descricao"
+  alias_attribute "datahora_geracao", "tempo_geracao"
+  alias_attribute "datahora_retorno", "tempo_retorno"
+  alias_attribute "datahora_aprovacao", "tempo_aprovacao"
+  alias_attribute "datahora_processamento", "tempo_processamento"
+
 
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :municipio, foreign_key: "muni_id"
@@ -76,23 +86,16 @@ class ImovelRetorno < ActiveRecord::Base
   def fonte_abastecimento_descricao
     return nil if fonte_abastecimento.nil?
     fonte_abastecimento.descricao
-
-    self.class.send(:alias_attribute, "fonte_abastecimento_nome", "fonte_abastecimento_descricao")
   end
 
   def ramal_local_instalacao_descricao
     return nil if ramal_local_instalacao.nil?
     ramal_local_instalacao.descricao
-
-
-    self.class.send(:alias_attribute, "ramal_local_instalacao_nome", "ramal_local_instalacao_descricao")
   end
 
   def situacao_atualizacao_cadastral_descricao
     return nil if situacao_atualizacao_cadastral.nil?
     situacao_atualizacao_cadastral.descricao
-
-    self.class.send(:alias_attribute, "situacao_atualizacao_cadastral_nome", "situacao_atualizacao_cadastral_descricao")
   end
 
   def cliente_usuario_retorno
@@ -109,32 +112,22 @@ class ImovelRetorno < ActiveRecord::Base
 
   def cadastro_ocorrencia_descricao
     imovel_controle_atualizacao_cadastral.try(:descricao_ocorrencia)
-
-    self.class.send(:alias_attribute, "cadastro_ocorrencia_nome", "cadastro_ocorrencia_descricao")
   end
 
   def tempo_geracao
     imovel_controle_atualizacao_cadastral.try(:tempo_geracao)
-
-    self.class.send(:alias_attribute, "datahora_geracao", "tempo_geracao")
   end
 
   def tempo_retorno
     imovel_controle_atualizacao_cadastral.try(:tempo_retorno)
-
-    self.class.send(:alias_attribute, "datahora_geracao", "tempo_retorno")
   end
 
   def tempo_aprovacao
     imovel_controle_atualizacao_cadastral.try(:tempo_aprovacao)
-
-    self.class.send(:alias_attribute, "datahora_geracao", "tempo_aprovacao")
   end
 
   def tempo_processamento
     imovel_controle_atualizacao_cadastral.try(:tempo_processamento)
-
-    self.class.send(:alias_attribute, "datahora_processamento", "tempo_processamento")
   end
 
   def carregar_relacionamentos
