@@ -9,7 +9,7 @@ FactoryGirl.define do
     coordenada_y 123
     numero_hidrometro 1
     numero_medidor_energia 14444
-    outras_informacoes 'Outras infos'
+    comentarios 'Outras infos'
     tipo_entrevistado 1
     tipo_operacao 1
     ultima_alteracao { Time.zone.now }

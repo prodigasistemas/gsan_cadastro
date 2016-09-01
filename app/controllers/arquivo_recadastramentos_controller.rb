@@ -22,7 +22,7 @@ class ArquivoRecadastramentosController < ApplicationController
       @nome_arquivo = "#{Time.zone.now.to_i}#{usuario.id}"
       ArquivoRecadastramentoJob.perform_async(usuario, @nome_arquivo)
 
-      render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok      
+      render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok
     else
       render json: { success: false, message: "Usuário #{usuario.nome} não possui dados para gerar o arquivo." }, status: :ok
     end

@@ -19,7 +19,7 @@ module Recadastramento
     def gerar_arquivo
       caminho   = Rails.root.join("tmp", "#{@nome}.csv")
       metadados = obter_meta(@dados.first)
-      cabecalho = metadados.values.flatten
+      cabecalho = obter_meta(@dados.first, tipo="cabecalho").values.flatten
 
       CSV.open(caminho, "wb", col_sep: @separador) do |csv|
         csv << cabecalho
@@ -44,18 +44,30 @@ module Recadastramento
       end
     end
 
-    def obter_meta(dado)
+    def obter_meta(dado, tipo="info")
       {}.tap do |meta|
         normalizar_campos(dado.instance_variables).each do |variable|
           variaveis_campo = dado.send(variable).instance_variables
-
-          meta.merge!({ variable => normalizar_campos(variaveis_campo).sort })
+          meta.merge!(self.send("meta_#{tipo.to_sym}", variable, variaveis_campo))
         end
       end
     end
 
+    def meta_info(variable, variaveis_campo)
+      { variable => normalizar_campos(variaveis_campo).sort }
+    end
+
+    def meta_cabecalho(variable, variaveis_campo)
+      { variable => normalizar_campos_por(variable, variaveis_campo).sort }
+    end
+
     def normalizar_info(info)
       info.to_s.strip
+    end
+
+    def normalizar_campos_por(klass, campos)
+      columns = normalizar_campos(campos)
+      columns.map{|campo| "#{klass}_#{campo}"}
     end
 
     def normalizar_campos(campos)
