@@ -8,7 +8,6 @@ describe Recadastramento::Arquivo::Cliente do
   describe "cliente_infos" do
     let(:cliente_arquivo) { Recadastramento::Arquivo::Cliente.new cliente_retorno }
 
-    it { expect(cliente_arquivo.nome_usuario).to eq cliente_retorno.nome }
     it { expect(cliente_arquivo.tipo_pessoa).to eq cliente_retorno.tipo_pessoa }
     it { expect(cliente_arquivo.cpf_cnpj).to eq cliente_retorno.cpf_cnpj }
     it { expect(cliente_arquivo.rg).to eq cliente_retorno.rg }
