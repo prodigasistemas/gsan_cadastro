@@ -10,7 +10,9 @@ module Recadastramento
                     :fonte_abastecimento_nome, :quantidade_criancas, :quantidade_adultos,
                     :quantidade_idosos, :quantidade_empregados, :quantidade_alunos, :quantidade_caes,
                     :quantidade_outros, :rota, :ramal_local_instalacao_nome, :situacao_atualizacao_cadastral_nome,
-                    :area_construida, :volume_piscina, :codigo_setor_comercial
+                    :area_construida, :volume_piscina, :codigo_setor_comercial, :cadastro_ocorrencia_nome,
+                    :comentarios, :datahora_geracao, :datahora_retorno, :datahora_aprovacao,
+                    :datahora_processamento
     end
   end
 end

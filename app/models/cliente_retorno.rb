@@ -32,10 +32,12 @@ class ClienteRetorno < ActiveRecord::Base
   has_many :cliente_fone_retornos, foreign_key: "clir_id"
 
   def cliente_pessoa_tipo
+    return nil if cliente.nil? or cliente.try(:cliente_tipo).nil?
     cliente.cliente_tipo.pessoa_tipo
   end
 
   def cnpj_ou_cpf
+    return nil if cliente.nil?
     return cliente.cpf if cliente.pessoa_fisica?
     cliente.cnpj
   end

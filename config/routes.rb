@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: 'home#index'
+
   resources :usuarios,                only: [:index, :show] do
     get "/empresa", action: :empresa
   end
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :acoes,                   except: [:destroy]
   resources :abrangencias,            only: [:index]
   resources :coeficientes,            only: [:index, :show, :create, :update]
   resources :ligacao_agua_situacoes,  only: [:index]

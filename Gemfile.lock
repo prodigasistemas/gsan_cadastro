@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/prodigasistemas/log_file.git
+  revision: 2dd193dc582dfd2a40790dbea8feade50be9485e
+  specs:
+    log_file (0.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -71,6 +77,9 @@ GEM
       railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     eventmachine (1.2.0.1)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     factory_girl (4.7.0)
       activesupport (>= 3.0.0)
     globalid (0.3.7)
@@ -165,6 +174,7 @@ GEM
     simplecov-html (0.10.0)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
+    slack-notifier (1.2.1)
     slop (3.6.0)
     spring (1.7.2)
     sprockets (3.7.0)
@@ -203,9 +213,11 @@ DEPENDENCIES
   capistrano-rvm
   database_cleaner
   dotenv-rails
+  exception_notification
   factory_girl
   jbuilder (~> 2.0)
   kaminari
+  log_file!
   pg
   pry-rails
   rack-cors
@@ -214,6 +226,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.0)
   simplecov
   simplecov-rcov
+  slack-notifier
   spring
   sucker_punch
   thin
