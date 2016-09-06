@@ -1,4 +1,7 @@
 class UsuarioGrupoRestricao < ActiveRecord::Base
+  include IncrementableId
+  include Filterable
+  
   self.table_name = "seguranca.usuario_grupo_restricao"
   self.primary_keys = :grup_id, :usur_id, :fncd_id, :oper_id 
 

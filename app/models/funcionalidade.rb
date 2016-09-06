@@ -1,4 +1,7 @@
 class Funcionalidade < ActiveRecord::Base
+  include IncrementableId
+  include Filterable 
+  
   self.table_name  = "seguranca.funcionalidade"
   self.primary_key = "fncd_id"
 

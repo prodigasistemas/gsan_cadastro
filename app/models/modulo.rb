@@ -1,4 +1,7 @@
 class Modulo < ActiveRecord::Base
+  include IncrementableId
+  include Filterable
+  
   self.table_name = "seguranca.modulo"
   self.primary_key = "modu_id"
 

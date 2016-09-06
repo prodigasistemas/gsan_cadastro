@@ -1,4 +1,7 @@
 class GrupoFuncionalidadeOperacao < ActiveRecord::Base
+  include IncrementableId
+  include Filterable
+  
   self.table_name   = "seguranca.grupo_func_operacao"
   self.primary_keys = :grup_id, :fncd_id, :oper_id
 

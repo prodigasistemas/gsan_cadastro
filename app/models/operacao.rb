@@ -1,4 +1,7 @@
 class Operacao < ActiveRecord::Base
+  include IncrementableId
+  include Filterable
+  
   self.table_name  = 'seguranca.operacao'
   self.primary_key = 'oper_id'
 
