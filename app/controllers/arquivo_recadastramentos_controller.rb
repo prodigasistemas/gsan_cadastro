@@ -16,15 +16,15 @@ class ArquivoRecadastramentosController < ApplicationController
   end
 
   def create
-    usuario = Usuario.find params[:usuario_id]
+    empresa = Empresa.find params[:empresa_id]
 
-    if usuario.leituristas.present?
-      @nome_arquivo = "#{Time.zone.now.to_i}#{usuario.id}"
-      ArquivoRecadastramentoJob.perform_async(usuario, @nome_arquivo)
+    if empresa.present?
+      @nome_arquivo = "#{Time.zone.now.to_i}#{empresa.id}"
+      ArquivoRecadastramentoJob.perform_async(empresa, @nome_arquivo)
 
       render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok
     else
-      render json: { success: false, message: "Usuário #{usuario.nome} não possui dados para gerar o arquivo." }, status: :ok
+      render json: { success: false, message: "Empresa #{empresa.nome} não possui dados para gerar o arquivo." }, status: :ok
     end
   end
 end
