@@ -18,7 +18,7 @@ class ArquivoRecadastramentosController < ApplicationController
   def create
     empresa = Empresa.find params[:empresa_id]
 
-    if empresa.present?
+    if empresa.imovel_retornos.present?
       @nome_arquivo = "#{Time.zone.now.to_i}#{empresa.id}"
       ArquivoRecadastramentoJob.perform_async(empresa, @nome_arquivo)
 
