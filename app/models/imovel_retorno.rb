@@ -50,6 +50,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "quantidade_economias_social", "imre_qtd_economias_social"
   alias_attribute "quatidade_economias_outra", "imre_qtd_economias_outra"
   alias_attribute "area_construida", "imre_areaconstruida"
+  alias_attribute "percentual_abastecimento", "imre_percentual_abastecimento"
 
   # custom attributes
   alias_attribute "fonte_abastecimento_nome", "fonte_abastecimento_descricao"
