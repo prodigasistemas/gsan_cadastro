@@ -17,10 +17,25 @@ class ArquivoRecadastramentosController < ApplicationController
 
   def create
     empresa = Empresa.find params[:empresa_id]
+    data_inicial = params[:data_inicial].to_datetime if params[:data_inicial].present?
+    data_final  = params[:data_final].to_datetime if params[:data_final].present?
 
-    if empresa.imovel_retornos.present?
-      @nome_arquivo = "#{Time.zone.now.to_i}#{empresa.id}"
-      ArquivoRecadastramentoJob.perform_async(empresa, @nome_arquivo)
+    @nome_arquivo = "#{Time.zone.now.to_i}#{empresa.id}"
+
+    inclusoes = [:hidrometro_marca, :hidrometro_capacidade, :hidrometro_protecao,
+      :cliente_retornos, :fonte_abastecimento, :ramal_local_instalacao,
+      :imovel_tipo_ocupante_quantidade_retornos, :situacao_atualizacao_cadastral]
+
+    if data_inicial.present? && data_final.present?
+      inclusoes << :imovel_controle_atualizacao_cadastral
+      irs = empresa.imovel_retornos.includes(inclusoes).where(imovel_controle_atlz_cad: { icac_tmretorno: data_inicial..data_final })
+    else
+      irs = empresa.imovel_retornos.includes(inclusoes)
+    end
+
+    if irs.present?
+
+      ArquivoRecadastramentoJob.perform_async(irs, @nome_arquivo)
 
       render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok
     else
