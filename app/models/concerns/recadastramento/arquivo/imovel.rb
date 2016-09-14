@@ -12,7 +12,7 @@ module Recadastramento
                     :quantidade_outros, :rota, :ramal_local_instalacao_nome, :situacao_atualizacao_cadastral_nome,
                     :area_construida, :volume_piscina, :codigo_setor_comercial, :cadastro_ocorrencia_nome,
                     :comentarios, :datahora_geracao, :datahora_retorno, :datahora_aprovacao,
-                    :datahora_processamento, :percentual_abastecimento
+                    :datahora_processamento, :percentual_abastecimento, :codigo_rota_id
     end
   end
 end
