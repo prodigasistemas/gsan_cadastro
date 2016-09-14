@@ -19,6 +19,7 @@ class ArquivoRecadastramentosController < ApplicationController
     empresa = Empresa.find params[:empresa_id]
     data_inicial = params[:data_inicial].to_datetime if params[:data_inicial].present?
     data_final  = params[:data_final].to_datetime if params[:data_final].present?
+    usuario_id = params[:usuario_id]
 
     @nome_arquivo = "#{Time.zone.now.to_i}#{empresa.id}"
 
@@ -35,9 +36,15 @@ class ArquivoRecadastramentosController < ApplicationController
 
     if irs.present?
 
-      ArquivoRecadastramentoJob.perform_async(irs, @nome_arquivo)
+      historico = HistoricoArquivoRetorno.create(
+                                            usuario_id: usuario_id, 
+                                            empresa: empresa, 
+                                            situacao: 'pendente'
+                                          )
 
-      render json: { success: true, nome_arquivo: @nome_arquivo }, status: :ok
+      ArquivoRecadastramentoJob.perform_async(irs, @nome_arquivo, historico)
+
+      render json: { success: true, nome_arquivo: @nome_arquivo, empresa: empresa.nome, historico: historico.atributos }, status: :ok
     else
       render json: { success: false, message: "Empresa #{empresa.nome} não possui dados para gerar o arquivo." }, status: :ok
     end

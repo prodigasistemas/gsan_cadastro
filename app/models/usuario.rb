@@ -21,6 +21,7 @@ class Usuario < ActiveRecord::Base
   has_many :empresas, through: :leituristas, foreign_key: "empr_id"
   has_many :usuario_grupos, foreign_key: "usur_id"
   has_many :grupos, through: :usuario_grupos, foreign_key: "grup_id"
+  has_many :historico_arquivo_retornos, foreign_key: "usur_id"
 
   def self.login(login, senha)
     sha1 = Digest::SHA1.base64digest senha
