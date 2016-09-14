@@ -6,10 +6,10 @@ class HidrometroLocalArmazenamento < ActiveRecord::Base
   self.table_name  = 'micromedicao.hidrometro_local_armaz'
   self.primary_key = 'hila_id'
 
-  alias_attribute "", "hila_id"
-  alias_attribute "", "hila_dshidrlocalarmazenagem"
-  alias_attribute "", "hila_dsabrvhidmtlocalarmz"
-  alias_attribute "", "hila_icuso"
-  alias_attribute "", "hila_tmultimaalteracao"
-  alias_attribute "", "hila_icoficina"
+  alias_attribute "id", "hila_id"
+  alias_attribute "descricao", "hila_dshidrlocalarmazenagem"
+  alias_attribute "abreviacao", "hila_dsabrvhidmtlocalarmz"
+  alias_attribute "indicador_uso", "hila_icuso"
+  alias_attribute "ultima_alteracao", "hila_tmultimaalteracao"
+  alias_attribute "indicador_oficina", "hila_icoficina"
 end

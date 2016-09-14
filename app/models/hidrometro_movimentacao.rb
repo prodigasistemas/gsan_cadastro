@@ -17,4 +17,6 @@ class HidrometroMovimentacao < ActiveRecord::Base
   alias_attribute "usuario_id", "usur_id"
 
   belongs_to :usuario, foreign_key: "usur_id"
+  belongs_to :local_origem, foreign_key: "hila_idhidmtlocalarmzorigem", class_name: 'HidrometroLocalArmazamento'
+  belongs_to :local_destino, foreign_key: "hila_idhidmtlocalarmzdest", class_name: 'HidrometroLocalArmazamento'
 end
