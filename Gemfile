@@ -13,6 +13,8 @@ gem 'log_file', github: 'prodigasistemas/log_file'
 gem 'exception_notification'
 gem 'slack-notifier'
 
+gem 'composite_primary_keys'
+
 group :production do
   gem 'unicorn'
 end

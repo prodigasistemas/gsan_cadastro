@@ -34,4 +34,7 @@ class Hidrometro < ActiveRecord::Base
   alias_attribute "hidrometro_fat_correcao_id", "hifc_id"
   alias_attribute "numero_tombamento", "hidr_nntombamento"
   alias_attribute "indicador_operacional", "hidr_icoperacional"
+
+  has_many :hidrometro_movimentados, foreign_key: "hidr_id"
+  has_many :hidrometro_movimentacoes, through: :hidrometro_movimentados
 end

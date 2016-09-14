@@ -66,6 +66,8 @@ GEM
       capistrano (~> 3.0)
       sshkit (~> 1.2)
     coderay (1.1.1)
+    composite_primary_keys (8.1.4)
+      activerecord (~> 4.2.0)
     concurrent-ruby (1.0.2)
     daemons (1.2.3)
     database_cleaner (1.5.3)
@@ -211,6 +213,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
+  composite_primary_keys
   database_cleaner
   dotenv-rails
   exception_notification
