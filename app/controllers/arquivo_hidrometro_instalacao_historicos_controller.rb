@@ -37,7 +37,7 @@ class ArquivoHidrometroInstalacaoHistoricosController < ApplicationController
       ArquivoHidrometroInstalacaoHistoricoJob.perform_async(hidrometro_historicos, @nome_arquivo, historico)
 
 
-      render json: { success: true, nome_arquivo: @nome_arquivo, usuario: usuario.nome, historico: historico.atributos }, status: :ok
+      render json: { success: true, nome_arquivo: @nome_arquivo, nome: usuario.nome, historico: historico.atributos }, status: :ok
     else
       render json: { success: false, message: "Não possui dados para gerar o arquivo." }, status: :ok
     end

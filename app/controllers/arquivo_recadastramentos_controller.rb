@@ -44,7 +44,7 @@ class ArquivoRecadastramentosController < ApplicationController
 
       ArquivoRecadastramentoJob.perform_async(irs, @nome_arquivo, historico)
 
-      render json: { success: true, nome_arquivo: @nome_arquivo, empresa: empresa.nome, historico: historico.atributos }, status: :ok
+      render json: { success: true, nome_arquivo: @nome_arquivo, nome: empresa.nome, historico: historico.atributos }, status: :ok
     else
       render json: { success: false, message: "Empresa #{empresa.nome} não possui dados para gerar o arquivo." }, status: :ok
     end
