@@ -12,14 +12,6 @@ class Imovel < ActiveRecord::Base
   alias_attribute "logradouro_cep_id",                                                  "lgcp_id"
   alias_attribute "bairro_id",                                                          "bair_id"
   alias_attribute "vencimento_mes_seguinte",                                            "imov_icvencimentomesseguinte"
-
-  belongs_to :logradouro_cep, foreign_key: :lgcp_id
-  belongs_to :logradouro_bairro, foreign_key: :lgbr_id
-  belongs_to :localidade, foreign_key: :loca_id
-  belongs_to :setor_comercial, foreign_key: :stcm_id
-  belongs_to :quadra, foreign_key: :qdra_id
-  has_one :gerencia_regional, through: :localidade
-
   alias_attribute "localidade_id",                                                      "loca_id"
   alias_attribute "setor_comercial_id",                                                 "stcm_id"
   alias_attribute "quadra_id",                                                          "qdra_id"
@@ -110,8 +102,16 @@ class Imovel < ActiveRecord::Base
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
 
+  belongs_to :logradouro_cep, foreign_key: :lgcp_id
+  belongs_to :logradouro_bairro, foreign_key: :lgbr_id
+  belongs_to :localidade, foreign_key: :loca_id
+  belongs_to :setor_comercial, foreign_key: :stcm_id
+  belongs_to :quadra, foreign_key: :qdra_id
+  has_one :gerencia_regional, through: :localidade
   has_one :abrangencia, foreign_key: :imov_id
   has_one :contrato_medicao, through: :abrangencia
+  has_many :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
+  has_many :hidrometro_instalacao_agua_historicos, foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
 
   def atributos
     super([:localidade, :setor_comercial])

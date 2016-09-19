@@ -2,6 +2,7 @@ class HidrometroInstalacaoHistorico < ActiveRecord::Base
   include IncrementableId
   include API::Filterable
   include API::Model
+  include Filtros::HidrometroFiltro
 
   self.table_name  = 'micromedicao.hidrometro_inst_hist'
   self.primary_key = 'hidi_id'
@@ -37,18 +38,19 @@ class HidrometroInstalacaoHistorico < ActiveRecord::Base
   belongs_to :hidrometro, foreign_key: "hidr_id"
   belongs_to :imovel, foreign_key: "lagu_id"
 
+  scope :data_instalacao_entre, -> (data_inicial, data_final) {
+    where(hidi_dtinstalacaohidrometro: data_inicial.to_date.beginning_of_day..data_final.to_date.beginning_of_day)
+  }
+
+  scope :data_retirada_entre, -> (data_inicial, data_final) {
+    where(hidi_dtretiradahidrometro: data_inicial.to_date.beginning_of_day..data_final.to_date.beginning_of_day)
+  }
+
   def hidrometro_numero
     hidrometro.try(:numero_hidrometro)
   end
 
   def imovel_matricula
     imovel.try(:id)
-  end
-
-  def self.por_localidade_e_intervalo(localidade, data_inicial, data_final)
-    joins(:imovel).where('imovel.loca_id = :localidade_id and
-                        (hidi_dtinstalacaohidrometro >= :data_inicial and hidi_dtinstalacaohidrometro <= :data_final)
-                        or (hidi_dtretiradahidrometro >= :data_inicial and hidi_dtretiradahidrometro <= :data_final)',
-                        localidade_id: localidade.id, data_inicial: data_inicial, data_final: data_final)
   end
 end

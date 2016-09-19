@@ -52,6 +52,9 @@ Rails.application.routes.draw do
   resources :quadras,                 only: :index
   resources :imovel_retornos,         only: :index
 
+  resource :arquivo_hidrometro_instalacao_historicos, only: [:create, :show]
+  get "/verifica_arquivo_hidrometro_historico", controller: :arquivo_hidrometro_instalacao_historicos, action: :verify
+
   resource :arquivo_recadastramento, only: [:create, :show]
   get "/verifica_arquivo_recadastramento", controller: :arquivo_recadastramentos, action: :verify
   get "/empresas_usuario/:usuario_id", controller: :empresas, action: :usuario

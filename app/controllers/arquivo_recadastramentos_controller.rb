@@ -37,8 +37,8 @@ class ArquivoRecadastramentosController < ApplicationController
     if irs.present?
 
       historico = HistoricoArquivoRetorno.create(
-                                            usuario_id: usuario_id, 
-                                            empresa: empresa, 
+                                            usuario_id: usuario_id,
+                                            empresa: empresa,
                                             situacao: 'pendente'
                                           )
 

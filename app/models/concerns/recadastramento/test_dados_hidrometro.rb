@@ -1,11 +1,14 @@
 module Recadastramento
   class TestDadosHidrometro
-    def self.gerar_para(localidade, data_inicial, data_final)
-      historico = HidrometroInstalacaoHistorico.por_localidade_e_intervalo(localidade, data_inicial, data_final)
+    def self.gerar_para(data_inicial, data_final, options={})
+      options[:data_inicial] = data_inicial
+      options[:data_final] = data_final
+
+      historico = HidrometroInstalacaoHistorico.filtrar_por(options)
 
       dados = historico.map{ |hist| Recadastramento::DadoHidrometroInstalacaoHistorico.new(hist) }
 
-      Recadastramento::GeradorCSV.new(dados, "hidrometro_31082016-3").gerar
+      Recadastramento::GeradorCSV.new(dados, "hidrometro_test").gerar
     end
   end
 end
