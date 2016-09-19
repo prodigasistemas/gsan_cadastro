@@ -1,5 +1,5 @@
 module Recadastramento
-  class TestDados
+  class TestDadosImovel
 
     def gerar_para(empresa, limit = 10)
       return unless empresa
@@ -15,7 +15,7 @@ module Recadastramento
         irs = empresa.imovel_retornos.includes(inclusoes)
       end
 
-      dados = irs.map{ |ir| Recadastramento::Dado.new(ir) }
+      dados = irs.map{ |ir| Recadastramento::DadoImovelRetorno.new(ir) }
 
       Recadastramento::GeradorCSV.new(dados, "imovel_retorno_31082016-3").gerar
     end

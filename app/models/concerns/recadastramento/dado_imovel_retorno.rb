@@ -1,5 +1,5 @@
 module Recadastramento
-  class Dado
+  class DadoImovelRetorno
     attr_accessor :imovel, :cliente_usuario, :cliente_responsavel, :cliente_proprietario, :hidrometro
 
     def initialize imovel_retorno

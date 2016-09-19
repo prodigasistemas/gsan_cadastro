@@ -12,8 +12,8 @@ class Localidade < ActiveRecord::Base
   alias_attribute "localidade_escritorio_local", "loca_cdelo"
   alias_attribute "unidade_negocio_id", "uneg_id"
 
-  belongs_to :imovel, foreign_key: "imov_id"
-  has_one    :gerencia_regional, foreign_key: "greg_id"
+  has_many :imoveis, foreign_key: "loca_id"
+  has_one :gerencia_regional, foreign_key: "greg_id"
 
   scope :nome, -> (nome) { where("UPPER(loca_nmlocalidade) LIKE ?", "%#{nome.upcase}%") }
 end
