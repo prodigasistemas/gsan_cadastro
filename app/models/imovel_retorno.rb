@@ -61,6 +61,7 @@ class ImovelRetorno < ActiveRecord::Base
   alias_attribute "datahora_retorno", "tempo_retorno"
   alias_attribute "datahora_aprovacao", "tempo_aprovacao"
   alias_attribute "datahora_processamento", "tempo_processamento"
+  alias_attribute "codigo_rota_id", "codigo_rota"
 
 
   belongs_to :imovel, foreign_key: "imov_id"
@@ -133,6 +134,10 @@ class ImovelRetorno < ActiveRecord::Base
 
   def carregar_relacionamentos
     carregar_relacionamento_tipo_ocupante
+  end
+
+  def codigo_rota
+    rota.try(:codigo)
   end
 
   private
