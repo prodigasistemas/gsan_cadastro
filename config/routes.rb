@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   resources :distrito_operacionais,   only: :index
   resources :localidades,             only: :index
   resources :imoveis,                 only: :index
+  resources :menu,                    only: :show
   resources :setor_comercial,         only: :index
   resources :rotas,                   only: :index
   resources :quadras,                 only: :index
