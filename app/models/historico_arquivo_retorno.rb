@@ -9,6 +9,11 @@ class HistoricoArquivoRetorno < ActiveRecord::Base
     falha: 'falha'
   }
 
+  TIPO_ARQUIVO = {
+    imovel_retorno: "recadastramento_imovel",
+    hidrometro_historico: "hidrometro_historico"
+  }
+
   self.table_name  = 'atualizacaocadastral.historico_arquivo_retorno'
   self.primary_key = 'hiar_id'
 
@@ -18,6 +23,7 @@ class HistoricoArquivoRetorno < ActiveRecord::Base
   alias_attribute :criado_em,        :hiar_tmultimaalteracao
   alias_attribute :situacao_arquivo, :situacao
   alias_attribute :caminho,          :caminho_arquivo
+  alias_attribute :tipo_arquivo,     :hiar_tipo_arquivo
 
   belongs_to :usuario, foreign_key: :usur_id
   belongs_to :empresa, foreign_key: :empr_id
