@@ -10,6 +10,10 @@ gem 'composite_primary_keys', '~> 8.0'
 gem 'bulk_insert'
 gem 'sucker_punch'
 
+gem 'log_file', github: 'prodigasistemas/log_file'
+gem 'exception_notification'
+gem 'slack-notifier'
+
 group :production do
   gem 'unicorn'
 end

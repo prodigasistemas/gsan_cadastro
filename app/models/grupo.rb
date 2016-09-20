@@ -10,4 +10,6 @@ class Grupo < ActiveRecord::Base
   alias_attribute "abreviacao",      "grup_dsabreviado"
   alias_attribute "em_uso",          "grup_icuso"
   alias_attribute "atualizado_em",   "grup_tmultimaalteracao"
+
+  has_many :usuario_grupos, foreign_key: :grup_id
 end

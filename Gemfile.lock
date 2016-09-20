@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/prodigasistemas/log_file.git
+  revision: 2dd193dc582dfd2a40790dbea8feade50be9485e
+  specs:
+    log_file (0.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,11 +42,11 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    airbrussh (1.1.0)
+    airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.3)
     builder (3.2.2)
-    bulk_insert (1.2.0)
+    bulk_insert (1.2.1)
       activerecord (>= 4.1.0)
     byebug (9.0.5)
     capistrano (3.5.0)
@@ -53,7 +59,7 @@ GEM
       capistrano (~> 3.1)
       sshkit (~> 1.2)
     capistrano-harrow (0.5.3)
-    capistrano-rails (1.1.7)
+    capistrano-rails (1.1.8)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -63,7 +69,7 @@ GEM
     composite_primary_keys (8.1.4)
       activerecord (~> 4.2.0)
     concurrent-ruby (1.0.2)
-    daemons (1.2.3)
+    daemons (1.2.4)
     database_cleaner (1.5.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -73,6 +79,9 @@ GEM
       railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     eventmachine (1.2.0.1)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     factory_girl (4.7.0)
       activesupport (>= 3.0.0)
     globalid (0.3.7)
@@ -139,9 +148,9 @@ GEM
       activesupport (= 4.2.7)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    raindrops (0.16.0)
-    rake (11.2.2)
-    rspec-core (3.5.2)
+    raindrops (0.17.0)
+    rake (11.3.0)
+    rspec-core (3.5.3)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -149,7 +158,7 @@ GEM
     rspec-mocks (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
-    rspec-rails (3.5.1)
+    rspec-rails (3.5.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -167,16 +176,17 @@ GEM
     simplecov-html (0.10.0)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
+    slack-notifier (1.5.1)
     slop (3.6.0)
     spring (1.7.2)
     sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.1.1)
+    sprockets-rails (3.2.0)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.11.2)
+    sshkit (1.11.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     sucker_punch (2.0.2)
@@ -206,9 +216,11 @@ DEPENDENCIES
   composite_primary_keys (~> 8.0)
   database_cleaner
   dotenv-rails
+  exception_notification
   factory_girl
   jbuilder (~> 2.0)
   kaminari
+  log_file!
   pg
   pry-rails
   rack-cors
@@ -217,10 +229,11 @@ DEPENDENCIES
   shoulda-matchers (~> 2.0)
   simplecov
   simplecov-rcov
+  slack-notifier
   spring
   sucker_punch
   thin
   unicorn
 
 BUNDLED WITH
-   1.12.4
+   1.11.2
