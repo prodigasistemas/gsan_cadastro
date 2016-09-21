@@ -2,6 +2,8 @@ class Funcionalidade < ActiveRecord::Base
   include IncrementableId
   include Filterable
 
+  GSAN_HOST = ENV['GSAN_HOST'] || "http://homologa.cosanpa.pa.gov.br"
+
   self.table_name  = "seguranca.funcionalidade"
   self.primary_key = "fncd_id"
 
