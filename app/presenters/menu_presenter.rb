@@ -17,7 +17,7 @@ class MenuPresenter
     funcionalidades.each do |funcionalidade|
       if funcionalidade.funcionalidade_categoria_id == categoria.id
         funcionalidades.delete funcionalidade
-        acao = Menu.new(funcionalidade.descricao, funcionalidade.url)
+        acao = Menu.new(funcionalidade.descricao, funcionalidade.caminho)
         item_menu.submenu << acao
         item_menu.url = ""
         item_menu.id = @count += 1

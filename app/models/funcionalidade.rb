@@ -1,7 +1,7 @@
 class Funcionalidade < ActiveRecord::Base
   include IncrementableId
-  include Filterable 
-  
+  include Filterable
+
   self.table_name  = "seguranca.funcionalidade"
   self.primary_key = "fncd_id"
 
@@ -10,6 +10,7 @@ class Funcionalidade < ActiveRecord::Base
   alias_attribute "modulo_id",                   "modu_id"
   alias_attribute "atualizado_em",               "fncd_tmultimaalteracao"
   alias_attribute "funcionalidade_categoria_id", "fncg_id"
+  alias_attribute "acao",                        "fncd_dscaminhourl"
 
   belongs_to :modulo,                   foreign_key: :modu_id
   belongs_to :funcionalidade_categoria, foreign_key: :fncg_id
@@ -22,4 +23,10 @@ class Funcionalidade < ActiveRecord::Base
     .where.not(funcionalidade_categoria_id: nil)
     .group("seguranca.funcionalidade.fncd_id")
   }
+
+  def caminho
+    return url if url.present?
+
+    "#{GSAN_HOST}/#{acao}"
+  end
 end
