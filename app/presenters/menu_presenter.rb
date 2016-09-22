@@ -16,7 +16,7 @@ class MenuPresenter
     funcionalidades_incluidas = []
 
     funcionalidades.each do |funcionalidade|
-      if categoria.funcionalidades.include? funcionalidade
+      if funcionalidade.funcionalidade_categoria_id == categoria.id
         funcionalidades_incluidas << funcionalidade
         acao = Menu.new(funcionalidade.descricao, funcionalidade.caminho)
         item_menu.submenu << acao
@@ -25,7 +25,7 @@ class MenuPresenter
       end
     end
 
-    funcionalidades.delete funcionalidades_incluidas
+    funcionalidades.delete_if {|f| funcionalidades_incluidas.include? f}
 
     categoria.subitens.each do |item|
       if categoria_acessivel? item
