@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resource :arquivo_recadastramento, only: [:create, :show]
   get "/verifica_arquivo_recadastramento", controller: :arquivo_recadastramentos, action: :verify
   get "/empresas_usuario/:usuario_id", controller: :empresas, action: :usuario
+  get "/url-portal", controller: :url_portal, action: :url
 
   resources :filtros, only: :index
   resources :associacoes, only: :index
