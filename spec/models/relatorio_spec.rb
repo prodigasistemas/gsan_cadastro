@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Relatorio::Base, type: :model do
   let(:json_agrupado) {

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RelatoriosController, type: :controller do
   let(:params) {

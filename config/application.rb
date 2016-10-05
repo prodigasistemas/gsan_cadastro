@@ -27,6 +27,8 @@ module GsanApi
     config.i18n.available_locales = ["pt-BR"]
     config.active_record.raise_in_transactional_callbacks = true
 
+    config.autoload_paths << Rails.root.join('app/services')
+
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
