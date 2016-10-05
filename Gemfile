@@ -14,6 +14,10 @@ gem 'log_file', github: 'prodigasistemas/log_file'
 gem 'exception_notification'
 gem 'slack-notifier'
 
+gem 'spreadsheet'
+gem 'prawn'
+gem 'prawn-table'
+
 group :production do
   gem 'unicorn'
 end

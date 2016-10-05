@@ -99,6 +99,7 @@ class Imovel < ActiveRecord::Base
   alias_attribute "utiliza_rateio_area_comum",                                          "imov_icimovelareacomum"
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
+  alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
 

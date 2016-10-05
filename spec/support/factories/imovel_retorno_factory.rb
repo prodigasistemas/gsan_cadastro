@@ -42,5 +42,6 @@ FactoryGirl.define do
     quantidade_economias_social 1
     quatidade_economias_outra 1
     rota
+    percentual_abastecimento 25
   end
 end

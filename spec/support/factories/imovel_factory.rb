@@ -13,5 +13,6 @@ FactoryGirl.define do
     indicador_debito_conta 1
     tarifa_id 1
     atualizado_em Time.zone.now
+    percentual_abastecimento 25
   end
 end
