@@ -2,7 +2,7 @@ class Abrangencia < ActiveRecord::Base
   include IncrementableId
   include API::Model
 
-  self.table_name  = 'cadastro.contrato_medicao_abrangencia'
+  self.table_name  = 'desempenho.contrato_medicao_abrangencia'
   self.primary_key = 'cmab_id'
 
   alias_attribute "id",                  "cmab_id"

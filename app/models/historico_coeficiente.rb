@@ -3,7 +3,7 @@ class HistoricoCoeficiente < ActiveRecord::Base
   include API::Model
   include ConvertDecimalAttributes
 
-  self.table_name  = 'cadastro.contrato_medicao_coeficiente_historico'
+  self.table_name  = 'desempenho.contrato_medicao_coeficiente_historico'
   self.primary_key = 'cmcoh_id'
 
   alias_attribute "id",                 "cmcoh_id"

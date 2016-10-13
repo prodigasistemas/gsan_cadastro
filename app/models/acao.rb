@@ -3,7 +3,7 @@ class Acao < ActiveRecord::Base
   include API::Filterable
   include API::Model
 
-  self.table_name  = 'cadastro.acoes_desempenho_performance'
+  self.table_name  = 'desempenho.acoes_desempenho_performance'
   self.primary_key = 'acdp_id'
 
   alias_attribute "id", "acdp_id"
