@@ -13,11 +13,9 @@ class AbrangenciasController < ApplicationController
   def create
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
 
-    query = Imovel.check_params(params[:query])
-
-    #corrgir filtros
-    # imoveis = Imovel.select(:id).com_dados.where(query.symbolize_keys)
-    imoveis = Imovel.select(:id).where(query.symbolize_keys)
+    query = Imovel.check_params(params[:query]).symbolize_keys
+    
+    imoveis = Imovel.select(:id).buscar params.require(:query).permit! if params[:query].present?
 
     abrangencia_attrs = []
     ultimoId = Abrangencia.maximum(:id)
@@ -27,7 +25,7 @@ class AbrangenciasController < ApplicationController
       ultimoId += 1
       
       conta = Conta.do_imovel_com_referencia(imovel.id, @contrato_medicao.referencia_assinatura)
-      
+
       abrangencia_attrs << {
         cmab_id: ultimoId, 
         cmed_id:  @contrato_medicao.id, 
