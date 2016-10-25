@@ -14,8 +14,9 @@ development:
 test:
   <<: *default
   database: <%= ENV['DATABASE_TEST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  username: <%= ENV['DB_TEST_USER'] %>
+  password: <%= ENV['DB_TEST_PASSWORD'] %>
+  host:     <%= ENV['DB_TEST_HOST'] %>
 
 stage:
   <<: *default
