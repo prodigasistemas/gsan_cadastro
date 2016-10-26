@@ -22,6 +22,25 @@ class ContratoMedicao < ActiveRecord::Base
   validates :numero, :vigencia_inicial, :empresa_id, presence: true
   validates :numero, uniqueness: true
 
+  def redefinir
+    historico_abrangencia_attrs = []
+    data_remocao = Time.zone.now
+
+    self.abrangencias.each do |abrangencia|
+      historico_abrangencia_attrs << {
+        cmab_tmcriacao: abrangencia.criado_em,
+        cmab_tmremocao: data_remocao,
+        cmed_id: self.id,
+        imov_id: abrangencia.imovel_id
+      }
+    end
+
+    HistoricoAbrangencia.inserir_varios(historico_abrangencia_attrs)
+    Abrangencia.where(contrato_medicao_id: self.id).delete_all
+
+    self.save
+  end
+  
   def referencia_assinatura
     "#{data_assinatura.year}#{data_assinatura.month.to_s.rjust(2, '0')}"
   end

@@ -59,6 +59,18 @@ module API
 
         params
       end
+
+      def inserir_varios(dados, id: :id)
+        pk      = self.primary_key
+        last_id = self.maximum(pk)
+        last_id = 0 unless last_id
+
+        dados.map!{|dado| last_id+=1; dado.merge({ pk => last_id }) }
+
+        self.bulk_insert(set_size: dados.size, values: dados)
+
+        dados
+      end
     end
 
     def self.included(base)

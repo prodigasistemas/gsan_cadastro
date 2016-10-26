@@ -14,31 +14,10 @@ class AbrangenciasController < ApplicationController
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
 
     query = Imovel.check_params(params[:query]).symbolize_keys
-    
     imoveis = Imovel.select(:id).buscar params.require(:query).permit! if params[:query].present?
 
-    abrangencia_attrs = []
-    ultimoId = Abrangencia.maximum(:id)
-    ultimoId = 0 if ultimoId.nil?
+    abrangencia_attrs = Abrangencia.criar(@contrato_medicao, imoveis)
 
-    imoveis.each do |imovel|
-      ultimoId += 1
-      
-      conta = Conta.do_imovel_com_referencia(imovel.id, @contrato_medicao.referencia_assinatura)
-
-      abrangencia_attrs << {
-        cmab_id: ultimoId, 
-        cmed_id:  @contrato_medicao.id, 
-        imov_id: imovel.id,
-        last_id: conta.ligacao_agua_situacao_id,
-        cmab_tmcriacao: Time.zone.now,
-        cmab_tmultimaalteracao: Time.zone.now,
-        cmab_pcesgoto: conta.percentual_esgoto
-      }
-    end
-    
-    Abrangencia.bulk_insert(set_size: abrangencia_attrs.size, values: abrangencia_attrs)
-    
     if @contrato_medicao.imoveis.count >= abrangencia_attrs.size
       render json: { entidade: @contrato_medicao.atributos }, status: :ok
     else
@@ -48,9 +27,8 @@ class AbrangenciasController < ApplicationController
 
   def redefinir
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
-    @contrato_medicao.imoveis = []
 
-    if @contrato_medicao.save
+    if @contrato_medicao.redefinir
       render json: { entidade: @contrato_medicao.atributos }, status: :ok
     else
       render json: { errors: @contrato_medicao.errors }, status: :unprocessable_entity
@@ -59,7 +37,8 @@ class AbrangenciasController < ApplicationController
 
   def destroy
     @abrangencia = Abrangencia.find params[:id]
-    if @abrangencia.destroy
+
+    if @abrangencia.excluir
       render json: { }, status: :ok
     else
       render json: { errors: @abrangencia.errors }, status: :unprocessable_entity
