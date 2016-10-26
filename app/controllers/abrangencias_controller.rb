@@ -32,7 +32,8 @@ class AbrangenciasController < ApplicationController
         imov_id: imovel.id,
         last_id: conta.ligacao_agua_situacao_id,
         cmab_tmcriacao: Time.zone.now,
-        cmab_tmultimaalteracao: Time.zone.now
+        cmab_tmultimaalteracao: Time.zone.now,
+        cmab_pcesgoto: conta.percentual_esgoto
       }
     end
     

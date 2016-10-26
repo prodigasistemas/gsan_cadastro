@@ -11,6 +11,7 @@ class Abrangencia < ActiveRecord::Base
   alias_attribute "contrato_medicao_id",       "cmed_id"
   alias_attribute "imovel_id",                 "imov_id"
   alias_attribute "ligacao_agua_situacao_id",  "last_id"
+  alias_attribute "percentual_esgoto",         "cmab_pcesgoto"
 
   belongs_to :contrato_medicao,      foreign_key: 'cmed_id'
   belongs_to :imovel,                foreign_key: 'imov_id'

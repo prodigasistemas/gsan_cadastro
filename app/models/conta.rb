@@ -10,7 +10,6 @@ class Conta < ActiveRecord::Base
   alias_attribute :imovel_id,                        :imov_id
   alias_attribute :mes_ano_referencia,               :cnta_amreferenciaconta
   alias_attribute :ligacao_agua_situacao_id,         :last_id
-
   alias_attribute :data_vencimento_original,         :cnta_dtvencimentooriginal
   alias_attribute :debito_credito_situacao_id_atual, :dcst_idatual
   alias_attribute :data_ultima_alteracao,            :cnta_tmultimaalteracao
