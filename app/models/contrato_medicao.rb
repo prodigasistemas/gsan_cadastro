@@ -40,4 +40,8 @@ class ContratoMedicao < ActiveRecord::Base
 
     self.save
   end
+  
+  def referencia_assinatura
+    "#{data_assinatura.year}#{data_assinatura.month.to_s.rjust(2, '0')}"
+  end
 end

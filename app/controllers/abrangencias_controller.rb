@@ -13,8 +13,8 @@ class AbrangenciasController < ApplicationController
   def create
     @contrato_medicao = ContratoMedicao.find(params[:contrato_medicao_id])
 
-    query = Imovel.check_params(params[:query])
-    imoveis = Imovel.com_dados.where(query.symbolize_keys).pluck(:id)
+    query = Imovel.check_params(params[:query]).symbolize_keys
+    imoveis = Imovel.select(:id).buscar params.require(:query).permit! if params[:query].present?
 
     abrangencia_attrs = Abrangencia.criar(@contrato_medicao, imoveis)
 
