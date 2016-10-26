@@ -108,11 +108,14 @@ class Imovel < ActiveRecord::Base
   belongs_to :localidade, foreign_key: :loca_id
   belongs_to :setor_comercial, foreign_key: :stcm_id
   belongs_to :quadra, foreign_key: :qdra_id
-  has_one :gerencia_regional, through: :localidade
-  has_one :abrangencia, foreign_key: :imov_id
-  has_one :contrato_medicao, through: :abrangencia
-  has_many :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
-  has_many :hidrometro_instalacao_agua_historicos, foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
+  has_one    :gerencia_regional, through: :localidade
+  has_one    :abrangencia, foreign_key: :imov_id
+  has_one    :contrato_medicao, through: :abrangencia
+  has_many   :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
+  has_many   :hidrometro_instalacao_agua_historicos, foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
+  has_many   :contas, foreign_key: :cnta_id
+
+  delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
   def atributos
     super([:localidade, :setor_comercial])
