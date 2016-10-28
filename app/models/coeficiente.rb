@@ -5,7 +5,7 @@ class Coeficiente < ActiveRecord::Base
 
   attr_accessor :usuario_id
 
-  self.table_name  = 'cadastro.contrato_medicao_coeficiente'
+  self.table_name  = 'desempenho.contrato_medicao_coeficiente'
   self.primary_key = 'cmco_id'
 
   alias_attribute "id",                   "cmco_id"
