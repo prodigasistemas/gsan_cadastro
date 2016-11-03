@@ -16,6 +16,7 @@ class Abrangencia < ActiveRecord::Base
   belongs_to :contrato_medicao, foreign_key: 'cmed_id'
   belongs_to :imovel,           foreign_key: 'imov_id'
   belongs_to :ligacao_agua_situacao, foreign_key: 'last_id'
+  has_many   :coeficientes, through: :contrato_medicao
 
   def self.criar(contrato_medicao, imoveis_ids)
     abrangencia_attrs = []
@@ -34,6 +35,10 @@ class Abrangencia < ActiveRecord::Base
     end
 
     self.inserir_varios(abrangencia_attrs)
+  end
+
+  def coeficiente
+    @coeficiente ||= coeficientes.find_by(ligacao_agua_situacao: ligacao_agua_situacao)
   end
 
   def excluir

@@ -28,7 +28,7 @@ module Relatorio
 
       cabecalho_keys = attributes[:cabecalho].map { |item| item[:name] }
       attributes[:dados].map do |item|
-        cabecalho_keys.map { |key| item[key.to_sym] }
+        cabecalho_keys.map {|key| item[key.to_sym]}
       end
     end
 
@@ -219,10 +219,10 @@ module Relatorio
       end
     end
 
-    def formata_valor(valor, padrao)
+    def formata_valor(valor, padrao='br')
       case padrao
       when 'us'
-        valor.gsub('.', '').gsub(',', '.').to_f
+        valor.to_f
       when 'br'
         valor.to_s(:currency, separator: ',', delimiter: '.', precision: 2, unit: '')
       end
