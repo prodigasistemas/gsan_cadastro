@@ -43,7 +43,6 @@ pt-BR:
       contrato_medicao: "Contrato de Medição"
       coeficiente: "Coeficiente"
       ligacao_agua_situacao: "Situação da Ligação"
-      historico_coficiente: "Histórico do Coeficiente"
     attributes:
       fone_tipo:
         descricao: "Descrição"
