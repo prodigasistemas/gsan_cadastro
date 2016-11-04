@@ -36,7 +36,7 @@ class PopulaPerformance
       medicao = MedicaoPerformance.new
       medicao.ano_mes_referencia           = @referencia
       medicao.contrato_medicao             = @contrato
-      medicao.diferenca_consumo_agua       = diferenca
+      medicao.valor_diferenca_consumo_agua = diferenca
       medicao.calculo                      = calculo
       medicao.imovel                       = imovel
       medicao.save!      
