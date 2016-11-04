@@ -27,13 +27,16 @@ class PopulaPerformance
         end
       end
 
-      calculo = (conta_referencia - conta_mes_zero) * percentual / 100
+      diferenca = conta_referencia - conta_mes_zero
 
-      calculo = calculo > 0 ? calculo : 0;
+      diferenca = diferenca > 0 ? diferenca : 0
+
+      calculo = diferenca * percentual / 100
     
       medicao = MedicaoPerformance.new
       medicao.ano_mes_referencia           = @referencia
       medicao.contrato_medicao             = @contrato
+      medicao.diferenca_consumo_agua       = diferenca
       medicao.calculo                      = calculo
       medicao.imovel                       = imovel
       medicao.save!      
