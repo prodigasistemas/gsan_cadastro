@@ -3,7 +3,7 @@ class ContratoMedicao < ActiveRecord::Base
   include API::Filterable
   include API::Model
 
-  self.table_name  = "cadastro.contrato_medicao"
+  self.table_name  = "desempenho.contrato_medicao"
   self.primary_key = "cmed_id"
 
   alias_attribute "id",                 "cmed_id"
