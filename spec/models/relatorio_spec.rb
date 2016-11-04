@@ -11,13 +11,13 @@ describe Relatorio::Base, type: :model do
         { name: "valor",          description: "Valor (R$)",        align: "right" }
       ],
       dados: [
-        { municipio: "Belém",     localidade: "Marco",    descricao: "Cal",   unidadeMedida: "5 Kg",  valor: "100,00" },
-        { municipio: "Belém",     localidade: "Marco",    descricao: "Fluor", unidadeMedida: "15 Kg", valor: "100,00" },
-        { municipio: "Belém",     localidade: "Marco",    descricao: "Poli",  unidadeMedida: "15 Kg", valor: "100,00" },
-        { municipio: "Belém",     localidade: "Marco",    descricao: "Sódio", unidadeMedida: "5 Kg",  valor: "100,00" },
-        { municipio: "Belém",     localidade: "Pedreira", descricao: "Fluor", unidadeMedida: "15 Kg", valor: "100,00" },
-        { municipio: "Santarém",  localidade: "Alter",    descricao: "Cal",   unidadeMedida: "20 Kg", valor: "100,00" },
-        { municipio: "Santarém",  localidade: "Alter",    descricao: "Cloro", unidadeMedida: "10 Kg", valor: "100,00" }
+        { municipio: "Belém",     localidade: "Marco",    descricao: "Cal",   unidadeMedida: "5 Kg",  valor: 100.0 },
+        { municipio: "Belém",     localidade: "Marco",    descricao: "Fluor", unidadeMedida: "15 Kg", valor: 100.0 },
+        { municipio: "Belém",     localidade: "Marco",    descricao: "Poli",  unidadeMedida: "15 Kg", valor: 100.0 },
+        { municipio: "Belém",     localidade: "Marco",    descricao: "Sódio", unidadeMedida: "5 Kg",  valor: 100.0 },
+        { municipio: "Belém",     localidade: "Pedreira", descricao: "Fluor", unidadeMedida: "15 Kg", valor: 100.0 },
+        { municipio: "Santarém",  localidade: "Alter",    descricao: "Cal",   unidadeMedida: "20 Kg", valor: 100.0 },
+        { municipio: "Santarém",  localidade: "Alter",    descricao: "Cloro", unidadeMedida: "10 Kg", valor: 100.0 }
       ],
       grupos: [
         { name: "municipio" },
@@ -40,30 +40,30 @@ describe Relatorio::Base, type: :model do
 
   let(:dados) {
     [
-      ["Belém",     "Marco",    "Cal",    "5 Kg",   "100,00"],
-      ["Belém",     "Marco",    "Fluor",  "15 Kg",  "100,00"],
-      ["Belém",     "Marco",    "Poli",   "15 Kg",  "100,00"],
-      ["Belém",     "Marco",    "Sódio",  "5 Kg",   "100,00"],
-      ["Belém",     "Pedreira", "Fluor",  "15 Kg",  "100,00"],
-      ["Santarém",  "Alter",    "Cal",    "20 Kg",  "100,00"],
-      ["Santarém",  "Alter",    "Cloro",  "10 Kg",  "100,00"]
+      ["Belém",     "Marco",    "Cal",    "5 Kg",   100.0],
+      ["Belém",     "Marco",    "Fluor",  "15 Kg",  100.0],
+      ["Belém",     "Marco",    "Poli",   "15 Kg",  100.0],
+      ["Belém",     "Marco",    "Sódio",  "5 Kg",   100.0],
+      ["Belém",     "Pedreira", "Fluor",  "15 Kg",  100.0],
+      ["Santarém",  "Alter",    "Cal",    "20 Kg",  100.0],
+      ["Santarém",  "Alter",    "Cloro",  "10 Kg",  100.0]
     ]
   }
 
   let(:dados_agrupados) {
     [
-      ["Total",     "-",        "-",      "-",      "700,00"],
-      ["Belém",     "-",        "-",      "-",      "500,00"],
-      ["Belém",     "Marco",    "-",      "-",      "400,00"],
-      ["Belém",     "Marco",    "Cal",    "5 Kg",   "100,00"],
-      ["Belém",     "Marco",    "Fluor",  "15 Kg",  "100,00"],
-      ["Belém",     "Marco",    "Poli",   "15 Kg",  "100,00"],
-      ["Belém",     "Marco",    "Sódio",  "5 Kg",   "100,00"],
-      ["Belém",     "Pedreira", "Fluor",  "15 Kg",  "100,00"],
-      ["Santarém",  "-",        "-",      "-",      "200,00"],
-      ["Santarém",  "Alter",    "-",      "-",      "200,00"],
-      ["Santarém",  "Alter",    "Cal",    "20 Kg",  "100,00"],
-      ["Santarém",  "Alter",    "Cloro",  "10 Kg",  "100,00"]
+      ["Total",     "-",        "-",      "-",      700.0],
+      ["Belém",     "-",        "-",      "-",      500.0],
+      ["Belém",     "Marco",    "-",      "-",      400.0],
+      ["Belém",     "Marco",    "Cal",    "5 Kg",   100.0],
+      ["Belém",     "Marco",    "Fluor",  "15 Kg",  100.0],
+      ["Belém",     "Marco",    "Poli",   "15 Kg",  100.0],
+      ["Belém",     "Marco",    "Sódio",  "5 Kg",   100.0],
+      ["Belém",     "Pedreira", "Fluor",  "15 Kg",  100.0],
+      ["Santarém",  "-",        "-",      "-",      200.0],
+      ["Santarém",  "Alter",    "-",      "-",      200.0],
+      ["Santarém",  "Alter",    "Cal",    "20 Kg",  100.0],
+      ["Santarém",  "Alter",    "Cloro",  "10 Kg",  100.0]
     ]
   }
 

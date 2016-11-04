@@ -5,6 +5,9 @@ describe AbrangenciasController, type: :controller do
     let!(:contrato_medicao) { create(:contrato_medicao) }
     let!(:imovel_1) { create(:imovel) }
     let!(:imovel_2) { create(:imovel) }
+    let!(:ligacao_agua_situacao) { create(:ligacao_agua_situacao) }
+    let!(:conta1) { create(:conta, imovel: imovel_1, ligacao_agua_situacao_id: ligacao_agua_situacao.id, mes_ano_referencia: '201601') }
+    let!(:conta2) { create(:conta, imovel: imovel_2, ligacao_agua_situacao_id: ligacao_agua_situacao.id, mes_ano_referencia: '201601') }
 
     context "success" do
       let(:params) do

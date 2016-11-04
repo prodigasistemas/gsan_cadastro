@@ -53,6 +53,12 @@ Rails.application.routes.draw do
   resources :rotas,                   only: :index
   resources :quadras,                 only: :index
   resources :imovel_retornos,         only: :index
+  resources :filtros,                 only: :index
+  resources :associacoes,             only: :index
+  resources :medicao_performances,    only: :index
+  resource  :medicao_performances,    only: :none do
+    get :relatorio
+  end
 
   resource :arquivo_hidrometro_instalacao_historicos, only: [:create, :show]
   get "/verifica_arquivo_hidrometro_historico", controller: :arquivo_hidrometro_instalacao_historicos, action: :verify
@@ -61,7 +67,4 @@ Rails.application.routes.draw do
   get "/verifica_arquivo_recadastramento", controller: :arquivo_recadastramentos, action: :verify
   get "/empresas_usuario/:usuario_id", controller: :empresas, action: :usuario
   get "/url-portal", controller: :url_portal, action: :url
-
-  resources :filtros, only: :index
-  resources :associacoes, only: :index
 end

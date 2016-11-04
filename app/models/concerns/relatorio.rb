@@ -28,7 +28,7 @@ module Relatorio
 
       cabecalho_keys = attributes[:cabecalho].map { |item| item[:name] }
       attributes[:dados].map do |item|
-        cabecalho_keys.map { |key| item[key.to_sym] }
+        cabecalho_keys.map {|key| item[key.to_sym]}
       end
     end
 
@@ -74,7 +74,7 @@ module Relatorio
 
         agrupados.each do |item|
           indice_totalizadores.each do |coluna_calcular|
-            total[coluna_calcular] += formata_valor(item[coluna_calcular], 'us')
+            total[coluna_calcular] += item[coluna_calcular].to_f
           end
         end
 
@@ -82,7 +82,7 @@ module Relatorio
         linha_total[0] = "Total"
 
         indice_totalizadores.each do |indice|
-          linha_total[indice] = formata_valor(total[indice], 'br')
+          linha_total[indice] = total[indice].to_f
         end
 
         linha_total
@@ -126,7 +126,7 @@ module Relatorio
 
               unless item_atual.include?("-")
                 indice_totalizadores.each do |coluna_calcular|
-                  subtotal[coluna_calcular] += formata_valor(item_atual[coluna_calcular], 'us')
+                  subtotal[coluna_calcular] += item_atual[coluna_calcular].to_f
                 end
 
                 agrupados[i][j] = "" if limpar_duplicados
@@ -135,7 +135,7 @@ module Relatorio
               if subtotal[indice_totalizadores[0]] > 0
                 unless item_atual.include?("-")
                   indice_totalizadores.each do |coluna_calcular|
-                    subtotal[coluna_calcular] += formata_valor(item_atual[coluna_calcular], 'us')
+                    subtotal[coluna_calcular] += item_atual[coluna_calcular].to_f
                   end
                 end
 
@@ -146,7 +146,7 @@ module Relatorio
                 end
 
                 indice_totalizadores.each do |indice|
-                  linha_subtotal[indice] = formata_valor(subtotal[indice], 'br')
+                  linha_subtotal[indice] = subtotal[indice]
                 end
 
                 if limpar_duplicados
@@ -179,7 +179,7 @@ module Relatorio
       formatar = {}
 
       attributes[:cabecalho].each_with_index do |cabecalho, indice|
-        formatar[indice] = cabecalho[:type] if cabecalho[:type] == 'date'
+        formatar[indice] = cabecalho[:type] if cabecalho[:type] == 'date' || cabecalho[:type] == 'money'
       end
 
       unless formatar.empty?
@@ -187,6 +187,10 @@ module Relatorio
           formatar.each do |coluna, formato|
             if formato == 'date' && checa_data(ordenados[linha][coluna])
               ordenados[linha][coluna] = ordenados[linha][coluna].to_date.strftime("%d/%m/%Y")
+            end
+
+            if formato == 'money'
+              ordenados[linha][coluna] = formata_valor(ordenados[linha][coluna].to_f)
             end
           end
         end
@@ -219,10 +223,10 @@ module Relatorio
       end
     end
 
-    def formata_valor(valor, padrao)
+    def formata_valor(valor, padrao='br')
       case padrao
       when 'us'
-        valor.gsub('.', '').gsub(',', '.').to_f
+        valor.to_f
       when 'br'
         valor.to_s(:currency, separator: ',', delimiter: '.', precision: 2, unit: '')
       end
