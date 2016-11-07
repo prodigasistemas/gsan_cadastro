@@ -11,8 +11,9 @@ class MedicaoPerformancesRelatorio
     [
         { name: "situacao",           description: "Situação",                align: "left",    type: "string"  },
         { name: "situacao_ligacao",   description: "Situação da Ligação",     align: "left",    type: "string"  },
-        { name: "valor_agua",         description: "Valor da agua (vlr)",     align: "left",    type: "money"   },
-        { name: "valor_calculado",    description: "Valor calculado (vlr)",   align: "left",    type: "money"   }
+        { name: "valor_agua",         description: "Valor faturado de água",  align: "left",    type: "money"   },
+        { name: "valor_diferenca",    description: "Valor da diferença",      align: "left",    type: "money"   },
+        { name: "valor_calculado",    description: "Valor calculado",         align: "left",    type: "money"   }
     ]
   end
 
@@ -26,6 +27,7 @@ class MedicaoPerformancesRelatorio
   def totalizadores
     [
       {name:"valor_agua"},
+      {name:"valor_diferenca"},
       {name:"valor_calculado"}
     ]
   end
@@ -39,8 +41,9 @@ class MedicaoPerformancesRelatorio
       item = {}
       item[:situacao] = medicoes_agrupadas[0][0]
       item[:situacao_ligacao] = medicoes_agrupadas[0][1]
-      item[:valor_agua]      = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_agua)
-      item[:valor_calculado] = medicoes_agrupadas[1].sum(&:calculo)
+      item[:valor_agua]       = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_esgoto)
+      item[:valor_diferenca]  = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_agua)
+      item[:valor_calculado]  = medicoes_agrupadas[1].sum(&:calculo)
 
       relatorio << item
     end
@@ -51,13 +54,20 @@ class MedicaoPerformancesRelatorio
       repasse = {}
       repasse[:situacao] = 'Repasse'
       repasse[:situacao_ligacao] = item[0]
-      repasse[:valor_agua] = item[1][0][:valor_agua] - valor_agua(item[1][1])
-      repasse[:valor_calculado] = item[1][0][:valor_calculado] - valor_calculado(item[1][1])
+      repasse[:valor_agua]       = item[1][0][:valor_agua]      - valor_agua(item[1][1])
+      repasse[:valor_diferenca]  = item[1][0][:valor_diferenca] - valor_diferenca(item[1][1])
+      repasse[:valor_calculado]  = item[1][0][:valor_calculado] - valor_calculado(item[1][1])
+
 
       relatorio << repasse
     end
 
     relatorio
+  end
+
+  def valor_diferenca(item)
+    return 0 if item.nil?
+    item[:valor_diferenca]
   end
 
   def valor_agua(item)

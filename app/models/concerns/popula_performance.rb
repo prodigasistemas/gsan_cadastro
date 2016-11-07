@@ -15,6 +15,8 @@ class PopulaPerformance
 
     return if @referencia <= @contrato.referencia_assinatura
 
+    MedicaoPerformance.where(ano_mes_referencia: @referencia).destroy_all
+
     @imoveis.each do |imovel|
       conta_mes_zero   = buscar_conta(imovel.id, @contrato.referencia_assinatura)
       conta_referencia = buscar_conta(imovel.id, @referencia)
@@ -27,18 +29,20 @@ class PopulaPerformance
         end
       end
 
-      diferenca = conta_referencia - conta_mes_zero
+      diferenca = valor_agua(conta_referencia) - valor_agua(conta_mes_zero)
 
       diferenca = diferenca > 0 ? diferenca : 0
 
       calculo = diferenca * percentual / 100
     
       medicao = MedicaoPerformance.new
-      medicao.ano_mes_referencia           = @referencia
-      medicao.contrato_medicao             = @contrato
-      medicao.valor_diferenca_consumo_agua = diferenca
-      medicao.calculo                      = calculo
-      medicao.imovel                       = imovel
+      medicao.ano_mes_referencia             = @referencia
+      medicao.contrato_medicao               = @contrato
+      medicao.valor_diferenca_consumo_agua   = diferenca
+      medicao.calculo                        = calculo
+      medicao.imovel                         = imovel
+      medicao.debito_credito_situacao_id     = situacao_conta(conta_referencia)
+      medicao.valor_diferenca_consumo_esgoto = valor_agua(conta_referencia)
       medicao.save!      
     end
   end
@@ -52,7 +56,14 @@ class PopulaPerformance
       conta = ContaHistorico.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia, debito_credito_situacao_id_atual: situacoes)
     end
 
+    return conta
+  end
+
+  def valor_agua(conta)
     return conta.present? ? conta.valor_agua : 0
   end
 
+  def situacao_conta(conta)
+    return conta.present? ? conta.debito_credito_situacao_id_atual : 0
+  end
 end
