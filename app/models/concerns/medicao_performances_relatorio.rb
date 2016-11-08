@@ -2,18 +2,19 @@ class MedicaoPerformancesRelatorio
   attr_accessor :medicao_performances
   attr_accessor :formato
 
-  def initialize(medicao_performances, formato)
+  def initialize(medicao_performances, params)
     @medicao_performances = medicao_performances
-    @formato              = formato
+    @formato              = params[:formato]
+    @params               = params
   end
 
   def cabecalho
     [
         { name: "situacao",           description: "Situação",                align: "left",    type: "string"  },
         { name: "situacao_ligacao",   description: "Situação da Ligação",     align: "left",    type: "string"  },
-        { name: "valor_agua",         description: "Valor faturado de água",  align: "left",    type: "money"   },
-        { name: "valor_diferenca",    description: "Valor da diferença",      align: "left",    type: "money"   },
-        { name: "valor_calculado",    description: "Valor calculado",         align: "left",    type: "money"   }
+        { name: "valor_agua",         description: "Valor Faturado de Água",  align: "left",    type: "money"   },
+        { name: "valor_diferenca",    description: "Valor da Diferença",      align: "left",    type: "money"   },
+        { name: "valor_calculado",    description: "Valor Devido",            align: "left",    type: "money"   }
     ]
   end
 
@@ -45,7 +46,9 @@ class MedicaoPerformancesRelatorio
       item[:valor_diferenca]  = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_agua)
       item[:valor_calculado]  = medicoes_agrupadas[1].sum(&:calculo)
 
-      relatorio << item
+      if item[:valor_agua] > 0
+        relatorio << item
+      end
     end
 
     base_repasse = relatorio.group_by { |e| e[:situacao_ligacao] }
@@ -60,7 +63,7 @@ class MedicaoPerformancesRelatorio
 
 
       relatorio << repasse
-    end
+    end    
 
     relatorio
   end
@@ -80,16 +83,44 @@ class MedicaoPerformancesRelatorio
     item[:valor_calculado]
   end
 
+  def filtro_relatorio
+    filtro = ""
+
+    if @params[:contrato_medicao_id]
+      contrato = ContratoMedicao.find(@params[:contrato_medicao_id])
+      filtro = "Contrato: " + contrato.numero
+    end
+
+    if @params['referencia'].present?
+      filtro += " | Referência: " + @params['referencia'][4..5] + "/" + @params['referencia'][0..3]
+    end
+
+    if @params[:localidade_id].present?
+      filtro += " | Localidade: " + Localidade.find(@params[:localidade_id]).nome
+    end
+
+    if @params[:setor_comercial_id].present?
+      filtro += " | Setor: " + SetorComercial.find(@params[:setor_comercial_id]).nome
+    end
+
+    if @params[:rota_id].present?
+      filtro += " | Rota: " + @params[:rota_id]
+    end
+
+    return [filtro]
+  end
+
   def gerar
     params = {}
     
     params[:omitirTotalGeral] = true
     params[:cabecalho]     = cabecalho
     params[:dados]         = dados
-    params[:titulo]        = 'Relatório de medição de performance'
+    params[:titulo]        = 'Relatório de Medição de Performance'
     params[:formato]       = @formato
     params[:grupos]        = grupos
     params[:totalizadores] = totalizadores
+    params[:subtitulo]     = filtro_relatorio
     params[:name]          = 'relatorio_performance.' + @formato
     relatorio = RelatorioService.new params
     relatorio.gerar

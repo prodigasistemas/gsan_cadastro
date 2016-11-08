@@ -1,10 +1,11 @@
 class RelatorioPdf < Relatorio::Base
-  attr_accessor :file_name, :path, :relatorio, :cabecalho, :dados, :grupos, :titulo, :alinhamentos, :resumo
+  attr_accessor :file_name, :path, :relatorio, :cabecalho, :dados, :grupos, :titulo, :alinhamentos, :resumo, :subtitulo
 
   def initialize(options={})
     @file_name = options[:name] || "novo_relatorio.pdf"
     @path = "public/relatorios/"
     @titulo = options[:titulo] || TITULO_PADRAO
+    @subtitulo = options[:subtitulo] || ""
 
     carrega_dados(options)
   end
@@ -22,6 +23,7 @@ class RelatorioPdf < Relatorio::Base
 
     image_path = "public/logo_cosanpa_rel.jpg"
     header = [[{image: image_path, rowspan: 2, scale: 0.6}, TEXTO_HEADER], [@titulo]]
+    subtitle = [@subtitulo]
 
     alinhamentos = @alinhamentos
 
@@ -35,6 +37,12 @@ class RelatorioPdf < Relatorio::Base
         canvas do
           bounding_box([bounds.left, bounds.top], :width => bounds.width) do
             table header, cell_style: {borders: [], align: :center, size: 11}, position: :center
+          end
+
+          if subtitle[0].present?
+            bounding_box([bounds.left + 30, bounds.top - 60], :width => bounds.width) do
+              table subtitle, cell_style: {borders: [], align: :left, size: 8}, position: :left
+            end
           end
         end
 
