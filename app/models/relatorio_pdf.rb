@@ -23,7 +23,7 @@ class RelatorioPdf < Relatorio::Base
 
     image_path = "public/logo_cosanpa_rel.jpg"
     header = [[{image: image_path, rowspan: 2, scale: 0.6}, TEXTO_HEADER], [@titulo]]
-    subtitle = [@subtitulo]
+    subtitle = [[@subtitulo]]
 
     alinhamentos = @alinhamentos
 

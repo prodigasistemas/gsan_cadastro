@@ -107,7 +107,7 @@ class MedicaoPerformancesRelatorio
       filtro += " | Rota: " + @params[:rota_id]
     end
 
-    return [filtro]
+    return filtro
   end
 
   def gerar
