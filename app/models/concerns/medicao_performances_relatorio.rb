@@ -42,8 +42,8 @@ class MedicaoPerformancesRelatorio
       item = {}
       item[:situacao] = medicoes_agrupadas[0][0]
       item[:situacao_ligacao] = medicoes_agrupadas[0][1]
-      item[:valor_agua]       = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_esgoto)
-      item[:valor_diferenca]  = medicoes_agrupadas[1].sum(&:valor_diferenca_consumo_agua)
+      item[:valor_agua]       = medicoes_agrupadas[1].sum(&:valor_agua_faturado)
+      item[:valor_diferenca]  = medicoes_agrupadas[1].sum(&:medp_vldiferencaagua)
       item[:valor_calculado]  = medicoes_agrupadas[1].sum(&:calculo)
 
       if item[:valor_agua] > 0
