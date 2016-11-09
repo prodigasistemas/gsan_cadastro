@@ -46,9 +46,7 @@ class MedicaoPerformancesRelatorio
       item[:valor_diferenca]  = medicoes_agrupadas[1].sum(&:medp_vldiferencaagua)
       item[:valor_calculado]  = medicoes_agrupadas[1].sum(&:calculo)
 
-      if item[:valor_agua] > 0
-        relatorio << item
-      end
+      relatorio << item
     end
 
     base_repasse = relatorio.group_by { |e| e[:situacao_ligacao] }
