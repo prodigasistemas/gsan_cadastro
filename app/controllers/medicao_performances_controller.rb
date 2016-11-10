@@ -9,11 +9,18 @@ class MedicaoPerformancesController < ApplicationController
     medicoes = MedicaoPerformance.filtrar params
 
     if medicoes.present?
-      gerador = MedicaoPerformancesRelatorio.new(medicoes, params)
+
+      gerador = nil
+
+      if params[:tipo] == 'analitico'
+        gerador = MedicaoPerformancesRelatorioAnalitico.new(medicoes, params)
+      else
+        gerador = MedicaoPerformancesRelatorioSintetico.new(medicoes, params)
+      end
       path = gerador.gerar
       render json: {success: true, url: "http://#{request.host_with_port}/#{path}"}, status: 200
     else
-      render json: {success: false, error: "Não foram encontradas informações para a geração do relatório"}, status: 422
+      render json: {success: false, error: "Não foram encontradas informações para a geração do relatório"}, status: 200
     end
   end
 end

@@ -1,4 +1,4 @@
-class MedicaoPerformancesRelatorio
+class MedicaoPerformancesRelatorioSintetico
   attr_accessor :medicao_performances
   attr_accessor :formato
 

@@ -22,6 +22,10 @@ class ContratoMedicao < ActiveRecord::Base
   validates :numero, :vigencia_inicial, :empresa_id, presence: true
   validates :numero, uniqueness: true
 
+  def mes_ano_assinatura
+    data_assinatura.month.to_s + "/" + data_assinatura.year.to_s
+  end
+
   def redefinir
     historico_abrangencia_attrs = []
     data_remocao = Time.zone.now

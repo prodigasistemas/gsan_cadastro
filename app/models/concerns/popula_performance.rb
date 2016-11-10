@@ -10,6 +10,20 @@ class PopulaPerformance
     @imoveis = contrato.imoveis
   end
 
+  def atualiza_abrangencias
+    abrangencias = contrato.abrangencias
+
+    abrangencias.each do |abrangencia| 
+      conta = buscar_conta(abrangencia.imovel_id, contrato.referencia_assinatura)
+      if conta.present?
+       abrangencia.ligacao_agua_situacao_id = conta.ligacao_agua_situacao_id
+      else
+       abrangencia.ligacao_agua_situacao_id = LigacaoAguaSituacao::SITUACAO[:factivel]
+      end
+      abrangencia.save!
+    end
+  end
+
   def cadastra_performance
     setup
 
@@ -36,24 +50,25 @@ class PopulaPerformance
       calculo = diferenca * percentual / 100
     
       medicao = MedicaoPerformance.new
-      medicao.ano_mes_referencia             = @referencia
-      medicao.contrato_medicao               = @contrato
-      medicao.valor_diferenca_consumo_agua   = diferenca
-      medicao.calculo                        = calculo
-      medicao.imovel                         = imovel
-      medicao.debito_credito_situacao_id     = situacao_conta(conta_referencia)
-      medicao.valor_diferenca_consumo_esgoto = valor_agua(conta_referencia)
+      medicao.ano_mes_referencia           = @referencia
+      medicao.contrato_medicao             = @contrato
+      medicao.valor_diferenca_agua         = diferenca
+      medicao.calculo                      = calculo
+      medicao.imovel                       = imovel
+      medicao.debito_credito_situacao_id   = situacao_conta(conta_referencia)
+      medicao.valor_agua_faturado          = valor_agua(conta_referencia)
+      medicao.valor_agua_faturado_mes_zero = valor_agua(conta_mes_zero)
+      medicao.consumo_referencia           = consumo_agua(conta_referencia)
+      medicao.consumo_mes_zero             = consumo_agua(conta_mes_zero)
       medicao.save!      
     end
   end
 
   def buscar_conta(imovel_id, referencia)
-    situacoes = [DebitoCreditoSituacao::SITUACAO[:normal], DebitoCreditoSituacao::SITUACAO[:retificada], DebitoCreditoSituacao::SITUACAO[:incluida]]
-
-    conta = Conta.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia, debito_credito_situacao_id_atual: situacoes)
+    conta = Conta.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia)
 
     if conta.nil?
-      conta = ContaHistorico.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia, debito_credito_situacao_id_atual: situacoes)
+      conta = ContaHistorico.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia)
     end
 
     return conta
@@ -61,6 +76,10 @@ class PopulaPerformance
 
   def valor_agua(conta)
     return conta.present? ? conta.valor_agua : 0
+  end
+
+  def consumo_agua(conta)
+    return conta.present? ? conta.consumo_agua : 0
   end
 
   def situacao_conta(conta)

@@ -14,6 +14,7 @@ class ContaHistorico < ActiveRecord::Base
   alias_attribute :debito_credito_situacao_id_atual, :dcst_idatual
   alias_attribute :data_ultima_alteracao,            :cnhi_tmultimaalteracao
   alias_attribute :consumo_tarifa_id,                :cstf_id
+  alias_attribute :consumo_agua,                     :cnhi_nnconsumoagua
   alias_attribute :ano_mes_referencia_contabil,      :cnhi_amreferenciacontabil
   alias_attribute :data_vencimento,                  :cnhi_dtvencimentoconta
   alias_attribute :percentual_esgoto,                :cnhi_pcesgoto

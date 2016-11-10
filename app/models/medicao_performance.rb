@@ -11,6 +11,8 @@ class MedicaoPerformance < ActiveRecord::Base
   alias_attribute "ano_mes_referencia",             "medp_referencia"
   alias_attribute "valor_diferenca_agua",           "medp_vldiferencaagua"
   alias_attribute "diferenca_consumo_agua",         "medp_difconsumoagua"  
+  alias_attribute "consumo_mes_zero",               "medp_consumomeszero"  
+  alias_attribute "consumo_referencia",             "medp_consumoreferencia"  
   alias_attribute "valor_agua_faturado",            "medp_vlaguafaturado"
   alias_attribute "valor_agua_faturado_mes_zero",   "medp_vlaguafaturadomeszero"
   alias_attribute "calculo",                        "medp_calculo"
@@ -28,7 +30,11 @@ class MedicaoPerformance < ActiveRecord::Base
     @abrangencia ||= abrangencias.find_by(imovel_id: imovel_id)
   end
 
-  def situacao_ligacao
+  def situacao_ligacao_atual
+    imovel.ligacao_agua_situacao.descricao
+  end
+
+  def situacao_ligacao_inicial
     abrangencia.ligacao_agua_situacao.descricao
   end
 
@@ -42,6 +48,30 @@ class MedicaoPerformance < ActiveRecord::Base
     end
   end
 
+  def economias_atuais_imovel
+    subcategorias = ImovelSubcategoria.where(imov_id: imov_id)
+
+    retorno = ""
+
+    subcategorias.each do |sub|
+      retorno += sub.subcategoria.descricao + "=" + sub.qtd_economias.to_s + " "
+    end
+
+    retorno
+  end
+
+  def economias_iniciais_imovel
+    subcategorias = ImovelSubcategoriaAbrangencia.where(imov_id: imov_id)
+
+    retorno = ""
+
+    subcategorias.each do |sub|
+      retorno += sub.subcategoria.descricao + "=" + sub.qtd_economias.to_s + " "
+    end
+
+    retorno
+  end
+  
   def self.filtrar(params={})
     medicoes = all
     
