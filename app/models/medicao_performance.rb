@@ -42,9 +42,9 @@ class MedicaoPerformance < ActiveRecord::Base
     if debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:normal] ||
        debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:incluida] ||
        debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:retificada]
-      'Faturado' 
+      '1. Faturado' 
     else
-      'Cancelado'
+      '2. Cancelado'
     end
   end
 

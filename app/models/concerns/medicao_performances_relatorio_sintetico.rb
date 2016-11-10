@@ -36,7 +36,7 @@ class MedicaoPerformancesRelatorioSintetico
   def dados
     relatorio = []
 
-    medicoes = @medicao_performances.group_by{|e| [e.situacao, e.situacao_ligacao]}
+    medicoes = @medicao_performances.group_by{|e| [e.situacao, e.situacao_ligacao_atual]}
     
     medicoes.each do |medicoes_agrupadas|
       item = {}
@@ -53,7 +53,7 @@ class MedicaoPerformancesRelatorioSintetico
 
     base_repasse.each do |item| 
       repasse = {}
-      repasse[:situacao] = 'Repasse'
+      repasse[:situacao] = '3. Repasse'
       repasse[:situacao_ligacao] = item[0]
       repasse[:valor_agua]       = item[1][0][:valor_agua]      - valor_agua(item[1][1])
       repasse[:valor_diferenca]  = item[1][0][:valor_diferenca] - valor_diferenca(item[1][1])
@@ -62,6 +62,8 @@ class MedicaoPerformancesRelatorioSintetico
 
       relatorio << repasse
     end    
+
+    relatorio = relatorio.sort_by{|e| [e[:situacao], e[:situacao_ligacao]]}
 
     relatorio
   end

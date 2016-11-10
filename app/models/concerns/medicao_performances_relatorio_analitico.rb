@@ -9,6 +9,7 @@ class MedicaoPerformancesRelatorioAnalitico
   def cabecalho
     [
         { name: "imovel",               description: "Imóvel",                  align: "left",    type: "string"  },
+        { name: "situacao_imovel",      description: "Sit. Imóvel",             align: "left",    type: "string"  },
         { name: "grupo",                description: "Grupo",                   align: "left",    type: "string"  },
         { name: "setor",                description: "Setor",                   align: "left",    type: "string"  },
         { name: "rota",                 description: "Rota",                    align: "left",    type: "string"  },
@@ -36,6 +37,7 @@ class MedicaoPerformancesRelatorioAnalitico
     @medicoes.each do |medicao|
       item = {}
       item[:imovel]               = medicao.imovel_id
+      item[:situacao_imovel]      = medicao.
       item[:grupo]                = medicao.imovel.quadra.rota.grupo_faturamento_id
       item[:setor]                = medicao.imovel.setor_comercial.codigo
       item[:rota]                 = medicao.imovel.quadra.rota_id
@@ -80,9 +82,10 @@ class MedicaoPerformancesRelatorioAnalitico
   end
 
   def buscar_conta_por_referencia_contabil(imovel_id, referencia)
+
     conta = Conta.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia)
 
-    if conta.nil?
+    if not conta.present?
       conta = ContaHistorico.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia)
     end
 
