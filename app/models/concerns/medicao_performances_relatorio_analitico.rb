@@ -37,7 +37,6 @@ class MedicaoPerformancesRelatorioAnalitico
     @medicoes.each do |medicao|
       item = {}
       item[:imovel]               = medicao.imovel_id
-      item[:situacao_imovel]      = medicao.
       item[:grupo]                = medicao.imovel.quadra.rota.grupo_faturamento_id
       item[:setor]                = medicao.imovel.setor_comercial.codigo
       item[:rota]                 = medicao.imovel.quadra.rota_id
