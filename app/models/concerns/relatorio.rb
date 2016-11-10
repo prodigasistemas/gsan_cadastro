@@ -33,7 +33,7 @@ module Relatorio
     end
 
     def dados_ordenados(attributes, limpar_duplicados = false, destacar_totais = false)
-      return if attributes[:cabecalho].nil? || attributes[:dados].nil? || attributes[:grupos].nil?
+      return if attributes[:cabecalho].nil? || attributes[:dados].nil?
 
       agrupados = monta_dados(attributes)
 

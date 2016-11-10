@@ -1,4 +1,4 @@
-class Subcateogria < ActiveRecord::Base
+class Subcategoria < ActiveRecord::Base
   include IncrementableId
   include API::Filterable
   include API::Model

@@ -1,10 +1,11 @@
 class RelatorioXls < Relatorio::Base
   attr_accessor :file_name, :path, :relatorio, :planilha, :cabecalho, :dados
 
-  LINHA_HEADER = 0
-  LINHA_TITULO = 1
-  LINHA_CABECALHO = 3
-  LINHA_INICIO_DADOS = 4
+  LINHA_HEADER    = 0
+  LINHA_TITULO    = 1
+  LINHA_SUBTITULO = 3
+  LINHA_CABECALHO = 4
+  LINHA_INICIO_DADOS = 5
 
   def initialize(options={})
     Spreadsheet.client_encoding = 'UTF-8'
@@ -17,6 +18,7 @@ class RelatorioXls < Relatorio::Base
     agrupa_celulas options[:grupos] if options[:grupos]
 
     @titulo = options[:titulo] || TITULO_PADRAO
+    @subtitulo = options[:subtitulo] || ''
     monta_cabecalho options[:cabecalho]
   end
 
@@ -70,6 +72,7 @@ class RelatorioXls < Relatorio::Base
     @cabecalho = cabecalho.map{ |item| item[:description] }
 
     configura_header(@titulo, LINHA_TITULO, :formatacao_titulo)
+    configura_header(@subtitulo, LINHA_SUBTITULO, :formatacao_subtitulo)
     configura_header(TEXTO_HEADER, LINHA_HEADER, :formatacao_header)
 
     @planilha.row(LINHA_CABECALHO).concat @cabecalho
@@ -88,6 +91,10 @@ class RelatorioXls < Relatorio::Base
 
   def formatacao_titulo
     Spreadsheet::Format.new weight: :bold, align: :center, size: 12
+  end
+
+  def formatacao_subtitulo
+    Spreadsheet::Format.new align: :left, size: 10
   end
 
   def formatacao_cabecalho

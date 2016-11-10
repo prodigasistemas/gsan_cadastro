@@ -14,6 +14,7 @@ class Conta < ActiveRecord::Base
   alias_attribute :debito_credito_situacao_id_atual, :dcst_idatual
   alias_attribute :data_ultima_alteracao,            :cnta_tmultimaalteracao
   alias_attribute :consumo_tarifa_id,                :cstf_id
+  alias_attribute :consumo_agua,                     :cnta_nnconsumoagua
   alias_attribute :ano_mes_referencia_contabil,      :cnta_amreferenciacontabil
   alias_attribute :data_vencimento,                  :cnta_dtvencimentoconta
   alias_attribute :percentual_esgoto,                :cnta_pcesgoto
@@ -27,7 +28,8 @@ class Conta < ActiveRecord::Base
   alias_attribute :localidade_id,                    :loca_id
   alias_attribute :ligacao_esgoto_situacao,          :lest_id
 
-  belongs_to :imovel, foreign_key: :imov_id
+  belongs_to :imovel,                  foreign_key: :imov_id
+  belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual
 
   scope :do_imovel_com_referencia, -> (imovel_id, referencia) do
     where(imovel_id: imovel_id, mes_ano_referencia: referencia).first
