@@ -65,10 +65,17 @@ class PopulaPerformance
   end
 
   def buscar_conta(imovel_id, referencia)
-    conta = Conta.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia)
+    situacoes = [
+      DebitoCreditoSituacao::SITUACAO[:normal], 
+      DebitoCreditoSituacao::SITUACAO[:retificada], 
+      DebitoCreditoSituacao::SITUACAO[:incluida],
+      DebitoCreditoSituacao::SITUACAO[:cancelada],
+      DebitoCreditoSituacao::SITUACAO[:cancelada_por_retificacao]]
+
+    conta = Conta.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia, debito_credito_situacao_id_atual: situacoes)
 
     if conta.nil?
-      conta = ContaHistorico.find_by(imovel_id: imovel_id, mes_ano_referencia: referencia)
+      conta = ContaHistorico.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia, debito_credito_situacao_id_atual: situacoes)
     end
 
     return conta

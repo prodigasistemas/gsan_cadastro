@@ -9,6 +9,7 @@ class MedicaoPerformancesRelatorioAnalitico
   def cabecalho
     [
         { name: "imovel",               description: "Imóvel",                  align: "left",    type: "string"  },
+        { name: "situacao_imovel",      description: "Sit. Imóvel",             align: "left",    type: "string"  },
         { name: "grupo",                description: "Grupo",                   align: "left",    type: "string"  },
         { name: "setor",                description: "Setor",                   align: "left",    type: "string"  },
         { name: "rota",                 description: "Rota",                    align: "left",    type: "string"  },
@@ -32,7 +33,7 @@ class MedicaoPerformancesRelatorioAnalitico
 
   def dados
     relatorio = []
-    
+
     @medicoes.each do |medicao|
       item = {}
       item[:imovel]               = medicao.imovel_id
@@ -44,7 +45,7 @@ class MedicaoPerformancesRelatorioAnalitico
       item[:sublote]              = medicao.imovel.numero_sublote
 
       conta = buscar_conta_por_referencia_contabil(medicao.imovel_id, medicao.ano_mes_referencia)
-      
+
       item[:situacao_conta]       = situacao_conta(conta)
       item[:referencia_conta]     = referencia_conta(conta)
       item[:sit_ligacao_inicial]  = medicao.situacao_ligacao_inicial
@@ -80,9 +81,10 @@ class MedicaoPerformancesRelatorioAnalitico
   end
 
   def buscar_conta_por_referencia_contabil(imovel_id, referencia)
+
     conta = Conta.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia)
 
-    if conta.nil?
+    if not conta.present?
       conta = ContaHistorico.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia)
     end
 
@@ -134,14 +136,14 @@ class MedicaoPerformancesRelatorioAnalitico
 
   def gerar
     params = {}
-    
+
     params[:omitirTotalGeral] = true
     params[:cabecalho]     = cabecalho
     params[:dados]         = dados
     params[:titulo]        = 'Relatório Analítico de Medição de Performance'
     params[:formato]       = @params[:formato]
     params[:subtitulo]     = filtro_relatorio
-    params[:name]          = 'relatorio_analitico_performance.' + @params[:formato]
+    params[:name]          = "#{@params[:nome_arquivo]}"
     relatorio = RelatorioService.new params
     relatorio.gerar
   end

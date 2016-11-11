@@ -1,5 +1,5 @@
 class ArquivoHidrometroInstalacaoHistoricosController < ApplicationController
-    def show
+  def show
     caminho ="#{Rails.root}/tmp/#{params[:nome_arquivo]}.csv"
     send_file caminho, :type=>"text/csv", :x_sendfile=>true
   end

@@ -28,5 +28,6 @@ class ContaHistorico < ActiveRecord::Base
   alias_attribute :localidade_id,                    :loca_id
   alias_attribute :ligacao_esgoto_situacao,          :lest_id
 
-  belongs_to :imovel, foreign_key: :imov_id
+  belongs_to :imovel,                  foreign_key: :imov_id
+  belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual
 end

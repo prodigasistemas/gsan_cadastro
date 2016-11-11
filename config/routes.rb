@@ -60,6 +60,9 @@ Rails.application.routes.draw do
     get :relatorio
   end
 
+  resource :arquivo_medicao_performance_relatorios, only: [:create, :show]
+  get "/verifica_arquivo_medicao_performance_relatorios", controller: :arquivo_medicao_performance_relatorios, action: :verify
+
   resource :arquivo_hidrometro_instalacao_historicos, only: [:create, :show]
   get "/verifica_arquivo_hidrometro_historico", controller: :arquivo_hidrometro_instalacao_historicos, action: :verify
 
