@@ -32,8 +32,11 @@ class PopulaPerformance
     MedicaoPerformance.where(ano_mes_referencia: @referencia).destroy_all
 
     @imoveis.each do |imovel|
-      conta_mes_zero   = buscar_conta(imovel.id, @contrato.referencia_assinatura)
       conta_referencia = buscar_conta(imovel.id, @referencia)
+
+      next if not conta_referencia.present?
+
+      conta_mes_zero   = buscar_conta(imovel.id, @contrato.referencia_assinatura)
 
       percentual = 0
 
@@ -65,20 +68,36 @@ class PopulaPerformance
   end
 
   def buscar_conta(imovel_id, referencia)
-    situacoes = [
-      DebitoCreditoSituacao::SITUACAO[:normal], 
-      DebitoCreditoSituacao::SITUACAO[:retificada], 
-      DebitoCreditoSituacao::SITUACAO[:incluida],
+    situacoes_cancelada = [
       DebitoCreditoSituacao::SITUACAO[:cancelada],
-      DebitoCreditoSituacao::SITUACAO[:cancelada_por_retificacao]]
+      DebitoCreditoSituacao::SITUACAO[:cancelada_por_retificacao]
+    ]
 
-    conta = Conta.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia, debito_credito_situacao_id_atual: situacoes)
+    conta = Conta.where(imovel_id: imovel_id).
+      where(ano_mes_referencia: referencia).
+      where("dcst_idatual = ? or dcst_idanterior = ?", DebitoCreditoSituacao::SITUACAO[:normal], DebitoCreditoSituacao::SITUACAO[:normal]).
+      where("cnta_amreferenciaconta >= ? and cnta_amreferenciaconta <= ?", @contrato.ano_mes_vigencia_inicial, @contrato.ano_mes_vigencia_final)
 
-    if conta.nil?
-      conta = ContaHistorico.find_by(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia, debito_credito_situacao_id_atual: situacoes)
+    if not conta.present?
+      conta = Conta.where(imovel_id: imovel_id).
+        where(ano_mes_referencia: referencia).
+        where(debito_credito_situacao_id_atual:  DebitoCreditoSituacao::SITUACAO[:incluida]).
+        where("cnta_amreferenciaconta >= ? and cnta_amreferenciaconta <= ?", @contrato.ano_mes_vigencia_inicial, @contrato.ano_mes_vigencia_final)
     end
 
-    return conta
+    if not conta.present?
+      conta = Conta.where(imovel_id: imovel_id).
+        where(ano_mes_referencia_contabil: referencia).
+        where(debito_credito_situacao_id_atual:  DebitoCreditoSituacao::SITUACAO[:retificada]).
+        where("cnta_amreferenciacontabil >= ? and cnta_amreferenciacontabil <= ?", @contrato.ano_mes_vigencia_inicial, @contrato.ano_mes_vigencia_final)
+    end
+
+    if not conta.present?
+      conta = ContaHistorico.where(imovel_id: imovel_id, ano_mes_referencia_contabil: referencia, debito_credito_situacao_id_atual: situacoes_cancelada).
+        where("cnhi_amreferenciacontabil >= ? and cnhi_amreferenciacontabil <= ?", @contrato.ano_mes_vigencia_inicial, @contrato.ano_mes_vigencia_final)
+    end
+
+    return conta.present? ? conta.first : nil
   end
 
   def valor_agua(conta)

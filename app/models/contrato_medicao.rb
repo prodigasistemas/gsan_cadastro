@@ -23,7 +23,15 @@ class ContratoMedicao < ActiveRecord::Base
   validates :numero, uniqueness: true
 
   def mes_ano_assinatura
-    data_assinatura.month.to_s + "/" + data_assinatura.year.to_s
+    ("02" % data_assinatura.month.to_s) + "/" + data_assinatura.year.to_s
+  end
+
+  def ano_mes_vigencia_inicial
+    vigencia_inicial.year.to_s + ("02" % vigencia_inicial.month.to_s)
+  end
+
+  def ano_mes_vigencia_final
+    vigencia_final.year.to_s + ("02" % vigencia_final.month.to_s)
   end
 
   def redefinir

@@ -93,7 +93,7 @@ class MedicaoPerformancesRelatorioAnalitico
 
   def referencia_conta(conta)
     if conta.present?
-      conta.mes_ano_referencia
+      conta.ano_mes_referencia
     else
       ''
     end
