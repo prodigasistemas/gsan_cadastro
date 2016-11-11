@@ -11,7 +11,9 @@ class HistoricoArquivoRetorno < ActiveRecord::Base
 
   TIPO_ARQUIVO = {
     imovel_retorno: "recadastramento_imovel",
-    hidrometro_historico: "hidrometro_historico"
+    hidrometro_historico: "hidrometro_historico",
+    medicao_performance_analitico: "medicao_performance_analitico",
+    medicao_performance_sintetico: "medicao_performance_sintetico"
   }
 
   self.table_name  = 'atualizacaocadastral.historico_arquivo_retorno'

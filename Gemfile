@@ -31,6 +31,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
+  gem 'rb-readline'
   gem 'capistrano', '3.5.0'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
