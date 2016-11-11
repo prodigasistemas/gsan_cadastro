@@ -10,15 +10,15 @@ class MedicaoPerformance < ActiveRecord::Base
   alias_attribute "criado_em",                      "medp_tmcriacao"
   alias_attribute "ano_mes_referencia",             "medp_referencia"
   alias_attribute "valor_diferenca_agua",           "medp_vldiferencaagua"
-  alias_attribute "diferenca_consumo_agua",         "medp_difconsumoagua"  
-  alias_attribute "consumo_mes_zero",               "medp_consumomeszero"  
-  alias_attribute "consumo_referencia",             "medp_consumoreferencia"  
+  alias_attribute "diferenca_consumo_agua",         "medp_difconsumoagua"
+  alias_attribute "consumo_mes_zero",               "medp_consumomeszero"
+  alias_attribute "consumo_referencia",             "medp_consumoreferencia"
   alias_attribute "valor_agua_faturado",            "medp_vlaguafaturado"
   alias_attribute "valor_agua_faturado_mes_zero",   "medp_vlaguafaturadomeszero"
   alias_attribute "calculo",                        "medp_calculo"
   alias_attribute "debito_credito_situacao_id",     "dcst_id"
   alias_attribute "contrato_medicao_id",            "cmed_id"
-  alias_attribute "imovel_id",                      "imov_id"  
+  alias_attribute "imovel_id",                      "imov_id"
 
 
   belongs_to :contrato_medicao, foreign_key: :cmed_id
@@ -42,7 +42,7 @@ class MedicaoPerformance < ActiveRecord::Base
     if debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:normal] ||
        debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:incluida] ||
        debito_credito_situacao_id == DebitoCreditoSituacao::SITUACAO[:retificada]
-      '1. Faturado' 
+      '1. Faturado'
     else
       '2. Cancelado'
     end
@@ -71,10 +71,10 @@ class MedicaoPerformance < ActiveRecord::Base
 
     retorno
   end
-  
+
   def self.filtrar(params={})
     medicoes = all
-    
+
     if params['referencia'].present?
       medicoes = where('medicao_performance.medp_referencia = ?', params['referencia'])
     end
@@ -99,6 +99,6 @@ class MedicaoPerformance < ActiveRecord::Base
          where("quadra.rota_id = ?", params[:rota_id]);
     end
 
-    medicoes    
+    medicoes
   end
 end

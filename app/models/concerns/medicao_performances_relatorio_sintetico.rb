@@ -37,7 +37,7 @@ class MedicaoPerformancesRelatorioSintetico
     relatorio = []
 
     medicoes = @medicao_performances.group_by{|e| [e.situacao, e.situacao_ligacao_atual]}
-    
+
     medicoes.each do |medicoes_agrupadas|
       item = {}
       item[:situacao] = medicoes_agrupadas[0][0]
@@ -51,7 +51,7 @@ class MedicaoPerformancesRelatorioSintetico
 
     base_repasse = relatorio.group_by { |e| e[:situacao_ligacao] }
 
-    base_repasse.each do |item| 
+    base_repasse.each do |item|
       repasse = {}
       repasse[:situacao] = '3. Repasse'
       repasse[:situacao_ligacao] = item[0]
@@ -61,7 +61,7 @@ class MedicaoPerformancesRelatorioSintetico
 
 
       relatorio << repasse
-    end    
+    end
 
     relatorio = relatorio.sort_by{|e| [e[:situacao], e[:situacao_ligacao]]}
 
@@ -112,7 +112,7 @@ class MedicaoPerformancesRelatorioSintetico
 
   def gerar
     params = {}
-    
+
     params[:omitirTotalGeral] = true
     params[:cabecalho]     = cabecalho
     params[:dados]         = dados
@@ -121,7 +121,7 @@ class MedicaoPerformancesRelatorioSintetico
     params[:grupos]        = grupos
     params[:totalizadores] = totalizadores
     params[:subtitulo]     = filtro_relatorio
-    params[:name]          = 'relatorio_performance.' + @formato
+    params[:name]          = "#{@params[:nome_arquivo]}"
     relatorio = RelatorioService.new params
     relatorio.gerar
   end

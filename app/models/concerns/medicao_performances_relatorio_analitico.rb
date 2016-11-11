@@ -33,7 +33,7 @@ class MedicaoPerformancesRelatorioAnalitico
 
   def dados
     relatorio = []
-    
+
     @medicoes.each do |medicao|
       item = {}
       item[:imovel]               = medicao.imovel_id
@@ -45,7 +45,7 @@ class MedicaoPerformancesRelatorioAnalitico
       item[:sublote]              = medicao.imovel.numero_sublote
 
       conta = buscar_conta_por_referencia_contabil(medicao.imovel_id, medicao.ano_mes_referencia)
-      
+
       item[:situacao_conta]       = situacao_conta(conta)
       item[:referencia_conta]     = referencia_conta(conta)
       item[:sit_ligacao_inicial]  = medicao.situacao_ligacao_inicial
@@ -136,14 +136,14 @@ class MedicaoPerformancesRelatorioAnalitico
 
   def gerar
     params = {}
-    
+
     params[:omitirTotalGeral] = true
     params[:cabecalho]     = cabecalho
     params[:dados]         = dados
     params[:titulo]        = 'Relatório Analítico de Medição de Performance'
     params[:formato]       = @params[:formato]
     params[:subtitulo]     = filtro_relatorio
-    params[:name]          = 'relatorio_analitico_performance.' + @params[:formato]
+    params[:name]          = "#{@params[:nome_arquivo]}"
     relatorio = RelatorioService.new params
     relatorio.gerar
   end
