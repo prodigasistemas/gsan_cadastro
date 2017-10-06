@@ -102,6 +102,7 @@ class Imovel < ActiveRecord::Base
   alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
+  scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
 
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
@@ -114,7 +115,7 @@ class Imovel < ActiveRecord::Base
   has_one    :contrato_medicao,      through: :abrangencia
   has_many   :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
   has_many   :hidrometro_instalacao_agua_historicos,   foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
-  has_many   :contas,                foreign_key: :cnta_id
+  has_many   :contas,                foreign_key: :imov_id
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
