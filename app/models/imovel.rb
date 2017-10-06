@@ -115,7 +115,7 @@ class Imovel < ActiveRecord::Base
   has_one    :contrato_medicao,      through: :abrangencia
   has_many   :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
   has_many   :hidrometro_instalacao_agua_historicos,   foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
-  has_many   :contas,                foreign_key: :imov_id
+  has_many   :contas, -> { order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
