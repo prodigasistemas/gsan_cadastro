@@ -1,6 +1,7 @@
 class Cliente < ActiveRecord::Base
   include IncrementableId
-  include API::Filterable
+  include Filterable
+  # include API::Filterable
   include API::Model
 
   TIPO = {
