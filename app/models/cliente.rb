@@ -1,6 +1,8 @@
 class Cliente < ActiveRecord::Base
   include IncrementableId
   include Filterable
+  # include API::Filterable
+  include API::Model
 
   TIPO = {
     proprietario:  1,
@@ -98,8 +100,9 @@ class Cliente < ActiveRecord::Base
   belongs_to :ramo_atividade,               foreign_key: :ratv_id
   belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente"
   belongs_to :pessoa_sexo,                  foreign_key: :psex_id
-  has_many   :cliente_imoveis, foreign_key: :clie_id
+  has_many   :cliente_imoveis,              foreign_key: :clie_id
   has_many   :imoveis, through: :cliente_imoveis
+  has_many   :cliente_contas,               foreign_key: :clie_id, class_name: "ClienteConta", inverse_of: :cliente
 
   accepts_nested_attributes_for :enderecos, allow_destroy: true
   accepts_nested_attributes_for :telefones, allow_destroy: true
