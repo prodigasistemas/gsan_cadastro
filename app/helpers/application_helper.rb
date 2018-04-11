@@ -1,2 +1,16 @@
 module ApplicationHelper
+
+  def wicked_pdf_image_tag_for_public(img, options={})
+    if img[0] == "/"        
+      new_image = img.slice(1..-1)
+      image_tag "file://#{Rails.root.join('public', new_image)}", options
+    else        
+        image_tag img
+    end
+  end
+
+  def data_emissao
+  	data = Time.now
+  	data.strftime('%d/%m/%Y às %H:%M')
+  end
 end

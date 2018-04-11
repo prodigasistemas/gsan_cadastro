@@ -70,4 +70,5 @@ Rails.application.routes.draw do
   get "/verifica_arquivo_recadastramento", controller: :arquivo_recadastramentos, action: :verify
   get "/empresas_usuario/:usuario_id", controller: :empresas, action: :usuario
   get "/url-portal", controller: :url_portal, action: :url
+
 end

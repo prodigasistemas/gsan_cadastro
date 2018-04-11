@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.7'
-gem 'pg'
+gem 'pg', '0.15.1'
 gem 'jbuilder', '~> 2.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
@@ -17,6 +17,13 @@ gem 'slack-notifier'
 gem 'spreadsheet'
 gem 'prawn'
 gem 'prawn-table'
+
+gem 'sass-rails'
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'barby'
+gem 'chunky_png'
 
 group :production do
   gem 'unicorn'
@@ -36,7 +43,7 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'factory_girl'
+  gem "factory_bot"
 end
 
 group :test do
