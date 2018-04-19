@@ -1,0 +1,47 @@
+@import 'bootstrap';
+
+.row {
+  width: 100%;
+  margin: 0;
+}
+
+.header {
+  width: 745px;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+}
+
+.logo {
+  width: 50px;
+}
+
+.titulo {
+  width: 695px;
+  text-align: center;
+}
+
+.titulo h1{
+  font-size: 15px
+}
+
+.titulo h2{
+  font-size: 13px
+}
+
+.conteudo {
+  width: 745px;
+  padding: 0;
+  margin: 0;
+  text-align: justify;
+  font-size: 12px;
+}
+
+.conteudo h3{
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+.conteudo p{
+  margin-bottom: 0;
+}
