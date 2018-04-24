@@ -1,0 +1,472 @@
+@import "bootstrap";
+
+.row {
+  width: 745px;
+  margin: 0;
+}
+
+.header {
+  margin-bottom: 10px;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
+}
+
+.titulo {
+  height: 40px;
+  width: 600px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.titulo p {
+  margin: 0;
+  height: 20px;
+  font-size: 11px;
+}
+
+.debito-automatico {
+  height: 40px;
+  width: 105px;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.debito-automatico p {
+  font-size: 11px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0;
+  padding-top: 3px;
+  height: 38px;
+}
+
+.campos {
+  height: 40px;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.campos label {
+  padding-top: 3px;
+  padding-left: 5px;
+  margin: 0;
+}
+
+.campos p {
+  padding-left: 10px;
+  margin: 0;
+}
+
+.matricula {
+  width: 81px;
+  background: #D3D3D3;
+}
+
+.cliente {
+  width: 361px;
+  margin-left: 2px;
+}
+
+.cpf-cnpj {
+  width: 135px;
+  margin-left: 2px;
+}
+
+.referencia {
+  width: 80px;
+  margin-left: 2px;
+}
+
+.vencimento {
+  width: 80px;
+  margin-left: 2px;
+  background: #D3D3D3;
+}
+
+.endereco {
+  width: 745px;
+}
+
+.endereco label {
+  width: 700px;
+}
+
+.infos {
+  width: 745px;
+  height: 118px;
+  font-size: 10px;
+  margin-top: 18px;
+  margin-bottom: 20px;
+}
+
+.infos table {
+  padding: 0 5px 0 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.infos table th {
+  padding: 2px 5px 2px 5px;
+  border: 1px solid;
+  background: #D3D3D3;
+}
+
+.infos table td {
+  padding: 0 5px 0 5px;
+}
+
+.leituras {
+  width: 245px;
+}
+
+.leituras table {
+  height: 118px;
+}
+
+.consumo-mes {
+  width: 105px;
+  height: 118px;
+  text-align: center;
+  margin-left: 2px;
+  border: 1px solid;
+}
+
+.consumo-mes h3 {
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 0 3px 0;
+  border-bottom: 1px solid;
+  margin: 0;
+  background: #D3D3D3;
+}
+
+.consumo-mes h1 {
+  font-size: 25px;
+  margin: 15px 0 15px 0;
+}
+
+.consumo-mes p {
+  font-size: 10px;
+  margin: 0;
+}
+
+.historico-tipo {
+  width: 205px;
+  height: 118px;
+  margin-left: 2px;
+}
+
+.historico-tipo table {
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.historico {
+  width: 205px;
+  height: 66px;
+}
+
+.tipo {
+  width: 205px;
+  height: 52px;
+  border-bottom: 1px solid;
+}
+
+.tipo th {
+  max-height: 20px;
+}
+
+.tipo td {
+  line-height: 10px;
+  max-height: 31px;
+}
+
+.outros {
+  width: 184px;
+  height: 118px;
+  margin-left: 2px;
+}
+
+.outros table td {
+  min-height: 19px;
+  max-height: 19px;
+  line-height: 18px;
+}
+
+.principal {
+  height: 338px;
+  margin-bottom: 20px;
+}
+
+.mensagens {
+  width: 248px;
+  height: 338px;
+}
+
+.mensagens p {
+  margin: 5px 7px 5px 7px;
+  padding-top: 5px;
+  text-align: justify;
+  font-size: 10px;
+  line-height: normal;
+}
+
+.valores {
+  width: 495px;
+  height: 338px;
+  margin-left: 2px;
+  font-size: 10px;
+}
+
+.valores table {
+  width: 100%;
+  height: 300px;
+  border: 1px solid;
+  margin-bottom: 2px;
+}
+
+.valores table th {
+  line-height: 20px;
+  background: #D3D3D3;
+  font-size: 11px;
+  border-bottom: 1px solid;
+}
+
+.valores tbody {
+  line-height: 15px;
+}
+
+.valores .descricao {
+  padding-left: 5px;
+  width: 288px;
+}
+
+.valores .consumo {
+  text-align: center;
+  width: 100px;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.valores .valor {
+  text-align: center;
+  padding-left: 5px;
+  width: 90px;
+}
+
+.valores .descricao-item {
+  padding-left: 5px;
+}
+
+.valores .consumo-item {
+  text-align: center;
+}
+
+.valores .valor-item {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.valores table tfoot {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 25px;
+  background: #D3D3D3;
+  border-top: 1px solid;
+}
+
+.tributos table {
+  text-align: center;
+  height: 36px;
+  margin: 0;
+}
+
+.tributos table th {
+  background-color: white;
+  border: 0;
+  line-height: 10px;
+  padding: 4px 0 4px 0;
+}
+
+.tributos table td {
+  line-height: 10px;
+  padding: 2px 0 4px 0;
+}
+
+.qualidade-titulo {
+  width: 745px;
+  height: 15px;
+  text-align: center;
+  margin: 5px 0 5px 0;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.qualidade-titulo p {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.qualidade {
+  width: 745px;
+  height: 67px;
+  padding: 0;
+  margin: 0 0 20px 0;
+  font-size: 10px;
+  text-align: center;
+}
+
+.qualidade table {
+  width: 100%;
+  border: 1px solid;
+}
+
+.qualidade table th {
+  padding: 2px 5px 2px 5px;
+  border: 1px solid;
+  background: #D3D3D3;
+}
+
+.qualidade table td {
+  padding: 0 5px 0 5px;
+}
+
+.atendimento {
+  width: 745px;
+  height: 57px;
+  margin-bottom: 20px;
+}
+
+.atendimento table {
+  width: 371.5px;
+  font-size: 10px;
+}
+
+.atendimento table th {
+  padding: 3px 5px 3px 5px;
+}
+
+.atendimento table td {
+  padding: 0 5px 2px 5px;
+}
+
+.autenticacao {
+  width: 745px;
+  height: 35px;
+}
+
+.autenticacao p {
+  font-size: 10px;
+  width: 100%;
+  text-align: center;
+  margin-top: 18px;
+}
+
+.emissao {
+  height: 40px;
+  border-bottom: 2px dotted;
+  margin-bottom: 20px;
+}
+
+.emissao div {
+  width: 33.33%;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.emissao div p {
+  font-size: 11px;
+  padding-top: 10px;
+  margin: 0;
+}
+
+.pagamento {
+  margin-bottom: 27px;
+}
+
+.pagamento .logo {
+  margin-right: 104px;
+}
+
+.pagamento .inscricao {
+  width: 140px;
+  margin-left: 2px;
+}
+
+.pagamento .grupo {
+  width: 60px;
+  margin-left: 2px;
+}
+
+.pagamento .vencimento {
+  background-color: #FFFFFF;
+}
+
+.pagamento .total {
+  width: 150px;
+  background-color: #D3D3D3;
+  margin-left: 2px;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.pagamento .total label {
+  width: 100px;
+}
+
+.identificacao {
+  width: 745px;
+}
+
+.identificacao p {
+  font-size: 13px;
+  text-align: center;
+  height: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.numero {
+  width: 505px;
+}
+
+.via {
+  width: 240px;
+}
+
+.via p {
+  font-size: 11px;
+}
+
+.codigo {
+  width: 745px;
+  text-align: center;
+}
+
+.barra {
+  width: 505px;
+}
+
+.autenticacao-2 {
+  width: 240px;
+  height: 50px;
+  margin-top: 5px;
+}
+
+.autenticacao-2 p {
+  font-size: 10px;
+  width: 100%;
+  margin: 32px 0 0 0;
+}
+
+.conta-paga {
+  margin: 70px 0 0 0;
+  padding: 0;
+  text-align: center;
+  font-size: 18px;
+}
