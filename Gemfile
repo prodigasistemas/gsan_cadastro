@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.7'
-gem 'pg', '0.15.1'
+gem 'pg'
 gem 'jbuilder', '~> 2.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
@@ -43,7 +43,7 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem "factory_bot"
+  gem 'factory_girl'
 end
 
 group :test do
