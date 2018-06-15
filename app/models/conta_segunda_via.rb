@@ -26,9 +26,6 @@ class ContaSegundaVia
   def initialize(options = {})
     return if options.nil?
 
-    @path                                           = 'public/contas_segunda_via'
-    @file_name                                      = options[:nomeArquivo]
-
     @debito_automatico                              = options[:codigoDebitoAutomatico]    
     @matricula                                      = options[:matricula]
     @cliente                                        = options[:cliente]
@@ -128,15 +125,6 @@ class ContaSegundaVia
     @conta_paga                                     = options[:contaPaga]
     @data_pagamento                                 = options[:dataPagamento]
     @situacao_conta                                 = options[:situacaoConta]
-  end
-
-  def salvar(pdf)
-    Dir.mkdir(@path) unless File.exists?(@path)
-
-    save_path = Rails.root.join(@path, @file_name)
-    File.open(save_path, 'wb') do |file|
-      file << pdf
-    end
   end
 
   private

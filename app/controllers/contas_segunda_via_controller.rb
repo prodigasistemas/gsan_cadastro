@@ -1,10 +1,12 @@
 class ContasSegundaViaController < ApplicationController
 
   def create
-    @conta = ContaSegundaVia.new(params)
-    path = @conta.salvar(pdf)
+    @path = 'public/contas_segunda_via'
+    @file_name = params[:nomeArquivo]
+    @contas = montar_contas(params[:contas])
+    @path = salvar(pdf)
 
-    if not path.nil?
+    if not @path.nil?
       render json: { url: "http://#{request.host_with_port}/contas_segunda_via" }, status: 200
     else
       render json: { error: "Não foi possível gerar a Segunda Via de Conta" }, status: 422
@@ -12,6 +14,25 @@ class ContasSegundaViaController < ApplicationController
   end
 
   private
+
+  def montar_contas(array)
+    contas = Array.new
+
+    array.each do |conta|
+      contas << ContaSegundaVia.new(conta)
+    end
+
+    return contas
+  end
+
+  def salvar(pdf)
+    Dir.mkdir(@path) unless File.exists?(@path)
+
+    save_path = Rails.root.join(@path, @file_name)
+    File.open(save_path, 'wb') do |file|
+      file << pdf
+    end
+  end
 
   def pdf
     WickedPdf.new.pdf_from_string(
