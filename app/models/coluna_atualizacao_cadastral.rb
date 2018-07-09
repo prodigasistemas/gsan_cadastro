@@ -1,5 +1,6 @@
 class ColunaAtualizacaoCadastral < ActiveRecord::Base
   include IncrementableId
+  include API::Filterable
   include API::Model
 
   self.table_name  = 'seguranca.tab_col_atlz_cadastral'
