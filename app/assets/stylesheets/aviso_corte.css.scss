@@ -1,0 +1,175 @@
+@import "bootstrap";
+
+@media print {
+  tr.vendorListHeading {
+    background-color: #1a4567 !important;
+    -webkit-print-color-adjust: exact; 
+  }
+}
+  
+@media print {
+  .vendorListHeading th {
+  color: white !important;
+  }
+}
+  
+table {
+  border-collapse: collapse;
+  width:100%;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 10px !important;
+}
+
+
+table, th, td {
+  margin-top:10px;
+  margin-right:5px;
+}
+
+th, td {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  text-align: center;
+}
+
+body {
+width: 745px;
+}
+
+.classvalor {
+  border-right:none !important;
+}
+
+.familia {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 10px;
+  text-align: justify;
+}
+
+.familia1 {
+  font-family: "Calibri";
+  font-size: 12px;
+  text-align: left;
+}
+
+.familia2 {
+  font-family: "Calibri";
+  font-size: 8px;
+  text-align: left;
+  border-bottom:3px dashed black;
+  width:100%;
+  float:left;
+}
+
+.familia3 {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 15px;
+  float:left;
+  margin-left:40%;
+}
+
+#cliente {
+  border-bottom: 1px solid black;
+}
+
+.signature { 
+  float: left; 
+  border-top: 1px solid #000;
+  margin-top:10px;
+  width: 250px; 
+  text-align: center;
+}
+
+.date { 
+  float: right; 
+  border-top: 1px solid #000;
+  margin-top:10px;
+  width: 250px; 
+  text-align: center;
+}
+
+#companhia {
+  float: left;
+  width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding-top: 3px;
+}
+
+#aviso {
+  margin-top: 10px;
+}
+
+.textoCompanhia {
+  margin-left: 10%;
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+}
+
+#companhiaTitle {
+  font-size: 22px;
+  color: darkblue;
+}
+
+.decrCompanhia {
+  font-size: 12px;
+  font-family: "Arial";
+}
+
+.pintar {
+  background: lightgray;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+#atencao {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 18px;
+  background-color: lightgray;
+  margin-top: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+#imagemcodigo {
+  text-align: center;
+  width: 500px;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+}
+
+#container {
+  width: 100%;
+  overflow: hidden;
+  margin: 0px auto 0px auto;
+  padding: 0px 0px 0px 0px;
+  border-collapse: collapse;
+  
+}
+
+#table1 {
+  width: 49%;
+  float: left;
+  position: relative;
+}
+
+#table2 {
+  width: 49%;
+  float: right;
+}
+
+#menu {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 8px;
+  background-color: lightgray;
+  margin-top: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+table#table1 td, table#table1 th, table#table2 td, table#table2 th {
+  border-right: none !important;
+  border-bottom: none !important;
+}
