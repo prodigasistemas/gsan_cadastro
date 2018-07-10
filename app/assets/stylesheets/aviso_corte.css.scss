@@ -1,5 +1,11 @@
 @import "bootstrap";
 
+.page-break {
+  display: block;
+  clear: both;
+  page-break-after: always;
+}
+
 @media print {
   tr.vendorListHeading {
     background-color: #1a4567 !important;
@@ -63,9 +69,10 @@ width: 745px;
 
 .familia3 {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 15px;
+  font-size: 18px;
   float:left;
-  margin-left:40%;
+  text-align: center;
+  width: 100%;
 }
 
 #cliente {
@@ -92,7 +99,6 @@ width: 745px;
   float: left;
   width: 100%;
   margin-top: 10px;
-  border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding-top: 3px;
 }
@@ -107,13 +113,14 @@ width: 745px;
 }
 
 #companhiaTitle {
-  font-size: 22px;
+  font-size: 18px;
   color: darkblue;
 }
 
 .decrCompanhia {
-  font-size: 12px;
+  font-size: 10px;
   font-family: "Arial";
+  font-weight: lighter;
 }
 
 .pintar {
@@ -172,4 +179,8 @@ width: 745px;
 table#table1 td, table#table1 th, table#table2 td, table#table2 th {
   border-right: none !important;
   border-bottom: none !important;
+}
+
+table#table1 td, table#table2 td {
+  line-height: 10px;
 }

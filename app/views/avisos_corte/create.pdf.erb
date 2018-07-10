@@ -36,13 +36,13 @@
   </div>
 
   <div id="companhia" class="font-weight-bold">
-    <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40' %>
+    <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40', class: 'float-left' %>
     <div class="textoCompanhia">
         <span id="companhiaTitle"><%= @nome_empresa %></span>
         </br>
         <span class="decrCompanhia"><%= @endereco_empresa %></span>
         </br>
-        <span class="decrCompanhia" style="margin-left:20%;"><%= @cnpj_empresa %></span>
+        <span class="decrCompanhia"><%= @cnpj_empresa %></span>
         <span class="decrCompanhia" style="margin-left:5%;"><%= @fone_fax_empresa %></span>
     </div>
   </div>
@@ -61,7 +61,7 @@
     <span class="familia3 font-weight-bold">Aviso de Corte</span>
     </br>
     </br>
-    <p class="familia" style="margin-top:-10px;">
+    <p class="familia" style="margin: -20px 0 5px 0;">
       Notificamos V.S.ª que consta em nossos registros pendência de pagamento das faturas abaixo relacionadas, pertencentes
       ao imóvel que está sob sua responsabilidade. De acordo com a Lei 11.445/07, a inadimplência nos autoriza a interromper
       o fornecimento de água e/ou coleta de esgoto sanitário. A regularização do débito poderá ser feita com o pagamento
@@ -303,7 +303,7 @@
   <div id="atencao" class="font-weight-bold">
     Atenção
   </div>
-  <p class="familia">
+  <p class="familia" style="margin-top: 15px">
     A violação do lacre, a danificação do hidrômetro e/ou cavalete é considerada infração, passível de cobrança de multa e outras
     cominações legais, podendo ocorrer à interrupção imediata do serviço de abastecimento de água e/ou coleta de esgoto
     sanitário. A religação abusiva do ramal predial de água e/ou de coleta de esgoto, após a interrupção, feita clandestinamente
@@ -314,22 +314,9 @@
     COSANPA.
   </p>
 
-  <div id="atencao" class="font-weight-bold">
-    Endereço de Entrega
-  </div>
-  <div class="familia" style="margin-left:70px;">
-    <span><%= aviso.endereco_correspondencia %></span>
-    <br>
-    <span><%= aviso.bairro_correspondencia %></span>
-    <br>
-    <span><%= aviso.cidade_estado_correspondencia %></span>
-    <br>
-    <span><%= aviso.cep_correspondencia %></span>
-  </div>
-
   <span class="familia2 font-weight-bold"> Corte aqui </span>
 
-  <table style="margin-top:30px">
+  <table style="margin-top: 60px">
       <thead>
         <tr>
           <th scope="col">Matrícula</th>
@@ -356,6 +343,21 @@
       <div id="imagemcodigo" style="margin-left:9px">
         <%= wicked_pdf_image_tag_for_public aviso.codigo_barras %>
       </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div id="atencao" class="font-weight-bold">
+    Endereço de Entrega
+  </div>
+  <div class="familia" style="margin-left:70px;">
+    <span><%= aviso.endereco_correspondencia %></span>
+    <br>
+    <span><%= aviso.bairro_correspondencia %></span>
+    <br>
+    <span><%= aviso.cidade_estado_correspondencia %></span>
+    <br>
+    <span><%= aviso.cep_correspondencia %></span>
   </div>
 
   <div class="page-break"></div>
