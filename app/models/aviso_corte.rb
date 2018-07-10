@@ -21,8 +21,6 @@ class AvisoCorte
     @mes_ano 													= options[:mesAno]
     @vencimento 											= options[:dataVencimento]
     
-    @valor 														= options[:valor]
-    
     @rota_codigo 											= options[:codigoRota]
     @rota_sequencial 									= options[:sequencialRota]
     
@@ -55,10 +53,6 @@ class AvisoCorte
     array.each do |conta|
       @contas << AvisoCorteConta.new(conta)
     end
-
-    # if @contas.size > 18
-    # 	@contas_2 = @contas.slice(18, contas.size)
-    # end
   end
 
 end

@@ -9,8 +9,8 @@ module ApplicationHelper
     end
   end
 
-  def data_emissao
+  def data_emissao(format='%d/%m/%Y às %H:%M')
   	data = Time.now
-  	data.strftime('%d/%m/%Y às %H:%M')
+  	data.strftime(format)
   end
 end

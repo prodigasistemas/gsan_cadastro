@@ -3,11 +3,11 @@
   <table>
     <thead>
       <tr>
-        <th scope="col">Matrícula</th>
-        <th scope="col">Nº do Aviso</th>
-        <th scope="col">Inscrição</th>
-        <th scope="col">Emissão</th>
-        <th scope="col" class="classvalor">Valor</th>
+        <th scope="col" width="15%">Matrícula</th>
+        <th scope="col" width="15%">Nº do Aviso</th>
+        <th scope="col" width="30%">Inscrição</th>
+        <th scope="col" width="15%">Emissão</th>
+        <th scope="col" class="classvalor" width="25%">Valor Total</th>
       </tr>
     </thead>
     <tbody>
@@ -15,8 +15,8 @@
         <td><%= aviso.imovel %></td>
         <td><%= aviso.documento_cobranca %></td>
         <td><%= aviso.inscricao %></td>
-        <td>21/06/2018</td>
-        <td class="classvalor text-right font-weight-bold"><%= aviso.valor_total %></td>
+        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
       </tr>
     </tbody>
   </table>
@@ -137,11 +137,11 @@
   <table style="margin-top: 60px">
     <thead>
       <tr>
-        <th scope="col">Matrícula</th>
-        <th scope="col">Nº do Aviso</th>
-        <th scope="col">Inscrição</th>
-        <th scope="col">Emissão</th>
-        <th scope="col" class="classvalor">Valor</th>
+        <th scope="col" width="15%">Matrícula</th>
+        <th scope="col" width="15%">Nº do Aviso</th>
+        <th scope="col" width="30%">Inscrição</th>
+        <th scope="col" width="15%">Emissão</th>
+        <th scope="col" class="classvalor" width="25%">Valor Total</th>
       </tr>
     </thead>
     <tbody>
@@ -149,8 +149,8 @@
         <td><%= aviso.imovel %></td>
         <td><%= aviso.documento_cobranca %></td>
         <td><%= aviso.inscricao %></td>
-        <td>21/06/2018</td>
-        <td class="classvalor text-right font-weight-bold"><%= aviso.valor_total %></td>
+        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
       </tr>
     </tbody>
   </table>
@@ -175,7 +175,7 @@
     <br>
     <span><%= aviso.cidade_estado_correspondencia %></span>
     <br>
-    <span><%= aviso.cep_correspondencia %></span>
+    <span>CEP <%= aviso.cep_correspondencia %></span>
   </div>
 
   <div class="page-break"></div>

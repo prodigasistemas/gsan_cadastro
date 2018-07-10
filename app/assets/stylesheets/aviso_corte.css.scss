@@ -23,13 +23,13 @@ table {
   border-collapse: collapse;
   width:100%;
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 10px !important;
+  font-size: 11px !important;
 }
 
 
 table, th, td {
-  margin-top:10px;
-  margin-right:5px;
+  margin-top: 10px;
+  margin-right: 5px;
 }
 
 th, td {
@@ -39,7 +39,7 @@ th, td {
 }
 
 body {
-width: 745px;
+  width: 745px;
 }
 
 .classvalor {
@@ -48,19 +48,20 @@ width: 745px;
 
 .familia {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 10px;
+  font-size: 11px;
   text-align: justify;
+  line-height: 11px;
 }
 
 .familia1 {
   font-family: "Calibri";
-  font-size: 12px;
+  font-size: 11px;
   text-align: left;
 }
 
 .familia2 {
   font-family: "Calibri";
-  font-size: 8px;
+  font-size: 9px;
   text-align: left;
   border-bottom:3px dashed black;
   width:100%;
@@ -69,7 +70,7 @@ width: 745px;
 
 .familia3 {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 18px;
+  font-size: 19px;
   float:left;
   text-align: center;
   width: 100%;
@@ -113,12 +114,12 @@ width: 745px;
 }
 
 #companhiaTitle {
-  font-size: 18px;
+  font-size: 19px;
   color: darkblue;
 }
 
 .decrCompanhia {
-  font-size: 10px;
+  font-size: 11px;
   font-family: "Arial";
   font-weight: lighter;
 }
@@ -131,7 +132,7 @@ width: 745px;
 
 #atencao {
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 18px;
+  font-size: 19px;
   background-color: lightgray;
   margin-top: 10px;
   border-top: 1px solid black;
@@ -168,21 +169,11 @@ width: 745px;
   float: right;
 }
 
-#menu {
-  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
-  font-size: 8px;
-  background-color: lightgray;
-  margin-top: 10px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  text-align: center;
-}
-
 table#table1 td, table#table1 th, table#table2 td, table#table2 th {
   border-right: none !important;
   border-bottom: none !important;
 }
 
 table#table1 td, table#table2 td {
-  line-height: 10px;
+  line-height: 11px;
 }
