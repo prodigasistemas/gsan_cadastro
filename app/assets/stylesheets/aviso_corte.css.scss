@@ -139,11 +139,13 @@ width: 745px;
   text-align: center;
 }
 
-#imagemcodigo {
+#codigodebarra {
   text-align: center;
-  width: 500px;
-  border-top: 3px solid black;
-  border-bottom: 3px solid black;
+  width: 100%;
+}
+
+#imagemcodigo {
+  margin-top: 5px;
 }
 
 #container {
