@@ -165,17 +165,33 @@
 
   <div class="page-break"></div>
 
-  <div id="atencao" class="font-weight-bold">
-    Endereço de Entrega
-  </div>
-  <div class="familia" style="margin-left:70px;">
-    <span><%= aviso.endereco_correspondencia %></span>
-    <br>
-    <span><%= aviso.bairro_correspondencia %></span>
-    <br>
-    <span><%= aviso.cidade_estado_correspondencia %></span>
-    <br>
-    <span>CEP <%= aviso.cep_correspondencia %></span>
+  <div id="container" class="entrega">
+    <div class="destinatario">
+      <span>Destinatário: <%= aviso.cliente %></span>
+      </br>
+      </br>
+      <span><%= aviso.endereco_correspondencia %></span>
+      </br>
+      <span><%= aviso.bairro_correspondencia %></span>
+      </br>
+      <span><%= aviso.cidade_estado_correspondencia %></span>
+      </br>
+      <span>CEP <%= aviso.cep_correspondencia %></span>
+    </div>
+
+    <div class="remetente">
+      <%= wicked_pdf_image_tag 'chancela_correios.png', size: '100x100', class: 'float-left' %>
+      <div class="float-right">
+        <span>Remetente: COMPANHIA DE SANEAMENTO DO PARÁ</span>
+        </br>
+        </br>
+        <span>AV. MAGALHÃES BARATA, 1201</span>
+        </br>
+        <span>SÃO BRÁS, BELÉM-PA</span>
+        </br>
+        <span>CEP 66060-901</span>
+      </div>
+    </div>
   </div>
 
   <div class="page-break"></div>

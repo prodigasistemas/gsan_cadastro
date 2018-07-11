@@ -155,7 +155,6 @@ body {
   margin: 0px auto 0px auto;
   padding: 0px 0px 0px 0px;
   border-collapse: collapse;
-  
 }
 
 #table1 {
@@ -176,4 +175,24 @@ table#table1 td, table#table1 th, table#table2 td, table#table2 th {
 
 table#table1 td, table#table2 td {
   line-height: 11px;
+}
+
+.entrega {
+  font-size: 9px;
+  padding-top: 900px !important;
+}
+
+.destinatario {
+  width: 49%;
+  float: left;
+  position: relative;
+}
+
+.remetente {
+  width: 49%;
+  float: right;
+}
+
+.dados {
+  padding-left: 20px;
 }
