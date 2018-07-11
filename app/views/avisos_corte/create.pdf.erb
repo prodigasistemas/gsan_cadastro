@@ -1,0 +1,199 @@
+<% @avisos.each do |aviso| %>
+  
+  <table>
+    <thead>
+      <tr>
+        <th scope="col" width="15%">Matrícula</th>
+        <th scope="col" width="15%">Nº do Aviso</th>
+        <th scope="col" width="30%">Inscrição</th>
+        <th scope="col" width="15%">Emissão</th>
+        <th scope="col" class="classvalor" width="25%">Valor Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= aviso.imovel %></td>
+        <td><%= aviso.documento_cobranca %></td>
+        <td><%= aviso.inscricao %></td>
+        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="cliente">
+    <span class="font-weight-bold familia">Cliente: </span>
+    <span class="familia"><%= aviso.cliente %></span>
+  </div>
+
+  <div>
+    </br>
+    <span class="signature familia1 font-weight-bold">Assinatura</span>
+    <span class="date familia1 font-weight-bold">Data de Recebimento</span>
+    </br>
+    </br>
+    <span class="familia2 font-weight-bold"> Corte aqui </span>
+  </div>
+
+  <div id="companhia" class="font-weight-bold">
+    <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40', class: 'float-left' %>
+    <div class="textoCompanhia">
+        <span id="companhiaTitle"><%= @nome_empresa %></span>
+        </br>
+        <span class="decrCompanhia"><%= @endereco_empresa %></span>
+        </br>
+        <span class="decrCompanhia"><%= @cnpj_empresa %></span>
+        <span class="decrCompanhia" style="margin-left:5%;"><%= @fone_fax_empresa %></span>
+    </div>
+  </div>
+
+  <div id="cliente">
+    <span class="font-weight-bold familia">Cliente: </span>
+    <span class="familia"><%= aviso.cliente %></span>
+  </div>
+
+  <div id="cliente">
+    <span class="font-weight-bold familia">Endereço: </span>
+    <span class="familia"><%= aviso.endereco %></span>
+  </div>
+
+  <div id="aviso">
+    <span class="familia3 font-weight-bold">Aviso de Corte</span>
+    </br>
+    </br>
+    <p class="familia" style="margin: -20px 0 5px 0;">
+      Notificamos V.S.ª que consta em nossos registros pendência de pagamento das faturas abaixo relacionadas, pertencentes
+      ao imóvel que está sob sua responsabilidade. De acordo com a Lei 11.445/07, a inadimplência nos autoriza a interromper
+      o fornecimento de água e/ou coleta de esgoto sanitário. A regularização do débito poderá ser feita com o pagamento
+      do valor constante nesse documento, onde não estão inclusos os acréscimos por impontualidade, valores estes que
+      serão cobrados na próxima fatura. Para esclarecer qualquer dúvida procure uma das nossas lojas de atendimento/escritório
+      regional, ou ligue para 0800 70 71 195, a ligação é gratuita. Lembre-se da importância que a água tratada tem
+      na sua vida. Caso o débito já esteja pago, este aviso deve ser desconsiderado.
+    </p>
+  </div>
+
+  <div id="container" width="100%">
+    <table id="table1">
+      <thead class="pintar">
+        <tr>
+            <th scope="col">Mês/Ano Ref.</th>
+            <th scope="col">Vencimento</th>
+            <th scope="col">Valor</th>
+        </tr>
+      </thead>
+      <tbody id="noborder">
+        <% aviso.contas.first(18).each do |conta| %>
+          <tr>
+            <td><%= conta.referencia %></td>
+            <td><%= conta.vencimento %></td>
+            <td>
+              <span style="float:right">R$ <%= conta.valor %></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <table id="table2">
+      <thead class="pintar">
+        <tr>
+          <th scope="col" style="border-left:1px solid black;">Mês/Ano Ref.</th>
+          <th scope="col">Vencimento</th>
+          <th scope="col">Valor</th>
+        </tr>
+      </thead>
+      <tbody id="noborder">
+        <% if aviso.contas.size > 18 %>
+          <% aviso.contas.slice(18, aviso.contas.size).each do |conta| %>
+            <tr>
+              <td><%= conta.referencia %></td>
+              <td><%= conta.vencimento %></td>
+              <td>
+                <span style="float:right">R$ <%= conta.valor %></span>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="atencao" class="font-weight-bold">
+    Atenção
+  </div>
+  <p class="familia" style="margin-top: 15px">
+    A violação do lacre, a danificação do hidrômetro e/ou cavalete é considerada infração, passível de cobrança de multa e outras
+    cominações legais, podendo ocorrer à interrupção imediata do serviço de abastecimento de água e/ou coleta de esgoto
+    sanitário. A religação abusiva do ramal predial de água e/ou de coleta de esgoto, após a interrupção, feita clandestinamente
+    pelo consumidor ou por sua ordem, é considerada manipulação indevida na tubulação, caracterizando infração grave,
+    passível das penalidades acima informadas. Após a regularização das pendências por parte do cliente, havendo necessidade
+    de recomposição do ramal predial para restabelecimento do serviço de abastecimento de água e/ou esgotamento sanitário,
+    o cliente fica obrigado, à suas expensas, a recompor o ramal suprimido, de acordo com o padrão atual adotado pela
+    COSANPA.
+  </p>
+
+  <span class="familia2 font-weight-bold"> Corte aqui </span>
+
+  <table style="margin-top: 60px">
+    <thead>
+      <tr>
+        <th scope="col" width="15%">Matrícula</th>
+        <th scope="col" width="15%">Nº do Aviso</th>
+        <th scope="col" width="30%">Inscrição</th>
+        <th scope="col" width="15%">Emissão</th>
+        <th scope="col" class="classvalor" width="25%">Valor Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= aviso.imovel %></td>
+        <td><%= aviso.documento_cobranca %></td>
+        <td><%= aviso.inscricao %></td>
+        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="codigodebarra" style="margin-top:20px;">
+    <span class="familia" style="font-size:16px !important;">
+      <%= aviso.codigo_barras_formatado %>
+    </span>
+    <div id="imagemcodigo">
+      <%= wicked_pdf_image_tag_for_public aviso.codigo_barras %>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <div id="container" class="entrega">
+    <div class="destinatario">
+      <span>Destinatário: <%= aviso.cliente %></span>
+      </br>
+      </br>
+      <span><%= aviso.endereco_correspondencia %></span>
+      </br>
+      <span><%= aviso.bairro_correspondencia %></span>
+      </br>
+      <span><%= aviso.cidade_estado_correspondencia %></span>
+      </br>
+      <span>CEP <%= aviso.cep_correspondencia %></span>
+    </div>
+
+    <div class="remetente">
+      <%= wicked_pdf_image_tag 'chancela_correios.png', size: '100x100', class: 'float-left' %>
+      <div class="float-right">
+        <span>Remetente: COMPANHIA DE SANEAMENTO DO PARÁ</span>
+        </br>
+        </br>
+        <span>AV. MAGALHÃES BARATA, 1201</span>
+        </br>
+        <span>SÃO BRÁS, BELÉM-PA</span>
+        </br>
+        <span>CEP 66060-901</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+<%end %>

@@ -1,431 +1,437 @@
-<div class="row header">
-  <div class="logo">
-    <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40' %>
-  </div>
+<% @contas.each do |conta| %>
 
-  <div class="titulo">
-    <p><%= @conta.empresa_nome %> - <%= @conta.empresa_nome_abreviado %> - CNPJ <%= @conta.empresa_cnpj %></p>
-    <p>2ª Via de Conta Mensal de Serviços de Água e/ou Esgoto</p>
-  </div>
+  <div class="row header">
+    <div class="logo">
+      <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40' %>
+    </div>
 
-  <div class="debito-automatico">
-    <div class="border border-dark">
-      <p>Débito Automático <%= @conta.debito_automatico %></p>
+    <div class="titulo">
+      <p><%= conta.empresa_nome %> - <%= conta.empresa_nome_abreviado %> - CNPJ <%= conta.empresa_cnpj %></p>
+      <p>2ª Via de Conta Mensal de Serviços de Água e/ou Esgoto</p>
+    </div>
+
+    <div class="debito-automatico">
+      <div class="border border-dark">
+        <p>Débito Automático <%= conta.debito_automatico %></p>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="row campos">
-  <div class="matricula border border-dark">
-    <label>Matrícula</label>
-    <p><b><%= @conta.matricula %></b></p>
+  <div class="row campos">
+    <div class="matricula border border-dark">
+      <label>Matrícula</label>
+      <p><b><%= conta.matricula %></b></p>
+    </div>
+
+    <div class="cliente border border-dark">
+      <label>Cliente</label>
+      <p><%= conta.cliente %></p>
+    </div>
+
+    <div class="cpf-cnpj border border-dark">
+      <label>CPF / CNPJ</label>
+      <p><%= conta.cpf_cnpj %></p>
+    </div>
+
+    <div class="referencia border border-dark">
+      <label>Referência</label>
+      <p><b><%= conta.referencia %></b></p>
+    </div>
+
+    <div class="vencimento border border-dark">
+      <label>Vencimento</label>
+      <p><b><%= conta.vencimento %></b></p>
+    </div>
   </div>
 
-  <div class="cliente border border-dark">
-    <label>Cliente</label>
-    <p><%= @conta.cliente %></p>
+  <div class="row campos">
+    <div class="endereco border border-dark">
+      <label>Endereço do Imóvel</label>
+      <p><%= conta.endereco_imovel %></p>
+    </div>
   </div>
 
-  <div class="cpf-cnpj border border-dark">
-    <label>CPF / CNPJ</label>
-    <p><%= @conta.cpf_cnpj %></p>
+  <div class="row campos">
+    <div class="endereco entrega border border-dark">
+      <label>Endereço Alternativo para Entrega <%= conta.cliente_responsavel %></label>
+      <p><%= conta.endereco_entrega %></p>
+    </div>
   </div>
 
-  <div class="referencia border border-dark">
-    <label>Referência</label>
-    <p><b><%= @conta.referencia %></b></p>
-  </div>
+  <div class="row infos">
 
-  <div class="vencimento border border-dark">
-    <label>Vencimento</label>
-    <p><b><%= @conta.vencimento %></b></p>
-  </div>
-</div>
-
-<div class="row campos">
-  <div class="endereco border border-dark">
-    <label>Endereço do Imóvel</label>
-    <p><%= @conta.endereco_imovel %></p>
-  </div>
-</div>
-
-<div class="row campos">
-  <div class="endereco entrega border border-dark">
-    <label>Endereço Alternativo para Entrega <%= @conta.cliente_responsavel %></label>
-    <p><%= @conta.endereco_entrega %></p>
-  </div>
-</div>
-
-<div class="row infos">
-
-  <div class="leituras">
-    <table class="border border-dark">
-      <thead>
-        <tr>
-          <th class="text-left">LEITURA FATURADA</th>
-          <th>DATA</th>
-          <th>LEITURA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-left">Anterior</td>
-          <td><%= @conta.data_leitura_anterior %></td>
-          <td><%= @conta.leitura_anterior %></td>
-        </tr>
-        <tr>
-          <td class="text-left">Atual</td>
-          <td><%= @conta.data_leitura_atual %></td>
-          <td><%= @conta.leitura_atual %></td>
-        </tr>
-        <tr>
-          <td class="text-left">Próxima</td>
-          <td><%= @conta.data_proxima_leitura %></td>
-          <td>-</td>
-        </tr>
-      </tbody>
-      <thead>
-        <tr>
-          <th class="text-left">LEITURA INFORMADA</th>
-          <th>DATA</th>
-          <th>LEITURA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-left">Anterior</td>
-          <td><%= @conta.data_leitura_informada_anterior %></td>
-          <td><%= @conta.leitura_informada_anterior %></td>
-        </tr>
-        <tr>
-          <td class="text-left">Atual</td>
-          <td><%= @conta.data_leitura_informada_atual %></td>
-          <td><%= @conta.leitura_informada_atual %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="consumo-mes">
-    <h3>CONSUMO (M³)</h3>
-    <h1><%= @conta.consumo_faturado %></h1>
-    <p>Período: <%= @conta.consumo_dias %> dias</p>
-    <p>Média: <%= @conta.consumo_media %> m³/dia
-  </div>
-
-  <div class="historico-tipo">
-    <table class="historico">
-      <thead>
-        <tr>
-          <th colspan="2">HISTÓRICO DE CONSUMOS (M³)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><%= @conta.consumo_1 %></td><td><%= @conta.consumo_2 %></td></tr>
-        <tr><td><%= @conta.consumo_3 %></td><td><%= @conta.consumo_4 %></td></tr>
-        <tr><td><%= @conta.consumo_5 %></td><td><%= @conta.consumo_6 %></td></tr>
-      </tbody>
-    </table>
-
-    <table class="tipo">
-      <thead>
-        <tr>
-          <th colspan="2">TIPO DE CONSUMO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="2" style="padding-top: 4px; padding-bottom: 3px;"><%= @conta.consumo_tipo %></td>
-        </tr>
-      </tbody>      
-    </table>
-  </div>
-
-  <div class="outros">
-    <table class="border border-dark">
-      <thead>
-        <tr>
-          <th width="50%">ÁGUA</th>
-          <th width="50%">ESGOTO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= @conta.situacao_agua %></td>
-          <td><%= @conta.situacao_esgoto %></td>
-        </tr>
-       </tbody>
-
-      <thead>
-        <tr>
-          <th colspan="2">HIDRÔMETRO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="2"><%= @conta.hidrometro %></td>
-        </tr>
-      </tbody>
-
-      <thead>
-        <tr>
-          <th colspan="2">ECONOMIAS POR CATEGORIA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="2"><%= @conta.economias %></td>
-        </tr>
-      </tbody>
-
-    </table>
-  </div>
-</div>
-
-<div class="row principal">
-  <div class="mensagens border border-dark">
-    <% if not @conta.situacao_conta.blank? %>
-      <p><b>CONTA <%= @conta.situacao_conta %></b></p>
-    <% end %>
-
-    <% if not @conta.mensagem_fixa_1.blank? %>
-      <p><%= @conta.mensagem_fixa_1 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_fixa_2.blank? %>
-      <p><%= @conta.mensagem_fixa_2 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_fixa_3.blank? %>
-      <p><%= @conta.mensagem_fixa_3 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_1.blank? %>
-      <p><%= @conta.mensagem_1 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_2.blank? %>
-      <p><%= @conta.mensagem_2 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_3.blank? %>
-      <p><%= @conta.mensagem_3 %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_anormalidade.blank? %>
-      <p><%= @conta.mensagem_anormalidade %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_debitos.blank? %>
-      <p><%= @conta.mensagem_debitos %></p>
-    <% end %>
-
-    <% if not @conta.mensagem_quitacao.blank? %>
-      <p><%= @conta.mensagem_quitacao %></p>
-    <% end %>
-  </div>
-
-  <div class="valores">
-    <table>
-      <thead>
-        <tr>
-          <th class="descricao">DESCRIÇÃO DOS SERVIÇOS E TARIFAS</th>
-          <th class="consumo">CONSUMO/FAIXA</th>
-          <th class="valor">VALOR (R$)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @conta.servicos.each do |servico| %>
-          <tr>
-            <td class="descricao-item"><%= servico.descricao %></td>
-            <td class="consumo-item"><%= servico.faixa %></td>
-            <td class="valor-item"><%= servico.valor %></td>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
-        <tr class="text-center">
-          <td>TOTAL A PAGAR</td>
-          <td colspan="2">R$ <%= @conta.valor_total %></td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <div class="tributos">
-      <table>
+    <div class="leituras">
+      <table class="border border-dark">
         <thead>
           <tr>
-            <th>Tributos</th>
-            <th>Alíquota (%)</th>
-            <th>Base de Cálculo</th>
-            <th>Valor (R$)</th>
+            <th class="text-left">LEITURA FATURADA</th>
+            <th>DATA</th>
+            <th>LEITURA</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= @conta.impostos_descricao %></td>
-            <td><%= @conta.impostos_percentual %></td>
-            <td><%= @conta.impostos_valor_base %></td>
-            <td><%= @conta.impostos_valor %></td>
+            <td class="text-left">Anterior</td>
+            <td><%= conta.data_leitura_anterior %></td>
+            <td><%= conta.leitura_anterior %></td>
+          </tr>
+          <tr>
+            <td class="text-left">Atual</td>
+            <td><%= conta.data_leitura_atual %></td>
+            <td><%= conta.leitura_atual %></td>
+          </tr>
+          <tr>
+            <td class="text-left">Próxima</td>
+            <td><%= conta.data_proxima_leitura %></td>
+            <td>-</td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr>
+            <th class="text-left">LEITURA INFORMADA</th>
+            <th>DATA</th>
+            <th>LEITURA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left">Anterior</td>
+            <td><%= conta.data_leitura_informada_anterior %></td>
+            <td><%= conta.leitura_informada_anterior %></td>
+          </tr>
+          <tr>
+            <td class="text-left">Atual</td>
+            <td><%= conta.data_leitura_informada_atual %></td>
+            <td><%= conta.leitura_informada_atual %></td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-</div>
 
-<div class="row qualidade-titulo">
-  <p>RESUMO MENSAL DOS PARÂMETROS BÁSICOS DE QUALIDADE DE ÁGUA DISTRIBUÍDA AO CONSUMIDOR</p>
-</div>
-
-<div class="row qualidade">   
-  <table class="tabela-1">
-    <thead>
-      <tr>
-        <th class="text-left" width="176px">Tipos de Análises</th>
-        <th width="70px">Turbidez</th>
-        <th width="70px">Cor</th>
-        <th width="70px">Cloro</th>
-        <th width="70px">Flúor</th>
-        <th width="144px">Coliformes Totais</th>
-        <th width="144px">Coliformes Termotolerantes</th>        
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr>
-        <td class="text-left">Valor de Referência (Port. 518/ms)</td>
-        <td><%= @conta.padrao_turbidez %></td>
-        <td><%= @conta.padrao_cor %></td>
-        <td><%= @conta.padrao_cloro %></td>
-        <td><%= @conta.padrao_fluor %></td>
-        <td><%= @conta.padrao_coliformes_totais %></td>
-        <td><%= @conta.padrao_coliformes_termotolerantes %></td>
-      </tr>
-      <tr>
-        <td class="text-left">Nº de Análises</td>
-        <td><%= @conta.valor_medio_turbidez %></td>
-        <td><%= @conta.valor_medio_cor %></td>
-        <td><%= @conta.valor_medio_cloro %></td>
-        <td><%= @conta.valor_medio_fluor %></td>
-        <td><%= @conta.valor_medio_coliformes_totais %></td>
-        <td><%= @conta.valor_medio_coliformes_termotolerantes %></td>
-      </tr>
-      <tr>
-        <td class="text-left">Nº de Análises em Conformidade</td>
-        <td><%= @conta.valor_conforme_turbidez %></td>
-        <td><%= @conta.valor_conforme_cor %></td>
-        <td><%= @conta.valor_conforme_cloro %></td>
-        <td><%= @conta.valor_conforme_fluor %></td>
-        <td><%= @conta.valor_conforme_coliformes_totais %></td>
-        <td><%= @conta.valor_conforme_coliformes_termotolerantes %></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="row atendimento">
-  <table class="border border-dark">
-    <thead>
-      <tr>
-        <th colspan="2" class="text-center">AGÊNCIA REGULADORA</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td width="50%"><b>Responsável:</b> <%= @conta.agencia_nome %></td>
-        <td width="50%"><b>Telefone:</b> <%= @conta.agencia_telefone %></td>
-      </tr>
-      <tr>
-        <td colspan="2"><b>Email:</b> <%= @conta.agencia_email %></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="border border-dark" style="margin-left: 2px;">
-    <thead>
-      <tr>
-        <th colspan="2" class="text-center">CANAIS DE ATENDIMENTO</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="2"><b>Site:</b> <%= @conta.empresa_site %> (Loja Virtual e Atendimento Online)</td>
-      </tr>
-      <tr>
-        <td width="45%"><b><%= @conta.empresa_descricao_aplicativo %>:</b> <%= @conta.empresa_telefone_aplicativo %></td>
-        <td width="55%"><b>Call Center / Ouvidoria:</b> <%= @conta.empresa_callcenter %></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="row autenticacao border border-dark">
-  <p>AUTENTICAÇÃO MECÂNICA</p>
-</div>
-
-<div class="row emissao">
-  <div><p>Emitido <%= @conta.usuario %></p></div>
-  <div align="center"><p>Via Cliente</p></div>
-  <div align="right"><p>Emitido em <%= data_emissao %></p></div>
-</div>
-
-<div class="campos pagamento row">
-  <div class="logo">
-    <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40' %>
-  </div>
-
-  <div class="matricula border border-dark">
-    <label>Matrícula</label>
-    <p><%= @conta.matricula %></p>
-  </div>
-
-  <div class="inscricao border border-dark">
-    <label>Inscrição</label>
-    <p><%= @conta.inscricao %></p>
-  </div>
-
-  <div class="grupo border border-dark">
-    <label>Grupo</label>
-    <p><%= @conta.grupo %></p>
-  </div>
-
-  <div class="referencia border border-dark">
-    <label>Referência</label>
-    <p><%= @conta.referencia %></p>
-  </div>
-
-  <div class="vencimento border border-dark">
-    <label>Vencimento</label>
-    <p><%= @conta.vencimento %></p>
-  </div>
-
-  <div class="total border border-dark">
-    <label>Total a Pagar</label>
-    <p><b>R$ <%= @conta.valor_total %></b></p>
-  </div>
-</div>
-
-<% if @conta.conta_paga %>
-  <p class="conta-paga">CONTA PAGA EM <b><%= @conta.data_pagamento %></b></p>
-<% else %>
-  <div class="row identificacao">
-    <div class="numero">
-      <p><%= @conta.codigo_barras_formatado %></p>
+    <div class="consumo-mes">
+      <h3>CONSUMO (M³)</h3>
+      <h1><%= conta.consumo_faturado %></h1>
+      <p>Período: <%= conta.consumo_dias %> dias</p>
+      <p>Média: <%= conta.consumo_media %> m³/dia
     </div>
 
-    <div class="via">
-      <p>Via <%= @conta.empresa_nome_abreviado %></p>
+    <div class="historico-tipo">
+      <table class="historico">
+        <thead>
+          <tr>
+            <th colspan="2">HISTÓRICO DE CONSUMOS (M³)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><%= conta.consumo_1 %></td><td><%= conta.consumo_2 %></td></tr>
+          <tr><td><%= conta.consumo_3 %></td><td><%= conta.consumo_4 %></td></tr>
+          <tr><td><%= conta.consumo_5 %></td><td><%= conta.consumo_6 %></td></tr>
+        </tbody>
+      </table>
+
+      <table class="tipo">
+        <thead>
+          <tr>
+            <th colspan="2">TIPO DE CONSUMO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2" style="padding-top: 4px; padding-bottom: 3px;"><%= conta.consumo_tipo %></td>
+          </tr>
+        </tbody>      
+      </table>
+    </div>
+
+    <div class="outros">
+      <table class="border border-dark">
+        <thead>
+          <tr>
+            <th width="50%">ÁGUA</th>
+            <th width="50%">ESGOTO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= conta.situacao_agua %></td>
+            <td><%= conta.situacao_esgoto %></td>
+          </tr>
+         </tbody>
+
+        <thead>
+          <tr>
+            <th colspan="2">HIDRÔMETRO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2"><%= conta.hidrometro %></td>
+          </tr>
+        </tbody>
+
+        <thead>
+          <tr>
+            <th colspan="2">ECONOMIAS POR CATEGORIA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2"><%= conta.economias %></td>
+          </tr>
+        </tbody>
+
+      </table>
     </div>
   </div>
 
-  <div class="row codigo">
-    <div class="barra">
-      <%= wicked_pdf_image_tag_for_public @conta.codigo_barras %>
+  <div class="row principal">
+    <div class="mensagens border border-dark">
+      <% if not conta.situacao_conta.blank? %>
+        <p><b>CONTA <%= conta.situacao_conta %></b></p>
+      <% end %>
+
+      <% if not conta.mensagem_fixa_1.blank? %>
+        <p><%= conta.mensagem_fixa_1 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_fixa_2.blank? %>
+        <p><%= conta.mensagem_fixa_2 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_fixa_3.blank? %>
+        <p><%= conta.mensagem_fixa_3 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_1.blank? %>
+        <p><%= conta.mensagem_1 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_2.blank? %>
+        <p><%= conta.mensagem_2 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_3.blank? %>
+        <p><%= conta.mensagem_3 %></p>
+      <% end %>
+
+      <% if not conta.mensagem_anormalidade.blank? %>
+        <p><%= conta.mensagem_anormalidade %></p>
+      <% end %>
+
+      <% if not conta.mensagem_debitos.blank? %>
+        <p><%= conta.mensagem_debitos %></p>
+      <% end %>
+
+      <% if not conta.mensagem_quitacao.blank? %>
+        <p><%= conta.mensagem_quitacao %></p>
+      <% end %>
     </div>
-    
-    <div class="row autenticacao-2 border border-dark">
-      <p>AUTENTICAÇÃO MECÂNICA</p>
+
+    <div class="valores">
+      <table>
+        <thead>
+          <tr>
+            <th class="descricao">DESCRIÇÃO DOS SERVIÇOS E TARIFAS</th>
+            <th class="consumo">CONSUMO/FAIXA</th>
+            <th class="valor">VALOR (R$)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% conta.servicos.each do |servico| %>
+            <tr>
+              <td class="descricao-item"><%= servico.descricao %></td>
+              <td class="consumo-item"><%= servico.faixa %></td>
+              <td class="valor-item"><%= servico.valor %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr class="text-center">
+            <td>TOTAL A PAGAR</td>
+            <td colspan="2">R$ <%= conta.valor_total %></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="tributos">
+        <table>
+          <thead>
+            <tr>
+              <th>Tributos</th>
+              <th>Alíquota (%)</th>
+              <th>Base de Cálculo</th>
+              <th>Valor (R$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= conta.impostos_descricao %></td>
+              <td><%= conta.impostos_percentual %></td>
+              <td><%= conta.impostos_valor_base %></td>
+              <td><%= conta.impostos_valor %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-<% end %>
+
+  <div class="row qualidade-titulo">
+    <p>RESUMO MENSAL DOS PARÂMETROS BÁSICOS DE QUALIDADE DE ÁGUA DISTRIBUÍDA AO CONSUMIDOR</p>
+  </div>
+
+  <div class="row qualidade">   
+    <table class="tabela-1">
+      <thead>
+        <tr>
+          <th class="text-left" width="176px">Tipos de Análises</th>
+          <th width="70px">Turbidez</th>
+          <th width="70px">Cor</th>
+          <th width="70px">Cloro</th>
+          <th width="70px">Flúor</th>
+          <th width="144px">Coliformes Totais</th>
+          <th width="144px">Coliformes Termotolerantes</th>        
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="text-left">Valor de Referência (Port. 518/ms)</td>
+          <td><%= conta.padrao_turbidez %></td>
+          <td><%= conta.padrao_cor %></td>
+          <td><%= conta.padrao_cloro %></td>
+          <td><%= conta.padrao_fluor %></td>
+          <td><%= conta.padrao_coliformes_totais %></td>
+          <td><%= conta.padrao_coliformes_termotolerantes %></td>
+        </tr>
+        <tr>
+          <td class="text-left">Nº de Análises</td>
+          <td><%= conta.valor_medio_turbidez %></td>
+          <td><%= conta.valor_medio_cor %></td>
+          <td><%= conta.valor_medio_cloro %></td>
+          <td><%= conta.valor_medio_fluor %></td>
+          <td><%= conta.valor_medio_coliformes_totais %></td>
+          <td><%= conta.valor_medio_coliformes_termotolerantes %></td>
+        </tr>
+        <tr>
+          <td class="text-left">Nº de Análises em Conformidade</td>
+          <td><%= conta.valor_conforme_turbidez %></td>
+          <td><%= conta.valor_conforme_cor %></td>
+          <td><%= conta.valor_conforme_cloro %></td>
+          <td><%= conta.valor_conforme_fluor %></td>
+          <td><%= conta.valor_conforme_coliformes_totais %></td>
+          <td><%= conta.valor_conforme_coliformes_termotolerantes %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row atendimento">
+    <table class="border border-dark">
+      <thead>
+        <tr>
+          <th colspan="2" class="text-center">AGÊNCIA REGULADORA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td width="50%"><b>Responsável:</b> <%= conta.agencia_nome %></td>
+          <td width="50%"><b>Telefone:</b> <%= conta.agencia_telefone %></td>
+        </tr>
+        <tr>
+          <td colspan="2"><b>Email:</b> <%= conta.agencia_email %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="border border-dark" style="margin-left: 2px;">
+      <thead>
+        <tr>
+          <th colspan="2" class="text-center">CANAIS DE ATENDIMENTO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2"><b>Site:</b> <%= conta.empresa_site %> (Loja Virtual e Atendimento Online)</td>
+        </tr>
+        <tr>
+          <td width="45%"><b><%= conta.empresa_descricao_aplicativo %>:</b> <%= conta.empresa_telefone_aplicativo %></td>
+          <td width="55%"><b>Call Center / Ouvidoria:</b> <%= conta.empresa_callcenter %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row autenticacao border border-dark">
+    <p>AUTENTICAÇÃO MECÂNICA</p>
+  </div>
+
+  <div class="row emissao">
+    <div><p>Emitido <%= conta.usuario %></p></div>
+    <div align="center"><p>Via Cliente</p></div>
+    <div align="right"><p>Emitido em <%= data_emissao %></p></div>
+  </div>
+
+  <div class="campos pagamento row">
+    <div class="logo">
+      <%= wicked_pdf_image_tag 'logomarca.png', size: '40x40' %>
+    </div>
+
+    <div class="matricula border border-dark">
+      <label>Matrícula</label>
+      <p><%= conta.matricula %></p>
+    </div>
+
+    <div class="inscricao border border-dark">
+      <label>Inscrição</label>
+      <p><%= conta.inscricao %></p>
+    </div>
+
+    <div class="grupo border border-dark">
+      <label>Grupo</label>
+      <p><%= conta.grupo %></p>
+    </div>
+
+    <div class="referencia border border-dark">
+      <label>Referência</label>
+      <p><%= conta.referencia %></p>
+    </div>
+
+    <div class="vencimento border border-dark">
+      <label>Vencimento</label>
+      <p><%= conta.vencimento %></p>
+    </div>
+
+    <div class="total border border-dark">
+      <label>Total a Pagar</label>
+      <p><b>R$ <%= conta.valor_total %></b></p>
+    </div>
+  </div>
+
+  <% if conta.conta_paga %>
+    <p class="conta-paga">CONTA PAGA EM <b><%= conta.data_pagamento %></b></p>
+  <% else %>
+    <div class="row identificacao">
+      <div class="numero">
+        <p><%= conta.codigo_barras_formatado %></p>
+      </div>
+
+      <div class="via">
+        <p>Via <%= conta.empresa_nome_abreviado %></p>
+      </div>
+    </div>
+
+    <div class="row codigo">
+      <div class="barra">
+        <%= wicked_pdf_image_tag_for_public conta.codigo_barras %>
+      </div>
+      
+      <div class="row autenticacao-2 border border-dark">
+        <p>AUTENTICAÇÃO MECÂNICA</p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="page-break"></div>
+
+<%end %>

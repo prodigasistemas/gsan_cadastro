@@ -9,8 +9,18 @@ module ApplicationHelper
     end
   end
 
-  def data_emissao
+  def data_emissao(format='%d/%m/%Y às %H:%M')
   	data = Time.now
-  	data.strftime('%d/%m/%Y às %H:%M')
+  	data.strftime(format)
   end
+
+  def salvar_pdf(pdf, path)
+    Dir.mkdir(path) unless File.exists?(path)
+
+    save_path = Rails.root.join(path, @file_name)
+    File.open(save_path, 'wb') do |file|
+      file << pdf
+    end
+  end
+
 end

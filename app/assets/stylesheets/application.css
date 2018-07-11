@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require conta_segunda_via
- *= require contrato_adesao 
+ *= require contrato_adesao
+ *= require documento_cobranca
  *= require_self
  */

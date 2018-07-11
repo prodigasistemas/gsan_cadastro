@@ -1,5 +1,11 @@
 @import "bootstrap";
 
+.page-break {
+  display: block;
+  clear: both;
+  page-break-after: always;
+}
+
 .row {
   width: 745px;
   margin: 0;
