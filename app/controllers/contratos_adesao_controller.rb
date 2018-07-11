@@ -1,8 +1,5 @@
 class ContratosAdesaoController < ApplicationController
 
-  def index
-  end
-
   def create
     
     @nome_arquivo = params[:nomeRelatorio]
