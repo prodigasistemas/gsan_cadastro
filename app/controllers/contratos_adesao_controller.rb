@@ -1,7 +1,8 @@
 class ContratosAdesaoController < ApplicationController
 
+  include ApplicationHelper
+
   def create
-    
     @nome_arquivo = params[:nomeRelatorio]
     @nome_cliente = params[:nomeCliente]
     @matricula = params[:matricula]
@@ -9,7 +10,7 @@ class ContratosAdesaoController < ApplicationController
     @nome_cidade = params[:nomeCidade]
     @data_geracao = params[:dataGeracao]
 
-    path = salvar(pdf, 'public/contratos_adesao')
+    path = salvar_pdf(pdf, 'public/contratos_adesao')
 
     if not path.nil?
       render json: { url: "http://#{request.host_with_port}/contrato_adesao" }, status: 200

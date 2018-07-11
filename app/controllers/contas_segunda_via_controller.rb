@@ -1,5 +1,7 @@
 class ContasSegundaViaController < ApplicationController
 
+  include ApplicationHelper
+
   def create
     @file_name = params[:nomeArquivo]
     @contas = montar_contas(params[:contas])

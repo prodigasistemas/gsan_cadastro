@@ -1,5 +1,7 @@
 class AvisosCorteController < ApplicationController
 
+  include ApplicationHelper
+
 	def create
     @file_name = params[:nomeArquivo]
 
