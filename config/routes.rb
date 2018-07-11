@@ -73,5 +73,5 @@ Rails.application.routes.draw do
 
   resources :contas_segunda_via,               only: [:create]
   resources :contratos_adesao,                 only: [:index, :create]
-  resources :colunas_atualizacoes_cadastral,   only: [:index]
+  resources :coluna_atualizacao_cadastrais,   only: [:index]
 end
