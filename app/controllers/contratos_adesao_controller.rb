@@ -12,7 +12,7 @@ class ContratosAdesaoController < ApplicationController
     @nome_cidade = params[:nomeCidade]
     @data_geracao = params[:dataGeracao]
 
-    path = salvar(pdf)
+    path = salvar(pdf, 'public/contratos_adesao')
 
     if not path.nil?
       render json: { url: "http://#{request.host_with_port}/contrato_adesao" }, status: 200
@@ -29,16 +29,6 @@ class ContratosAdesaoController < ApplicationController
                        layout: 'layouts/contrato_adesao.html.erb', 
                        margin: { top: 7, bottom: 7, left: 3, right: 3 })
     )
-  end
-
-  def salvar(pdf)
-    path = 'public/contratos_adesao'
-    Dir.mkdir(path) unless File.exists?(path)
-
-    save_path = Rails.root.join(path, @nome_arquivo)
-    File.open(save_path, 'wb') do |file|
-      file << pdf
-    end
   end
 
 end

@@ -13,4 +13,14 @@ module ApplicationHelper
   	data = Time.now
   	data.strftime(format)
   end
+
+  def salvar_pdf(pdf, path)
+    Dir.mkdir(path) unless File.exists?(path)
+
+    save_path = Rails.root.join(path, @file_name)
+    File.open(save_path, 'wb') do |file|
+      file << pdf
+    end
+  end
+
 end
