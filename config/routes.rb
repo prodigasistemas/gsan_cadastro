@@ -71,7 +71,8 @@ Rails.application.routes.draw do
   get "/empresas_usuario/:usuario_id", controller: :empresas, action: :usuario
   get "/url-portal", controller: :url_portal, action: :url
 
-  resources :contas_segunda_via,               only: [:create]
-  resources :contratos_adesao,                 only: [:index, :create]
-  resources :coluna_atualizacao_cadastrais,   only: [:index]
+  resources :contas_segunda_via,             only: [:create]
+  resources :contratos_adesao,               only: [:index, :create]
+  resources :atualizacao_cadastrais,         only: [:index]
+  resources :coluna_atualizacao_cadastrais,  only: [:index]
 end
