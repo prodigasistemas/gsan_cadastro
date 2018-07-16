@@ -30,26 +30,28 @@ class AtualizacaoCadastral < ActiveRecord::Base
     query = <<-SQL
       select
         distinct tatc.tatc_cdimovel as codigo_imovel,
-        tatc.altp_id as tipoAlteracao,
+        --tatc.altp_id as tipoAlteracao,
         func.func_nmfuncionario as agente_cadastral,
         siac_dssituacao as situacao
-      from seguranca.tab_atlz_cadastral tatc                                                                -- TEM
-      inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id                            -- NAO ****
-      inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id                      -- TEM
-      inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id                                -- TEM
-      inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id                        -- TEM
-      inner join micromedicao.rota rota on rota.rota_id = txac.rota_id                                      -- TEM
-      inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id                                -- TEM
-      left join cadastro.funcionario func on leit.func_id = func.func_id                                    -- NAO ****
-      left join cadastro.cliente clie on leit.clie_id = clie.clie_id                                        -- TEM
-      left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel     -- TEM
-      left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id                        -- TEM
-      left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc_cdimovel                             -- TEM
-      left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel                  -- TEM
-      left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id                            -- TEM
+      from seguranca.tab_atlz_cadastral tatc
+      inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
+      inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id
+      inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
+      inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
+      inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
+      inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id
+      left join cadastro.funcionario func on leit.func_id = func.func_id
+      left join cadastro.cliente clie on leit.clie_id = clie.clie_id
+      left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
+      left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
+      left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc_cdimovel
+      left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
+      left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "and leit.empr_id = #{params[:empresa_id]}"
+    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
+    query << "\nand ctrl.icac_tmretorno between '#{params[:periodo_inicial]}' and '#{params[:periodo_final]}'" unless params[:periodo_inicial].blank?
     query << "\nand txac.loca_id between #{params[:localidade_id_inicial]} and #{params[:localidade_id_final]}" unless params[:localidade_id_inicial].blank?
     query << "\nand txac.txac_cdsetorcomercial between #{params[:setor_comercial_id_inicial]} and #{params[:setor_comercial_id_final]}" unless params[:setor_comercial_id_inicial].blank?
     query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}" unless params[:rota_id_inicial].blank?
