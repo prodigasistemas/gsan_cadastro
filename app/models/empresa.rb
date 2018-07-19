@@ -24,6 +24,7 @@ class Empresa < ActiveRecord::Base
   has_many :contrato_medicoes, foreign_key: "empr_id"
 
   has_many :leituristas, foreign_key: "empr_id"
+  has_many :funcionarios, foreign_key: "empr_id"
   has_many :usuarios, through: :leituristas, foreign_key: "usur_id"
   has_many :imovel_retornos, through: :leituristas, foreign_key: :rota_id
 end

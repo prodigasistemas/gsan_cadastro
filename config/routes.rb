@@ -75,4 +75,5 @@ Rails.application.routes.draw do
   resources :contratos_adesao,               only: [:index, :create]
   resources :atualizacao_cadastrais,         only: [:index]
   resources :coluna_atualizacao_cadastrais,  only: [:index]
+  resources :leituristas,  only: [:index]
 end
