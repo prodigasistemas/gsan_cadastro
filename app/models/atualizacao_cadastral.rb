@@ -10,9 +10,10 @@ class AtualizacaoCadastral < ActiveRecord::Base
   EM_FISCALIZACAO = 5
   ATUALIZADO = 6
 
-  TODOS = "2"
-  PENDENTES = "1"
-  APROVADOS = "0"
+  SIM = "1"
+  NAO = "2"
+  EXIBIR_IMOVEL = {todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2"}.freeze
+  TODOS = "-1"
 
   self.table_name  = 'seguranca.tab_atlz_cadastral'
   self.primary_key = 'tatc_id'
@@ -30,22 +31,21 @@ class AtualizacaoCadastral < ActiveRecord::Base
     query = <<-SQL
       select
         distinct tatc.tatc_cdimovel as codigo_imovel,
-        --tatc.altp_id as tipoAlteracao,
         func.func_nmfuncionario as agente_cadastral,
-        siac_dssituacao as situacao
+        siac.siac_dssituacao as situacao
       from seguranca.tab_atlz_cadastral tatc
-      inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
+      --inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
       inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id
-      inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
+      --inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
       inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
       inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
       inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id
       left join cadastro.funcionario func on leit.func_id = func.func_id
-      left join cadastro.cliente clie on leit.clie_id = clie.clie_id
+      --left join cadastro.cliente clie on leit.clie_id = clie.clie_id
       left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
-      left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc_cdimovel
-      left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
+      --left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc_cdimovel
+      --left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
@@ -56,22 +56,25 @@ class AtualizacaoCadastral < ActiveRecord::Base
     query << "\nand txac.txac_cdsetorcomercial between #{params[:setor_comercial_id_inicial]} and #{params[:setor_comercial_id_final]}" unless params[:setor_comercial_id_inicial].blank?
     query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}" unless params[:rota_id_inicial].blank?
 
-    if params[:exibir_imoveis] and params[:exibir_imoveis] != TODOS
-      situacoes = "#{TRANSMITIDO}"
-      if params[:exibir_imoveis] != PENDENTES
-        query << "\nand tcac.tcac_dtvalidacao is null"
-        situacoes << ", #{TRANSMITIDO}"
-      elsif params[:exibir_imoveis] != APROVADOS
-        query << "\nand tcac.tcac_dtvalidacao is not null"
-        situacoes << ", #{APROVADO}, #{EM_FISCALIZACAO}"
+    if params[:exibir_imoveis] and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
+      query << "\nand tcac.tcac_dtvalidacao is null" if params[:exibir_imoveis] == EM_CAMPO
+      if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
+        query << "\nand cocr.cocr_icvalidacao = #{SIM}"
+        situacoes = "#{TRANSMITIDO}"
+      else
+        situacoes = "#{params[:exibir_imoveis]}"
+        situacoes << ", #{EM_FISCALIZACAO}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
-      query << "\nand ctrl.siac_id in (#{situacoes})"
+      query << "\nand tcac.tcac_dtvalidacao is not null" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovados]
     else
-      query << "\nand ctrl.siac_id not in (#{ATUALIZADO})"
+      situacoes = "#{ATUALIZADO}"
     end
+    query << "\nand ctrl.siac_id in (#{situacoes})" unless situacoes.nil?
 
-    if %w(1 0).include?(params[:ocorrencias_cadastro])
-      query << "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
+    if params[:ocorrencias_cadastro].present? and
+        params[:ocorrencias_cadastro].try(:to_i) != TODOS and
+        params[:exibir_imoveis] != EXIBIR_IMOVEL[:aprovar_em_lote]
+      query <<  "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
     end
 
     query << "\norder by tatc.tatc_cdimovel"
