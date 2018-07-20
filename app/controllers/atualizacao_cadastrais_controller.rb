@@ -5,15 +5,30 @@ class AtualizacaoCadastraisController < ApplicationController
     @per = params[:per_page] || 20
     @page = params[:page] || 0
 
-    if params[:query]
-      @atualizacao_cadastrais = AtualizacaoCadastral.buscar_atualizacoes_para_recadastramento params[:query]
+    if params[:query].present?
+      if params[:query][:codigo_imovel].present?
+        params[:query][:page].delete
+        params[:query][:per_page].delete
+        @atualizacao_cadastrais = AtualizacaoCadastral.where(tatc_cdimovel: atualizacao_cadastral_params[:codigo_imovel])
+      else
+        @atualizacao_cadastrais = AtualizacaoCadastral.buscar_atualizacoes_para_recadastramento params[:query]
+      end
     end
 
     if @atualizacao_cadastrais.any?
-      render json: { entidades: @atualizacao_cadastrais, total: @total, page: @page, per_page: @per }, status: :ok
+      if params[:query][:codigo_imovel].present?
+        render json: { entidades: @atualizacao_cadastrais.map(&:atributos), total: @total, page: @page, per_page: @per }, status: :ok
+      else
+        render json: { entidades: @atualizacao_cadastrais, total: @total, page: @page, per_page: @per }, status: :ok
+      end
     else
       render json: { entidades: [], total: @total }, status: :ok
     end
   end
 
+  private
+
+  def atualizacao_cadastral_params
+    params.require(:query).permit(:codigo_imovel)
+  end
 end

@@ -2,7 +2,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
 
   def index
     @coluna_atualizacao_cadastrais = []
-    @per = params[:per_page] || 20
+    @per = params[:per_page] || 100
     @page = params[:page] || 0
     params[:query].delete :per_page
     params[:query].delete :page
@@ -13,7 +13,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
 
       unless params[:paginado] == "false"
         @total = @coluna_atualizacao_cadastrais.count
-        @coluna_atualizacao_cadastrais = @coluna_atualizacao_cadastrais.page(@page).per(@per)
+        @coluna_atualizacao_cadastrais = @coluna_atualizacao_cadastrais.page(@page).per(@per).com_relacionamentos
       end
     else
       @total = ColunaAtualizacaoCadastral.count

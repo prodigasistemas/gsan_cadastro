@@ -1,19 +1,7 @@
 class AtualizacaoCadastral < ActiveRecord::Base
   include IncrementableId
+  include API::Filterable
   include API::Model
-
-  DISPONIVEL = 0
-  BLOQUEADO = 1
-  EM_CAMPO = 2
-  TRANSMITIDO = 3
-  APROVADO = 4
-  EM_FISCALIZACAO = 5
-  ATUALIZADO = 6
-
-  SIM = "1"
-  NAO = "2"
-  EXIBIR_IMOVEL = {todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2"}.freeze
-  TODOS = "-1"
 
   self.table_name  = 'seguranca.tab_atlz_cadastral'
   self.primary_key = 'tatc_id'
@@ -27,6 +15,19 @@ class AtualizacaoCadastral < ActiveRecord::Base
 
   has_many :coluna_atualizacao_cadastrais, foreign_key: :tatc_id
 
+  DISPONIVEL = 0
+  BLOQUEADO = 1
+  EM_CAMPO = 2
+  TRANSMITIDO = 3
+  APROVADO = 4
+  EM_FISCALIZACAO = 5
+  ATUALIZADO = 6
+
+  SIM = "1"
+  NAO = "2"
+  EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2" }.freeze
+  TODOS = "-1"
+
   def self.buscar_atualizacoes_para_recadastramento(params)
     query = <<-SQL
       select
@@ -36,7 +37,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       from seguranca.tab_atlz_cadastral tatc
       --inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
       inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id
-      --inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
+      inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
       inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
       inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
       inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id
@@ -75,6 +76,14 @@ class AtualizacaoCadastral < ActiveRecord::Base
         params[:ocorrencias_cadastro].try(:to_i) != TODOS and
         params[:exibir_imoveis] != EXIBIR_IMOVEL[:aprovar_em_lote]
       query <<  "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
+    end
+
+    if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
+      query_imoveis = query.gsub(",
+        func.func_nmfuncionario as agente_cadastral,
+        siac.siac_dssituacao as situacao", "")
+      query_imoveis << "\nand lower(tbco.tbco_nmcoluna) in ('imac_nnhidrometro', 'lest_id', 'isac_qteconomia', 'last_id') group by tatc.tatc_cdimovel"
+      query << "\nand tatc.tatc_cdimovel not in (#{query_imoveis})"
     end
 
     query << "\norder by tatc.tatc_cdimovel"
