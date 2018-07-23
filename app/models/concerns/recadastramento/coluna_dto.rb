@@ -10,7 +10,7 @@ module Recadastramento
 
     def initialize(coluna_atualizacao_cadastral)
       @id = coluna_atualizacao_cadastral.id
-      @tabela = coluna_atualizacao_cadastral.tabela_coluna_id
+      @tabela = coluna_atualizacao_cadastral.try(:tabela_coluna).try(:tabela).try(:descricao)
       @campo = coluna_atualizacao_cadastral.try(:tabela_coluna).try(:descricao_coluna)
       @valor_anterior = coluna_atualizacao_cadastral.valor_anterior
       @valor_atual = coluna_atualizacao_cadastral.valor_atual
