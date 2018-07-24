@@ -73,5 +73,7 @@ Rails.application.routes.draw do
 
   resources :contas_segunda_via, only: :create
 
-  resources :contratos_adesao, only: [:index, :create]
+  resources :contratos_adesao, only: :create
+
+  resources :avisos_corte, only: :create
 end
