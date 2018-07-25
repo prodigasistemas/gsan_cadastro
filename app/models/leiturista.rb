@@ -28,4 +28,8 @@ class Leiturista < ActiveRecord::Base
   has_many :imovel_retornos, through: :arquivo_texto_atlz_cads, foreign_key: :rota_id
 
   scope :nomes, -> { joins(:funcionario).where('funcionario.func_nmfuncionario is not null') }
+
+  def nome
+    joins(:funcionario).select(:func_nmfuncionario)
+  end
 end

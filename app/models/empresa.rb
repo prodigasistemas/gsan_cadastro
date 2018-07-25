@@ -27,4 +27,6 @@ class Empresa < ActiveRecord::Base
   has_many :funcionarios, foreign_key: "empr_id"
   has_many :usuarios, through: :leituristas, foreign_key: "usur_id"
   has_many :imovel_retornos, through: :leituristas, foreign_key: :rota_id
+
+  scope :que_possuem_leituristas, -> { joins(:leituristas).group(:empr_id).having("count(*) > 1") }
 end

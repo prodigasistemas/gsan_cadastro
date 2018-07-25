@@ -8,7 +8,7 @@ class LeituristasController < ApplicationController
       @leituristas = Leiturista.where(params_query)
     else
       @total       = Leiturista.count
-      @leituristas = Leiturista.all.nomes
+      @leituristas = Leiturista.all
     end
   end
 
