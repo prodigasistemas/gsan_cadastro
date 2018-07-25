@@ -76,4 +76,6 @@ Rails.application.routes.draw do
   resources :atualizacao_cadastrais,         only: [:index]
   resources :coluna_atualizacao_cadastrais,  only: [:index]
   resources :leituristas,  only: [:index]
+
+  resources :imovel_atualizacao_cadastrais, only: [:show, :update]
 end
