@@ -9,16 +9,16 @@
 @media print {
   tr.vendorListHeading {
     background-color: #1a4567 !important;
-    -webkit-print-color-adjust: exact; 
+    -webkit-print-color-adjust: exact;
   }
 }
-  
+
 @media print {
   .vendorListHeading th {
   color: white !important;
   }
 }
-  
+
 table {
   border-collapse: collapse;
   width:100%;
@@ -80,19 +80,19 @@ body {
   border-bottom: 1px solid black;
 }
 
-.signature { 
-  float: left; 
+.signature {
+  float: left;
   border-top: 1px solid #000;
   margin-top:10px;
-  width: 250px; 
+  width: 250px;
   text-align: center;
 }
 
-.date { 
-  float: right; 
+.date {
+  float: right;
   border-top: 1px solid #000;
   margin-top:10px;
-  width: 250px; 
+  width: 250px;
   text-align: center;
 }
 

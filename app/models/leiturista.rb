@@ -20,9 +20,16 @@ class Leiturista < ActiveRecord::Base
   alias_attribute "indicador_leiturista_agente_comercial", "leit_icagencomercial"
   alias_attribute "unidade_comercial_id", "unid_id"
 
-  belongs_to :usuario, foreign_key: "usur_id"
-  belongs_to :empresa, foreign_key: "empr_id"
+  belongs_to :usuario,     foreign_key: "usur_id"
+  belongs_to :empresa,     foreign_key: "empr_id"
+  belongs_to :funcionario, foreign_key: "func_id"
 
   has_many :arquivo_texto_atlz_cads, foreign_key: :leit_id
   has_many :imovel_retornos, through: :arquivo_texto_atlz_cads, foreign_key: :rota_id
+
+  scope :nomes, -> { joins(:funcionario).where('funcionario.func_nmfuncionario is not null') }
+
+  def nome
+    joins(:funcionario).select(:func_nmfuncionario)
+  end
 end
