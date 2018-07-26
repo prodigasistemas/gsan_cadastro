@@ -74,6 +74,7 @@ Rails.application.routes.draw do
   resources :contas_segunda_via,             only: [:create]
   resources :contratos_adesao,               only: [:index, :create]
   resources :atualizacao_cadastrais,         only: [:index]
+  put "/atualizacao_cadastrais", controller: :atualizacao_cadastrais, action: :update
   resources :coluna_atualizacao_cadastrais,  only: [:index]
   resources :leituristas,  only: [:index]
 
