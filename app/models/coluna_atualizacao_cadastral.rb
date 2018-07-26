@@ -1,5 +1,6 @@
 class ColunaAtualizacaoCadastral < ActiveRecord::Base
   include IncrementableId
+  include API::Filterable
   include API::Model
 
   self.table_name  = 'seguranca.tab_col_atlz_cadastral'
@@ -16,6 +17,9 @@ class ColunaAtualizacaoCadastral < ActiveRecord::Base
   alias_attribute :usuario_id,               :usur_id
 
   belongs_to :atualizacao_cadastral, foreign_key: :tatc_id
-  belongs_to :tabela_coluna,         foreign_key: :tbco_id
+  belongs_to :tabela_coluna,         -> { includes(:tabela) }, foreign_key: :tbco_id
   belongs_to :usuario,               foreign_key: :usur_id
+
+  scope :por_atualizacao, ->(atualizacao) { where(atualizacao_cadastral_id: atualizacao) }
+  scope :com_relacionamentos, -> { includes(:tabela_coluna, :usuario) }
 end
