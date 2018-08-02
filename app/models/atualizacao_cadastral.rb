@@ -50,11 +50,16 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
-    query << "\nand ctrl.icac_tmretorno between '#{params[:periodo_inicial]}' and '#{params[:periodo_final]}'" unless params[:periodo_inicial].blank?
+    unless params[:periodo_inicial].blank?
+      query << "\nand ctrl.icac_tmretorno::Date between '#{params[:periodo_inicial].try(:to_date).try(:strftime)}' and "
+      query << "'#{params[:periodo_final].try(:to_date).try(:strftime)}'"
+    end
     query << "\nand txac.loca_id between #{params[:localidade_id_inicial]} and #{params[:localidade_id_final]}" unless params[:localidade_id_inicial].blank?
-    query << "\nand txac.txac_cdsetorcomercial between #{params[:setor_comercial_id_inicial]} and #{params[:setor_comercial_id_final]}" unless params[:setor_comercial_id_inicial].blank?
+    unless params[:setor_comercial_id_inicial].blank?
+      query << "\nand txac.txac_cdsetorcomercial between #{params[:setor_comercial_id_inicial]} and #{params[:setor_comercial_id_final]}"
+    end
     query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}" unless params[:rota_id_inicial].blank?
 
     if params[:exibir_imoveis] and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
