@@ -50,7 +50,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     query << "\nand ctrl.icac_tmretorno between '#{params[:periodo_inicial]}' and '#{params[:periodo_final]}'" unless params[:periodo_inicial].blank?
     query << "\nand txac.loca_id between #{params[:localidade_id_inicial]} and #{params[:localidade_id_final]}" unless params[:localidade_id_inicial].blank?
@@ -68,12 +68,13 @@ class AtualizacaoCadastral < ActiveRecord::Base
       end
       query << "\nand tcac.tcac_dtvalidacao is not null" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovados]
     else
-      situacoes = "#{ATUALIZADO}"
+      query << "\nand ctrl.siac_id not in (#{ATUALIZADO})"
     end
+
     query << "\nand ctrl.siac_id in (#{situacoes})" unless situacoes.nil?
 
     if params[:ocorrencias_cadastro].present? and
-        params[:ocorrencias_cadastro].try(:to_i) != TODOS and
+        params[:ocorrencias_cadastro] != TODOS and
         params[:exibir_imoveis] != EXIBIR_IMOVEL[:aprovar_em_lote]
       query <<  "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
     end
