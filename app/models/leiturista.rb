@@ -27,9 +27,9 @@ class Leiturista < ActiveRecord::Base
   has_many :arquivo_texto_atlz_cads, foreign_key: :leit_id
   has_many :imovel_retornos, through: :arquivo_texto_atlz_cads, foreign_key: :rota_id
 
-  scope :nomes, -> { joins(:funcionario).where('funcionario.func_nmfuncionario is not null') }
+  scope :nomes, -> { includes(:funcionario).where('funcionario.func_nmfuncionario is not null').order('funcionario.func_nmfuncionario') }
 
   def nome
-    joins(:funcionario).select(:func_nmfuncionario)
+    funcionario.try(:func_nmfuncionario)
   end
 end

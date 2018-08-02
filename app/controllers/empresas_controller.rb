@@ -3,11 +3,11 @@ class EmpresasController < ApplicationController
     if params[:query].present?
       params[:query].delete(:page)
       params[:query].delete(:per_page)
-      
-      @empresas = Empresa.where(params_query)
+
+      @empresas = Empresa.where(params_query).order(:nome)
     else
       @total    = Empresa.count
-      @empresas = Empresa.all
+      @empresas = Empresa.all.order(:nome)
     end
   end
 
