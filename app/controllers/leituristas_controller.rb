@@ -5,10 +5,10 @@ class LeituristasController < ApplicationController
       params[:query].delete(:page)
       params[:query].delete(:per_page)
 
-      @leituristas = Leiturista.where(params_query)
+      @leituristas = Leiturista.where(params_query).nomes
     else
       @total       = Leiturista.count
-      @leituristas = Leiturista.all
+      @leituristas = Leiturista.all.nomes
     end
   end
 
