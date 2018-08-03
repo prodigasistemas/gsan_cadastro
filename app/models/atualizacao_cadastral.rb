@@ -12,6 +12,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
   alias_attribute :arquivo_texto_atlz_cad_id,  :txac_id
   alias_attribute :codigo_imovel,              :tatc_cdimovel
   alias_attribute :codigo_cliente,             :tatc_cdcliente
+  alias_attribute :complemento,                :tatc_complemento
 
   has_many :coluna_atualizacao_cadastrais, foreign_key: :tatc_id
 
@@ -45,7 +46,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       --left join cadastro.cliente clie on leit.clie_id = clie.clie_id
       left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
-      --left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc_cdimovel
+      inner join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
       --left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1

@@ -21,5 +21,5 @@ class ColunaAtualizacaoCadastral < ActiveRecord::Base
   belongs_to :usuario,               foreign_key: :usur_id
 
   scope :por_atualizacao, ->(atualizacao) { where(atualizacao_cadastral_id: atualizacao) }
-  scope :com_relacionamentos, -> { includes(:tabela_coluna, :usuario) }
+  scope :com_relacionamentos, -> { includes(:tabela_coluna, :usuario, :atualizacao_cadastral) }
 end
