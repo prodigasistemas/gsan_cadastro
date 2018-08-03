@@ -20,7 +20,8 @@ module Recadastramento
                 cocr_id: "CadastroOcorrencia",
                 rlin_id: "RamalLocalInstalacao",
                 lcla_id: "LocalidadeClasse",
-                crtp_id: "ClienteRelacaoTipo" }
+                crtp_id: "ClienteRelacaoTipo",
+                psex_id: "PessoaSexo" }
 
     ENUMS = { imac_classe_social: "CLASSES_SOCIAIS",
               imac_tipo_uso: "TIPO_USO_IMOVEL",
