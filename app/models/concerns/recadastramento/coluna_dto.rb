@@ -21,7 +21,8 @@ module Recadastramento
                 rlin_id: "RamalLocalInstalacao",
                 lcla_id: "LocalidadeClasse",
                 crtp_id: "ClienteRelacaoTipo",
-                psex_id: "PessoaSexo" }
+                psex_id: "PessoaSexo",
+                lest_id: "LigacaoEsgotoSituacao" }
 
     ENUMS = { imac_classe_social: "CLASSES_SOCIAIS",
               imac_tipo_uso: "TIPO_USO_IMOVEL",
