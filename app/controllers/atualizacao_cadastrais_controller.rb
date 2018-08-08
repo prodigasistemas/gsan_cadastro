@@ -15,7 +15,7 @@ class AtualizacaoCadastraisController < ApplicationController
       end
     end
 
-    if @atualizacao_cadastrais.any?
+    unless @atualizacao_cadastrais.nil? and @atualizacao_cadastrais.empty?
       if params[:query][:codigo_imovel].present?
         render json: { entidades: @atualizacao_cadastrais.map(&:atributos), total: @total, page: @page, per_page: @per }, status: :ok
       else

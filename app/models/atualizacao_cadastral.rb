@@ -29,6 +29,11 @@ class AtualizacaoCadastral < ActiveRecord::Base
   EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2" }.freeze
   TODOS = "-1"
 
+  PARAMETROS_OCORRENCIA = { alteracao_hidrometro: "'imac_nnhidrometro'",
+                            alteracao_agua: "'last_id'",
+                            alteracao_esgoto: "'lest_id'",
+                            alteracao_categoria_subcategoria: "'isac_qteconomia'" }
+
   def self.buscar_atualizacoes_para_recadastramento(params)
     query = <<-SQL
       select
@@ -85,16 +90,40 @@ class AtualizacaoCadastral < ActiveRecord::Base
       query <<  "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
     end
 
+    resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
     if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
-      query_imoveis = query.gsub(",
+      PARAMETROS_OCORRENCIA.keys.each { |k| params[k] = "2"}
+      resultado = tratar_ocorrencias(query, resultado, params)
+    end
+    resultado
+  end
+
+  def self.concatenar_subquery_aprovar_em_lote(query)
+    query_imoveis = query.gsub(",
         func.func_nmfuncionario as agente_cadastral,
         siac.siac_dssituacao as situacao", "")
-      query_imoveis << "\nand lower(tbco.tbco_nmcoluna) in ('imac_nnhidrometro', 'lest_id', 'isac_qteconomia', 'last_id') group by tatc.tatc_cdimovel"
-      query << "\nand tatc.tatc_cdimovel not in (#{query_imoveis})"
+    colunas = PARAMETROS_OCORRENCIA.keys.map {|k| PARAMETROS_OCORRENCIA[k]}.join(',')
+    query_imoveis << "\nand lower(tbco.tbco_nmcoluna) in (#{colunas}) group by tatc.tatc_cdimovel"
+    "#{query}\nand tatc.tatc_cdimovel not in (#{query_imoveis})"
+  end
+
+  def self.tratar_ocorrencias(query, imoveis, params)
+    imoveis_filtrados = imoveis
+    PARAMETROS_OCORRENCIA.keys.each do |chave|
+      if params[chave].present? and params[chave] != TODOS
+        imoveis_filtrados = remover_imoveis(imoveis_filtrados,
+                      query_ocorrencia(query, PARAMETROS_OCORRENCIA[chave]),
+                      params[chave] == NAO)
+      end
     end
+    imoveis_filtrados
+  end
 
-    query << "\norder by tatc.tatc_cdimovel"
+  def self.query_ocorrencia(query, coluna)
+    ActiveRecord::Base.connection.execute("#{query}\nand lower(tbco.tbco_nmcoluna) = lower(#{coluna})\norder by tatc.tatc_cdimovel")
+  end
 
-    ActiveRecord::Base.connection.execute(query)
+  def self.remover_imoveis(imoveis, imovel_ocorrencias, invertido)
+    invertido ? (imoveis.to_a - imovel_ocorrencias.to_a) : (imoveis.to_a & imovel_ocorrencias.to_a)
   end
 end
