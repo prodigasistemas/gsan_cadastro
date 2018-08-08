@@ -32,7 +32,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
   PARAMETROS_OCORRENCIA = { alteracao_hidrometro: "'imac_nnhidrometro'",
                             alteracao_agua: "'last_id'",
                             alteracao_esgoto: "'lest_id'",
-                            alteracao_categoria_subcategoria: "'isac_qteconomia'" }
+                            alteracao_categoria_subcategoria: "'isac_qteconomia'",
+                            alteracao_cpf: "'clac_nncpfcnpj'" }
 
   def self.buscar_atualizacoes_para_recadastramento(params)
     query = <<-SQL
