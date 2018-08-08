@@ -28,7 +28,7 @@ class AtualizacaoCadastraisController < ApplicationController
 
   def update
     @atualizacao_cadastrais = AtualizacaoCadastral.buscar_atualizacoes_para_recadastramento params[:query]
-    if ImovelAtualizacaoCadastral.atualizar_lote @atualizacao_cadastrais.map {|h| h["codigo_imovel"] }
+    if ImovelAtualizacaoCadastral.atualizar_lote @atualizacao_cadastrais.map {|h| h["codigo_imovel"] }, params[:query][:situacao_cadastral_id]
       render json: {}, status: :ok
     else
       render json: {}, status: :internal_server_error
@@ -38,6 +38,6 @@ class AtualizacaoCadastraisController < ApplicationController
   private
 
   def atualizacao_cadastral_params
-    params.require(:query).permit(:codigo_imovel)
+    params.require(:query).permit(:codigo_imovel, :situacao_cadastral_id)
   end
 end

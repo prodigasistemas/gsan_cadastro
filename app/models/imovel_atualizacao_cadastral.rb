@@ -22,14 +22,14 @@ class ImovelAtualizacaoCadastral < ActiveRecord::Base
     end
   end
 
-  def self.atualizar_lote(imovel_ids)
+  def self.atualizar_lote(imovel_ids, situacao_cadastral_id)
     ImovelAtualizacaoCadastral.transaction do
       imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids)
-      imovel_atualizacao_cadastrais.update_all(siac_id: PRE_APROVADO)
+      imovel_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id)
       # Buscando os ImovelControleAtualizacaoCadastral
       imovel_controle_atualizacao_cadastrais =
         ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids)
-      imovel_controle_atualizacao_cadastrais.update_all(siac_id: PRE_APROVADO, icac_tmpreaprovacao: Time.current)
+      imovel_controle_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       true
     end
   end
