@@ -81,4 +81,6 @@ Rails.application.routes.draw do
   resources :leituristas,  only: [:index]
   resources :avisos_corte, only: [:create]
   resources :imovel_atualizacao_cadastrais, only: [:show, :update]
+
+  resources :cadastro_ocorrencias,  only: [:index]
 end
