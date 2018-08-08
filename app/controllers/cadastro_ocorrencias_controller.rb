@@ -5,10 +5,10 @@ class CadastroOcorrenciasController < ApplicationController
       params[:query].delete(:page)
       params[:query].delete(:per_page)
 
-      @cadastro_ocorrencias = CadastroOcorrencia.where(params_query)
+      @cadastro_ocorrencias = CadastroOcorrencia.where(params_query).order(:descricao)
     else
       @total                = CadastroOcorrencia.count
-      @cadastro_ocorrencias = CadastroOcorrencia.all
+      @cadastro_ocorrencias = CadastroOcorrencia.all.order(:descricao)
     end
   end
 
