@@ -11,6 +11,10 @@ class EmpresasController < ApplicationController
     end
   end
 
+  def show
+    @empresa = Empresa.find_by(empr_id: params[:id])
+  end
+
   def usuario
     usuario = Usuario.find params[:usuario_id]
     @empresas = usuario.empresas

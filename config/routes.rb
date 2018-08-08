@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :bairros,                 only: [:index, :show, :create, :update]
   resources :clientes,                only: [:index, :show, :create, :update]
   resources :regioes,                 only: [:index, :show, :create, :update]
-  resources :empresas,                only: [:index]
+  resources :empresas,                only: [:index, :show]
   resources :cep_tipos,               only: [:index, :show, :create, :update]
   resources :municipios,              only: [:index, :show, :create, :update]
   resources :profissoes,              only: [:index, :show, :create, :update]
