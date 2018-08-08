@@ -91,10 +91,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
     end
 
     resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
-    if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
-      PARAMETROS_OCORRENCIA.keys.each { |k| params[k] = "2"}
-      resultado = tratar_ocorrencias(query, resultado, params)
-    end
+    PARAMETROS_OCORRENCIA.keys.each { |k| params[k] = "2"} if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
+    resultado = tratar_ocorrencias(query, resultado, params) unless params[:exibir_imoveis] == EXIBIR_IMOVEL[:todos]
     resultado
   end
 
