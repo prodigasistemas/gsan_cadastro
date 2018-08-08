@@ -88,7 +88,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
     if params[:ocorrencias_cadastro].present? and
         params[:ocorrencias_cadastro] != TODOS and
         params[:exibir_imoveis] != EXIBIR_IMOVEL[:aprovar_em_lote]
-      query <<  "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
+      query << "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
+      query << "\nand cocr.cocr_id = #{params[:cadastro_ocorrencia_id]}" if params[:cadastro_ocorrencia_id].present?
     end
 
     resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
