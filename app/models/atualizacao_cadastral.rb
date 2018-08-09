@@ -28,6 +28,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
   NAO = "2"
   EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2" }.freeze
   TODOS = "-1"
+  SEM_CPF = "-2"
 
   PARAMETROS_OCORRENCIA = { alteracao_hidrometro: "'imac_nnhidrometro'",
                             alteracao_agua: "'last_id'",
@@ -95,6 +96,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
     resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
     PARAMETROS_OCORRENCIA.keys.each { |k| params[k] = "2"} if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
     resultado = tratar_ocorrencias(query, resultado, params) unless params[:exibir_imoveis] == EXIBIR_IMOVEL[:todos]
+    resultado = filtrar_imoveis_sem_cpf_e_alteracao_de_cpf(query, resultado) if params[:alteracao_cpf].present? and params[:alteracao_cpf] == SEM_CPF
     resultado
   end
 
@@ -110,7 +112,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
   def self.tratar_ocorrencias(query, imoveis, params)
     imoveis_filtrados = imoveis
     PARAMETROS_OCORRENCIA.keys.each do |chave|
-      if params[chave].present? and params[chave] != TODOS
+      if params[chave].present? and params[chave].to_i > TODOS.to_i
         imoveis_filtrados = remover_imoveis(imoveis_filtrados,
                       query_ocorrencia(query, PARAMETROS_OCORRENCIA[chave]),
                       params[chave] == NAO)
@@ -126,4 +128,17 @@ class AtualizacaoCadastral < ActiveRecord::Base
   def self.remover_imoveis(imoveis, imovel_ocorrencias, invertido)
     invertido ? (imoveis.to_a - imovel_ocorrencias.to_a) : (imoveis.to_a & imovel_ocorrencias.to_a)
   end
+
+  def self.filtrar_imoveis_sem_cpf_e_alteracao_de_cpf(query, todos_imoveis)
+    imoveis_sem_alteracao_cpf = remover_imoveis(todos_imoveis, query_ocorrencia(query, PARAMETROS_OCORRENCIA[:alteracao_cpf]), true)
+    imoveis_sem_cpf = ActiveRecord::Base.connection.execute(query.gsub("where 1 = 1", query_client_cpf_null))
+    remover_imoveis(imoveis_sem_alteracao_cpf, imoveis_sem_cpf, false)
+  end
+
+  private
+    def self.query_client_cpf_null
+      query_join = "left join cadastro.cliente_atlz_cadastral cliente on cliente.imov_id = tatc.tatc_cdimovel"
+      query_join << "\nwhere 1 = 1"
+      query_join << "\nand cliente.clac_nncpfcnpj is null"
+    end
 end
