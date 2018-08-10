@@ -83,7 +83,6 @@ class AtualizacaoCadastral < ActiveRecord::Base
         situacoes = "#{params[:exibir_imoveis]}"
         situacoes << ", #{EM_FISCALIZACAO}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
-      query << "\nand tcac.tcac_dtvalidacao is not null" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pre_aprovados]
     else
       query << "\nand ctrl.siac_id not in (#{ATUALIZADO})"
     end
