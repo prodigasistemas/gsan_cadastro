@@ -20,13 +20,13 @@ class AtualizacaoCadastral < ActiveRecord::Base
   BLOQUEADO = 1
   EM_CAMPO = 2
   TRANSMITIDO = 3
-  APROVADO = 4
+  PRE_APROVADO = 7
   EM_FISCALIZACAO = 5
   ATUALIZADO = 6
 
   SIM = "1"
   NAO = "2"
-  EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", aprovados: "0", aprovar_em_lote: "-2" }.freeze
+  EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", pre_aprovados: "7", aprovar_em_lote: "-2" }.freeze
   TODOS = "-1"
   SEM_CPF = "-2"
 
@@ -83,7 +83,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
         situacoes = "#{params[:exibir_imoveis]}"
         situacoes << ", #{EM_FISCALIZACAO}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
-      query << "\nand tcac.tcac_dtvalidacao is not null" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovados]
+      query << "\nand tcac.tcac_dtvalidacao is not null" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pre_aprovados]
     else
       query << "\nand ctrl.siac_id not in (#{ATUALIZADO})"
     end
