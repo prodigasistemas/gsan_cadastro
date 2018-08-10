@@ -41,6 +41,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       select
         distinct tatc.tatc_cdimovel as codigo_imovel,
         func.func_nmfuncionario as agente_cadastral,
+        tatc.altp_id as tipo_alteracao,
         siac.siac_dssituacao as situacao
       from seguranca.tab_atlz_cadastral tatc
       --inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
@@ -53,7 +54,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       --left join cadastro.cliente clie on leit.clie_id = clie.clie_id
       left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
-      inner join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
+      left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
       --left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
