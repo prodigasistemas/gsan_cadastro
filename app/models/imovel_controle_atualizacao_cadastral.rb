@@ -41,7 +41,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
     cadastro_ocorrencia.try(:descricao)
   end
 
-  def atualizar(situacao_cadastral_id)
+  def atualizar(situacao_cadastral_id, revisoes = [])
     ImovelControleAtualizacaoCadastral.transaction do
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
