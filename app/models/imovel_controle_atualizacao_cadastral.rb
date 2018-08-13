@@ -25,4 +25,25 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   def descricao_ocorrencia
     cadastro_ocorrencia.try(:descricao)
   end
+
+  def atualizar(situacao_cadastral_id)
+    ImovelControleAtualizacaoCadastral.transaction do
+      update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
+      imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
+      imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
+      true
+    end
+  end
+
+  def self.atualizar_lote(imovel_ids, situacao_cadastral_id)
+    ImovelControleAtualizacaoCadastral.transaction do
+      imovel_controle_atualizacao_cadastrais =
+        ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids)
+      imovel_controle_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
+
+      imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids)
+      imovel_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id)
+      true
+    end
+  end
 end

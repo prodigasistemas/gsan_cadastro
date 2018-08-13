@@ -28,7 +28,7 @@ class AtualizacaoCadastraisController < ApplicationController
 
   def update
     @atualizacao_cadastrais = AtualizacaoCadastral.buscar_atualizacoes_para_recadastramento params[:query]
-    if ImovelAtualizacaoCadastral.atualizar_lote @atualizacao_cadastrais.map {|h| h["codigo_imovel"] }, params[:query][:situacao_cadastral_id]
+    if ImovelControleAtualizacaoCadastral.atualizar_lote @atualizacao_cadastrais.map {|h| h["codigo_imovel"] }, params[:query][:situacao_cadastral_id]
       render json: {}, status: :ok
     else
       render json: {}, status: :internal_server_error
