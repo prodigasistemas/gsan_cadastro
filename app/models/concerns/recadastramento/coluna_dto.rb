@@ -50,7 +50,9 @@ module Recadastramento
                   :valor_anterior,
                   :valor_atual,
                   :data_ultima_atualizacao,
-                  :nome_usuario
+                  :nome_usuario,
+                  :valor_revisado
+
 
     def initialize(coluna_atualizacao_cadastral)
       @id = coluna_atualizacao_cadastral.id
@@ -65,6 +67,8 @@ module Recadastramento
                                                   coluna_atualizacao_cadastral.valor_anterior)
       @valor_atual = ColunaDto.descricao_campo(coluna_atualizacao_cadastral.try(:tabela_coluna).try(:nome_coluna),
                                                coluna_atualizacao_cadastral.valor_atual)
+      @valor_revisado = ColunaDto.descricao_campo(coluna_atualizacao_cadastral.try(:tabela_coluna).try(:nome_coluna),
+                                               coluna_atualizacao_cadastral.valor_revisado)
       @data_ultima_atualizacao = coluna_atualizacao_cadastral.data_ultima_atualizacao
       @nome_usuario = coluna_atualizacao_cadastral.try(:usuario).try(:nome)
     end
