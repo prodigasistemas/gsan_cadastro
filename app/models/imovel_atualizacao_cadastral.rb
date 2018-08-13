@@ -10,4 +10,8 @@ class ImovelAtualizacaoCadastral < ActiveRecord::Base
   alias_attribute :ligacao_agua_situacao_id,      :last_id
   alias_attribute :ligacao_esgoto_situacao_id,    :lest_id
   alias_attribute :situacao_cadastral_id,         :siac_id
+
+  scope :podem_ser_pre_aprovados, -> { where(situacao_cadastral_id: [ImovelControleAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
+                                                                     ImovelControleAtualizacaoCadastral::SITUACOES[:"REVISADO"]]) }
+  scope :podem_ficar_em_revisao, -> { where(situacao_cadastral_id: ImovelControleAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
 end

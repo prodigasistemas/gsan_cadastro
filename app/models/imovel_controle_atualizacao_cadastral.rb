@@ -3,6 +3,18 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   include API::Filterable
   include API::Model
 
+  SITUACOES = {"DISPONIVEL": 0,
+               "BLOQUEADO": 1,
+               "EM CAMPO": 2,
+               "TRANSMITIDO": 3,
+               "APROVADO": 4,
+               "EM FISCALIZACAO": 5,
+               "ATUALIZADO": 6,
+               "PRE APROVADO": 7,
+               "REVISADO": 8,
+               "EM REVISAO": 9,
+               "A REVISAR": 10 }
+
   self.table_name  = 'atualizacaocadastral.imovel_controle_atlz_cad'
   self.primary_key = 'icac_id'
 
@@ -22,6 +34,9 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   belongs_to :imovel_retorno, foreign_key: "imre_id"
   belongs_to :situacao_atualizacao_cadastral, foreign_key: "siac_id"
 
+  scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [SITUACOES[:"TRANSMITIDO"], SITUACOES[:"REVISADO"]]) }
+  scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SITUACOES[:"TRANSMITIDO"]) }
+
   def descricao_ocorrencia
     cadastro_ocorrencia.try(:descricao)
   end
@@ -37,11 +52,14 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
 
   def self.atualizar_lote(imovel_ids, situacao_cadastral_id)
     ImovelControleAtualizacaoCadastral.transaction do
-      imovel_controle_atualizacao_cadastrais =
-        ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids)
+      if situacao_cadastral_id.try(:to_i) == SITUACOES[:"PRE APROVADO"]
+        imovel_controle_atualizacao_cadastrais = ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ser_pre_aprovados
+        imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ser_pre_aprovados
+      else
+        imovel_controle_atualizacao_cadastrais = ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
+        imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
+      end
       imovel_controle_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
-
-      imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids)
       imovel_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id)
       true
     end
