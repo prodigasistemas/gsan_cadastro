@@ -77,6 +77,7 @@ module Recadastramento
     end
 
     def self.descricao_campo(campo, valor)
+      return nil if campo.blank? or valor.blank?
       return MODELOS[campo.to_sym].constantize.find_by(id: valor).try(:descricao) || valor if MODELOS.key?(campo.to_sym)
       return ColunaDto.const_get(ENUMS[campo.to_sym])[valor.to_sym] || valor if ENUMS.key?(campo.to_sym)
       valor
