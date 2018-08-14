@@ -36,7 +36,7 @@ class ColunaAtualizacaoCadastral < ActiveRecord::Base
     update_attribute(:valor_pre_aprovado, valor_atual)
   end
 
-  def self.aplicar_revisao(imovel_id, ids_colunas_revisadas = [])
+  def self.aplicar_valores_da_pre_aprovacao_ou_revisao(imovel_id, ids_colunas_revisadas = [])
     ColunaAtualizacaoCadastral.transaction do
       atualizacao_cadastral_ids = AtualizacaoCadastral.where(codigo_imovel: imovel_id).pluck(:tatc_id)
       return if atualizacao_cadastral_ids.empty?
