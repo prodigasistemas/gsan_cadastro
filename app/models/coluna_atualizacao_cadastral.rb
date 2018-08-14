@@ -26,6 +26,7 @@ class ColunaAtualizacaoCadastral < ActiveRecord::Base
   scope :com_relacionamentos, -> { includes(:tabela_coluna, :usuario, :atualizacao_cadastral) }
   scope :por_atualizacao, -> (atualizacao_cadastral_id) { where(tatc_id: atualizacao_cadastral_id) }
   scope :por_ids, -> (coluna_atualizacao_cadastral_ids) { where(tcac_id: coluna_atualizacao_cadastral_ids) }
+  scope :nao_por_ids, -> (coluna_atualizacao_cadastral_ids) { where.not(tcac_id: coluna_atualizacao_cadastral_ids) }
 
   def revisao_com_revisado
     update_attribute(:valor_pre_aprovado, valor_revisado)
@@ -37,14 +38,14 @@ class ColunaAtualizacaoCadastral < ActiveRecord::Base
 
   def self.aplicar_revisao(imovel_id, ids_colunas_revisadas = [])
     ColunaAtualizacaoCadastral.transaction do
-      atualizacao_cadastral_id = AtualizacaoCadastral.find_by(codigo_imovel: imovel_id).try(:tatc_id)
-      return if atualizacao_cadastral_id.nil?
+      atualizacao_cadastral_ids = AtualizacaoCadastral.where(codigo_imovel: imovel_id).pluck(:tatc_id)
+      return if atualizacao_cadastral_ids.empty?
 
-      self.por_atualizacao(atualizacao_cadastral_id).por_ids(ids_colunas_revisadas).each { |coluna| coluna.revisao_com_revisado }
+      self.por_atualizacao(atualizacao_cadastral_ids).por_ids(ids_colunas_revisadas).each { |coluna| coluna.revisao_com_revisado }
       if ids_colunas_revisadas.empty?
-        self.por_atualizacao(atualizacao_cadastral_id).each { |coluna| coluna.revisao_com_transmitido }
+        self.por_atualizacao(atualizacao_cadastral_ids).each { |coluna| coluna.revisao_com_transmitido }
       else
-        self.por_atualizacao(atualizacao_cadastral_id).por_ids(ids_colunas_revisadas).each { |coluna| coluna.revisao_com_transmitido }
+        self.por_atualizacao(atualizacao_cadastral_ids).nao_por_ids(ids_colunas_revisadas).each { |coluna| coluna.revisao_com_transmitido }
       end
     end
   end
