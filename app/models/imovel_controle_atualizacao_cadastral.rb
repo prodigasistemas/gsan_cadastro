@@ -46,6 +46,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
       imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
+      ColunaAtualizacaoCadastral.aplicar_revisao(imov_id, revisoes) if situacao_cadastral_id.try(:to_i) == SITUACOES[:"REVISADO"]
       true
     end
   end

@@ -13,7 +13,7 @@ class ImovelControleAtualizacaoCadastraisController < ApplicationController
 
   def update
     if @imovel_controle_atualizacao_cadastral.atualizar(imovel_controle_atualizacao_cadastral_params[:situacao_atualizacao_cadastral_id],
-                                                        imovel_controle_atualizacao_cadastral_params[:revisoes])
+                                                        imovel_controle_atualizacao_cadastral_params[:revisoes] || [])
       render json: { entidade: @imovel_controle_atualizacao_cadastral.atributos }, status: :ok
     else
       render json: {}, status: :not_found
