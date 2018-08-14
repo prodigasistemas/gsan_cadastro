@@ -58,6 +58,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       --left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
+      and ctrl.siac_id not in (0, 1, 2, 4, 5, 6, 10)
     SQL
     query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
@@ -84,8 +85,6 @@ class AtualizacaoCadastral < ActiveRecord::Base
         situacoes = "#{params[:exibir_imoveis]}"
         situacoes << ", #{EM_FISCALIZACAO}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
-    else
-      query << "\nand ctrl.siac_id not in (#{ATUALIZADO})"
     end
 
     query << "\nand ctrl.siac_id in (#{situacoes})" unless situacoes.nil?
