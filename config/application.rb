@@ -37,5 +37,6 @@ module GsanApi
     end
 
     config.filter_parameters += [:senha]
+    config.active_job.queue_adapter = :sucker_punch
   end
 end
