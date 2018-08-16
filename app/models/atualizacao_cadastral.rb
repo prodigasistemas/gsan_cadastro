@@ -16,14 +16,6 @@ class AtualizacaoCadastral < ActiveRecord::Base
 
   has_many :coluna_atualizacao_cadastrais, foreign_key: :tatc_id
 
-  DISPONIVEL = 0
-  BLOQUEADO = 1
-  EM_CAMPO = 2
-  TRANSMITIDO = 3
-  PRE_APROVADO = 7
-  EM_FISCALIZACAO = 5
-  ATUALIZADO = 6
-
   SIM = "1"
   NAO = "2"
   EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", pre_aprovados: "7", aprovar_em_lote: "-2" }.freeze
@@ -77,13 +69,12 @@ class AtualizacaoCadastral < ActiveRecord::Base
     end
 
     if params[:exibir_imoveis] and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
-      query << "\nand tcac.tcac_dtvalidacao is null" if params[:exibir_imoveis] == EM_CAMPO
       if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
         query << "\nand cocr.cocr_icvalidacao = #{SIM}"
-        situacoes = "#{TRANSMITIDO}"
+        situacoes = "#{ImovelControleAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]}"
       else
         situacoes = "#{params[:exibir_imoveis]}"
-        situacoes << ", #{EM_FISCALIZACAO}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
+        situacoes << ", #{ImovelControleAtualizacaoCadastral::SITUACOES[:"EM FISCALIZACAO"]}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
     end
 

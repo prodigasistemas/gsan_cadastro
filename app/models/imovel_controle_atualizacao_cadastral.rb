@@ -11,8 +11,8 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
                "EM FISCALIZACAO": 5,
                "ATUALIZADO": 6,
                "PRE APROVADO": 7,
-               "REVISADO": 8,
-               "EM REVISAO": 9,
+               "EM REVISAO": 8,
+               "REVISADO": 9,
                "A REVISAR": 10 }
 
   self.table_name  = 'atualizacaocadastral.imovel_controle_atlz_cad'
