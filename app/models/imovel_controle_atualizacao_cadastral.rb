@@ -47,7 +47,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
       imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
-      self.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes)
+      ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes)
       true
     end
   end
@@ -62,7 +62,6 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
     ImovelControleAtualizacaoCadastral.transaction do
       if situacao_cadastral_id.try(:to_i) == SITUACOES[:"PRE APROVADO"]
         ColunaAtualizacaoCadastralJob.perform_async(imovel_ids, situacao_cadastral_id)
-        # .each { |ic| self.atualizar_valores_colunas(situacao_cadastral_id, ic.imovel_id) }
       else
         imovel_controle_atualizacao_cadastrais = ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
         imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
