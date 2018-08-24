@@ -44,16 +44,18 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
 
   def atualizar(situacao_cadastral_id, revisoes = [])
     ImovelControleAtualizacaoCadastral.transaction do
+      situacao_anterior = situacao_atualizacao_cadastral_id
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
       imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
-      ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes)
+      ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes, situacao_anterior)
       true
     end
   end
 
-  def self.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes = [])
-    if [SITUACOES[:"REVISADO"], SITUACOES[:"PRE APROVADO"]].include?(situacao_cadastral_id.try(:to_i))
+  def self.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes = [], situacao_anterior)
+    if [SITUACOES[:"REVISADO"], SITUACOES[:"PRE APROVADO"]].include?(situacao_cadastral_id.try(:to_i)) and
+          situacao_anterior != SITUACOES[:"REVISADO"]
       ColunaAtualizacaoCadastral.aplicar_valores_da_pre_aprovacao_ou_revisao(imov_id, revisoes)
     end
   end
