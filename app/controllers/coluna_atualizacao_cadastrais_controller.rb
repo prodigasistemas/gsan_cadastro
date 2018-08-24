@@ -9,7 +9,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
 
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      @coluna_atualizacao_cadastrais = ColunaAtualizacaoCadastral.com_relacionamentos.order(:atualizacao_cadastral_id).where(query)
+      @coluna_atualizacao_cadastrais = ColunaAtualizacaoCadastral.com_relacionamentos.order(:atualizacao_cadastral_id, :id).where(query)
 
       unless params[:paginado] == "false"
         @total = @coluna_atualizacao_cadastrais.count
@@ -17,7 +17,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
       end
     else
       @total = ColunaAtualizacaoCadastral.count
-      @coluna_atualizacao_cadastrais = ColunaAtualizacaoCadastral.com_relacionamentos.order(:atualizacao_cadastral_id).page(@page).per(@per)
+      @coluna_atualizacao_cadastrais = ColunaAtualizacaoCadastral.com_relacionamentos.order(:atualizacao_cadastral_id, :id).page(@page).per(@per)
     end
 
     if @coluna_atualizacao_cadastrais.any?
