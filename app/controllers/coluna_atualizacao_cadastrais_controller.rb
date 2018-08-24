@@ -2,7 +2,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
 
   def index
     @coluna_atualizacao_cadastrais = []
-    @per = params[:per_page] || 100
+    @per = params[:per_page] || 10000
     @page = params[:page] || 0
     params[:query].delete :per_page
     params[:query].delete :page
