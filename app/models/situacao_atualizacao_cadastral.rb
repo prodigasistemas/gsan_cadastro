@@ -27,5 +27,5 @@ class SituacaoAtualizacaoCadastral < ActiveRecord::Base
     "A REVISAR": 10,
     "REVISITA": 11 }
 
-  GSAN_SITUACOES = [0, 1, 2, 4, 5, 6, 10]
+  GSAN_SITUACOES = [0, 1, 2, 4, 5, 6, 10, 11]
 end

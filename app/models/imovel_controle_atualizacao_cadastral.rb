@@ -27,12 +27,17 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
   scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
 
+  def is_situacao_do_gsan?
+    SituacaoAtualizacaoCadastral::GSAN_SITUACOES.include? situacao_atualizacao_cadastral_id
+  end
+
   def descricao_ocorrencia
     cadastro_ocorrencia.try(:descricao)
   end
 
   def atualizar(situacao_cadastral_id, revisoes = [])
     ImovelControleAtualizacaoCadastral.transaction do
+      return false if is_situacao_do_gsan?
       situacao_anterior = situacao_atualizacao_cadastral_id
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
