@@ -3,18 +3,6 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   include API::Filterable
   include API::Model
 
-  SITUACOES = {"DISPONIVEL": 0,
-               "BLOQUEADO": 1,
-               "EM CAMPO": 2,
-               "TRANSMITIDO": 3,
-               "APROVADO": 4,
-               "EM FISCALIZACAO": 5,
-               "ATUALIZADO": 6,
-               "PRE APROVADO": 7,
-               "EM REVISAO": 8,
-               "REVISADO": 9,
-               "A REVISAR": 10 }
-
   self.table_name  = 'atualizacaocadastral.imovel_controle_atlz_cad'
   self.primary_key = 'icac_id'
 
@@ -34,9 +22,10 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   belongs_to :imovel_retorno, foreign_key: "imre_id"
   belongs_to :situacao_atualizacao_cadastral, foreign_key: "siac_id"
 
-  scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [SITUACOES[:"TRANSMITIDO"], SITUACOES[:"REVISADO"]]) }
-  scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SITUACOES[:"TRANSMITIDO"]) }
-  scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: SITUACOES[:"TRANSMITIDO"]) }
+  scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
+                                                                                  SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"]] ) }
+  scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
+  scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
 
   def descricao_ocorrencia
     cadastro_ocorrencia.try(:descricao)
@@ -54,15 +43,15 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   end
 
   def self.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes = [], situacao_anterior)
-    if [SITUACOES[:"REVISADO"], SITUACOES[:"PRE APROVADO"]].include?(situacao_cadastral_id.try(:to_i)) and
-          situacao_anterior != SITUACOES[:"REVISADO"]
+    if [SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"], SituacaoAtualizacaoCadastral::SITUACOES[:"PRE APROVADO"]].include?(situacao_cadastral_id.try(:to_i)) and
+          situacao_anterior != SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"]
       ColunaAtualizacaoCadastral.aplicar_valores_da_pre_aprovacao_ou_revisao(imov_id, revisoes)
     end
   end
 
   def self.atualizar_lote(imovel_ids, situacao_cadastral_id)
     ImovelControleAtualizacaoCadastral.transaction do
-      if situacao_cadastral_id.try(:to_i) == SITUACOES[:"PRE APROVADO"]
+      if situacao_cadastral_id.try(:to_i) == SituacaoAtualizacaoCadastral::SITUACOES[:"PRE APROVADO"]
         ColunaAtualizacaoCadastralJob.perform_async(imovel_ids, situacao_cadastral_id)
       else
         imovel_controle_atualizacao_cadastrais = ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
