@@ -34,7 +34,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
         distinct tatc.tatc_cdimovel as codigo_imovel,
         func.func_nmfuncionario as agente_cadastral,
         tatc.altp_id as tipo_alteracao,
-        siac.siac_dssituacao as situacao
+        replace(siac.siac_dssituacao, '_', ' ') as situacao
       from seguranca.tab_atlz_cadastral tatc
       --inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
       inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id
@@ -51,7 +51,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "\nand ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::GSAN_SITUACOES.join(',')})"
+    query << "and ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::GSAN_SITUACOES.join(',')})"
     query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
@@ -74,7 +74,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
         situacoes = "#{SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]}"
       else
         situacoes = "#{params[:exibir_imoveis]}"
-        situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM FISCALIZACAO"]}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
+        situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
       end
     end
 
