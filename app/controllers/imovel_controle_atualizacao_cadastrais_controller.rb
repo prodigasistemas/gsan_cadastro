@@ -16,7 +16,7 @@ class ImovelControleAtualizacaoCadastraisController < ApplicationController
                                                         imovel_controle_atualizacao_cadastral_params[:revisoes] || [])
       render json: { entidade: @imovel_controle_atualizacao_cadastral.atributos }, status: :ok
     else
-      render json: {}, status: :not_found
+      render json: {}, status: :bad_request
     end
   end
 
