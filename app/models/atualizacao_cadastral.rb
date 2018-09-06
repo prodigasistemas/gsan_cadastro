@@ -51,8 +51,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "and ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::GSAN_SITUACOES.join(',')})"
-    query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
       query << "\nand ctrl.icac_tmretorno::Date between '#{params[:periodo_inicial].try(:to_date).try(:strftime)}' and "
