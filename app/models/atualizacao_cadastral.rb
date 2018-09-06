@@ -77,7 +77,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       end
     end
 
-    query << "\nand ctrl.siac_id in (#{situacoes})" unless situacoes.nil?
+    query << "\nand ctrl.siac_id in (#{situacoes})" unless situacoes.blank?
 
     if params[:ocorrencias_cadastro].present? and
         params[:ocorrencias_cadastro] != TODOS and
