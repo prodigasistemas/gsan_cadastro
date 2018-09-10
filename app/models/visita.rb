@@ -1,6 +1,7 @@
 class Visita < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
+  include API::Model
 
   self.table_name  = 'atualizacaocadastral.visita'
   self.primary_key = 'vist_id'

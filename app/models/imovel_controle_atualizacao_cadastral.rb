@@ -21,6 +21,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   belongs_to :imovel, foreign_key: "imov_id"
   belongs_to :imovel_retorno, foreign_key: "imre_id"
   belongs_to :situacao_atualizacao_cadastral, foreign_key: "siac_id"
+  has_many :visitas, foreign_key: :icac_id
 
   scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
                                                                                   SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"]] ) }

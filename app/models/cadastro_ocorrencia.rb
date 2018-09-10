@@ -12,4 +12,6 @@ class CadastroOcorrencia <  ActiveRecord::Base
   alias_attribute "ultima_alteracao", "cocr_tmultimaalteracao"
   alias_attribute "indicador_suspende_contrato", "cocr_icsuspendecontratodemanda"
   alias_attribute "indicador_validacao", "cocr_icvalidacao"
+
+  has_many :visitas, foreign_key: :cocr_id
 end
