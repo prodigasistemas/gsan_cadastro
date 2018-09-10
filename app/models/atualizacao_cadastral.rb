@@ -36,18 +36,15 @@ class AtualizacaoCadastral < ActiveRecord::Base
         tatc.altp_id as tipo_alteracao,
         replace(siac.siac_dssituacao, '_', ' ') as situacao
       from seguranca.tab_atlz_cadastral tatc
-      --inner join seguranca.operacao_efetuada opef on opef.opef_id = tatc.opef_id
       inner join seguranca.tab_col_atlz_cadastral tcac on  tatc.tatc_id = tcac.tatc_id
       inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
       inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
       inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
       inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id
       left join cadastro.funcionario func on leit.func_id = func.func_id
-      --left join cadastro.cliente clie on leit.clie_id = clie.clie_id
       left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
       left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
-      --left join cadastro.imovel_subcatg_atlz_cad isac on isac.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
@@ -84,6 +81,10 @@ class AtualizacaoCadastral < ActiveRecord::Base
         params[:exibir_imoveis] != EXIBIR_IMOVEL[:aprovar_em_lote]
       query << "\nand cocr.cocr_icvalidacao = #{params[:ocorrencias_cadastro]}"
       query << "\nand cocr.cocr_id = #{params[:cadastro_ocorrencia_id]}" if params[:cadastro_ocorrencia_id].present?
+    end
+
+    if params[:quantidade_visitas].present?
+      query << "\nand #{params[:quantidade_visitas]} = (select count(vist_id) from atualizacaocadastral.visita where icac_id = ctrl.icac_id)"
     end
 
     resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
