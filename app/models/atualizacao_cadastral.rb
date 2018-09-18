@@ -50,6 +50,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       where 1 = 1
     SQL
     query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "\nand ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::SITUACOES[:"EM CORRECAO"]})"
     query << "\nand tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
