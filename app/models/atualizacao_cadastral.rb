@@ -13,6 +13,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
   alias_attribute :codigo_imovel,              :tatc_cdimovel
   alias_attribute :codigo_cliente,             :tatc_cdcliente
   alias_attribute :complemento,                :tatc_complemento
+  alias_attribute :tipo_alteracao,             :altp_id
 
   has_many :coluna_atualizacao_cadastrais, foreign_key: :tatc_id
 
