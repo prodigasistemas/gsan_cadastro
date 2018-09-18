@@ -12,6 +12,7 @@ class ImovelAtualizacaoCadastral < ActiveRecord::Base
   alias_attribute :situacao_cadastral_id,         :siac_id
 
   scope :podem_ser_pre_aprovados, -> { where(situacao_cadastral_id: [SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
-                                                                     SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"]]) }
+                                                                     SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"],
+                                                                     SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"] ] ) }
   scope :podem_ficar_em_revisao, -> { where(situacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
 end

@@ -24,9 +24,11 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   has_many :visitas, foreign_key: :icac_id
 
   scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
-                                                                                  SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"]] ) }
+                                                                                  SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"],
+                                                                                  SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"] ] ) }
   scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
-  scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
+  scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
+                                                                                          SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"] ] ) }
 
   def is_situacao_do_gsan?
     SituacaoAtualizacaoCadastral::GSAN_SITUACOES.include? situacao_atualizacao_cadastral_id
