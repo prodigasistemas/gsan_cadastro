@@ -48,7 +48,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
+    query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
       query << "\nand ctrl.icac_tmretorno::Date between '#{params[:periodo_inicial].try(:to_date).try(:strftime)}' and "
@@ -64,12 +65,12 @@ class AtualizacaoCadastral < ActiveRecord::Base
       query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}"
     end
 
-    if params[:exibir_imoveis] and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
+    if !params[:exibir_imoveis].blank? and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
       if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
         query << "\nand cocr.cocr_icvalidacao = #{SIM}"
         situacoes = "#{SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]}"
       else
-        situacoes = "#{params[:exibir_imoveis].to_i.abs}"
+        situacoes = "#{params[:exibir_imoveis].to_i.abs}" unless 
         if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
           situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}, #{SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"]}"
         end
