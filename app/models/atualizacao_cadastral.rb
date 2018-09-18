@@ -48,8 +48,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
       where 1 = 1
     SQL
-    query << "and tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
-    query << "\nand leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "\nand tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
     query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
       query << "\nand ctrl.icac_tmretorno::Date between '#{params[:periodo_inicial].try(:to_date).try(:strftime)}' and "
@@ -93,7 +93,12 @@ class AtualizacaoCadastral < ActiveRecord::Base
     resultado = ActiveRecord::Base.connection.execute("#{query}\norder by tatc.tatc_cdimovel")
     PARAMETROS_OCORRENCIA.keys.each { |k| params[k] = "2"} if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
     resultado = tratar_ocorrencias(query, resultado, params) unless params[:exibir_imoveis] == EXIBIR_IMOVEL[:todos]
-    resultado = filtrar_imoveis_sem_cpf_e_alteracao_de_cpf(query, resultado) if params[:alteracao_cpf].present? and params[:alteracao_cpf] == SEM_CPF
+    unless params[:alteracao_cpf].blank? or params[:alteracao_cpf] == TODOS
+      resultado = filtrar_imoveis_quanto_a_alteracao_de_cpf(query, resultado, params[:alteracao_cpf] == NAO)
+    end
+    unless params[:cpf_ja_cadastrado].blank? or params[:cpf_ja_cadastrado] == TODOS
+      resultado = filtrar_imoveis_quanto_a_cpf_ja_cadastrado(query, resultado, params[:cpf_ja_cadastrado] == SIM) 
+    end
     resultado
   end
 
@@ -126,16 +131,21 @@ class AtualizacaoCadastral < ActiveRecord::Base
     invertido ? (imoveis.to_a - imovel_ocorrencias.to_a) : (imoveis.to_a & imovel_ocorrencias.to_a)
   end
 
-  def self.filtrar_imoveis_sem_cpf_e_alteracao_de_cpf(query, todos_imoveis)
-    imoveis_sem_alteracao_cpf = remover_imoveis(todos_imoveis, query_ocorrencia(query, PARAMETROS_OCORRENCIA[:alteracao_cpf]), true)
-    imoveis_sem_cpf = ActiveRecord::Base.connection.execute(query.gsub("where 1 = 1", query_client_cpf_null))
-    remover_imoveis(imoveis_sem_alteracao_cpf, imoveis_sem_cpf, false)
+  def self.filtrar_imoveis_quanto_a_alteracao_de_cpf(query, todos_imoveis, sem_alteracao)
+    imoveis_alteracao_cpf = remover_imoveis(todos_imoveis, 
+                                            query_ocorrencia(query, PARAMETROS_OCORRENCIA[:alteracao_cpf]), 
+                                            sem_alteracao)
+  end
+
+  def self.filtrar_imoveis_quanto_a_cpf_ja_cadastrado(query, todos_imoveis, ja_cadastrado)
+    imoveis_cadastrados = ActiveRecord::Base.connection.execute(query.gsub("where 1 = 1", query_client_cpf(ja_cadastrado)))
+    remover_imoveis(todos_imoveis, imoveis_cadastrados, false)
   end
 
   private
-    def self.query_client_cpf_null
+    def self.query_client_cpf(ja_cadastrado)
       query_join = "left join cadastro.cliente_atlz_cadastral cliente on cliente.imov_id = tatc.tatc_cdimovel"
       query_join << "\nwhere 1 = 1"
-      query_join << "\nand cliente.clac_nncpfcnpj is null"
+      query_join << "\nand cliente.clac_nncpfcnpj is #{ja_cadastrado ? 'not ' : ''}null"
     end
 end
