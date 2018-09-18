@@ -18,7 +18,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
 
   SIM = "1"
   NAO = "2"
-  EXIBIR_IMOVEL = { todos: "-1", pendentes: "3", pre_aprovados: "7", aprovar_em_lote: "-2" }.freeze
+  EXIBIR_IMOVEL = { todos: "-1", pendentes: "-3", pre_aprovados: "7", aprovar_em_lote: "-2" }.freeze
   TODOS = "-1"
   SEM_CPF = "-2"
 
@@ -69,8 +69,10 @@ class AtualizacaoCadastral < ActiveRecord::Base
         query << "\nand cocr.cocr_icvalidacao = #{SIM}"
         situacoes = "#{SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]}"
       else
-        situacoes = "#{params[:exibir_imoveis]}"
-        situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}" if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
+        situacoes = "#{params[:exibir_imoveis].to_i.abs}"
+        if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
+          situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}, #{SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"]}"
+        end
       end
     end
 
