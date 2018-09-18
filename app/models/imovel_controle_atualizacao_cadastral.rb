@@ -44,7 +44,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
 
   def atualizar(situacao_cadastral_id, revisoes = [])
     ImovelControleAtualizacaoCadastral.transaction do
-      return false if is_situacao_do_gsan? or is_revisita?
+      return false if is_situacao_do_gsan?
       situacao_anterior = situacao_atualizacao_cadastral_id
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
