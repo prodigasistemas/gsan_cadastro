@@ -1,4 +1,8 @@
 class ImovelSubcategoria < ActiveRecord::Base
+  include IncrementableId
+  include API::Filterable
+  include API::Model
+
   self.table_name  = 'cadastro.imovel_subcategoria'
 
   alias_attribute "subcategoria_id", "scat_id"

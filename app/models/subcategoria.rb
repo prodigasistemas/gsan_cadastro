@@ -19,4 +19,15 @@ class Subcategoria < ActiveRecord::Base
   alias_attribute "codigo_grupo_subcategoria", "scat_cdgruposubcategoria"
   alias_attribute "indicador_sazonalidade", "scat_icsazonalidade"
   alias_attribute "indicador_rural", "scat_icrural"
+  alias_attribute "quantidade", "quantidade"
+  alias_attribute "descricao_categoria", "descricao_categoria"
+
+  attr_accessor :quantidade, :descricao_categoria
+
+  has_many   :imovel_subcategorias, foreign_key: :scat_id, class_name: 'ImovelSubcategoria'
+  belongs_to :categoria,            foreign_key: :catg_id
+
+  def descricao_categoria
+    categoria.descricao
+  end
 end
