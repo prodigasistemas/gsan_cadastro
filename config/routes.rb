@@ -87,4 +87,5 @@ Rails.application.routes.draw do
 
   resources :imagem_retornos,  only: [:index]
   resources :visitas, only: [:index]
+  resources :subcategorias, only: [:index]
 end
