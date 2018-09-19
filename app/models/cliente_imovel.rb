@@ -1,5 +1,7 @@
 class ClienteImovel < ActiveRecord::Base
   include IncrementableId
+  include API::Filterable
+  include API::Model
 
   self.table_name  = 'cadastro.cliente_imovel'
   self.primary_key = 'clim_id'

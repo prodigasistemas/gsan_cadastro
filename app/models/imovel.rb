@@ -118,6 +118,7 @@ class Imovel < ActiveRecord::Base
   has_many   :contas, -> { order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
+  has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
