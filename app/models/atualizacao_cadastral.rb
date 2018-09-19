@@ -67,6 +67,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}"
     end
 
+    situacoes = ""
     if !params[:exibir_imoveis].blank? and params[:exibir_imoveis] != EXIBIR_IMOVEL[:todos]
       if params[:exibir_imoveis] == EXIBIR_IMOVEL[:aprovar_em_lote]
         query << "\nand cocr.cocr_icvalidacao = #{SIM}"
