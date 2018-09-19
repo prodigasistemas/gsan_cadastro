@@ -88,4 +88,6 @@ Rails.application.routes.draw do
   resources :imagem_retornos,  only: [:index]
   resources :visitas, only: [:index]
   resources :subcategorias, only: [:index]
+
+  resources :cliente_atualizacao_cadastrais, only: [:index, :show]
 end
