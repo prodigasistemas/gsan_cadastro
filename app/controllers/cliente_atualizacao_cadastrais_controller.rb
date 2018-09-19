@@ -2,7 +2,7 @@ class ClienteAtualizacaoCadastraisController < ApplicationController
   def index
     params[:query].delete :page
     params[:query].delete :per_page
-    @cliente_atualizacacao_cadastrais = ClienteAtualizacaoCadastral.buscar params.require(:query).permit!
+    @cliente_atualizacacao_cadastrais = ClienteAtualizacaoCadastral.where("imov_id = ? and clac_nncpfcnpj is not null", params[:query][:imov_id])
     if @cliente_atualizacacao_cadastrais.any?
       render json: { entidades: @cliente_atualizacacao_cadastrais.map(&:atributos) }, status: :ok
     else
