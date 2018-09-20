@@ -75,7 +75,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
       else
         situacoes = "#{params[:exibir_imoveis].to_i.abs}" unless 
         if params[:exibir_imoveis] == EXIBIR_IMOVEL[:pendentes]
-          situacoes << ", #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}, #{SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"]}"
+          situacoes << ", " unless situacoes.blank?
+          situacoes << " #{SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"]}, #{SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"]}"
         end
       end
     end
