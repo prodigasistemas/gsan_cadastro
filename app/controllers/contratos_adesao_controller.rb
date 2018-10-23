@@ -3,7 +3,7 @@ class ContratosAdesaoController < ApplicationController
   include ApplicationHelper
 
   def create
-    @nome_arquivo = params[:nomeRelatorio]
+    @file_name = params[:nomeRelatorio]
     @nome_cliente = params[:nomeCliente]
     @matricula = params[:matricula]
     @numero_contrato = params[:numeroContrato]
@@ -22,6 +22,7 @@ class ContratosAdesaoController < ApplicationController
   private
 
   def pdf
+    binding.pry
     WickedPdf.new.pdf_from_string(
       render_to_string('contratos_adesao/create.pdf.erb',
                        layout: 'layouts/contrato_adesao.html.erb', 
