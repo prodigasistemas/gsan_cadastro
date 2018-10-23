@@ -22,7 +22,6 @@ class ContratosAdesaoController < ApplicationController
   private
 
   def pdf
-    binding.pry
     WickedPdf.new.pdf_from_string(
       render_to_string('contratos_adesao/create.pdf.erb',
                        layout: 'layouts/contrato_adesao.html.erb', 
