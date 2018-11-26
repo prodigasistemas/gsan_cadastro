@@ -8,6 +8,7 @@ class ContratosAdesaoController < ApplicationController
     @matricula = params[:matricula]
     @numero_contrato = params[:numeroContrato]
     @nome_cidade = params[:nomeCidade]
+    @endereco = params[:endereco]
     @data_geracao = params[:dataGeracao]
 
     path = salvar_pdf(pdf, 'public/contratos_adesao')
