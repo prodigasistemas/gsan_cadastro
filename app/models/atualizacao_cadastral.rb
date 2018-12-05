@@ -64,7 +64,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       query << "\nand rota.stcm_id between #{params[:setor_comercial_id_inicial]} and #{params[:setor_comercial_id_final]}"
     end
     unless params[:rota_id_inicial].blank? or params[:rota_id_final].blank?
-      query << "\nand rota.rota_id between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}"
+      query << "\nand rota.rota_cdrota between #{params[:rota_id_inicial]} and #{params[:rota_id_final]}"
     end
 
     situacoes = ""
