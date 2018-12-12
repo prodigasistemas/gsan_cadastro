@@ -47,7 +47,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
       return false if is_situacao_do_gsan?
       situacao_anterior = situacao_atualizacao_cadastral_id
       update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
-      puts "-------->>>> IMOV_ID: " + imov_id
+      puts  imov_id
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
       imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
       ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes, situacao_anterior)
