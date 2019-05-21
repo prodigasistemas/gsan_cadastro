@@ -82,7 +82,7 @@
         </tr>
       </thead>
       <tbody id="noborder">
-        <% aviso.contas.first(18).each do |conta| %>
+        <% aviso.contas.first(16).each do |conta| %>
           <tr>
             <td><%= conta.referencia %></td>
             <td><%= conta.vencimento %></td>
@@ -103,8 +103,8 @@
         </tr>
       </thead>
       <tbody id="noborder">
-        <% if aviso.contas.size > 18 %>
-          <% aviso.contas.slice(18, aviso.contas.size).each do |conta| %>
+        <% if aviso.contas.size > 16 %>
+          <% aviso.contas.slice(16, aviso.contas.size).each do |conta| %>
             <tr>
               <td><%= conta.referencia %></td>
               <td><%= conta.vencimento %></td>
@@ -113,6 +113,10 @@
               </td>
             </tr>
           <% end %>
+
+          <div id="outros_debitos" class="font-weight-bold">
+            Outros débitos. 
+          </div>
         <% end %>
       </tbody>
     </table>
