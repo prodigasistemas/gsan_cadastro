@@ -83,7 +83,7 @@ class Cliente < ActiveRecord::Base
   validates_length_of :email, maximum: 40
   validates_length_of :nome_mae, maximum: 50
 
-  scope :join,        -> {
+  scope :com_dados,        -> {
     includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
     order(:nome)
   }

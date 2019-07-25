@@ -4,11 +4,11 @@ class MunicipiosController < ApplicationController
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      @municipios = Municipio.join.filter(query)
+      @municipios = Municipio.com_dados.filter(query)
       @total = @municipios.count
       @municipios = @municipios.page(params[:page]).per(20)
     else
-      @municipios = Municipio.join.all
+      @municipios = Municipio.com_dados.all
     end
   end
 
@@ -37,7 +37,7 @@ class MunicipiosController < ApplicationController
 private
 
   def set_municipio
-    @municipio = Municipio.join.find(params[:id])
+    @municipio = Municipio.com_dados.find(params[:id])
   end
 
   def municipio_params

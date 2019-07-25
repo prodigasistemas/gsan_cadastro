@@ -4,19 +4,19 @@ class BairrosController < ApplicationController
   def index
     if params[:query]
       query = params[:query].deep_symbolize_keys
-      @bairros = Bairro.join.filter(query)
-      
+      @bairros = Bairro.com_dados.filter(query)
+
       unless params[:paginado] == "false"
         @total = @bairros.count
         @bairros = @bairros.page(params[:page]).per(params[:per] || 20)
       end
     else
-      @bairros = Bairro.join.all
+      @bairros = Bairro.com_dados.all
     end
   end
 
   def show
-    
+
   end
 
   def create
@@ -40,7 +40,7 @@ class BairrosController < ApplicationController
 private
 
   def set_bairro
-    @bairro = Bairro.join.find(params[:id])
+    @bairro = Bairro.com_dados.find(params[:id])
   end
 
   def bairro_params

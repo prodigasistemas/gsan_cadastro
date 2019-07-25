@@ -23,7 +23,7 @@ class Bairro < ActiveRecord::Base
   validates_inclusion_of  :ativo, in: [1, 2]
   validates_length_of     :nome, maximum: 30
 
-  scope :join,              -> {
+  scope :com_dados,              -> {
     includes(:municipio, municipio: :uf).
     joins(:municipio, municipio: :uf).
     eager_load(:bairro_areas, bairro_areas: :distrito_operacional).

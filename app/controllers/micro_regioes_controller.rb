@@ -4,14 +4,14 @@ class MicroRegioesController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query].deep_symbolize_keys
-      @micro_regioes = MicroRegiao.join.filter(query)
+      @micro_regioes = MicroRegiao.com_dados.filter(query)
       @total = @micro_regioes.count
       @micro_regioes = @micro_regioes.page(params[:page]).per(20)
     else
-      @micro_regioes = MicroRegiao.join.ativos
+      @micro_regioes = MicroRegiao.com_dados.ativos
     end
   end
-  
+
   def show
 
   end
@@ -37,18 +37,18 @@ class MicroRegioesController < ApplicationController
       render_erros
     end
   end
-  
+
 private
 
   def set_micro_regiao
-    @micro_regiao = MicroRegiao.join.find params[:id]
+    @micro_regiao = MicroRegiao.com_dados.find params[:id]
   end
-  
+
   def micro_regiao_params
     params.require(:micro_regiao)
       .permit(
-        :nome, 
-        :regiao_id, 
+        :nome,
+        :regiao_id,
         :ativo
       )
   end
@@ -63,7 +63,7 @@ private
 
   def render_erros
     render json: {
-      errors: @micro_regiao.errors.full_messages 
+      errors: @micro_regiao.errors.full_messages
     }, status: 422
   end
 end

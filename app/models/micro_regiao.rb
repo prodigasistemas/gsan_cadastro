@@ -18,7 +18,7 @@ class MicroRegiao < ActiveRecord::Base
 
   belongs_to :regiao, foreign_key: :regi_id
 
-  scope :join,      -> {
+  scope :com_dados,      -> {
     includes(:regiao).
     joins(:regiao).
     order(:nome)
