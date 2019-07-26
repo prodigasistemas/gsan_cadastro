@@ -1,7 +1,7 @@
 class CepsController < ApplicationController
   def index
     query = params[:query]
-    @ceps = Cep.com_dados.filter(query)
+    @ceps = Cep.com_dados.filter_data(query)
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
   end

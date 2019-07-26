@@ -4,7 +4,7 @@ class MicroRegioesController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query]
-      @micro_regioes = MicroRegiao.com_dados.filter(query)
+      @micro_regioes = MicroRegiao.com_dados.filter_data(query)
       @total = @micro_regioes.count
       @micro_regioes = @micro_regioes.page(params[:page]).per(20)
     else

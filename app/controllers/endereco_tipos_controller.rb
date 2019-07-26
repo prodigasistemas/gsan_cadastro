@@ -2,7 +2,7 @@ class EnderecoTiposController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @endereco_tipos = EnderecoTipo.order(:descricao).filter(query)
+      @endereco_tipos = EnderecoTipo.order(:descricao).filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @endereco_tipos.count

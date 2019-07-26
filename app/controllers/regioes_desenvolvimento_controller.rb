@@ -4,7 +4,7 @@ class RegioesDesenvolvimentoController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @regioes_desenvolvimento = RegiaoDesenvolvimento.filter(query)
+      @regioes_desenvolvimento = RegiaoDesenvolvimento.filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @regioes_desenvolvimento.count

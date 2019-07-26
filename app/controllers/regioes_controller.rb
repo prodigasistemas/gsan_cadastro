@@ -4,7 +4,7 @@ class RegioesController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query]
-      @regioes = Regiao.filter(query).order(:nome)
+      @regioes = Regiao.filter_data(query).order(:nome)
       @total = @regioes.count
       @regioes = @regioes.page(params[:page]).per(20)
     else

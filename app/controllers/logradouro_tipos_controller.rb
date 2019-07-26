@@ -2,7 +2,7 @@ class LogradouroTiposController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @logradouro_tipos = LogradouroTipo.order(:descricao).filter(query)
+      @logradouro_tipos = LogradouroTipo.order(:descricao).filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @logradouro_tipos.count

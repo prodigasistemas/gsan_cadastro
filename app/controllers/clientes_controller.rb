@@ -4,7 +4,7 @@ class ClientesController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @clientes = Cliente.com_dados.filter(query)
+      @clientes = Cliente.com_dados.filter_data(query)
       @total = @clientes.size
       @clientes = @clientes.page(params[:page]).per(20)
     else

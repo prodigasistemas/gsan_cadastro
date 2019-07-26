@@ -4,7 +4,7 @@ class MunicipiosController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @municipios = Municipio.com_dados.filter(query)
+      @municipios = Municipio.com_dados.filter_data(query)
       @total = @municipios.count
       @municipios = @municipios.page(params[:page]).per(20)
     else

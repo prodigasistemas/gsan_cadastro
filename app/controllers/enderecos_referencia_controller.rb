@@ -2,7 +2,7 @@ class EnderecosReferenciaController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @enderecos_referencia = EnderecoReferencia.order(:descricao).filter(query)
+      @enderecos_referencia = EnderecoReferencia.order(:descricao).filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @enderecos_referencia.count

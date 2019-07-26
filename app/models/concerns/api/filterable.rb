@@ -3,7 +3,7 @@ module API
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def filter(terms, includable = [])
+      def filter_data(terms, includable = [])
         valid_associations = build_valid_associations(includable || [])
 
         joins_with = valid_associations[:joins]
@@ -36,7 +36,7 @@ module API
           klass = relation.to_s.classify.constantize
 
           return unless self.instance_methods.include?(relation)
-          return unless klass.respond_to?(:filter)
+          return unless klass.respond_to?(:filter_data)
 
           klass
         rescue

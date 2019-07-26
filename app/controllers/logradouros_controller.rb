@@ -4,7 +4,7 @@ class LogradourosController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @logradouros = Logradouro.com_dados.filter(query)
+      @logradouros = Logradouro.com_dados.filter_data(query)
       @total = @logradouros.count
       @logradouros = @logradouros.page(params[:page]).per(20)
     else
