@@ -3,10 +3,10 @@ FactoryGirl.define do
     nome "Setor 50"
     codigo "S50"
     indicador_uso 1
-    municipio
+    association :municipio
     ultima_alteracao Time.zone.now
     indicador_alternativo 1
     indicador_bloqueio 0
-    localidade
+    association :localidade
   end
 end

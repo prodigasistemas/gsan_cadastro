@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:codigo) { |n| 66093050 + n }
     uf 'PA'
     municipio 'BELEM'
-    tipo_id 1
+    association :cep_tipo
     logradouro_tipo 'RUA'
     logradouro 'DA MATA'
     bairro 'GUAMA'

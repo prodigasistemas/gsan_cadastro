@@ -13,24 +13,24 @@ FactoryGirl.define do
     tipo_entrevistado 1
     tipo_operacao 1
     ultima_alteracao { Time.zone.now }
-    ligacao_agua_situacao_id 1
-    fonte_abastecimento_id 1
-    hidrometro_protecao_id 1
-    imovel_id 1
-    municipio_id 1
+    association :ligacao_agua_situacao
+    association :fonte_abastecimento
+    association :hidrometro_protecao
+    association :imovel
+    association :municipio
     nome_municipio 'Belém'
-    logradouro_tipo_id 1
-    logradouro_id 1
+    association :logradouro_tipo
+    association :logradouro
     descricao_logradouro 'Avenida'
     nome_bairro 'Pedreira'
     codigo_cep 66000222
-    localidade_id 1
+    association :localidade
     codigo_setor_comercial 1
     numero_quadra 1
     ligacao_esgoto_situacao_id 1
     ramal_local_instalacao
-    hidrometro_marca_id 1
-    hidrometro_capacidade_id 1
+    association :hidrometro_marca
+    association :hidrometro_capacidade
     classe_social 3
     quantidade_animais_domesticos 1
     volume_cisterna 50

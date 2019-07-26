@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :conta do
-    imovel
-    ligacao_agua_situacao_id 1
+    association :imovel
+    association :ligacao_agua_situacao
     data_vencimento_original "2016-01-01"
     debito_credito_situacao_id_atual 1
     data_ultima_alteracao "2016-01-01"
