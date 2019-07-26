@@ -18,19 +18,19 @@ describe CepTiposController, type: :controller do
         {
           "query" =>
             {
-              "descricao" => "UNICO"
+              "descricao" => tipos.first.descricao
             }
         }
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de tipos de ceps" do
         expect(json['cep_tipos'].size).to eq 1
         expect(json['cep_tipos'].collect{|l| l["descricao"]}).to include(tipos.first.descricao)
-      end 
+      end
 
       it_behaves_like "com dados da paginacao"
     end
@@ -40,7 +40,7 @@ describe CepTiposController, type: :controller do
     let!(:cep_tipo) { create(:cep_tipo) }
 
     it "retorna um tipo de cep" do
-      get :show, id: cep_tipo, format: :json
+      get :show, params: {id: cep_tipo}, format: :json
       expect(json['descricao']).to eq cep_tipo.descricao
     end
   end
@@ -48,7 +48,7 @@ describe CepTiposController, type: :controller do
   describe "POST create" do
 
     before do
-      post :create, params, format: :json
+      post :create, params: params, format: :json
     end
 
     context "quando um tipo de cep é criado com sucesso" do
@@ -81,7 +81,7 @@ describe CepTiposController, type: :controller do
     let!(:cep_tipo) { create(:cep_tipo) }
 
     before do
-      put :update, id: cep_tipo, cep_tipo: params, format: :json
+      put :update, params: {id: cep_tipo, cep_tipo: params}, format: :json
     end
 
     context "quando cep tipo é atualiado com sucesso" do
@@ -91,7 +91,7 @@ describe CepTiposController, type: :controller do
 
       it "atualiza o tipo de cep" do
         expect(json['descricao']).to eq params['descricao']
-      end      
+      end
     end
 
     context "quando tipo de cep não é atualizado com sucesso" do

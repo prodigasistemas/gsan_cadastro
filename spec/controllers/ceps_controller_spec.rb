@@ -4,16 +4,16 @@ describe CepsController, type: :controller do
   render_views
 
   let(:json)      { JSON.parse(response.body) }
-  let!(:cep_tipo) { create(:cep_tipo) }
-  let!(:ceps)     { create_list(:cep, 3) }
+  let(:cep_tipo) { create(:cep_tipo) }
+  let!(:ceps)     { create_list(:cep, 3, cep_tipo: cep_tipo) }
 
   describe "GET index" do
     before do
-      get :index, params, format: :json
+      get :index, params: params, format: :json
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(json['page']['first_page']).to be true
-      #expect(json['page']['last_page']).to be true
+      expect(json['page']['last_page']).to be true
       expect(json['page']['current_page']).to eq(1)
     end
 
@@ -65,7 +65,7 @@ describe CepsController, type: :controller do
 
   describe "GET show" do
     it "retorna um cep" do
-      get :show, id: 1, format: :json
+      get :show, params: {id: 1}, format: :json
       expect(json['codigo']).to eq ceps.first.codigo
     end
   end
@@ -76,12 +76,12 @@ describe CepsController, type: :controller do
     context "quando cep é criado com sucesso" do
       let(:params) {
         {
-          'cep'=>attributes_for(:cep).with_indifferent_access
+          'cep'=>attributes_for(:cep, tipo_id: cep_tipo.id).with_indifferent_access
         }
       }
 
       it "retorna o cep" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['codigo']).to eq params['cep']['codigo']
       end
     end
@@ -94,7 +94,7 @@ describe CepsController, type: :controller do
       }
 
       it "retorna erros" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -107,12 +107,12 @@ describe CepsController, type: :controller do
     let!(:bairros) { create_list(:bairro, 3, municipio: municipio) }
 
     it "retorna um cep" do
-      get :edit, id: 1, format: :json
+      get :edit, params: {id: 1}, format: :json
       expect(json['cep']['codigo']).to eq ceps.first.codigo
     end
 
     it "retorna lista de bairros do municipio ao qual pertence o cep" do
-      get :edit, id: 1, format: :json
+      get :edit, params: {id: 1}, format: :json
       expect(json['bairros'].size).to eq bairros.size
     end
   end
@@ -126,7 +126,7 @@ describe CepsController, type: :controller do
       }
 
       it "retorna o cep" do
-        put :update, id: 1, cep: params, format: :json
+        put :update, params: {id: 1, cep: params}, format: :json
         expect(json['codigo']).to eq params['codigo']
       end
     end
@@ -137,7 +137,7 @@ describe CepsController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, cep: params, format: :json
+        put :update, params: {id: 1, cep: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -153,7 +153,7 @@ describe CepsController, type: :controller do
       }
 
       it "retorna um cep" do
-        get :search, params, format: :json
+        get :search, params: params, format: :json
         expect(json['cep']['codigo']).to eq ceps.first.codigo
       end
     end
@@ -166,7 +166,7 @@ describe CepsController, type: :controller do
       }
 
       it "retorna um hash vazio" do
-        get :search, params, format: :json
+        get :search, params: params, format: :json
         expect(json['cep']).to be_nil
       end
     end

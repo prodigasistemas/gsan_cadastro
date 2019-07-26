@@ -9,9 +9,9 @@ describe EsferasPoderController, type: :controller do
   describe "GET index" do
     context "quando a consulta" do
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(json['page']['first_page']).to be true
         expect(json['page']['last_page']).to be true
         expect(json['page']['current_page']).to eq(1)
@@ -61,7 +61,7 @@ describe EsferasPoderController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de tipos de esferas do poder" do
@@ -73,7 +73,7 @@ describe EsferasPoderController, type: :controller do
 
   describe "GET show" do
     it "retorna uma esfera de poder" do
-      get :show, id: 1, format: :json
+      get :show, params: {id: 1}, format: :json
       expect(json['descricao']).to eq esferas_poder.first.descricao
     end
   end
@@ -87,8 +87,8 @@ describe EsferasPoderController, type: :controller do
       }
 
       it "retorna a esfera poder" do
-        post :create, params, format: :json
-        expect(response).to be_success
+        post :create, params: params, format: :json
+        expect(response).to be_successful
       end
     end
 
@@ -100,7 +100,7 @@ describe EsferasPoderController, type: :controller do
       }
 
       it "retorna erros" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -114,8 +114,8 @@ describe EsferasPoderController, type: :controller do
       }
 
       it "retorna a esfera de poder" do
-        put :update, id: 1, esfera_poder: params, format: :json
-        expect(response).to be_success
+        put :update, params: {id: 1, esfera_poder: params}, format: :json
+        expect(response).to be_successful
       end
     end
 
@@ -125,7 +125,7 @@ describe EsferasPoderController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, esfera_poder: params, format: :json
+        put :update, params: {id: 1, esfera_poder: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

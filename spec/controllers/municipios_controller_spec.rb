@@ -21,7 +21,7 @@ describe MunicipiosController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de municípios ativos" do
@@ -40,7 +40,7 @@ describe MunicipiosController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de municípios ativos" do
@@ -52,7 +52,7 @@ describe MunicipiosController, type: :controller do
 
   describe "GET show" do
     it "retorna um município" do
-      get :show, id: belem.id, format: :json
+      get :show, params: {id: belem.id}, format: :json
       expect(json['nome']).to eq belem.nome
     end
   end
@@ -71,7 +71,7 @@ describe MunicipiosController, type: :controller do
       end
 
       it "cria um município" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['nome']).to eq params['municipio']['nome']
       end
     end
@@ -84,7 +84,7 @@ describe MunicipiosController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -103,7 +103,7 @@ describe MunicipiosController, type: :controller do
       }
 
       it "retorna o município" do
-        put :update, id: belem, municipio: params, format: :json
+        put :update, params: {id: belem, municipio: params}, format: :json
         belem.reload
         expect(json['nome']).to eq belem.nome
       end
@@ -115,7 +115,7 @@ describe MunicipiosController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, municipio: params, format: :json
+        put :update, params: {id: 1, municipio: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

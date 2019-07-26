@@ -18,7 +18,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de regiões de desenvolvimento ativas" do
@@ -37,7 +37,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       it "não retorna atributos da paginação" do
-        get :index, format: :json
+        get :index, params: nil, format: :json
         expect(json['page']).to be_nil
       end
     end
@@ -45,7 +45,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
 
   describe "GET show" do
     it "retorna uma região de desenvolvimento" do
-      get :show, id: baixo_amazonas.id, format: :json
+      get :show, params: {id: baixo_amazonas.id}, format: :json
       expect(json['nome']).to eq baixo_amazonas.nome
     end
   end
@@ -59,7 +59,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
       end
 
       it "cria uma região de desenvolvimento" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['nome']).to eq params['regiao_desenvolvimento']['nome']
       end
     end
@@ -72,7 +72,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -81,7 +81,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
 
   describe "GET show" do
     it "retorna uma região de desenvolvimento" do
-      get :show, id: baixo_amazonas.id, format: :json
+      get :show, params: {id: baixo_amazonas.id}, format: :json
       expect(json['nome']).to eq baixo_amazonas.nome
     end
   end
@@ -93,7 +93,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
       }
 
       it "retorna a região de desenvolvimento" do
-        put :update, id: baixo_amazonas, regiao_desenvolvimento: params, format: :json
+        put :update, params: {id: baixo_amazonas, regiao_desenvolvimento: params}, format: :json
         baixo_amazonas.reload
         expect(json['nome']).to eq baixo_amazonas.nome
       end
@@ -105,7 +105,7 @@ describe RegioesDesenvolvimentoController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, regiao_desenvolvimento: params, format: :json
+        put :update, params: {id: 1, regiao_desenvolvimento: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

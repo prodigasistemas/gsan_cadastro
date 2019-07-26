@@ -14,7 +14,7 @@ describe RegioesController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de regiões de acordo com os dados dos filtros" do
@@ -33,7 +33,7 @@ describe RegioesController, type: :controller do
   describe "POST create" do
 
     before do
-      post :create, params, format: :json
+      post :create, params: params, format: :json
     end
 
     context "quando região é criada com sucesso" do
@@ -66,7 +66,7 @@ describe RegioesController, type: :controller do
     let!(:regiao) { create(:regiao) }
 
     it "retorna uma regiao" do
-      get :show, id: regiao.id, format: :json
+      get :show, params: {id: regiao.id}, format: :json
       expect(json['nome']).to eq regiao.nome
     end
   end
@@ -80,7 +80,7 @@ describe RegioesController, type: :controller do
       }
 
       it "retorna a região" do
-        put :update, id: regiao, regiao: params, format: :json
+        put :update, params: {id: regiao.id, regiao: params}, format: :json
         regiao.reload
         expect(json['nome']).to eq regiao.nome
       end
@@ -92,7 +92,7 @@ describe RegioesController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: regiao, regiao: params, format: :json
+        put :update, params: {id: regiao.id, regiao: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

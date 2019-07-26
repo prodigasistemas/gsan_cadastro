@@ -20,7 +20,7 @@ describe BairroAreasController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de áreas do bairro" do
@@ -31,7 +31,7 @@ describe BairroAreasController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de áreas do bairro" do

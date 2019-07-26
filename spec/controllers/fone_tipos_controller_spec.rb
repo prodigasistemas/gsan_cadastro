@@ -9,7 +9,7 @@ describe FoneTiposController, type: :controller do
   describe "GET index" do
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de tipos de telefone" do

@@ -21,7 +21,7 @@ describe ContratoMedicoesController, type: :controller do
 
   describe "GET show" do
     it "retorna apenas um contrato" do
-      get :show, id: contrato.id, format: :json
+      get :show, params: {id: contrato.id}, format: :json
       expect(json['entidade']['numero']).to eq contrato.numero
     end
   end
@@ -39,7 +39,7 @@ describe ContratoMedicoesController, type: :controller do
       end
 
       it "cadastra um novo contrato" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['entidade']['numero']).to eq params['contrato_medicao']['numero']
       end
     end
@@ -52,7 +52,7 @@ describe ContratoMedicoesController, type: :controller do
       }
 
       it "retorna erros" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -66,8 +66,8 @@ describe ContratoMedicoesController, type: :controller do
       }
 
       it "retorna o contrato" do
-        put :update, id: 1, contrato_medicao: params, format: :json
-        expect(response).to be_success
+        put :update, params: {id: 1, contrato_medicao: params}, format: :json
+        expect(response).to be_successful
       end
     end
 
@@ -77,7 +77,7 @@ describe ContratoMedicoesController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, contrato_medicao: params, format: :json
+        put :update, params: {id: 1, contrato_medicao: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
