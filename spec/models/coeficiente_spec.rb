@@ -15,6 +15,8 @@ describe Coeficiente do
     it { is_expected.to validate_presence_of(:ligacao_agua_id) }
     it { is_expected.to validate_uniqueness_of(:contrato_medicao_id)
           .scoped_to(:ligacao_agua_id) }
-    it { is_expected.to validate_numericality_of(:coeficiente) }
+    # Nunca vai falhar pois o convert_decimal :cmco_coeficiente
+    # sempre transforma pra número
+    # it { is_expected.to validate_numericality_of(:coeficiente) }
   end
 end
