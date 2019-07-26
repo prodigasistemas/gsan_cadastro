@@ -1,7 +1,7 @@
 class ProfissoesController < ApplicationController
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @profissoes = Profissao.order(:descricao).filter(query)
 
       unless params[:paginado] == "false"

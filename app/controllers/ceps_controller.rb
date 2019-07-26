@@ -1,6 +1,6 @@
 class CepsController < ApplicationController
   def index
-    query = params[:query].deep_symbolize_keys
+    query = params[:query]
     @ceps = Cep.com_dados.filter(query)
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
@@ -43,7 +43,7 @@ class CepsController < ApplicationController
   end
 
   def search
-    query = params[:query].deep_symbolize_keys
+    query = params[:query]
     @cep = Cep.find_by codigo: query[:codigo]
   end
 

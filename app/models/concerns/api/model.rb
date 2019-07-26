@@ -38,7 +38,7 @@ module API
       def buscar(query={})
         page      = (query[:page] || 1).to_i
         per_page  = (query[:per_page] || 50).to_i
-        query     = check_params(query.deep_symbolize_keys)
+        query     = check_params(query)
 
         return [] if query.blank?
 

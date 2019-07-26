@@ -3,7 +3,7 @@ class ClientesController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @clientes = Cliente.com_dados.filter(query)
       @total = @clientes.size
       @clientes = @clientes.page(params[:page]).per(20)

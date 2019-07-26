@@ -3,7 +3,7 @@ class BairrosController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @bairros = Bairro.com_dados.filter(query)
 
       unless params[:paginado] == "false"

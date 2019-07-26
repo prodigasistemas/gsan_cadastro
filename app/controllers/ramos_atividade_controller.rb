@@ -1,7 +1,7 @@
 class RamosAtividadeController < ApplicationController
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @ramos_atividade = RamoAtividade.order(:descricao).filter(query)
 
       unless params[:paginado] == "false"

@@ -5,7 +5,7 @@ class OrgaosExpedidoresRgController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @orgaos_expedidores_rg = OrgaoExpedidorRg.order(:descricao).filter(query)
 
       unless params[:paginado] == "false"

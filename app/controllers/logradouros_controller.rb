@@ -3,7 +3,7 @@ class LogradourosController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @logradouros = Logradouro.com_dados.filter(query)
       @total = @logradouros.count
       @logradouros = @logradouros.page(params[:page]).per(20)

@@ -1,7 +1,7 @@
 class CepTiposController < ApplicationController
   def index
     if params[:query].present?
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @cep_tipos = CepTipo.filter(query)
       @total = @cep_tipos.count
       @cep_tipos = @cep_tipos.page(params[:page]).per(20)

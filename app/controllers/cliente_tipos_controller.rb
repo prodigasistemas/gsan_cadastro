@@ -3,7 +3,7 @@ class ClienteTiposController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @cliente_tipos = ClienteTipo.com_dados.filter(query)
 
       unless params[:paginado] == "false"

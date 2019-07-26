@@ -3,7 +3,7 @@ class MunicipiosController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @municipios = Municipio.com_dados.filter(query)
       @total = @municipios.count
       @municipios = @municipios.page(params[:page]).per(20)

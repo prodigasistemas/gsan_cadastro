@@ -1,7 +1,7 @@
 class LogradouroTiposController < ApplicationController
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
+      query = params[:query]
       @logradouro_tipos = LogradouroTipo.order(:descricao).filter(query)
 
       unless params[:paginado] == "false"
