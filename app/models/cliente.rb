@@ -96,9 +96,9 @@ class Cliente < ActiveRecord::Base
   has_many   :enderecos,                    foreign_key: :clie_id, class_name: "ClienteEndereco", inverse_of: :cliente
   has_many   :telefones,                    foreign_key: :clie_id, class_name: "ClienteFone",     inverse_of: :cliente
   belongs_to :cliente_tipo,                 foreign_key: :cltp_id
-  belongs_to :profissao,                    foreign_key: :prof_id
-  belongs_to :ramo_atividade,               foreign_key: :ratv_id
-  belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente"
+  belongs_to :profissao,                     foreign_key: :prof_id, optional: true
+  belongs_to :ramo_atividade,               foreign_key: :ratv_id, optional: true
+  belongs_to :cliente_responsavel_superior, foreign_key: :clie_cdclienteresponsavel, class_name: "Cliente", optional: true
   belongs_to :pessoa_sexo,                  foreign_key: :psex_id
   has_many   :cliente_imoveis,              foreign_key: :clie_id
   has_many   :imoveis, through: :cliente_imoveis

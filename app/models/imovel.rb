@@ -108,7 +108,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
   belongs_to :localidade,            foreign_key: :loca_id
   belongs_to :setor_comercial,       foreign_key: :stcm_id
-  belongs_to :quadra,                foreign_key: :qdra_id
+  belongs_to :quadra,                foreign_key: :qdra_id, optional: true
   belongs_to :ligacao_agua_situacao, foreign_key: :last_id
   has_one    :gerencia_regional,     through: :localidade
   has_one    :abrangencia,           foreign_key: :imov_id

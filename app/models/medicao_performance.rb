@@ -23,7 +23,7 @@ class MedicaoPerformance < ActiveRecord::Base
 
   belongs_to :contrato_medicao, foreign_key: :cmed_id
   belongs_to :imovel,           foreign_key: :imov_id
-  belongs_to :debito_credito_situacao, foreign_key: :dcst_id
+  belongs_to :debito_credito_situacao, foreign_key: :dcst_id, optional: true
   has_many   :abrangencias, through: :contrato_medicao
 
   def abrangencia
