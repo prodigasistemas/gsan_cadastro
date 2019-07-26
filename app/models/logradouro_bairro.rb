@@ -22,16 +22,14 @@ class LogradouroBairro < ActiveRecord::Base
   def valida_nenhum_imovel_relacionado
     if self.imoveis.present?
       errors.add(:imoveis, :are_present)
-      return false
+      throw :abort
     end
-    return true
   end
 
   def valida_nenhum_cliente_endereco_relacionado
     if self.cliente_enderecos.present?
       errors.add(:cliente_enderecos, :are_present)
-      return false
+      throw :abort
     end
-    return true
   end
 end
