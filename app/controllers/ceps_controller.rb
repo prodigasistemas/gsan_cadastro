@@ -12,7 +12,7 @@ class CepsController < ApplicationController
 
   def create
     @municipio = Municipio.find_by(id: params[:cep][:muni_id])
-    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
+    create_cep_params = @municipio ? {}.merge(cep_params).merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
     @cep = Cep.new(create_cep_params)
     @cep.municipio_model = @municipio
 
