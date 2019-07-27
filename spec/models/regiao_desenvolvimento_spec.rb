@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe RegiaoDesenvolvimento do
+  subject{ build(:regiao_desenvolvimento) }
+
   it { should validate_presence_of :nome }
   it { should validate_uniqueness_of :nome }
   it { should validate_length_of(:nome).is_at_most(20) }
