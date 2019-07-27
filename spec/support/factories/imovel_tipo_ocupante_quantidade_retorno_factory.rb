@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :imovel_tipo_ocupante_quantidade_retorno do
     quantidade 1
-    imovel_tipo_ocupante
+    association :imovel_tipo_ocupante
+    association :imovel_retorno
+    association :imovel
     ultima_alteracao Time.zone.now
-    imovel_retorno
-    imovel
 
     trait :criancas do
       association :imovel_tipo_ocupante, factory: [:imovel_tipo_ocupante, :criancas]

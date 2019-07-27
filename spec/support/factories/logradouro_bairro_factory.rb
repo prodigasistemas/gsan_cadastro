@@ -1,6 +1,6 @@
-FactoryGirl.define do 
+FactoryGirl.define do
   factory :logradouro_bairro do
-    logradouro
-    bairro
+    association :logradouro
+    association :bairro
   end
 end

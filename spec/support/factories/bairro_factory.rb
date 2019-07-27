@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :bairro do
     id
     nome "ALGODOAL"
-    municipio
+    association :municipio
     sequence(:codigo) { |n| 1 + n }
     ativo 1
   end
