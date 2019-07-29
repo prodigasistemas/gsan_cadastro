@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe UnidadeFederacao do
   describe "validações" do
-    let!(:unidade_federacao) { create(:unidade_federacao) }
+    subject { build(:unidade_federacao) }
 
     it { should validate_presence_of :descricao }
     it { should validate_presence_of :sigla }

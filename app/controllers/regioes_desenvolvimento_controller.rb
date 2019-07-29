@@ -3,9 +3,9 @@ class RegioesDesenvolvimentoController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @regioes_desenvolvimento = RegiaoDesenvolvimento.filter(query)
-      
+      query = params[:query]
+      @regioes_desenvolvimento = RegiaoDesenvolvimento.filter_data(query)
+
       unless params[:paginado] == "false"
         @total = @regioes_desenvolvimento.count
         @regioes_desenvolvimento = @regioes_desenvolvimento.page(params[:page]).per(params[:per] || 20)
@@ -16,7 +16,7 @@ class RegioesDesenvolvimentoController < ApplicationController
   end
 
   def show
-    
+
   end
 
   def create

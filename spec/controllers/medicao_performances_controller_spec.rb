@@ -12,10 +12,10 @@ describe MedicaoPerformancesController, type: :controller do
     describe "search" do
       it {
         params = {referencia: 201601, contrato_medicao_id: contrato_medicao.id}
-        
-        get :index, params
 
-        expect(response).to be_success
+        get :index, params: params
+
+        expect(response).to be_successful
         expect(json['entidades'].size).to eq(1)
       }
     end
@@ -23,12 +23,12 @@ describe MedicaoPerformancesController, type: :controller do
     describe "search with localidade" do
       it {
         params = {referencia: 201601, contrato_medicao_id: contrato_medicao.id, localidade_id: localidade.id}
-        
-        get :index, params
 
-        expect(response).to be_success
+        get :index, params: params
+
+        expect(response).to be_successful
         expect(json['entidades'].size).to eq(1)
       }
     end
-  end  
+  end
 end

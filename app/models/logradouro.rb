@@ -25,7 +25,7 @@ class Logradouro < ActiveRecord::Base
   accepts_nested_attributes_for :logradouro_ceps, allow_destroy: true
   accepts_nested_attributes_for :logradouro_bairros, allow_destroy: true
 
-  scope :join,                  -> {
+  scope :com_dados,                  -> {
     includes(
       :municipio, { municipio: :uf },
       :logradouro_titulo,

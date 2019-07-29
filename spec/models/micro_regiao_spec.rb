@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe MicroRegiao do
-  let!(:micro_regiao) { create(:micro_regiao) }
-  
+  subject{ build(:micro_regiao) }
+
   it { should validate_uniqueness_of  :nome }
   it { should validate_presence_of :regiao }
   it { should validate_length_of(:nome).is_at_most(30) }

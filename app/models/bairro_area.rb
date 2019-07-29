@@ -21,7 +21,7 @@ class BairroArea < ActiveRecord::Base
   validates_presence_of :nome
   validates_length_of   :nome, maximum: 40
 
-  scope :join,                      -> { includes(:distrito_operacional).eager_load(:distrito_operacional).order(:nome) }
+  scope :com_dados,                      -> { includes(:distrito_operacional).eager_load(:distrito_operacional).order(:nome) }
   scope :nome,                      -> (nome) { where("UPPER(brar_nmbairroarea) LIKE ?", "%#{nome.upcase}%") }
   scope :bairro_id,                 -> (id) { where bairro_id: id }
   scope :distrito_operacional_id,   -> (id) { where distrito_operacional_id: id }

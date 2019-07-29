@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe ClienteTipo do
+  subject{ build(:cliente_tipo) }
+
   it { should validate_presence_of    :descricao }
   it { should validate_presence_of    :esfera_poder_id }
   it { should validate_presence_of    :pessoa_fisica_juridica }
@@ -10,15 +12,14 @@ describe ClienteTipo do
   it_behaves_like 'ativo'
 
   describe "#pessoa_tipo" do
-    let(:cliente_tipo)  { ClienteTipo.new }
     it "retorna PESSA FISICA quando pessoa_fisica_juridica e 1" do
-      cliente_tipo.pessoa_fisica_juridica = 1
-      expect(cliente_tipo.pessoa_tipo).to eql "PESSOA FISICA"
+      subject.pessoa_fisica_juridica = 1
+      expect(subject.pessoa_tipo).to eql "PESSOA FISICA"
     end
 
     it "retorna PESSA JURIDICA quando pessoa_fisica_juridica e 2" do
-      cliente_tipo.pessoa_fisica_juridica = 2
-      expect(cliente_tipo.pessoa_tipo).to eql "PESSOA JURIDICA"
+      subject.pessoa_fisica_juridica = 2
+      expect(subject.pessoa_tipo).to eql "PESSOA JURIDICA"
     end
   end
 end

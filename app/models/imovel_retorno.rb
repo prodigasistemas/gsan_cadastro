@@ -71,7 +71,7 @@ class ImovelRetorno < ActiveRecord::Base
   belongs_to :localidade, foreign_key: "loca_id"
   belongs_to :ligacao_agua_situacao, foreign_key: "last_id"
   belongs_to :fonte_abastecimento, foreign_key: "ftab_id"
-  belongs_to :ligacao_esgoto_situacao, foreign_key: "lest_id"
+  belongs_to :ligacao_esgoto_situacao, foreign_key: "lest_id", optional: true
   belongs_to :ramal_local_instalacao, foreign_key: "rlin_id"
   belongs_to :hidrometro_protecao, foreign_key: "hipr_id"
   belongs_to :hidrometro_marca, foreign_key: "himc_id"

@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :abrangencia do
-    contrato_medicao
-    imovel
+    association :contrato_medicao
+    association :imovel
+    association :ligacao_agua_situacao
     criado_em {Time.now}
     atualizado_em {Time.now}
   end

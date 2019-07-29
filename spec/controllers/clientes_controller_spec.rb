@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ClientesController, type: :controller do
   render_views
 
-  let!(:pessoa_fisica)             { create(:cliente_tipo, :pessoa_fisica) }
+  let!(:pessoa_fisica)              { create(:cliente_tipo, :pessoa_fisica) }
   let!(:pessoa_sexo)               { create(:pessoa_sexo) }
   let!(:alberto)                   { create(:cliente, nome: 'ALBERTO', cpf: "82512726290") }
   let!(:roberto)                   { create(:cliente, nome: 'ROBERTO', cpf: "72844726429") }
@@ -20,7 +20,7 @@ describe ClientesController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de clientes ativos" do
@@ -39,7 +39,7 @@ describe ClientesController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de clientes ativos" do
@@ -51,7 +51,7 @@ describe ClientesController, type: :controller do
 
   describe "GET show" do
     it "retorna um cliente" do
-      get :show, id: alberto.id, format: :json
+      get :show, params: {id: alberto.id}, format: :json
       expect(json['nome']).to eq alberto.nome
     end
   end
@@ -69,7 +69,7 @@ describe ClientesController, type: :controller do
       end
 
       it "cria um cliente" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 200
       end
     end
@@ -82,7 +82,7 @@ describe ClientesController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -100,7 +100,7 @@ describe ClientesController, type: :controller do
       }
 
       it "altera o cliente" do
-        put :update, id: alberto, cliente: params, format: :json
+        put :update, params: {id: alberto, cliente: params}, format: :json
         expect(response.status).to eq 200
       end
     end
@@ -111,7 +111,7 @@ describe ClientesController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, cliente: params, format: :json
+        put :update, params: {id: 1, cliente: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

@@ -3,18 +3,18 @@ class ClientesController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @clientes = Cliente.join.filter(query)
+      query = params[:query]
+      @clientes = Cliente.com_dados.filter_data(query)
       @total = @clientes.size
       @clientes = @clientes.page(params[:page]).per(20)
     else
       @total = Cliente.count
-      @clientes = Cliente.join.page(params[:page]).per(20)
+      @clientes = Cliente.com_dados.page(params[:page]).per(20)
     end
   end
 
   def show
-    
+
   end
 
   def create
@@ -36,9 +36,9 @@ class ClientesController < ApplicationController
   end
 
 private
-  
+
   def set_cliente
-    @cliente = Cliente.join.find(params[:id])
+    @cliente = Cliente.com_dados.find(params[:id])
   end
 
   def cliente_params

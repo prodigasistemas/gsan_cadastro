@@ -6,7 +6,7 @@ describe FiltrosController, type: :controller do
   describe "GET index" do
     context "filtro válido" do
       before do
-        get :index, tipo: "empresa", filtros: { termo: "cosa" }
+        get :index, params: {tipo: "empresa", filtros: { termo: "cosa" }}
       end
 
       it{ expect(json["entidades"]).to_not be_empty }
@@ -15,7 +15,7 @@ describe FiltrosController, type: :controller do
 
     context "filtro inválido" do
       before do
-        get :index, tipo: "teste", filtros: { termo: "cosa" }
+        get :index, params: {tipo: "teste", filtros: { termo: "cosa" }}
       end
 
       it{ expect(json["error"]).to eq "Tipo não existente" }
@@ -23,7 +23,7 @@ describe FiltrosController, type: :controller do
 
     context "entidade não filtrável" do
       before do
-        get :index, tipo: "pessoa_sexo", filtros: { termo: "cosa" }
+        get :index, params: {tipo: "pessoa_sexo", filtros: { termo: "cosa" }}
       end
 
       it{ expect(json["error"]).to eq "Não é possível filtrar pessoa_sexo" }
@@ -31,7 +31,7 @@ describe FiltrosController, type: :controller do
 
     context "atributos inválidos" do
       before do
-        get :index, tipo: "empresa"
+        get :index, params: {tipo: "empresa"}
       end
 
       it{ expect(json["error"]).to eq "Atributos de busca inválidos" }

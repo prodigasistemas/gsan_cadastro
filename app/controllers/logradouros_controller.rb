@@ -3,12 +3,12 @@ class LogradourosController < ApplicationController
 
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @logradouros = Logradouro.join.filter(query)
+      query = params[:query]
+      @logradouros = Logradouro.com_dados.filter_data(query)
       @total = @logradouros.count
       @logradouros = @logradouros.page(params[:page]).per(20)
     else
-      @logradouros = Logradouro.join.all
+      @logradouros = Logradouro.com_dados.all
     end
   end
 
@@ -37,7 +37,7 @@ class LogradourosController < ApplicationController
 private
 
   def set_logradouro
-    @logradouro = Logradouro.join.find(params[:id])
+    @logradouro = Logradouro.com_dados.find(params[:id])
   end
 
   def logradouro_params

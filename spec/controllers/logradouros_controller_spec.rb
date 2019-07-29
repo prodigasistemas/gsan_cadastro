@@ -21,7 +21,7 @@ describe LogradourosController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de logradouros ativos" do
@@ -40,7 +40,7 @@ describe LogradourosController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de logradouros ativos" do
@@ -52,7 +52,7 @@ describe LogradourosController, type: :controller do
 
   describe "GET show" do
     it "retorna um logradouro" do
-      get :show, id: arabola.id, format: :json
+      get :show, params: {id: arabola.id}, format: :json
       expect(json['nome']).to eq arabola.nome
     end
   end
@@ -71,7 +71,7 @@ describe LogradourosController, type: :controller do
       end
 
       it "cria um logradouro" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 200
       end
     end
@@ -84,7 +84,7 @@ describe LogradourosController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -103,7 +103,7 @@ describe LogradourosController, type: :controller do
       }
 
       it "altera o logradouro" do
-        put :update, id: arabola, logradouro: params, format: :json
+        put :update, params: {id: arabola, logradouro: params}, format: :json
         expect(response.status).to eq 200
       end
     end
@@ -114,7 +114,7 @@ describe LogradourosController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, logradouro: params, format: :json
+        put :update, params: {id: 1, logradouro: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

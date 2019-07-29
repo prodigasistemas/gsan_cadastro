@@ -23,7 +23,7 @@ describe ContratoMedicao do
     before do
       contrato_medicao.data_assinatura = Date.new(2016, 01, 01)
     end
-    
+
     it { expect(contrato_medicao.referencia_assinatura).to eq '201601' }
 
     it do

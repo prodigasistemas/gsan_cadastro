@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe Cep do
+  subject{ build(:cep) }
+
   it { should validate_presence_of    :codigo }
   it { should validate_uniqueness_of  :codigo }
   it { should validate_presence_of    :uf }

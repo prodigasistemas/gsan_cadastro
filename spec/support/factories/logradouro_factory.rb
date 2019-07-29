@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :logradouro do
     nome "PECADO"
-    municipio
-    logradouro_tipo
-    logradouro_titulo
+    association :municipio
+    association :logradouro_tipo
+    association :logradouro_titulo
     ativo 1
   end
 end

@@ -19,7 +19,7 @@ describe ClienteTiposController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de tipos de cliente ativos" do
@@ -38,7 +38,7 @@ describe ClienteTiposController, type: :controller do
 
     context "quando a consulta não possuir filtros" do
       before do
-        get :index, nil, format: :json
+        get :index, params: nil, format: :json
       end
 
       it "retorna a lista de tipos de cliente ativos" do
@@ -50,7 +50,7 @@ describe ClienteTiposController, type: :controller do
 
   describe "GET show" do
     it "retorna um tipo de cliente" do
-      get :show, id: residencial.id, format: :json
+      get :show, params: {id: residencial.id}, format: :json
       expect(json['descricao']).to eq residencial.descricao
     end
   end
@@ -67,7 +67,7 @@ describe ClienteTiposController, type: :controller do
       end
 
       it "cria um tipo de cliente" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['descricao']).to eq params['cliente_tipo']['descricao']
       end
     end
@@ -80,7 +80,7 @@ describe ClienteTiposController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -97,7 +97,7 @@ describe ClienteTiposController, type: :controller do
       }
 
       it "altera o tipo de cliente" do
-        put :update, id: residencial, cliente_tipo: params, format: :json
+        put :update, params: {id: residencial, cliente_tipo: params}, format: :json
         expect(response.status).to eq 200
       end
     end
@@ -108,7 +108,7 @@ describe ClienteTiposController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, cliente_tipo: params, format: :json
+        put :update, params: {id: 1, cliente_tipo: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

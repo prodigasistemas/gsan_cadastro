@@ -5,10 +5,10 @@ FactoryGirl.define do
     rg    "12212313"
     cnpj  ""
     email "email@mail.com"
-    pessoa_sexo_id 1
-    unidade_federecao_id 1
-    cliente_tipo_id 1
-    cliente_id 1
+    association :pessoa_sexo
+    association :unidade_federacao
+    association :cliente_tipo
+    association :cliente
     tipo_operacao 1
   end
 end

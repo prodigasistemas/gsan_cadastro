@@ -1,22 +1,22 @@
 class ClienteTiposController < ApplicationController
   before_action :set_cliente_tipo, only: [:show, :update]
-  
+
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @cliente_tipos = ClienteTipo.join.filter(query)
+      query = params[:query]
+      @cliente_tipos = ClienteTipo.com_dados.filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @cliente_tipos.count
         @cliente_tipos = @cliente_tipos.page(params[:page]).per(params[:per] || 20)
       end
     else
-      @cliente_tipos = ClienteTipo.join.all
+      @cliente_tipos = ClienteTipo.com_dados.all
     end
   end
 
   def show
-    
+
   end
 
   def create
@@ -40,7 +40,7 @@ class ClienteTiposController < ApplicationController
 private
 
   def set_cliente_tipo
-    @cliente_tipo = ClienteTipo.join.find(params[:id])
+    @cliente_tipo = ClienteTipo.com_dados.find(params[:id])
   end
 
   def cliente_tipo_params

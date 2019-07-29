@@ -2,8 +2,8 @@ class UnidadeFederacoesController < ApplicationController
   def index
     @unidade_federacoes = UnidadeFederacao.all
     if params[:query].present?
-      query = params[:query].deep_symbolize_keys
-      @unidade_federacoes = UnidadeFederacao.filter(query)
+      query = params[:query]
+      @unidade_federacoes = UnidadeFederacao.filter_data(query)
       @total = @unidade_federacoes.count
       @unidade_federacoes = @unidade_federacoes.page(params[:page]).per(20)
     else

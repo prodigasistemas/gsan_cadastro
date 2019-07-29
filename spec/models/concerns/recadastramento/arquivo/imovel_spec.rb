@@ -3,15 +3,15 @@ require 'rails_helper'
 describe Recadastramento::Arquivo::Imovel do
   let!(:fonte_abastecimento) { create(:fonte_abastecimento) }
   let!(:imovel_retorno) { create(:imovel_retorno, fonte_abastecimento: fonte_abastecimento) }
-  let!(:imovel_controle_atualizacao_cadastral) { create(:imovel_controle_atualizacao_cadastral, imovel_retorno: imovel_retorno) }
+  let!(:imovel_controle_atualizacao_cadastral) { create(:imovel_controle_atualizacao_cadastral, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel) }
 
-  let!(:tipo_ocupante_criancas_retorno) { create(:tipo_ocupante_criancas_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_adultos_retorno) { create(:tipo_ocupante_adultos_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_idosos_retorno) { create(:tipo_ocupante_idosos_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_empregados_retorno) { create(:tipo_ocupante_empregados_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_alunos_retorno) { create(:tipo_ocupante_alunos_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_caes_retorno) { create(:tipo_ocupante_caes_retorno, imovel_retorno: imovel_retorno)}
-  let!(:tipo_ocupante_outros_retorno) { create(:tipo_ocupante_outros_retorno, imovel_retorno: imovel_retorno)}
+  let!(:tipo_ocupante_criancas_retorno) { create(:tipo_ocupante_criancas_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_adultos_retorno) { create(:tipo_ocupante_adultos_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_idosos_retorno) { create(:tipo_ocupante_idosos_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_empregados_retorno) { create(:tipo_ocupante_empregados_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_alunos_retorno) { create(:tipo_ocupante_alunos_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_caes_retorno) { create(:tipo_ocupante_caes_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
+  let!(:tipo_ocupante_outros_retorno) { create(:tipo_ocupante_outros_retorno, imovel_retorno: imovel_retorno, imovel: imovel_retorno.imovel)}
 
   context '#imovel_infos' do
     subject { Recadastramento::Arquivo::Imovel.new imovel_retorno }

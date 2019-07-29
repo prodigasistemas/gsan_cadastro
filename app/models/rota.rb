@@ -14,7 +14,7 @@ class Rota < ActiveRecord::Base
 
   belongs_to :setor_comercial,   foreign_key: :stcm_id
   belongs_to :empresa,           foreign_key: :empr_id
-  belongs_to :faturamento_grupo, foreign_key: :ftgr_id
+  belongs_to :faturamento_grupo, foreign_key: :ftgr_id, optional: true
 
   has_many :quadras,                 foreign_key: :rota_id
   has_many :imoveis,                 through: :quadras

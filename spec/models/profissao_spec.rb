@@ -1,9 +1,12 @@
 require "rails_helper"
 
 describe Profissao do
+  subject { build(:profissao) }
+
   it { should validate_presence_of    :codigo }
   it { should validate_presence_of    :descricao }
   it { should validate_uniqueness_of  :codigo }
+  it { should validate_uniqueness_of  :descricao }
   it_behaves_like 'ativo'
 
   it "unicabildiade de descricao" do

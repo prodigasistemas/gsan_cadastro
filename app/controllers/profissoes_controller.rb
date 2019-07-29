@@ -1,8 +1,8 @@
 class ProfissoesController < ApplicationController
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @profissoes = Profissao.order(:descricao).filter(query)
+      query = params[:query]
+      @profissoes = Profissao.order(:descricao).filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @profissoes.count

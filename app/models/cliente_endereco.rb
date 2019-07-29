@@ -24,8 +24,8 @@ class ClienteEndereco < ActiveRecord::Base
   belongs_to :logradouro,         foreign_key: "logr_id"
   belongs_to :logradouro_cep,     foreign_key: "lgcp_id"
   belongs_to :logradouro_bairro,  foreign_key: "lgbr_id"
-  belongs_to :perimetro_inicial,  foreign_key: "logr_idinicioperimetro", class_name: "Logradouro"
-  belongs_to :perimetro_final,    foreign_key: "logr_idfimperimetro", class_name: "Logradouro"
+  belongs_to :perimetro_inicial,  foreign_key: "logr_idinicioperimetro", class_name: "Logradouro", optional: true
+  belongs_to :perimetro_final,    foreign_key: "logr_idfimperimetro", class_name: "Logradouro", optional: true
   belongs_to :cliente, foreign_key: :clie_id, inverse_of: :enderecos
 
   validates_presence_of :numero, :logradouro_bairro, :logradouro_cep, :referencia, :cliente, :endereco_tipo, :logradouro

@@ -38,7 +38,7 @@ describe RelatoriosController, type: :controller do
     end
 
     it "com params" do
-      post :create, params
+      post :create, params: params
 
       expect(response.body).to eq({url: "http://#{request.host_with_port}/relatorios/novo_relatorio.xls"}.to_json)
     end
@@ -47,7 +47,7 @@ describe RelatoriosController, type: :controller do
       it "formato pdf" do
         params[:formato] = "pdf"
 
-        post :create, params
+        post :create, params: params
 
         expect(response.body).to eq({url: "http://#{request.host_with_port}/relatorios/novo_relatorio.pdf"}.to_json)
       end
@@ -55,7 +55,7 @@ describe RelatoriosController, type: :controller do
       it "formato xls" do
         params[:formato] = "xls"
 
-        post :create, params
+        post :create, params: params
 
         expect(response.body).to eq({url: "http://#{request.host_with_port}/relatorios/novo_relatorio.xls"}.to_json)
       end

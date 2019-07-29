@@ -20,11 +20,11 @@ describe AbrangenciasController, type: :controller do
       end
 
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it {
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(json['entidade']).to_not be_nil
       }
     end
@@ -39,21 +39,20 @@ describe AbrangenciasController, type: :controller do
       it 'all' do
         get :index
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(json['entidades'].size).to eq(2)
       end
     end
 
     describe "search" do
-      it {
-        params = {query: {imovel_id: imovel_1.id}}
-        get :index, params
+      it do
+        get :index, params: {query: {imovel_id: imovel_1.id}}
 
-      expect(response).to be_success
-      expect(json['entidades'].size).to eq(1)
-      expect(json['entidades'].first["id"]).to eq(abrangencia_1.id)
-      expect(json['entidades'].first["imovel_id"]).to eq(imovel_1.id)
-      }
+        expect(response).to be_successful
+        expect(json['entidades'].size).to eq(1)
+        expect(json['entidades'].first["id"]).to eq(abrangencia_1.id)
+        expect(json['entidades'].first["imovel_id"]).to eq(imovel_1.id)
+      end
     end
   end
 end

@@ -1,8 +1,8 @@
 class RamosAtividadeController < ApplicationController
   def index
     if params[:query]
-      query = params[:query].deep_symbolize_keys
-      @ramos_atividade = RamoAtividade.order(:descricao).filter(query)
+      query = params[:query]
+      @ramos_atividade = RamoAtividade.order(:descricao).filter_data(query)
 
       unless params[:paginado] == "false"
         @total = @ramos_atividade.count

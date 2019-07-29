@@ -5,7 +5,7 @@ describe UnidadeFederacoesController, type: :controller do
 
   describe "GET index" do
     let!(:unidades) { create_list(:unidade_federacao, 2) }
-    
+
     context "quando a consulta não possuir filtros" do
       it "retorna lista de tipos de ceps" do
         get :index, format: :json
@@ -25,13 +25,13 @@ describe UnidadeFederacoesController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de unidades de federações" do
         expect(json['unidade_federacoes'].size).to eq 1
         expect(json['unidade_federacoes'].collect{|l| l["descricao"]}).to include(unidades.first.descricao)
-      end 
+      end
 
       it_behaves_like "com dados da paginacao"
     end
@@ -41,14 +41,14 @@ describe UnidadeFederacoesController, type: :controller do
     let!(:unidade_federacao) { create(:unidade_federacao) }
 
     it "retorna uma unidade de federação" do
-      get :show, id: unidade_federacao, format: :json
+      get :show, params: {id: unidade_federacao}, format: :json
       expect(json['descricao']).to eq unidade_federacao.descricao
     end
   end
 
   describe "POST create" do
     before do
-      post :create, params, format: :json
+      post :create, params: params, format: :json
     end
 
     context "quando a unidade de federação é criada com sucesso" do
@@ -78,7 +78,7 @@ describe UnidadeFederacoesController, type: :controller do
     let!(:unidade_federacao) { create(:unidade_federacao) }
 
     before do
-      put :update, id: unidade_federacao, unidade_federacao: params, format: :json
+      put :update, params: {id: unidade_federacao, unidade_federacao: params}, format: :json
     end
 
     context "quando cep tipo é atualiado com sucesso" do
@@ -88,7 +88,7 @@ describe UnidadeFederacoesController, type: :controller do
 
       it "atualiza a unidade de federação" do
         expect(json['descricao']).to eq params['descricao']
-      end 
+      end
     end
 
     context "quando unidade de federação não é atualizado com sucesso" do

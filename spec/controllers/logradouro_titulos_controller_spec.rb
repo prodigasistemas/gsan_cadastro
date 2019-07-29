@@ -8,9 +8,9 @@ describe LogradouroTitulosController, type: :controller do
 
   describe "GET index" do
     before do
-      get :index, params, format: :json
+      get :index, params: params, format: :json
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(json['page']['first_page']).to be true
       expect(json['page']['last_page']).to be true
       expect(json['page']['current_page']).to eq(1)
@@ -60,7 +60,7 @@ describe LogradouroTitulosController, type: :controller do
 
   describe "GET show" do
     it "retorna um titulo de logradouro" do
-      get :show, id: 1, format: :json
+      get :show, params: {id: 1}, format: :json
       expect(json['descricao']).to eq logradouro_titulos.first.descricao
     end
   end
@@ -74,8 +74,8 @@ describe LogradouroTitulosController, type: :controller do
       }
 
       it "retorna sucesso" do
-        post :create, params, format: :json
-        expect(response).to be_success
+        post :create, params: params, format: :json
+        expect(response).to be_successful
       end
     end
 
@@ -87,7 +87,7 @@ describe LogradouroTitulosController, type: :controller do
       }
 
       it "retorna erros" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -101,8 +101,8 @@ describe LogradouroTitulosController, type: :controller do
       }
 
       it "retorna a logradouro_titulo" do
-        put :update, id: 1, logradouro_titulo: params, format: :json
-        expect(response).to be_success
+        put :update, params: {id: 1, logradouro_titulo: params}, format: :json
+        expect(response).to be_successful
       end
     end
 
@@ -112,7 +112,7 @@ describe LogradouroTitulosController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, logradouro_titulo: params, format: :json
+        put :update, params: {id: 1, logradouro_titulo: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end

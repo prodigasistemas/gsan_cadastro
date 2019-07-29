@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe AutenticacaoController, type: :controller do
   #senha:123456
-  let!(:usuario) { create(:usuario, nome_usuario: 'usuario', senha: 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=') }
+  let(:empresa){ create(:empresa) }
+  let!(:usuario) { create(:usuario, empresa: empresa, nome_usuario: 'usuario', senha: 'fEqNCco3Yq9h5ZUglD3CZJT4lBs=') }
 
   describe "POST create" do
     context "dados validos de autenticacao" do
@@ -14,11 +15,11 @@ describe AutenticacaoController, type: :controller do
       end
 
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it "autenticacao realizada com sucesso" do
-        expect(response).to be_success
+        expect(response).to be_successful
         body = JSON.parse(response.body)
         expect(body['mensagem']).to eql('Autenticacao realizada com sucesso!')
       end
@@ -33,7 +34,7 @@ describe AutenticacaoController, type: :controller do
       end
 
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it "autenticacao realizada com sucesso" do

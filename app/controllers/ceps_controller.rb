@@ -1,7 +1,7 @@
 class CepsController < ApplicationController
   def index
-    query = params[:query].deep_symbolize_keys
-    @ceps = Cep.join.filter(query)
+    query = params[:query]
+    @ceps = Cep.com_dados.filter_data(query)
     @total = @ceps.count
     @ceps = @ceps.page(params[:page]).per(20)
   end
@@ -12,7 +12,7 @@ class CepsController < ApplicationController
 
   def create
     @municipio = Municipio.find_by(id: params[:cep][:muni_id])
-    create_cep_params = @municipio ? cep_params.merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
+    create_cep_params = @municipio ? {}.merge(cep_params).merge(municipio: @municipio.nome, uf: @municipio.uf.sigla) : cep_params
     @cep = Cep.new(create_cep_params)
     @cep.municipio_model = @municipio
 
@@ -43,7 +43,7 @@ class CepsController < ApplicationController
   end
 
   def search
-    query = params[:query].deep_symbolize_keys
+    query = params[:query]
     @cep = Cep.find_by codigo: query[:codigo]
   end
 

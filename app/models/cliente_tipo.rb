@@ -15,7 +15,7 @@ class ClienteTipo < ActiveRecord::Base
   belongs_to :esfera_poder, foreign_key: "epod_id"
   has_many   :clientes,     foreign_key: "cltp_id"
 
-  scope :join,                   -> {
+  scope :com_dados,                   -> {
     includes(:esfera_poder).
     joins(:esfera_poder).
     order(:descricao)

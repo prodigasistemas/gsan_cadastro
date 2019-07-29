@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe MicroRegioesController, type: :controller do
   render_views
-  
+
   let!(:marajo)     { create(:micro_regiao, nome: 'MARAJO') }
   let!(:tapajos)    { create(:micro_regiao, nome: 'TAPAJOS') }
   let!(:tocantins)  { create(:micro_regiao, nome: 'TOCANTINS', ativo: 2) }
@@ -21,7 +21,7 @@ describe MicroRegioesController, type: :controller do
       end
 
       before do
-        get :index, params, format: :json
+        get :index, params: params, format: :json
       end
 
       it "retorna a lista de micro regiões ativas" do
@@ -48,7 +48,7 @@ describe MicroRegioesController, type: :controller do
 
   describe "GET show" do
     it "retorna uma micro região" do
-      get :show, id: marajo.id, format: :json
+      get :show, params: {id: marajo.id}, format: :json
       expect(json['nome']).to eq marajo.nome
     end
   end
@@ -62,7 +62,7 @@ describe MicroRegioesController, type: :controller do
       end
 
       it "cria uma micro região" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(json['nome']).to eq params['micro_regiao']['nome']
       end
     end
@@ -75,7 +75,7 @@ describe MicroRegioesController, type: :controller do
       end
 
       it "mostra erros de validação" do
-        post :create, params, format: :json
+        post :create, params: params, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
@@ -89,7 +89,7 @@ describe MicroRegioesController, type: :controller do
       }
 
       it "retorna a micro região" do
-        put :update, id: marajo, micro_regiao: params, format: :json
+        put :update, params: {id: marajo, micro_regiao: params}, format: :json
         marajo.reload
         expect(json['nome']).to eq marajo.nome
       end
@@ -101,7 +101,7 @@ describe MicroRegioesController, type: :controller do
       }
 
       it "retorna erros" do
-        put :update, id: 1, micro_regiao: params, format: :json
+        put :update, params: {id: 1, micro_regiao: params}, format: :json
         expect(response.status).to eq 422
         expect(json['errors']).to_not be_nil
       end
