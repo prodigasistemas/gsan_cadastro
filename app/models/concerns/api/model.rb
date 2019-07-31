@@ -36,28 +36,25 @@ module API
 
     module ClassMethods
       def buscar(query={})
-        page      = (query[:page] || 1).to_i
-        per_page  = (query[:per_page] || 50).to_i
+        page      = fetch_page(:page, query, 1)
+        per_page  = fetch_page(:per_page, query, 50)
         query     = check_params(query)
 
         return [] if query.blank?
 
-        entidades = where(query).page(page).per(per_page)
-        entidades
+        where(query).page(page).per(per_page)
       end
 
       def check_params(query)
-        params = {}
+        {}.tap do |params|
+          query.each_pair do |key, value|
+            value = check_params(value) if complex_params?(value)
 
-        query.each_pair do |key, value|
-          value = check_params(value) if value.is_a? Hash
+            next if value.blank? || [:page, :per_page].include?(key)
 
-          next if value.blank? || [:page, :per_page].include?(key)
-
-          params.merge!({ key => value })
+            params.merge!({ key => value })
+          end
         end
-
-        params
       end
 
       def inserir_varios(dados, id: :id)
@@ -70,6 +67,16 @@ module API
         self.bulk_insert(set_size: dados.size, values: dados)
 
         dados
+      end
+
+      def fetch_page(key, hash, default_value)
+        return default_value unless hash[key].present?
+
+        hash[key]
+      end
+
+      def complex_params?(value)
+        [Hash, ActionController::Parameters].include?(value.class)
       end
     end
 
