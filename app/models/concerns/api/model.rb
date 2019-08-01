@@ -50,7 +50,7 @@ module API
           query.each_pair do |key, value|
             value = check_params(value) if complex_params?(value)
 
-            next if value.blank? || [:page, :per_page].include?(key)
+            next if value.blank? || [:page, :per_page].include?(key.to_sym)
 
             params.merge!({ key => value })
           end

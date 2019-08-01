@@ -8,7 +8,7 @@ class ColunaAtualizacaoCadastraisController < ApplicationController
     params[:query].delete :page
 
     if params[:query]
-      query = params[:query]
+      query = params[:query].permit! rescue {}
       @coluna_atualizacao_cadastrais = ColunaAtualizacaoCadastral.com_relacionamentos.order(:atualizacao_cadastral_id, :id).where(query)
 
       unless params[:paginado] == "false"
