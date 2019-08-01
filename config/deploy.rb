@@ -37,7 +37,7 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets tmp/sessions public/asse
 # set :keep_releases, 5
 
 namespace :deploy do
-	%w[start stop restart upgrade].each do |command|
+	%w[start stop restart reload].each do |command|
     desc "#{command} Unicorn server."
     task command do
       on roles(:app) do
@@ -46,5 +46,5 @@ namespace :deploy do
     end
   end
 
-  after :deploy, "deploy:upgrade"
+  after :deploy, "deploy:reload"
 end

@@ -1,85 +1,192 @@
-#!/bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          unicorn
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Manage unicorn server
-# Description:       Start, stop, restart unicorn server for a specific application.
+#### BASED ON THE GIST: https://gist.github.com/2623205
+# Provides: unicorn
+# Required-Start: $all
+# Required-Stop: $network $local_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start the unicorns at boot
+# Description: Enable at boot time.
 ### END INIT INFO
-rvm use "2.6.3"
-set -e
 
-# Feel free to change any of the following variables for your app:
-TIMEOUT=${TIMEOUT-60}
-APP_ROOT=/var/www/gsan-api/current
-PID=/tmp/.unicorn.gsan-api.pid
-CMD="cd $APP_ROOT; bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
-AS_USER=jenkins
-set -u
+# Save this file to /etc/init.d/<application_name>, and run:
+# /etc/init.d/<application_name> start|stop|restart
+#
+# Configure your app by replacing everything within `{{ }}`, or use this as a SaltStack template.
+#
+# The restart command waits to ensure that the old unicorn master is replaced by the new one.
+# If the restart times out (after 120 seconds), then the script returns an exit code of 1.
+# This means that you can use this script during a Capistrano deploy, and be confident
+# that your unicorn processes are being properly restarted.
 
-OLD_PIN="$PID.oldbin"
+export RVM_SCRIPT="/usr/local/rvm/scripts/rvm"
+export APP_USER="jenkins"
+export RAILS_ENV="production"
+export APP_ROOT="/var/www/gsan-api/current"
+export PID_PATH="/tmp"
+export UNICORN_CONFIG_FILE="$APP_ROOT/config/unicorn.rb"
+export UNICORN_BIN="unicorn_rails"
+export UNICORN_CMD="bundle exec ${UNICORN_BIN} -E ${RAILS_ENV} -c \"${UNICORN_CONFIG_FILE}\" -D"
+
+export PID_FILE="$PID_PATH/.unicorn.gsan-api.pid"
+export OLD_PID_FILE="$PID_FILE.oldbin"
+export RUBY_VERSION_FILE="$PID_PATH/unicorn.ruby-version"
+
+# If the init script is run by the root user, we need to run it as the APP_USER
+if [[ $EUID -eq 0 ]]; then
+  export UNICORN_CMD="sudo -u ${APP_USER} /bin/bash -c \"${UNICORN_CMD}\""
+fi
+
+# Check that Rails directory exists
+cd $APP_ROOT || return 1
+
 
 sig () {
-  test -s "$PID" && kill -$1 `cat $PID`
+  [ -s "$PID_FILE" ] && kill -$1 `cat "$PID_FILE"`
 }
 
-oldsig () {
-  test -s $OLD_PIN && kill -$1 `cat $OLD_PIN`
+workersig () {
+  local workerpid="$PID_PATH/unicorn.worker.$2.pid"
+  [ -s "$workerpid" ] && kill -$1 `cat $workerpid`
 }
 
-run () {
-  if [ "$(id -un)" = "$AS_USER" ]; then
-    eval $1
-  else
-    su -c "$1" - $AS_USER
-  fi
-}
+cmd () {
+  case $1 in
+    start)
+      if [ -s "$PID_FILE" ]; then
+        echo >&2 "Already running"
+        return 0
+      fi
 
-case "$1" in
-start)
-  sig 0 && echo >&2 "Already running" && exit 0
-  run "$CMD"
-  ;;
-stop)
-  sig QUIT && exit 0
-  echo >&2 "Not running"
-  ;;
-force-stop)
-  sig TERM && exit 0
-  echo >&2 "Not running"
-  ;;
-restart|reload)
-  sig HUP && echo reloaded OK && exit 0
-  echo >&2 "Couldn't reload, starting '$CMD' instead"
-  run "$CMD"
-  ;;
-upgrade)
-  if sig USR2 && sleep 2 && sig 0 && oldsig QUIT
-  then
-    n=$TIMEOUT
-    while test -s $OLD_PIN && test $n -ge 0
-    do
-      printf '.' && sleep 1 && n=$(( $n - 1 ))
-    done
-    echo
+      echo "Starting unicorn..."
 
-    if test $n -lt 0 && test -s $OLD_PIN
-    then
-      echo >&2 "$OLD_PIN still exists after $TIMEOUT seconds"
+      source "${RVM_SCRIPT}"
+      eval $UNICORN_CMD
+      # Store the current ruby version. If this changes, we need to do a cold restart.
+      echo "$RUBY_VERSION" > "$RUBY_VERSION_FILE"
+      chown "$APP_USER:$APP_USER" "$RUBY_VERSION_FILE"
+      ;;
+
+    stop)
+      sig QUIT && echo "Stopping" && rm -f "$RUBY_VERSION_FILE" && return 0
+      echo >&2 "Not running"
+      ;;
+
+    force-stop)
+      sig TERM && echo "Forcing a stop" && rm -f "$RUBY_VERSION_FILE" && return 0
+      echo >&2 "Not running"
+      ;;
+
+    restart|reload)
+      # Based on http://www.rostamizadeh.net/blog/2012/03/09/wrangling-unicorn-usr2-signals-and-capistrano-deployments/
+      TIMEOUT=120 # two minutes to restart
+
+      if [ -s "$PID_FILE" ]; then
+        ORIG_PID=`cat $PID_FILE`
+      else
+        echo >&2 "Unicorn is not running."
+        $0 start
+        return 0
+      fi
+
+      # Source RVM and set correct Ruby version
+      source "${RVM_SCRIPT}"
+
+      echo "Original PID: $ORIG_PID"
+
+      if [ -e "$RUBY_VERSION_FILE" ]; then
+        OLD_RUBY_VERSION="$(cat "$RUBY_VERSION_FILE")"
+
+        if [ "$OLD_RUBY_VERSION" != "$RUBY_VERSION" ]; then
+          echo >&2 "Ruby version has changed from $OLD_RUBY_VERSION to $RUBY_VERSION."
+          echo >&2 "Performing a cold restart..."
+          $0 stop
+
+          n=$TIMEOUT
+          echo 'Waiting for unicorn master to stop...'
+          while [ -s "$PID_FILE" ] && [ "$n" -ge 0 ]
+          do
+            sleep 1 && n=$(( $n - 1 ))
+          done
+
+          if [ -s "$PID_FILE" ]; then
+            echo 'Unicorn master failed to stop!'
+            exit 1
+          fi
+
+          $0 start
+          return 0
+        fi
+      fi
+
+      if sig USR2; then
+        echo 'USR2 sent; Waiting for .oldbin'
+        n=$TIMEOUT
+
+        # wait for .oldpid to be written
+        while (!([ -s "$OLD_PID" ]) && [ "$n" -ge 0 ])
+        do
+          sleep 1 && n=$(( $n - 1 ))
+        done
+
+        echo 'Waiting for new pid file'
+        # When this loop finishes, should have new pid file
+        while (!([ -s "$PID_FILE" ]) || [ -s "$OLD_PID" ]) && [ "$n" -ge 0 ]; do
+          sleep 1 && n=$(( $n - 1 ))
+        done
+
+        if [ -s "$PID_FILE" ]; then
+          NEW_PID=`cat $PID_FILE`
+        else
+          echo 'New master failed to start; see error log'
+          exit 1
+        fi
+
+        # Timeout has elapsed, verify new pid file exists
+        if [ "$ORIG_PID" -eq "$NEW_PID" ]; then
+          echo
+          echo >&2 'New master failed to start; see error log'
+          exit 1
+        fi
+
+        echo "New PID: $NEW_PID"
+
+        # Verify old master QUIT
+        echo
+        if [ -e "$OLD_PID" ]; then
+          echo >&2 "$OLD_PID still exists after $TIMEOUT seconds. Sending TERM."
+          kill `cat "$OLD_PID"`
+        fi
+
+        echo 'Unicorn successfully upgraded'
+        exit 0
+      fi
+
+      echo >&2 "Upgrade failed: executing '$UNICORN_CMD' "
+      eval "$UNICORN_CMD"
+      ;;
+
+
+    kill_worker)
+      workersig QUIT $2 && exit 0
+      echo >&2 "Worker not running"
+      ;;
+
+    rotate)
+      sig USR1 && echo rotated logs OK && return 0
+      echo >&2 "Couldn't rotate logs" && return 1
+      ;;
+
+    *)
+      echo >&2 "Usage: $0 <start|stop|kill_worker|upgrade|restart|rotate|force-stop>"
       exit 1
-    fi
-    exit 0
-  fi
-  echo >&2 "Couldn't upgrade, starting '$CMD' instead"
-  run "$CMD"
-  ;;
-reopen-logs)
-  sig USR1
-  ;;
-*)
-  echo >&2 "Usage: $0 <start|stop|restart|upgrade|force-stop|reopen-logs>"
-  exit 1
-  ;;
-esac
+      ;;
+  esac
+}
+
+if [ $? -eq 1 ]; then
+  exit
+fi
+
+cmd $*
