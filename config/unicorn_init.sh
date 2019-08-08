@@ -125,14 +125,14 @@ cmd () {
         n=$TIMEOUT
 
         # wait for .oldpid to be written
-        while (!([ -s "$OLD_PID" ]) && [ "$n" -ge 0 ])
+        while (!([ -s "$OLD_PID_FILE" ]) && [ "$n" -ge 0 ])
         do
           sleep 1 && n=$(( $n - 1 ))
         done
 
         echo 'Waiting for new pid file'
         # When this loop finishes, should have new pid file
-        while (!([ -s "$PID_FILE" ]) || [ -s "$OLD_PID" ]) && [ "$n" -ge 0 ]; do
+        while (!([ -s "$PID_FILE" ]) || [ -s "$OLD_PID_FILE" ]) && [ "$n" -ge 0 ]; do
           sleep 1 && n=$(( $n - 1 ))
         done
 
@@ -154,9 +154,9 @@ cmd () {
 
         # Verify old master QUIT
         echo
-        if [ -e "$OLD_PID" ]; then
-          echo >&2 "$OLD_PID still exists after $TIMEOUT seconds. Sending TERM."
-          kill `cat "$OLD_PID"`
+        if [ -e "$OLD_PID_FILE" ]; then
+          echo >&2 "$OLD_PID_FILE still exists after $TIMEOUT seconds. Sending TERM."
+          kill `cat "$OLD_PID_FILE"`
         fi
 
         echo 'Unicorn successfully upgraded'
