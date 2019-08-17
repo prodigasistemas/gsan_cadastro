@@ -123,10 +123,10 @@ class Imovel < ActiveRecord::Base
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
   def atributos
-    super([:localidade, :setor_comercial])
+    super([:localidade, :logradouro_cep, :setor_comercial])
   end
 
   def self.com_escopo
-    includes(:localidade, :setor_comercial)
+    includes(:localidade, :logradouro_cep, :setor_comercial)
   end
 end

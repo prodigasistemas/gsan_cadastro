@@ -4,7 +4,7 @@ module API
       atributos([], referer)
     end
 
-    def atributos(params=[], referer=nil)
+    def atributos(params=[], referer=nil)      
       referencia(referer || self)
       new_params = self.as_json(only: :none, methods: params) rescue {}
       hash = {}
