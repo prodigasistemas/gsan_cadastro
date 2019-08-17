@@ -1,6 +1,9 @@
 class LogradouroCep < ActiveRecord::Base
   include IncrementableId
 
+  include API::Filterable
+  include API::Model
+
   self.table_name  = 'cadastro.logradouro_cep'
   self.primary_key = 'lgcp_id'
 
@@ -17,6 +20,10 @@ class LogradouroCep < ActiveRecord::Base
   before_destroy :valida_nenhum_imovel_relacionado
   before_destroy :valida_nenhum_cliente_enderecos_relacionado
   validates_inclusion_of :ativo, in: [1,2]
+
+  # def atributos
+  #   super([:logradouro])
+  # end
 
   private
 

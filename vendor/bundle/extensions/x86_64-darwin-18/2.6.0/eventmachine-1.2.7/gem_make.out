@@ -1,0 +1,16 @@
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/eventmachine-1.2.7/ext/fastfilereader
+/Users/rcasseb/.rvm/rubies/ruby-2.6.3/bin/ruby -I /Users/rcasseb/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0 -r ./siteconf20190808-81977-a212ra.rb extconf.rb
+creating Makefile
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/eventmachine-1.2.7/ext/fastfilereader
+make "DESTDIR=" clean
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/eventmachine-1.2.7/ext/fastfilereader
+make "DESTDIR="
+compiling mapper.cpp
+compiling rubymain.cpp
+linking shared-object fastfilereaderext.bundle
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/eventmachine-1.2.7/ext/fastfilereader
+make "DESTDIR=" install
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 fastfilereaderext.bundle ./.gem.20190808-81977-16spbkn
