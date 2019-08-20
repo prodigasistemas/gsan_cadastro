@@ -10,7 +10,7 @@ module API
       hash = {}
       attribute_aliases.keys.each do |key|
         hash[key] = self.send(key.to_sym)
-      end
+      end      
       hash.merge(transform_params(new_params))
     end
 

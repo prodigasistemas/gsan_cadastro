@@ -119,14 +119,29 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
   has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
+  has_one    :logradouro,            through: :logradouro_cep
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
-  def atributos
-    super([:localidade, :logradouro_cep, :setor_comercial])
+  def atributos(metodos = [])
+    super([:localidade, :logradouro_cep, :setor_comercial].concat(metodos))
   end
 
-  def self.com_escopo
-    includes(:localidade, :logradouro_cep, :setor_comercial)
+  def self.com_escopo(metodos = [])
+    includes([:localidade, :logradouro_cep, :setor_comercial].concat(metodos))
+  end
+
+  def endereco_completo
+    endereco = self.logradouro_cep.logradouro.logradouro_tipo.descricao
+    .concat(" "  +self.logradouro_cep.logradouro.logradouro_titulo.descricao)
+    .concat(" "  +self.logradouro_cep.logradouro.nome)
+    .concat(" - "+self.numero_imovel)
+    .concat(" - "+self.complemento_endereco)
+    .concat(" - "+self.logradouro_bairro.bairro.nome)
+    .concat(" "  +self.logradouro_bairro.bairro.municipio.nome)
+    .concat(" "  +self.logradouro_bairro.bairro.municipio.uf.sigla)
+    .concat(" "  +self.logradouro_cep.cep.codigo.to_s)
+
+    endereco
   end
 end
