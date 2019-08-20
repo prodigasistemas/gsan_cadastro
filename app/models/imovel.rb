@@ -103,6 +103,7 @@ class Imovel < ActiveRecord::Base
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
+  scope :por_cliente, -> { com_escopo.joins(:cliente) }
 
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
@@ -119,6 +120,7 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
   has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
+  has_many   :cliente, through: :cliente_imoveis
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -127,6 +129,6 @@ class Imovel < ActiveRecord::Base
   end
 
   def self.com_escopo
-    includes(:localidade, :logradouro_cep, :setor_comercial)
+    includes(:localidade, :logradouro_cep, :setor_comercial, :cliente_imoveis, :cliente)
   end
 end
