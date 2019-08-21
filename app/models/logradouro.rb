@@ -1,6 +1,6 @@
 class Logradouro < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
   include API::Model
 
   self.table_name  = 'cadastro.logradouro'
@@ -59,6 +59,17 @@ class Logradouro < ActiveRecord::Base
   validates_length_of :nome, maximum: 40
   validates_length_of :nome_popular, maximum: 30
 
+  def self.filter_data(termos, incluir = [])
+    select(campos_busca)
+    .joins(municipio: :uf, logradouro_ceps: :cep, logradouro_bairros: :bairro)
+    .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
+    .order(ordem_busca)
+  end
+
+  def atributos(params=[], referer=nil)
+    self.as_json
+  end
+
 private
 
   def validar_destrucao_logradouro_cep
@@ -77,5 +88,33 @@ private
         errors.add(:base, :cliente_endereco_are_present_in_bairro,  bairro: logradouro_bairro.bairro.nome) if logradouro_bairro.cliente_enderecos.any?
       end
     end
+  end
+
+  def self.campos_busca
+    <<-SQL
+      logradouro.logr_id, logradouro.muni_id, municipio.muni_id, unidade_federacao.unfe_id,
+      bairro.bair_id, cep.cep_id, logradouro_cep.lgcp_id, logradouro_bairro.lgbr_id,
+      municipio.muni_nmmunicipio AS municipio_nome,
+      municipio.muni_cdibge AS municipio_ibge,
+      unidade_federacao.unfe_dsuf AS uf_nome,
+      unidade_federacao.unfe_dsufsigla AS uf_sigla,
+      cep.cep_cdcep AS cep_codigo,
+      bairro.bair_nmbairro AS bairro_nome,
+      logradouro.logr_nmlogradouro AS logradouro_nome,
+      logradouro.logr_nmpopular AS logradouro_popular
+    SQL
+  end
+
+  def self.condicoes_busca
+    <<-SQL
+      concat(logradouro.logr_nmlogradouro, ' ', bairro.bair_nmbairro, ' ',
+             cep.cep_cdcep, ' ', municipio.muni_nmmunicipio, ' ',
+             unidade_federacao.unfe_dsuf, ' ', unidade_federacao.unfe_dsufsigla)
+        ILIKE :termo
+    SQL
+  end
+
+  def self.ordem_busca
+    "logradouro.logr_nmlogradouro"
   end
 end
