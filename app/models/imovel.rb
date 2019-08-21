@@ -103,7 +103,7 @@ class Imovel < ActiveRecord::Base
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
-  scope :por_cliente, -> { com_escopo.joins(:cliente) }
+  scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:cliente).where(cliente: dados_cliente) }
 
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
