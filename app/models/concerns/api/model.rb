@@ -4,13 +4,13 @@ module API
       atributos([], referer)
     end
 
-    def atributos(params=[], referer=nil)      
+    def atributos(params=[], referer=nil)
       referencia(referer || self)
       new_params = self.as_json(only: :none, methods: params) rescue {}
       hash = {}
       attribute_aliases.keys.each do |key|
         hash[key] = self.send(key.to_sym)
-      end      
+      end
       hash.merge(transform_params(new_params))
     end
 
@@ -20,10 +20,14 @@ module API
       new_params = {}
       params.each do |key, value|
         next if key == referencia
-        if value.respond_to? :size
+        if value.is_a? Array
           new_params[key] = value.map{ |v| v.atributos(referencia) if v.respond_to? :atributos }
         else
-          new_params[key] = value.atributos(referencia) if value.respond_to? :atributos
+          if value.respond_to? :atributos
+            new_params[key] = value.atributos(referencia)
+          else
+            new_params[key] = value
+          end
         end
       end
       new_params

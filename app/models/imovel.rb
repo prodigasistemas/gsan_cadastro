@@ -105,8 +105,8 @@ class Imovel < ActiveRecord::Base
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
 
   scope :por_endereco, -> (nome){ joins(logradouro: :logradouro_tipo).joins(logradouro_bairro: {bairro: {municipio: :uf}}).joins(logradouro: :logradouro_titulo)
-  .where("UPPER(lgtp_dslogradourotipo) LIKE ? OR UPPER(logr_nmlogradouro) LIKE ? OR UPPER(lgtp_dsabreviado) LIKE ? OR UPPER(bair_nmbairro) LIKE ? OR UPPER(lgtt_dslogradourotitulo) LIKE ? OR UPPER(muni_nmmunicipio) LIKE ? OR UPPER(unfe_dsufsigla) LIKE ?", 
-   "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%") } 
+  .where("UPPER(lgtp_dslogradourotipo) LIKE ? OR UPPER(logr_nmlogradouro) LIKE ? OR UPPER(lgtp_dsabreviado) LIKE ? OR UPPER(bair_nmbairro) LIKE ? OR UPPER(lgtt_dslogradourotitulo) LIKE ? OR UPPER(muni_nmmunicipio) LIKE ? OR UPPER(unfe_dsufsigla) LIKE ?",
+   "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%") }
 
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
@@ -133,21 +133,21 @@ class Imovel < ActiveRecord::Base
   end
 
   def self.com_escopo(metodos = [])
-    includes([:localidade, :logradouro_cep, :setor_comercial].concat(metodos))
+    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial].concat(metodos))
   end
 
   def endereco_completo
-    endereco = self.logradouro_cep.logradouro.logradouro_tipo.descricao
-    .concat(" "  +self.logradouro_cep.logradouro.logradouro_titulo.descricao)
-    .concat(" "  +self.logradouro_cep.logradouro.nome)
-    .concat(" - "+self.numero_imovel)
-    .concat(" - "+self.complemento_endereco)
-    .concat(" - "+self.logradouro_bairro.bairro.nome)
-    .concat(" "  +self.logradouro_bairro.bairro.municipio.nome)
-    .concat(" "  +self.logradouro_bairro.bairro.municipio.uf.sigla)
-    .concat(" "  +self.logradouro_cep.cep.codigo.to_s)
+    endereco = ""
+    endereco << self.logradouro_cep.logradouro.logradouro_tipo.descricao if logradouro_cep.logradouro.logradouro_tipo
+    endereco << " " + self.logradouro_cep.logradouro.logradouro_titulo.descricao if self.logradouro_cep.logradouro.logradouro_titulo
+    endereco << " " + self.logradouro_cep.logradouro.nome
+    endereco << " - " +self.numero_imovel
+    endereco << " - " +self.complemento_endereco
+    endereco << " - " +self.logradouro_bairro.bairro.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.uf.sigla
+    endereco << " "   +self.logradouro_cep.cep.codigo.to_s
 
     endereco
   end
-
 end
