@@ -136,17 +136,17 @@ class Imovel < ActiveRecord::Base
   end
 
   def endereco_completo
-    endereco = self.logradouro_cep.logradouro.logradouro_tipo.descricao
-    .concat(" "  +self.logradouro_cep.logradouro.logradouro_titulo.descricao)
-    .concat(" "  +self.logradouro_cep.logradouro.nome)
-    .concat(" - "+self.numero_imovel)
-    .concat(" - "+self.complemento_endereco)
-    .concat(" - "+self.logradouro_bairro.bairro.nome)
-    .concat(" "  +self.logradouro_bairro.bairro.municipio.nome)
-    .concat(" "  +self.logradouro_bairro.bairro.municipio.uf.sigla)
-    .concat(" "  +self.logradouro_cep.cep.codigo.to_s)
+    endereco = ""
+    endereco << self.logradouro_cep.logradouro.logradouro_tipo.descricao if logradouro_cep.logradouro.logradouro_tipo
+    endereco << " " + self.logradouro_cep.logradouro.logradouro_titulo.descricao if self.logradouro_cep.logradouro.logradouro_titulo
+    endereco << " " + self.logradouro_cep.logradouro.nome
+    endereco << " - " +self.numero_imovel
+    endereco << " - " +self.complemento_endereco
+    endereco << " - " +self.logradouro_bairro.bairro.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.uf.sigla
+    endereco << " "   +self.logradouro_cep.cep.codigo.to_s
 
     endereco
   end
-
 end
