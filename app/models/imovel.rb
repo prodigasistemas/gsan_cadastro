@@ -124,6 +124,7 @@ class Imovel < ActiveRecord::Base
   has_many   :subcategorias, through: :imovel_subcategorias
   has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
   has_one    :logradouro,            through: :logradouro_cep
+  has_many   :clientes,               through: :cliente_imoveis
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 

@@ -20,7 +20,7 @@ class ImoveisController < ApplicationController
     @imovel = Imovel.com_escopo([:logradouro]).find(params[:id])
 
     if @imovel
-      render json: { entidade: @imovel.atributos([:logradouro]) }, status: :ok
+      render json: { entidade: @imovel.atributos([:logradouro, :clientes]) }, status: :ok
     else
       render json: {}, status: :not_found
     end
