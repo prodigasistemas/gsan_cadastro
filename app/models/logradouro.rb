@@ -61,7 +61,7 @@ class Logradouro < ActiveRecord::Base
 
   def self.filtrar_dados(termos, incluir = [])
     select(campos_busca)
-    .joins(municipio: :uf, logradouro_ceps: :cep, logradouro_bairros: :bairro)
+    .joins(:logradouro_tipo, municipio: :uf, logradouro_ceps: :cep, logradouro_bairros: :bairro)
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
     .order(ordem_busca)
   end
@@ -94,6 +94,8 @@ private
     <<-SQL
       logradouro.logr_id, logradouro.muni_id, municipio.muni_id, unidade_federacao.unfe_id,
       bairro.bair_id, cep.cep_id, logradouro_cep.lgcp_id, logradouro_bairro.lgbr_id,
+      logradouro_tipo.lgtp_dsabreviado AS logradouro_tipo_abreviado,
+      logradouro_tipo.lgtp_dslogradourotipo AS logradouro_tipo_nome,
       municipio.muni_nmmunicipio AS municipio_nome,
       municipio.muni_cdibge AS municipio_ibge,
       unidade_federacao.unfe_dsuf AS uf_nome,
@@ -107,7 +109,8 @@ private
 
   def self.condicoes_busca
     <<-SQL
-      concat(logradouro.logr_nmlogradouro, ' ', bairro.bair_nmbairro, ' ',
+      concat(logradouro_tipo.lgtp_dsabreviado, ' ', logradouro_tipo.lgtp_dslogradourotipo, ' ',
+             logradouro.logr_nmlogradouro, ' ', bairro.bair_nmbairro, ' ',
              cep.cep_cdcep, ' ', municipio.muni_nmmunicipio, ' ',
              unidade_federacao.unfe_dsuf, ' ', unidade_federacao.unfe_dsufsigla)
         ILIKE :termo
@@ -115,6 +118,6 @@ private
   end
 
   def self.ordem_busca
-    "logradouro.logr_nmlogradouro"
+    "logradouro.logr_nmlogradouro, bairro.bair_nmbairro, cep.cep_cdcep"
   end
 end
