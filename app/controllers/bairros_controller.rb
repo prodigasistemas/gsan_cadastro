@@ -4,7 +4,7 @@ class BairrosController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @bairros = Bairro.com_dados.filter_data(query)
+      @bairros = Bairro.com_dados.filtrar_campos(query)
 
       unless params[:paginado] == "false"
         @total = @bairros.count

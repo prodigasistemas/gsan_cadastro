@@ -2,7 +2,7 @@ class CepTiposController < ApplicationController
   def index
     if params[:query].present?
       query = params[:query]
-      @cep_tipos = CepTipo.filter_data(query)
+      @cep_tipos = CepTipo.filtrar_campos(query)
       @total = @cep_tipos.count
       @cep_tipos = @cep_tipos.page(params[:page]).per(20)
     else

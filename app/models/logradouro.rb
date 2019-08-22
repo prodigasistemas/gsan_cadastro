@@ -1,6 +1,6 @@
 class Logradouro < ActiveRecord::Base
   include IncrementableId
-  include API::Filterable
+  include Filterable
   include API::Model
 
   self.table_name  = 'cadastro.logradouro'
@@ -59,7 +59,7 @@ class Logradouro < ActiveRecord::Base
   validates_length_of :nome, maximum: 40
   validates_length_of :nome_popular, maximum: 30
 
-  def self.filter_data(termos, incluir = [])
+  def self.filtrar_dados(termos, incluir = [])
     select(campos_busca)
     .joins(municipio: :uf, logradouro_ceps: :cep, logradouro_bairros: :bairro)
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
