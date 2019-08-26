@@ -21,10 +21,6 @@ class LogradouroCep < ActiveRecord::Base
   before_destroy :valida_nenhum_cliente_enderecos_relacionado
   validates_inclusion_of :ativo, in: [1,2]
 
-  # def atributos
-  #   super([:logradouro])
-  # end
-
   private
 
   def valida_nenhum_imovel_relacionado

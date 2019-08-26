@@ -104,6 +104,10 @@ class Imovel < ActiveRecord::Base
   scope :com_dados, -> { com_escopo.joins(:quadra) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
 
+  scope :por_endereco, -> (nome){ joins(logradouro: :logradouro_tipo).joins(logradouro_bairro: {bairro: {municipio: :uf}}).joins(logradouro: :logradouro_titulo)
+  .where("UPPER(lgtp_dslogradourotipo) LIKE ? OR UPPER(logr_nmlogradouro) LIKE ? OR UPPER(lgtp_dsabreviado) LIKE ? OR UPPER(bair_nmbairro) LIKE ? OR UPPER(lgtt_dslogradourotitulo) LIKE ? OR UPPER(muni_nmmunicipio) LIKE ? OR UPPER(unfe_dsufsigla) LIKE ?",
+   "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%") }
+
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
   belongs_to :localidade,            foreign_key: :loca_id
@@ -119,14 +123,31 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
   has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
+  has_one    :logradouro,            through: :logradouro_cep
+  has_many   :clientes,               through: :cliente_imoveis
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
-  def atributos
-    super([:localidade, :logradouro_cep, :setor_comercial])
+  def atributos(metodos = [])
+    super([:localidade, :logradouro_cep, :setor_comercial].concat(metodos))
   end
 
-  def self.com_escopo
-    includes(:localidade, :logradouro_cep, :setor_comercial)
+  def self.com_escopo(metodos = [])
+    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial].concat(metodos))
+  end
+
+  def endereco_completo
+    endereco = ""
+    endereco << self.logradouro_cep.logradouro.logradouro_tipo.descricao if logradouro_cep.logradouro.logradouro_tipo
+    endereco << " " + self.logradouro_cep.logradouro.logradouro_titulo.descricao if self.logradouro_cep.logradouro.logradouro_titulo
+    endereco << " " + self.logradouro_cep.logradouro.nome
+    endereco << " - " +self.numero_imovel
+    endereco << " - " +self.complemento_endereco
+    endereco << " - " +self.logradouro_bairro.bairro.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.nome
+    endereco << " "   +self.logradouro_bairro.bairro.municipio.uf.sigla
+    endereco << " "   +self.logradouro_cep.cep.codigo.to_s
+
+    endereco
   end
 end
