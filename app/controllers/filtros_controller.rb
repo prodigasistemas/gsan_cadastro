@@ -16,7 +16,7 @@ class FiltrosController < ApplicationController
   end
 
   def index
-    @retorno = @tipo.filter_data(filtros[:termo], filtros[:incluir])
+    @retorno = @tipo.filtrar_dados(filtros[:termo], filtros[:incluir])
     render json: { entidades: @retorno.map(&:atributos) }
   end
 
