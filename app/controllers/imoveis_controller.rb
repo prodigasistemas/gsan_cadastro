@@ -10,7 +10,7 @@ class ImoveisController < ApplicationController
         por_pagina: params[:query][:per_page]
       }
 
-      render json: { meta: meta, entidades: @imoveis.map{|i| i.atributos([:endereco_completo]) }}, status: :ok
+      render json: { meta: meta, entidades: @imoveis.map{|i| i.atributos([:dados_cadastrais]) }}, status: :ok
     else
       render json: { entidades: [] }, status: :ok
     end
@@ -20,7 +20,7 @@ class ImoveisController < ApplicationController
     @imovel = Imovel.com_escopo([:logradouro]).find(params[:id])
 
     if @imovel
-      render json: { entidade: @imovel.atributos([:endereco_completo]) }, status: :ok
+      render json: { entidade: @imovel.atributos([:dados_cadastrais]) }, status: :ok
     else
       render json: {}, status: :not_found
     end
