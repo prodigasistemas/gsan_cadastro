@@ -158,7 +158,7 @@ class Imovel < ActiveRecord::Base
 
   def dados_cadastrais
     cadastro = {}
-    
+
     cadastro[:perfil_imovel] = get_perfil_imovel
     cadastro[:area_construida] = get_area_construida
     cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
@@ -306,9 +306,9 @@ class Imovel < ActiveRecord::Base
     return "" if quadra_face.nil?
     return "" if quadra_face.bacia.nil?
     return "" if quadra_face.bacia.sistema_esgoto.nil?
-    return "" if quadra_face.bacia.sistema_esgoto.divisao_esgotonil?
+    return "" if quadra_face.bacia.sistema_esgoto.divisao_esgoto.nil?
 
-    quadra_face.bacia.sistema_esgoto.divisao_esgotonil.descricao
+    quadra_face.bacia.sistema_esgoto.divisao_esgoto.descricao
   end
 
   def get_pavimento_calcada
