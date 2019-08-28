@@ -12,4 +12,18 @@ class ImovelSubcategoria < ActiveRecord::Base
 
   belongs_to :imovel,       foreign_key: :imov_id
   belongs_to :subcategoria, foreign_key: :scat_id
+
+  def atributos(metodos = [])
+    super([:categoria].concat(metodos))
+  end
+
+  private
+
+  def dados_cadastrais
+    teste = {}
+
+    teste[:nome] = "JACK"
+
+    teste
+  end  
 end
