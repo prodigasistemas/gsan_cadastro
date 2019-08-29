@@ -160,7 +160,7 @@ class Imovel < ActiveRecord::Base
   def dados_cadastrais
     cadastro = {}
 
-    cadastro[:endereco_completo] = get_endereco_completo
+    cadastro[:endereco_completo] = endereco_completo
     cadastro[:perfil_imovel] = get_perfil_imovel
     cadastro[:area_construida] = get_area_construida
     cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
@@ -187,9 +187,7 @@ class Imovel < ActiveRecord::Base
     cadastro
   end
 
-  private
-
-  def get_endereco_completo
+  def endereco_completo
     endereco = logradouro_tipo = logradouro_titulo = logradouro = bairro = municipio = uf = cep = ""
 
     if not self.logradouro_cep.nil?
@@ -225,6 +223,8 @@ class Imovel < ActiveRecord::Base
 
     endereco
   end
+
+  private
 
   def get_perfil_imovel
     return "" if perfil_imovel.nil?
