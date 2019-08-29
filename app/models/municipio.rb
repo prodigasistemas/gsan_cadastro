@@ -8,7 +8,7 @@ class Municipio < ActiveRecord::Base
   alias_attribute "id",                         "muni_id"
   alias_attribute "nome",                       "muni_nmmunicipio"
   alias_attribute "cep_inicial",                "muni_cdcepinicio"
-  alias_attribute "cep_final",                  "muni_cdcepfim"
+  alias_attribute "cep_final",                   "muni_cdcepfim"
   alias_attribute "ddd",                        "muni_cdddd"
   alias_attribute "regiao_desenvolvimento_id",  "rdes_id"
   alias_attribute "micro_regiao_id",            "mreg_id"
@@ -16,7 +16,7 @@ class Municipio < ActiveRecord::Base
   alias_attribute "ativo",                      "muni_icuso"
   alias_attribute "atualizado_em",              "muni_tmultimaalteracao"
   alias_attribute "inicio_concessao",           "muni_dtconcessaoinicio"
-  alias_attribute "fim_concessao",              "muni_dtconcessaofim"
+  alias_attribute "fim_concessao",               "muni_dtconcessaofim"
   alias_attribute "codigo_ibge",                "muni_cdibge"
   alias_attribute "quadro_bairro",              "muni_icrelacionquadrabairro"
 

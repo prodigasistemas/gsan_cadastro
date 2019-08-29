@@ -7,7 +7,7 @@ describe Filterable do
   let(:params)    { { filtro_logradouro: 'MORUMBI' } }
 
   it "retorna os registros do filtro" do
-    ceps = Cep.filter_data(params)
+    ceps = Cep.filtrar_campos(params)
     expect(ceps.size).to eq(1)
     expect(ceps.first.municipio).to eq "SÃO PAULO"
   end

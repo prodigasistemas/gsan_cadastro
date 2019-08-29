@@ -100,9 +100,15 @@ class Imovel < ActiveRecord::Base
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
   alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
+  alias_attribute "observacao_categoria",                                               "imov_dsobservacaotegoria"
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
+  scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:clientes).where(cliente: dados_cliente) }
+
+  scope :por_endereco, -> (nome){ joins(logradouro: :logradouro_tipo).joins(logradouro_bairro: {bairro: {municipio: :uf}}).joins(logradouro: :logradouro_titulo)
+  .where("UPPER(lgtp_dslogradourotipo) LIKE ? OR UPPER(logr_nmlogradouro) LIKE ? OR UPPER(lgtp_dsabreviado) LIKE ? OR UPPER(bair_nmbairro) LIKE ? OR UPPER(lgtt_dslogradourotitulo) LIKE ? OR UPPER(muni_nmmunicipio) LIKE ? OR UPPER(unfe_dsufsigla) LIKE ?",
+   "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%", "%#{nome.upcase}%") }
 
   belongs_to :logradouro_cep,        foreign_key: :lgcp_id
   belongs_to :logradouro_bairro,     foreign_key: :lgbr_id
@@ -119,14 +125,266 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
   has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
+  has_one    :logradouro,            through: :logradouro_cep
+  has_many   :clientes,               through: :cliente_imoveis
+  belongs_to :despejo,               foreign_key: :depj_id
+  belongs_to :area_construida_faixa,       foreign_key: :acon_id
+  belongs_to :faixa_reservatorio_inferior, foreign_key: :resv_idreservatorioinferior, class_name: 'ReservatorioVolumeFaixa'
+  belongs_to :faixa_reservatorio_superior, foreign_key: :resv_idreservatoriosuperior, class_name: 'ReservatorioVolumeFaixa'
+  belongs_to :piscina_volume_faixa, foreign_key: :pisc_id
+  belongs_to :fonte_abastecimento, foreign_key: :ftab_id
+  belongs_to :poco_tipo, foreign_key: :poco_id
+  belongs_to :quadra_face, foreign_key: :qdfa_id
+  belongs_to :pavimento_calcada, foreign_key: :pcal_id
+  belongs_to :pavimento_rua, foreign_key: :prua_id
+  belongs_to :cadastro_ocorrencia, foreign_key: :cocr_id
+  belongs_to :anormalidade, foreign_key: :eanm_id, class_name: 'Anormalidade'
+  belongs_to :tipo_habitacao, foreign_key: :imha_id, class_name: 'ImovelTipoHabitacao'
+  belongs_to :tipo_construcao, foreign_key: :imco_id, class_name: 'ImovelTipoConstrucao'
+  belongs_to :tipo_cobertura, foreign_key: :imcb_id, class_name: 'ImovelTipoCobertura'
+  belongs_to :tipo_propriedade, foreign_key: :impr_id, class_name: 'ImovelTipoPropriedade'
+  has_many   :atualizacoes_cadastrais, foreign_key: :imov_id, class_name: 'ImovelControleAtualizacaoCadastral'
+  has_many   :termo_atualizacao_comunicados, foreign_key: :imov_id, class_name: 'ComunicadoEmitirConta'
+  belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
-  def atributos
-    super([:localidade, :setor_comercial])
+  def self.com_escopo(metodos = [])
+    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial, :cliente_imoveis, :clientes].concat(metodos))
   end
 
-  def self.com_escopo
-    includes(:localidade, :setor_comercial)
+  def atributos(metodos = [])
+    super([:localidade, :logradouro_cep, :setor_comercial, :clientes].concat(metodos))
+  end
+
+  def dados_cadastrais
+    cadastro = {}
+
+    cadastro[:endereco_completo] = get_endereco_completo
+    cadastro[:perfil_imovel] = get_perfil_imovel
+    cadastro[:area_construida] = get_area_construida
+    cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
+    cadastro[:volume_reservatorio_superior] = get_volume_reservatorio_superior
+    cadastro[:piscina_volume_faixa] = get_piscina_volume_faixa
+    cadastro[:fonte_abastecimento] = get_fonte_abastecimento
+    cadastro[:tipo_poco] = get_tipo_poco
+    cadastro[:distrito_operacional] = get_distrito_operacional
+    cadastro[:divisao_esgoto] = get_divisao_esgoto
+    cadastro[:cadastro_ocorrencia] = get_cadastro_ocorrencia
+    cadastro[:anormalidade] = get_anormalidade
+    cadastro[:jardim] = get_jardim
+    cadastro[:tipo_habitacao] = get_tipo_habitacao
+    cadastro[:tipo_construcao] = get_tipo_construcao
+    cadastro[:tipo_cobertura] = get_tipo_cobertura
+    cadastro[:tipo_propriedade] = get_tipo_propriedade
+    cadastro[:data_processamento] = get_data_processamento
+    cadastro[:data_geracao_tac] = get_data_geracao_tac
+    cadastro[:subcategorias] = get_imovel_subcategorias
+    cadastro[:total_economias] = get_total_economias
+    cadastro[:pavimento_calcada] = get_pavimento_calcada
+    cadastro[:pavimento_rua] = get_pavimento_rua
+
+    cadastro
+  end
+
+  private
+
+  def get_endereco_completo
+    endereco = logradouro_tipo = logradouro_titulo = logradouro = bairro = municipio = uf = cep = ""
+
+    if not self.logradouro_cep.nil?
+      if not self.logradouro_cep.logradouro.nil?
+        logradouro_tipo = self.logradouro_cep.logradouro.logradouro_tipo.descricao if not logradouro_cep.logradouro.logradouro_tipo.nil?
+        logradouro_titulo = self.logradouro_cep.logradouro.logradouro_titulo.descricao if not logradouro_cep.logradouro.logradouro_titulo.nil?
+        logradouro = self.logradouro_cep.logradouro.try(:nome)
+      end
+      if not self.logradouro_cep.cep.nil?
+        cep = self.logradouro_cep.cep.codigo.to_s if not self.logradouro_cep.cep.codigo.nil?
+      end
+    end
+
+    if not self.logradouro_bairro.nil?
+      if not self.logradouro_bairro.bairro.nil?
+        bairro = self.logradouro_bairro.bairro.try(:nome)
+        if not self.logradouro_bairro.bairro.municipio.nil?
+          municipio = self.logradouro_bairro.bairro.municipio.try(:nome)
+          uf = self.logradouro_bairro.bairro.municipio.uf.try(:sigla) if not self.logradouro_bairro.bairro.municipio.uf.nil?
+        end
+      end
+    end
+
+    endereco << logradouro_tipo
+    endereco << " " +logradouro_titulo
+    endereco << " " +logradouro
+    endereco << " - " +self.numero_imovel ||= ""
+    endereco << " - " +self.complemento_endereco ||= ""
+    endereco << " - " +bairro
+    endereco << " " +municipio
+    endereco << " " +uf
+    endereco << " " +cep
+
+    endereco
+  end
+
+  def get_perfil_imovel
+    return "" if perfil_imovel.nil?
+
+    perfil_imovel.descricao
+  end
+
+  def get_imovel_subcategorias
+    subcategorias = []
+
+    return subcategorias if imovel_subcategorias.blank?
+
+    imovel_subcategorias.map do |s|
+      break if s.subcategoria.blank?
+
+      sub = {}
+      sub[:subcategoria] = s.subcategoria.try(:descricao)
+      sub[:categoria] = s.subcategoria.categoria.try(:descricao)
+      sub[:qtd_economias] = s.qtd_economias
+
+      subcategorias << sub
+    end
+
+    subcategorias
+  end
+
+  def get_total_economias
+    return "" if imovel_subcategorias.blank?
+
+    imovel_subcategorias.sum(&:qtd_economias)
+  end
+
+  def get_area_construida
+    return self.area_construida if not self.area_construida.nil?
+    return self.area_construida_faixa.medidas if not self.area_construida_faixa.nil?
+
+    return ""
+  end
+
+  def get_volume_reservatorio_inferior
+    return volume_reservatorio_inferior if not volume_reservatorio_inferior.nil?
+    return "" if faixa_reservatorio_inferior.nil?
+
+    faixa_reservatorio_inferior.medidas
+  end
+
+  def get_volume_reservatorio_superior
+    return volume_reservatorio_superior if not volume_reservatorio_superior.nil?
+    return "" if faixa_reservatorio_superior.nil?
+
+    faixa_reservatorio_superior.medidas
+  end
+
+  def get_piscina_volume_faixa
+    return volume_piscina if not volume_piscina.nil?
+    return "" if piscina_volume_faixa.nil?
+
+    piscina_volume_faixa.medidas
+  end
+
+  def get_fonte_abastecimento
+    return "" if fonte_abastecimento.nil?
+
+    fonte_abastecimento.descricao
+  end
+
+  def get_tipo_poco
+    return "" if poco_tipo.nil?
+
+    poco_tipo.descricao
+  end
+
+  def get_distrito_operacional
+    return "" if quadra_face.nil?
+    return "" if quadra_face.distrito_operacional.nil?
+
+    quadra_face.distrito_operacional.descricao
+  end
+
+  def get_divisao_esgoto
+    return "" if quadra_face.nil?
+    return "" if quadra_face.bacia.nil?
+    return "" if quadra_face.bacia.sistema_esgoto.nil?
+    return "" if quadra_face.bacia.sistema_esgoto.divisao_esgoto.nil?
+
+    quadra_face.bacia.sistema_esgoto.divisao_esgoto.descricao
+  end
+
+  def get_pavimento_calcada
+    return "" if pavimento_calcada.nil?
+
+    pavimento_calcada.descricao
+  end
+
+  def get_pavimento_rua
+    return "" if pavimento_rua.nil?
+
+    pavimento_rua.descricao
+  end
+
+  def get_cadastro_ocorrencia
+    return "" if cadastro_ocorrencia.nil?
+
+    cadastro_ocorrencia.descricao
+  end
+
+  def get_anormalidade
+    return "" if anormalidade.nil?
+
+    anormalidade.descricao
+  end
+
+  def get_jardim
+    return "" if jardim.nil?
+    return "SIM" if jardim == 1
+
+    "NÃO"
+  end
+
+  def get_tipo_habitacao
+    return "" if tipo_habitacao.nil?
+
+    tipo_habitacao.descricao
+  end
+
+  def get_tipo_construcao
+    return "" if tipo_construcao.nil?
+
+    tipo_construcao.descricao
+  end
+
+  def get_tipo_cobertura
+    return "" if tipo_cobertura.nil?
+
+    tipo_cobertura.descricao
+  end
+
+  def get_tipo_propriedade
+    return "" if tipo_propriedade.nil?
+
+    tipo_propriedade.descricao
+  end
+
+  def get_telefone
+
+  end
+
+  def get_data_processamento
+    atualizacao = atualizacoes_cadastrais.last
+
+    return "" if atualizacao.nil?
+
+    atualizacao.tempo_processamento
+  end
+
+  def get_data_geracao_tac
+    return "" if termo_atualizacao_comunicados.nil?
+    tacs = termo_atualizacao_comunicados.where(tipo_comunicado: 1)
+
+    return "" if tacs.empty?
+    tacs.last.data_geracao
   end
 end
