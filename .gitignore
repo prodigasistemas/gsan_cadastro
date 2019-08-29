@@ -23,3 +23,5 @@ public/assets
 public/avisos_corte
 
 .vscode/
+
+.idea/
