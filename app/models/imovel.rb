@@ -143,6 +143,9 @@ class Imovel < ActiveRecord::Base
   belongs_to :tipo_construcao, foreign_key: :imco_id, class_name: 'ImovelTipoConstrucao'
   belongs_to :tipo_cobertura, foreign_key: :imcb_id, class_name: 'ImovelTipoCobertura'
   belongs_to :tipo_propriedade, foreign_key: :impr_id, class_name: 'ImovelTipoPropriedade'
+  has_many   :atualizacoes_cadastrais, foreign_key: :imov_id, class_name: 'ImovelControleAtualizacaoCadastral'
+  has_many   :termo_atualizacao_comunicados, foreign_key: :imov_id, class_name: 'ComunicadoEmitirConta'
+  belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -158,6 +161,7 @@ class Imovel < ActiveRecord::Base
     cadastro = {}
 
     cadastro[:endereco_completo] = get_endereco_completo
+    cadastro[:perfil_imovel] = get_perfil_imovel
     cadastro[:area_construida] = get_area_construida
     cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
     cadastro[:volume_reservatorio_superior] = get_volume_reservatorio_superior
@@ -173,6 +177,12 @@ class Imovel < ActiveRecord::Base
     cadastro[:tipo_construcao] = get_tipo_construcao
     cadastro[:tipo_cobertura] = get_tipo_cobertura
     cadastro[:tipo_propriedade] = get_tipo_propriedade
+    cadastro[:data_processamento] = get_data_processamento
+    cadastro[:data_geracao_tac] = get_data_geracao_tac
+    cadastro[:subcategorias] = get_imovel_subcategorias
+    cadastro[:total_economias] = get_total_economias
+    cadastro[:pavimento_calcada] = get_pavimento_calcada
+    cadastro[:pavimento_rua] = get_pavimento_rua
 
     cadastro
   end
@@ -214,6 +224,37 @@ class Imovel < ActiveRecord::Base
     endereco << " " +cep
 
     endereco
+  end
+
+  def get_perfil_imovel
+    return "" if perfil_imovel.nil?
+
+    perfil_imovel.descricao
+  end
+
+  def get_imovel_subcategorias
+    subcategorias = []
+
+    return subcategorias if imovel_subcategorias.blank?
+
+    imovel_subcategorias.map do |s|
+      break if s.subcategoria.blank?
+
+      sub = {}
+      sub[:subcategoria] = s.subcategoria.try(:descricao)
+      sub[:categoria] = s.subcategoria.categoria.try(:descricao)
+      sub[:qtd_economias] = s.qtd_economias
+
+      subcategorias << sub
+    end
+
+    subcategorias
+  end
+
+  def get_total_economias
+    return "" if imovel_subcategorias.blank?
+
+    imovel_subcategorias.sum(&:qtd_economias)
   end
 
   def get_area_construida
@@ -267,9 +308,9 @@ class Imovel < ActiveRecord::Base
     return "" if quadra_face.nil?
     return "" if quadra_face.bacia.nil?
     return "" if quadra_face.bacia.sistema_esgoto.nil?
-    return "" if quadra_face.bacia.sistema_esgoto.divisao_esgotonil?
+    return "" if quadra_face.bacia.sistema_esgoto.divisao_esgoto.nil?
 
-    quadra_face.bacia.sistema_esgoto.divisao_esgotonil.descricao
+    quadra_face.bacia.sistema_esgoto.divisao_esgoto.descricao
   end
 
   def get_pavimento_calcada
@@ -328,5 +369,22 @@ class Imovel < ActiveRecord::Base
   end
 
   def get_telefone
+
+  end
+
+  def get_data_processamento
+    atualizacao = atualizacoes_cadastrais.last
+
+    return "" if atualizacao.nil?
+
+    atualizacao.tempo_processamento
+  end
+
+  def get_data_geracao_tac
+    return "" if termo_atualizacao_comunicados.nil?
+    tacs = termo_atualizacao_comunicados.where(tipo_comunicado: 1)
+
+    return "" if tacs.empty?
+    tacs.last.data_geracao
   end
 end
