@@ -100,11 +100,11 @@ class Imovel < ActiveRecord::Base
   alias_attribute "categoria",                                                          "imov_idcategoriaprincipal"
   alias_attribute "subcategoria",                                                       "imov_idsubcategoriaprincipal"
   alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
-  alias_attribute "observacao_categoria",                                               "imov_dsobservacaotegoria" 
+  alias_attribute "observacao_categoria",                                               "imov_dsobservacaotegoria"
 
   scope :com_dados, -> { com_escopo.joins(:quadra) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
-  scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:clientes).where(clientes: dados_clientes) }
+  scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:clientes).where(cliente: dados_cliente) }
 
   scope :por_endereco, -> (nome){ joins(logradouro: :logradouro_tipo).joins(logradouro_bairro: {bairro: {municipio: :uf}}).joins(logradouro: :logradouro_titulo)
   .where("UPPER(lgtp_dslogradourotipo) LIKE ? OR UPPER(logr_nmlogradouro) LIKE ? OR UPPER(lgtp_dsabreviado) LIKE ? OR UPPER(bair_nmbairro) LIKE ? OR UPPER(lgtt_dslogradourotitulo) LIKE ? OR UPPER(muni_nmmunicipio) LIKE ? OR UPPER(unfe_dsufsigla) LIKE ?",
@@ -124,11 +124,11 @@ class Imovel < ActiveRecord::Base
   has_many   :contas, -> { order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
   has_many   :imovel_subcategorias,  foreign_key: :imov_id, class_name: 'ImovelSubcategoria'
   has_many   :subcategorias, through: :imovel_subcategorias
-  has_many   :clientes_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
+  has_many   :cliente_imoveis, foreign_key: :imov_id, class_name: 'ClienteImovel'
   has_one    :logradouro,            through: :logradouro_cep
-  has_many   :clientes,               through: :clientes_imoveis
-  belongs_to :despejo,               foreign_key: :depj_id 
-  belongs_to :area_construida_faixa,       foreign_key: :acon_id 
+  has_many   :clientes,               through: :cliente_imoveis
+  belongs_to :despejo,               foreign_key: :depj_id
+  belongs_to :area_construida_faixa,       foreign_key: :acon_id
   belongs_to :faixa_reservatorio_inferior, foreign_key: :resv_idreservatorioinferior, class_name: 'ReservatorioVolumeFaixa'
   belongs_to :faixa_reservatorio_superior, foreign_key: :resv_idreservatoriosuperior, class_name: 'ReservatorioVolumeFaixa'
   belongs_to :piscina_volume_faixa, foreign_key: :pisc_id
@@ -146,17 +146,17 @@ class Imovel < ActiveRecord::Base
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
+  def self.com_escopo(metodos = [])
+    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial, :cliente_imoveis, :clientes].concat(metodos))
+  end
+
   def atributos(metodos = [])
     super([:localidade, :logradouro_cep, :setor_comercial, :clientes].concat(metodos))
   end
 
-  def self.com_escopo(metodos = [])
-    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial, :clientes].concat(metodos))
-  end
-
   def dados_cadastrais
     cadastro = {}
-    
+
     cadastro[:endereco_completo] = get_endereco_completo
     cadastro[:area_construida] = get_area_construida
     cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
@@ -177,7 +177,7 @@ class Imovel < ActiveRecord::Base
     cadastro
   end
 
-  private 
+  private
 
   def get_endereco_completo
     endereco = logradouro_tipo = logradouro_titulo = logradouro = bairro = municipio = uf = cep = ""
@@ -191,7 +191,7 @@ class Imovel < ActiveRecord::Base
       if not self.logradouro_cep.cep.nil?
         cep = self.logradouro_cep.cep.codigo.to_s if not self.logradouro_cep.cep.codigo.nil?
       end
-    end  
+    end
 
     if not self.logradouro_bairro.nil?
       if not self.logradouro_bairro.bairro.nil?
@@ -216,33 +216,33 @@ class Imovel < ActiveRecord::Base
     endereco
   end
 
-  def get_area_construida    
+  def get_area_construida
     return self.area_construida if not self.area_construida.nil?
     return self.area_construida_faixa.medidas if not self.area_construida_faixa.nil?
-    
+
     return ""
   end
 
   def get_volume_reservatorio_inferior
     return volume_reservatorio_inferior if not volume_reservatorio_inferior.nil?
     return "" if faixa_reservatorio_inferior.nil?
-            
-    faixa_reservatorio_inferior.medidas  
-  end  
+
+    faixa_reservatorio_inferior.medidas
+  end
 
   def get_volume_reservatorio_superior
     return volume_reservatorio_superior if not volume_reservatorio_superior.nil?
     return "" if faixa_reservatorio_superior.nil?
-            
-    faixa_reservatorio_superior.medidas  
-  end  
+
+    faixa_reservatorio_superior.medidas
+  end
 
   def get_piscina_volume_faixa
     return volume_piscina if not volume_piscina.nil?
     return "" if piscina_volume_faixa.nil?
-            
-    piscina_volume_faixa.medidas  
-  end  
+
+    piscina_volume_faixa.medidas
+  end
 
   def get_fonte_abastecimento
     return "" if fonte_abastecimento.nil?
@@ -328,6 +328,5 @@ class Imovel < ActiveRecord::Base
   end
 
   def get_telefone
-    
   end
 end
