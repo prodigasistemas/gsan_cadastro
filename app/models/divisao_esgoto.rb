@@ -9,5 +9,4 @@ class DivisaoEsgoto < ActiveRecord::Base
     alias_attribute "descricao",                 "dves_dsdivisaoesgoto"
     alias_attribute "ativo",                     "dves_icuso"
     alias_attribute "unidade_id",                "unid_id"
-    
 end
