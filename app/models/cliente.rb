@@ -107,6 +107,21 @@ class Cliente < ActiveRecord::Base
   accepts_nested_attributes_for :enderecos, allow_destroy: true
   accepts_nested_attributes_for :telefones, allow_destroy: true
 
+  def self.filtrar_dados(termos, incluir = [])
+    joins(
+      :imoveis
+    ).
+    where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
+  end
+
+  def self.condicoes_busca
+    <<-SQL
+      concat(cliente.clie_nncpf, ' ', cliente.clie_nncnpj, ' ',
+      cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
+        ILIKE :termo
+    SQL
+  end
+
   def gerencia
     return unless imoveis.present?
     @gerencia ||= imoveis.first.gerencia_regional
