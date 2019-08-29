@@ -110,8 +110,9 @@ class Cliente < ActiveRecord::Base
   def self.filtrar_dados(termos, incluir = [])
     joins(
       :imoveis
-    ).
-    where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
+    )
+    .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
+    .order(ordem_busca)
   end
 
   def self.condicoes_busca
@@ -120,6 +121,10 @@ class Cliente < ActiveRecord::Base
       cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
         ILIKE :termo
     SQL
+  end
+
+  def self.ordem_busca
+    "cliente.clie_nmcliente"
   end
 
   def gerencia
