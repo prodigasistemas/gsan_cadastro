@@ -160,7 +160,6 @@ class Imovel < ActiveRecord::Base
   def dados_cadastrais
     cadastro = {}
 
-    cadastro[:endereco_completo] = endereco_completo
     cadastro[:perfil_imovel] = get_perfil_imovel
     cadastro[:area_construida] = get_area_construida
     cadastro[:volume_reservatorio_inferior] = get_volume_reservatorio_inferior
