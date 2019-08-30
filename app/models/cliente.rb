@@ -113,6 +113,7 @@ class Cliente < ActiveRecord::Base
     )
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
     .order(ordem_busca)
+    .uniq
   end
 
   def self.condicoes_busca
