@@ -118,6 +118,7 @@ class Cliente < ActiveRecord::Base
 
   def self.condicoes_busca
     <<-SQL
+      cliente_imovel.clim_dtrelacaofim IS NULL and
       concat(cliente.clie_nncpf, ' ', cliente.clie_nncnpj, ' ',
       cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
         ILIKE :termo
