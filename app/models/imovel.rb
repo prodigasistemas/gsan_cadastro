@@ -218,7 +218,7 @@ class Imovel < ActiveRecord::Base
     endereco << " - " +bairro
     endereco << " " +municipio
     endereco << " " +uf
-    endereco << " " +cep
+    endereco << " " +cep.gsub(/\A(\d{5})(\d{3})\Z/, "\\1-\\2")
 
     endereco
   end
