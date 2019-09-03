@@ -148,6 +148,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
   belongs_to :funcionario, foreign_key: :funcionario_id
+  has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -193,6 +194,7 @@ class Imovel < ActiveRecord::Base
 
     cadastro[:consumo_tarifa] = get_consumo_tarifa
     cadastro[:funcionario] = get_funcionario
+    cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
 
     cadastro
   end
@@ -235,6 +237,22 @@ class Imovel < ActiveRecord::Base
   end
 
   private
+
+  def get_vencimentos_alternativos 
+    vencimentos = []
+
+    vencimentos_alternativos.map do |vencimento|
+      v = {}
+      v[:id] = vencimento.id
+      v[:data_implantacao] = vencimento.data_implantacao
+      v[:data_vencimento] = vencimento.data_vencimento
+      v[:data_exclusao] = vencimento.data_exclusao
+
+      vencimentos << v
+    end
+
+    return vencimentos
+  end
 
   def get_perfil_imovel
     return "" if perfil_imovel.nil?
