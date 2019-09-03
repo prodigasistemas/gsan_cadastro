@@ -251,7 +251,7 @@ class Imovel < ActiveRecord::Base
       vencimentos << v
     end
 
-    return vencimentos
+    vencimentos
   end
 
   def get_perfil_imovel
