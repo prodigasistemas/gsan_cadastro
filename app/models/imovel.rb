@@ -146,6 +146,8 @@ class Imovel < ActiveRecord::Base
   has_many   :atualizacoes_cadastrais, foreign_key: :imov_id, class_name: 'ImovelControleAtualizacaoCadastral'
   has_many   :termo_atualizacao_comunicados, foreign_key: :imov_id, class_name: 'ComunicadoEmitirConta'
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
+  belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
+  belongs_to :funcionario, foreign_key: :funcionario_id
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -182,6 +184,15 @@ class Imovel < ActiveRecord::Base
     cadastro[:total_economias] = get_total_economias
     cadastro[:pavimento_calcada] = get_pavimento_calcada
     cadastro[:pavimento_rua] = get_pavimento_rua
+
+    cadastro
+  end
+
+  def dados_adicionais
+    cadastro = {}
+
+    cadastro[:consumo_tarifa] = get_consumo_tarifa
+    cadastro[:funcionario] = get_funcionario
 
     cadastro
   end
@@ -385,5 +396,19 @@ class Imovel < ActiveRecord::Base
 
     return "" if tacs.empty?
     tacs.last.data_geracao
+  end
+
+  def get_consumo_tarifa
+    return "" if consumo_tarifa.nil?
+
+    consumo_tarifa.descricao
+  end
+
+  def get_funcionario
+    return "" if funcionario.nil?
+
+    f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
+
+    f
   end
 end
