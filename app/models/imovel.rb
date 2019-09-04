@@ -236,6 +236,29 @@ class Imovel < ActiveRecord::Base
     endereco
   end
 
+  def numero_inscricao
+    inscricao = ""
+
+    inscricao = localidade_id.to_s.rjust(3, '0') << "."
+
+    if(setor_comercial.blank?)
+      inscricao << "000."
+    else
+      inscricao << setor_comercial.codigo.to_s.rjust(3, '0') << "."
+    end  
+
+    if(quadra.blank?)
+      inscricao << "0000."
+    else
+      inscricao << quadra.numero_quadra.to_s.rjust(4, '0') << "."
+    end  
+
+    inscricao << numero_lote.to_s.rjust(4, '0') << "."
+    inscricao << numero_sublote.to_s.rjust(3, '0')
+
+    inscricao
+  end
+
   private
 
   def get_vencimentos_alternativos 
