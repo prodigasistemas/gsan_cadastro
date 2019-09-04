@@ -108,16 +108,17 @@ class Cliente < ActiveRecord::Base
   accepts_nested_attributes_for :telefones, allow_destroy: true
 
   def self.filtrar_dados(termos, incluir = [])
-    joins(
+    select("distinct on (cliente.clie_nmcliente) cliente.*")
+    .joins(
       :imoveis
     )
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
     .order(ordem_busca)
-    .uniq
   end
 
   def self.condicoes_busca
     <<-SQL
+      cliente_imovel.clim_dtrelacaofim IS NULL and
       concat(cliente.clie_nncpf, ' ', cliente.clie_nncnpj, ' ',
       cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
         ILIKE :termo
