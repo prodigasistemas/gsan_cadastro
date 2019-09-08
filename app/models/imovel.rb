@@ -149,6 +149,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
   belongs_to :funcionario, foreign_key: :funcionario_id
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
+  has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -195,6 +196,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:consumo_tarifa] = get_consumo_tarifa
     cadastro[:funcionario] = get_funcionario
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
+    cadastro[:debitos_automaticos] = get_debitos_automaticos
 
     cadastro
   end
@@ -275,6 +277,25 @@ class Imovel < ActiveRecord::Base
     end
 
     vencimentos
+  end
+
+  def get_debitos_automaticos
+    debitos = []
+
+    debitos_automaticos.map do |debito|
+      t = {}
+      t[:id] = debito.id
+      t[:descricao_banco]                       = debito.agencia.banco.descricaoAbreviada
+      t[:codigo_agencia]                        = debito.agencia.codigo
+      t[:identificacao_cliente_banco]           = debito.identificacaoClienteBanco
+      t[:data_opcao_debito_conta_corrente]      = debito.dataOpcaoDebitoContaCorrente
+      t[:data_inclusao_novo_debito_automatico]  = debito.dataInclusaoNovoDebitoAutomatico
+      t[:data_exclusao]                         = debito.dataExclusao
+
+      debitos << t
+    end
+
+    debitos
   end
 
   def get_perfil_imovel
