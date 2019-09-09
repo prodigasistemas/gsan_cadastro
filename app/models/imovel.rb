@@ -200,7 +200,14 @@ class Imovel < ActiveRecord::Base
   end
 
   def endereco_completo
-    endereco = logradouro_tipo = logradouro_titulo = logradouro = bairro = municipio = uf = cep = ""
+    endereco = ""
+    logradouro_tipo = ""
+    logradouro_titulo = ""
+    logradouro = "" 
+    bairro = ""
+    municipio = ""
+    uf = ""
+    cep = ""
 
     if not self.logradouro_cep.nil?
       if not self.logradouro_cep.logradouro.nil?
