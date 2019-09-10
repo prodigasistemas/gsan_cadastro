@@ -22,6 +22,6 @@ class CobrancaSituacao < ActiveRecord::Base
   alias_attribute "ramo_atividade", "ratv_id"
   alias_attribute "conta_motivo_revisao", "cmrv_id"
   
-  # belongs_to :profissao,       foreign_key: "prof_id"
-  # belongs_to :ramo_atividade,       foreign_key: "ratv_id"
+  belongs_to :profissao,       foreign_key: "prof_id"
+  belongs_to :ramo_atividade,       foreign_key: "ratv_id"
 end
