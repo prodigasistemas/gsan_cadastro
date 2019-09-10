@@ -152,6 +152,7 @@ class Imovel < ActiveRecord::Base
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
+  has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -188,6 +189,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:total_economias] = get_total_economias
     cadastro[:pavimento_calcada] = get_pavimento_calcada
     cadastro[:pavimento_rua] = get_pavimento_rua
+    cadastro[:imagens] = get_imagens
 
     cadastro
   end
@@ -210,7 +212,7 @@ class Imovel < ActiveRecord::Base
     endereco = ""
     logradouro_tipo = ""
     logradouro_titulo = ""
-    logradouro = "" 
+    logradouro = ""
     bairro = ""
     municipio = ""
     uf = ""
@@ -259,13 +261,13 @@ class Imovel < ActiveRecord::Base
       inscricao << "000."
     else
       inscricao << setor_comercial.codigo.to_s.rjust(3, '0') << "."
-    end  
+    end
 
     if(quadra.blank?)
       inscricao << "0000."
     else
       inscricao << quadra.numero_quadra.to_s.rjust(4, '0') << "."
-    end  
+    end
 
     inscricao << numero_lote.to_s.rjust(4, '0') << "."
     inscricao << numero_sublote.to_s.rjust(3, '0')
@@ -275,7 +277,20 @@ class Imovel < ActiveRecord::Base
 
   private
 
-  def get_vencimentos_alternativos 
+  def get_imagens
+    imgs = []
+
+    imagens.map do |imagem|
+      img = {}
+      img[:nome_imagem] = imagem.nome_imagem
+      img[:caminho_imagem] = imagem.caminho_imagem
+      imgs << img
+    end
+
+    imgs
+  end
+
+  def get_vencimentos_alternativos
     vencimentos = []
 
     vencimentos_alternativos.map do |vencimento|
