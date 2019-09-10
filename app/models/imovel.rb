@@ -681,7 +681,14 @@ class Imovel < ActiveRecord::Base
   end
 
   def endereco_completo
-    endereco = logradouro_tipo = logradouro_titulo = logradouro = bairro = municipio = uf = cep = ""
+    endereco = ""
+    logradouro_tipo = ""
+    logradouro_titulo = ""
+    logradouro = "" 
+    bairro = ""
+    municipio = ""
+    uf = ""
+    cep = ""
 
     if not self.logradouro_cep.nil?
       if not self.logradouro_cep.logradouro.nil?
@@ -717,7 +724,7 @@ class Imovel < ActiveRecord::Base
     endereco
   end
 
-  def numero_inscricao
+  def inscricao
     inscricao = ""
 
     inscricao = localidade_id.to_s.rjust(3, '0') << "."
@@ -737,7 +744,7 @@ class Imovel < ActiveRecord::Base
     inscricao << numero_lote.to_s.rjust(4, '0') << "."
     inscricao << numero_sublote.to_s.rjust(3, '0')
 
-    inscricao
+    {numero: inscricao, dica: "Localidade.Setor.Quadra.Lote.Sublote"}
   end
 
   private
