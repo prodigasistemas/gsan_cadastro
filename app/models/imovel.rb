@@ -150,6 +150,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :funcionario, foreign_key: :funcionario_id
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
+  has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -197,6 +198,8 @@ class Imovel < ActiveRecord::Base
     cadastro[:funcionario] = get_funcionario
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
     cadastro[:debitos_automaticos] = get_debitos_automaticos
+    cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
+
 
     cadastro
   end
@@ -303,6 +306,31 @@ class Imovel < ActiveRecord::Base
     end
 
     debitos
+  end
+
+  def get_imovel_cobrancas_situacoes
+    cobrancas = []
+
+    imovel_cobrancas_situacoes.map do |cobranca|
+      c = {}
+      c[:id] = cobranca.id
+      c[:descricao] = cobranca.cobranca_situacao.descricao
+      c[:referencia] = cobranca.ano_mes_referencia_final
+      c[:data_implantacao] = cobranca.data_implantacao
+      c[:data_retirada] = cobranca.data_retirada
+      c[:cliente_ativo] = cobranca.cliente
+      if not cobranca.escritorio.nil?
+        c[:escritorio_cobranca] = cobranca.escritorio.nome
+      end
+
+      if not cobranca.advogado.nil?
+        c[:advogado_cobranca] = cobranca.advogado.nome
+      end
+
+      cobrancas << c
+    end
+
+    cobrancas
   end
 
   def get_perfil_imovel
