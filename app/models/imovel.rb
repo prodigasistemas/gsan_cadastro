@@ -151,6 +151,7 @@ class Imovel < ActiveRecord::Base
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
+  has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -199,6 +200,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
     cadastro[:debitos_automaticos] = get_debitos_automaticos
     cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
+    cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
 
 
     cadastro
@@ -319,14 +321,38 @@ class Imovel < ActiveRecord::Base
       c[:data_implantacao] = cobranca.data_implantacao
       c[:data_retirada] = cobranca.data_retirada
       c[:cliente_ativo] = cobranca.cliente
-      if not cobranca.escritorio.nil?
+      if cobranca.escritorio.present?
         c[:escritorio_cobranca] = cobranca.escritorio.nome
       end
 
-      if not cobranca.advogado.nil?
+      if cobranca.advogado.present?
         c[:advogado_cobranca] = cobranca.advogado.nome
       end
 
+      cobrancas << c
+    end
+
+    cobrancas
+  end
+
+  def get_cobrancas_situacoes_especiais
+    cobrancas = []
+
+    cobrancas_situacoes_especiais.map do |cobranca|
+      c = {}
+      c[:id] = cobranca.id
+      if cobranca.cobranca_situacao_tipo.present?
+        c[:tipo] = cobranca.cobranca_situacao_tipo.descricao
+      end
+      if cobranca.cobranca_situacao_motivo.present?
+        c[:motivo] = cobranca.cobranca_situacao_motivo.descricao
+      end
+      c[:mes_ano_inicio] = cobranca.ano_mes_situacao_cobranca_inicio
+      c[:mes_ano_fim] = cobranca.ano_mes_situacao_cobranca_final
+      c[:mes_ano_retirada] = cobranca.ano_mes_cobranca_retirada
+      if cobranca.usuario.present?
+        c[:usuario] = cobranca.usuario.nome
+      end
       cobrancas << c
     end
 
