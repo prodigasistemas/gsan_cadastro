@@ -99,7 +99,12 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
           and vis.vist_id = (select max(v2.vist_id) from atualizacaocadastral.visita v2 where v2.icac_id = ic.icac_id)
           and iatlz.empr_id = #{empresa_id}
     SQL
-    query << "\nand vis.usur_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
+    unless params[:leiturista_id].blank?
+      query << "\nand vis.usur_id = (select usur.usur_id from micromedicao.leiturista leit "
+      query << "\ninner join cadastro.funcionario func on leit.func_id = func.func_id"
+      query << "\ninner join seguranca.usuario usur on usur.usur_nncpf = func.func_nncpf"
+      query << "\nwhere leit.leit_id = #{params[:leiturista_id]} limit 1)"
+    end
     query << "\nand ic.icac_lote = #{params[:lote]}" unless params[:lote].blank?
     query << "\nand ic.imov_id = #{params[:matricula]}" unless params[:matricula].blank?
     query << "\nand ic.icac_tmreprovacaolote::Date = '#{params[:data_hora_reprovacao].try(:to_date).try(:strftime)}'" unless params[:data_hora_reprovacao].blank?
