@@ -153,6 +153,7 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
+  has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -203,6 +204,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:debitos_automaticos] = get_debitos_automaticos
     cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
     cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
+    cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
 
 
     cadastro
@@ -372,6 +374,24 @@ class Imovel < ActiveRecord::Base
     end
 
     cobrancas
+  end
+  
+  def get_imovel_elos_anormalidades
+    anormalidades = []
+
+    imovel_elos_anormalidades.map do |anormalidade|
+      a = {}
+      a[:id] = anormalidade.id
+      if anormalidade.elo_anormalidade.present?
+        a[:descricao] = anormalidade.elo_anormalidade.descricao
+      end
+      a[:data_anormalidade] = anormalidade.data_anormalidade
+      a[:data_anormalidade] = anormalidade.data_anormalidade
+      a[:foto_anormalidade] = anormalidade.foto_anormalidade
+      anormalidades << a
+    end
+
+    anormalidades
   end
 
   def get_perfil_imovel
