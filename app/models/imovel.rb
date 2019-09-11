@@ -148,8 +148,9 @@ class Imovel < ActiveRecord::Base
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
   belongs_to :funcionario, foreign_key: :funcionario_id
-  has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
-  has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
+  has_many   :vencimentos_alternativos,       foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
+  has_many   :debitos_automaticos,            foreign_key: :imov_id, class_name: 'DebitoAutomatico'
+  has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -197,6 +198,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:funcionario] = get_funcionario
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
     cadastro[:debitos_automaticos] = get_debitos_automaticos
+    cadastro[:faturamento_situacao_historico] = get_faturamento_situacao_historico
 
     cadastro
   end
@@ -303,6 +305,36 @@ class Imovel < ActiveRecord::Base
     end
 
     debitos
+  end
+
+  def get_faturamento_situacao_historico
+    historicos = []
+
+    faturamento_situacao_historico.map do |historico|
+      t = {}
+      t[:tipo]          = historico.faturamento_situacao_tipo.descricao
+      t[:motivo]        = historico.faturamento_situacao_motivo.descricao
+      t[:data_inicio]   = historico.anoMesFaturamentoSituacaoInicio
+      t[:data_fim]      = historico.anoMesFaturamentoSituacaoFim
+      t[:data_retirada] = historico.anoMesFaturamentoRetirada
+      t[:data_inclusao] = historico.dataInclusao
+
+      if historico.usuario.present?
+        usuario = historico.usuario.nome
+      else
+        if historico.faturamento_situacao_comando_retirada.present? and historico.faturamento_situacao_comando_retirada.usuario.present?
+          usuario = historico.faturamento_situacao_comando_retirada.usuario.nome
+        else
+          usuario = historico.faturamento_situacao_comando_informa.usuario.nome
+        end
+      end
+
+      t[:usuario] = usuario
+
+      historicos << t
+    end
+    
+    historicos
   end
 
   def get_perfil_imovel
@@ -479,5 +511,13 @@ class Imovel < ActiveRecord::Base
     f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
 
     f
+  end
+
+  def format_referencia(data)
+    return unless data.present?
+  
+    data.to_s.match /(\d{4})(\d{2})/
+  
+    "#{$2}/#{$1}"
   end
 end
