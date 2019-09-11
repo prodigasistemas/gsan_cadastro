@@ -18,7 +18,7 @@ class CobrancaSituacaoHistorico < ActiveRecord::Base
   alias_attribute "observacao_retirada",                "cbsh_dsobservacaoretira"
   alias_attribute "data_fim_situacao",                  "cbsh_dsobservacaoretira"
   alias_attribute "imov_id",                            "imov_id"
-  alias_attribute "usuario",                            "usur_id"
+  alias_attribute "usuario_id",                         "usur_id"
   alias_attribute "usur_idinforma",                     "usur_idinforma"
   alias_attribute "usur_idretira",                      "usur_idretira"
   alias_attribute "cbsc_idinforma",                     "cbsc_idinforma"
@@ -28,7 +28,7 @@ class CobrancaSituacaoHistorico < ActiveRecord::Base
   
   belongs_to  :usuario_informante,        foreign_key: :usur_idinforma,   class_name: 'Usuario'
   belongs_to  :usuario_retirante,         foreign_key: :usur_idretira,    class_name: 'Usuario'
-  belongs_to  :usuario,                   foreign_key: :usuario,          class_name: 'Usuario'
+  belongs_to  :usuario,                   foreign_key: :usuario_id,       class_name: 'Usuario'
   belongs_to  :cobranca_situacao_motivo,  foreign_key: :cbsm_id,          class_name: 'CobrancaSituacaoMotivo'
   belongs_to  :cobranca_situacao_tipo,    foreign_key: :cbsp_id,          class_name: 'CobrancaSituacao'
   belongs_to  :comando_inclusao,          foreign_key: :cbsc_idinforma,   class_name: 'CobrancaSituacao'
