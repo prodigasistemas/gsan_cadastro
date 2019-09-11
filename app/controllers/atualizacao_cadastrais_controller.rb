@@ -38,6 +38,6 @@ class AtualizacaoCadastraisController < ApplicationController
   private
 
   def atualizacao_cadastral_params
-    params.require(:query).permit(:codigo_imovel, :situacao_cadastral_id)
+    params.require(:query).permit(:codigo_imovel, :situacao_cadastral_id, :page, :per_page)
   end
 end

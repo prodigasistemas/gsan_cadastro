@@ -148,9 +148,13 @@ class Imovel < ActiveRecord::Base
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
   belongs_to :funcionario, foreign_key: :funcionario_id
-  has_many   :vencimentos_alternativos,       foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
-  has_many   :debitos_automaticos,            foreign_key: :imov_id, class_name: 'DebitoAutomatico'
+  has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
+  has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
+  has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
+  has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
+  has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
+  has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
@@ -187,6 +191,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:total_economias] = get_total_economias
     cadastro[:pavimento_calcada] = get_pavimento_calcada
     cadastro[:pavimento_rua] = get_pavimento_rua
+    cadastro[:imagens] = get_imagens
 
     cadastro
   end
@@ -199,6 +204,10 @@ class Imovel < ActiveRecord::Base
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
     cadastro[:debitos_automaticos] = get_debitos_automaticos
     cadastro[:faturamento_situacao_historico] = get_faturamento_situacao_historico
+    cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
+    cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
+    cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
+
 
     cadastro
   end
@@ -207,7 +216,7 @@ class Imovel < ActiveRecord::Base
     endereco = ""
     logradouro_tipo = ""
     logradouro_titulo = ""
-    logradouro = "" 
+    logradouro = ""
     bairro = ""
     municipio = ""
     uf = ""
@@ -247,7 +256,7 @@ class Imovel < ActiveRecord::Base
     endereco
   end
 
-  def inscricao
+  def dados_gerais
     inscricao = ""
 
     inscricao = localidade_id.to_s.rjust(3, '0') << "."
@@ -256,23 +265,53 @@ class Imovel < ActiveRecord::Base
       inscricao << "000."
     else
       inscricao << setor_comercial.codigo.to_s.rjust(3, '0') << "."
-    end  
+    end
 
     if(quadra.blank?)
       inscricao << "0000."
     else
       inscricao << quadra.numero_quadra.to_s.rjust(4, '0') << "."
-    end  
+    end
 
     inscricao << numero_lote.to_s.rjust(4, '0') << "."
     inscricao << numero_sublote.to_s.rjust(3, '0')
 
-    {numero: inscricao, dica: "Localidade.Setor.Quadra.Lote.Sublote"}
+    {inscricao: inscricao, dica_inscricao: "Localidade.Setor.Quadra.Lote.Sublote", usuario: get_cliente_usuario, hidrometro: get_numero_hidrometro}
   end
 
   private
 
-  def get_vencimentos_alternativos 
+  def get_imagens
+    imgs = []
+
+    imagens.map do |imagem|
+      img = {}
+      img[:nome_imagem] = imagem.nome_imagem
+      img[:caminho_imagem] = imagem.caminho_imagem
+      imgs << img
+    end
+
+    imgs
+  end
+
+  def get_cliente_usuario
+    cliente_imovel = self.cliente_imoveis.where(tipo_relacao: 2, data_fim_relacao: nil).first
+
+    return if cliente_imovel.nil?
+    return if cliente_imovel.cliente.nil?
+
+    cliente_imovel.cliente.id.to_s << " - " << cliente_imovel.cliente.nome
+  end
+
+  def get_numero_hidrometro
+    hidrometro = self.hidrometro_instalacao_agua_historicos.first
+
+    return if hidrometro.nil?
+
+    hidrometro.numero_hidrometro
+  end
+
+  def get_vencimentos_alternativos
     vencimentos = []
 
     vencimentos_alternativos.map do |vencimento|
@@ -314,7 +353,7 @@ class Imovel < ActiveRecord::Base
       t = {}
       t[:tipo]          = historico.faturamento_situacao_tipo.descricao
       t[:motivo]        = historico.faturamento_situacao_motivo.descricao
-      t[:data_inicio]   = historico.anoMesFaturamentoSituacaoInicio
+      t[:data_inicio]   = formatahistorico.anoMesFaturamentoSituacaoInicio
       t[:data_fim]      = historico.anoMesFaturamentoSituacaoFim
       t[:data_retirada] = historico.anoMesFaturamentoRetirada
       t[:data_inclusao] = historico.dataInclusao
@@ -335,6 +374,73 @@ class Imovel < ActiveRecord::Base
     end
     
     historicos
+  end
+
+  def get_imovel_cobrancas_situacoes
+    cobrancas = []
+
+    imovel_cobrancas_situacoes.map do |cobranca|
+      c = {}
+      c[:id] = cobranca.id
+      c[:descricao] = cobranca.cobranca_situacao.descricao
+      c[:referencia] = cobranca.ano_mes_referencia_final
+      c[:data_implantacao] = cobranca.data_implantacao
+      c[:data_retirada] = cobranca.data_retirada
+      c[:cliente_ativo] = cobranca.cliente
+      if cobranca.escritorio.present?
+        c[:escritorio_cobranca] = cobranca.escritorio.nome
+      end
+
+      if cobranca.advogado.present?
+        c[:advogado_cobranca] = cobranca.advogado.nome
+      end
+
+      cobrancas << c
+    end
+
+    cobrancas
+  end
+
+  def get_cobrancas_situacoes_especiais
+    cobrancas = []
+
+    cobrancas_situacoes_especiais.map do |cobranca|
+      c = {}
+      c[:id] = cobranca.id
+      if cobranca.cobranca_situacao_tipo.present?
+        c[:tipo] = cobranca.cobranca_situacao_tipo.descricao
+      end
+      if cobranca.cobranca_situacao_motivo.present?
+        c[:motivo] = cobranca.cobranca_situacao_motivo.descricao
+      end
+      c[:mes_ano_inicio] = cobranca.ano_mes_situacao_cobranca_inicio
+      c[:mes_ano_fim] = cobranca.ano_mes_situacao_cobranca_final
+      c[:mes_ano_retirada] = cobranca.ano_mes_cobranca_retirada
+      if cobranca.usuario.present?
+        c[:usuario] = cobranca.usuario.nome
+      end
+      cobrancas << c
+    end
+
+    cobrancas
+  end
+
+  def get_imovel_elos_anormalidades
+    anormalidades = []
+
+    imovel_elos_anormalidades.map do |anormalidade|
+      a = {}
+      a[:id] = anormalidade.id
+      if anormalidade.elo_anormalidade.present?
+        a[:descricao] = anormalidade.elo_anormalidade.descricao
+      end
+      a[:data_anormalidade] = anormalidade.data_anormalidade
+      a[:data_anormalidade] = anormalidade.data_anormalidade
+      a[:foto_anormalidade] = anormalidade.foto_anormalidade
+      anormalidades << a
+    end
+
+    anormalidades
   end
 
   def get_perfil_imovel
@@ -511,13 +617,5 @@ class Imovel < ActiveRecord::Base
     f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
 
     f
-  end
-
-  def format_referencia(data)
-    return unless data.present?
-  
-    data.to_s.match /(\d{4})(\d{2})/
-  
-    "#{$2}/#{$1}"
   end
 end

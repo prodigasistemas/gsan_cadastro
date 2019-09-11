@@ -84,7 +84,7 @@ Rails.application.routes.draw do
   resources :imovel_atualizacao_cadastrais, only: [:show, :update]
 
   resources :cadastro_ocorrencias,  only: [:index]
-  resources :imovel_controle_atualizacao_cadastrais,  only: [:show, :update]
+  resources :imovel_controle_atualizacao_cadastrais,  only: [:index, :show, :update]
 
   resources :imagem_retornos,  only: [:index]
   resources :visitas, only: [:index]
