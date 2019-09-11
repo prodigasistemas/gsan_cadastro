@@ -254,7 +254,7 @@ class Imovel < ActiveRecord::Base
     endereco
   end
 
-  def inscricao
+  def dados_gerais
     inscricao = ""
 
     inscricao = localidade_id.to_s.rjust(3, '0') << "."
@@ -274,7 +274,7 @@ class Imovel < ActiveRecord::Base
     inscricao << numero_lote.to_s.rjust(4, '0') << "."
     inscricao << numero_sublote.to_s.rjust(3, '0')
 
-    {numero: inscricao, dica: "Localidade.Setor.Quadra.Lote.Sublote"}
+    {inscricao: inscricao, dica_inscricao: "Localidade.Setor.Quadra.Lote.Sublote", usuario: get_cliente_usuario, hidrometro: get_numero_hidrometro}
   end
 
   private
@@ -290,6 +290,23 @@ class Imovel < ActiveRecord::Base
     end
 
     imgs
+  end
+
+  def get_cliente_usuario
+    cliente_imovel = self.cliente_imoveis.where(tipo_relacao: 2, data_fim_relacao: nil).first
+
+    return if cliente_imovel.nil?
+    return if cliente_imovel.cliente.nil?
+
+    cliente_imovel.cliente.id.to_s << " - " << cliente_imovel.cliente.nome
+  end
+
+  def get_numero_hidrometro
+    hidrometro = self.hidrometro_instalacao_agua_historicos.first
+
+    return if hidrometro.nil?
+
+    hidrometro.numero_hidrometro
   end
 
   def get_vencimentos_alternativos
@@ -375,7 +392,7 @@ class Imovel < ActiveRecord::Base
 
     cobrancas
   end
-  
+
   def get_imovel_elos_anormalidades
     anormalidades = []
 
