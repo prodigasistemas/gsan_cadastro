@@ -156,6 +156,9 @@ class Imovel < ActiveRecord::Base
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
+
+  has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
+
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
   def self.com_escopo(metodos = [])
@@ -207,6 +210,8 @@ class Imovel < ActiveRecord::Base
     cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
     cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
     cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
+
+    cadastro[:imovel_cadastros_ocorrencias] = get_imovel_cadastros_ocorrencias
 
 
     cadastro
@@ -441,6 +446,24 @@ class Imovel < ActiveRecord::Base
     end
 
     anormalidades
+  end
+
+  def get_imovel_cadastros_ocorrencias
+    ocorrencias = []
+
+    imovel_cadastros_ocorrencias.map do |ocorrencia|
+      c = {}
+      c[:id] = ocorrencia.id
+      if ocorrencia.cadastro_ocorrencia.present?
+        c[:descricao] = ocorrencia.cadastro_ocorrencia.descricao
+      end
+      c[:data_ocorrencia] = ocorrencia.data_ocorrencia
+      c[:foto_ocorrencia] = ocorrencia.foto_ocorrencia
+
+      ocorrencias << c
+    end
+
+    ocorrencias
   end
 
   def get_perfil_imovel
