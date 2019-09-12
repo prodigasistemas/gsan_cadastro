@@ -156,10 +156,6 @@ class Imovel < ActiveRecord::Base
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5c9f45bcbd0ad182b9b0cff682a336b16c86cf33
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
 
