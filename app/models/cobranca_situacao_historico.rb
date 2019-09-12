@@ -30,7 +30,7 @@ class CobrancaSituacaoHistorico < ActiveRecord::Base
   belongs_to  :usuario_retirante,         foreign_key: :usur_idretira,    class_name: 'Usuario'
   belongs_to  :usuario,                   foreign_key: :usuario_id,       class_name: 'Usuario'
   belongs_to  :cobranca_situacao_motivo,  foreign_key: :cbsm_id,          class_name: 'CobrancaSituacaoMotivo'
-  belongs_to  :cobranca_situacao_tipo,    foreign_key: :cbsp_id,          class_name: 'CobrancaSituacao'
+  belongs_to  :cobranca_situacao_tipo,    foreign_key: :cbsp_id,          class_name: 'CobrancaSituacaoTipo'
   belongs_to  :comando_inclusao,          foreign_key: :cbsc_idinforma,   class_name: 'CobrancaSituacao'
   belongs_to  :comando_retirada,          foreign_key: :cbsc_idretirada,  class_name: 'CobrancaSituacao'
 
