@@ -150,6 +150,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :funcionario, foreign_key: :funcionario_id
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
+  has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
   has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
@@ -209,6 +210,7 @@ class Imovel < ActiveRecord::Base
     cadastro[:funcionario] = get_funcionario
     cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
     cadastro[:debitos_automaticos] = get_debitos_automaticos
+    cadastro[:faturamento_situacao_historico] = get_faturamento_situacao_historico
     cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
     cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
     cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
@@ -350,6 +352,36 @@ class Imovel < ActiveRecord::Base
     end
 
     debitos
+  end
+
+  def get_faturamento_situacao_historico
+    historicos = []
+
+    faturamento_situacao_historico.map do |historico|
+      t = {}
+      t[:tipo]          = historico.faturamento_situacao_tipo.descricao 
+      t[:motivo]        = historico.faturamento_situacao_motivo.descricao
+      t[:data_inicio]   = historico.anoMesFaturamentoSituacaoInicio
+      t[:data_fim]      = historico.anoMesFaturamentoSituacaoFim
+      t[:data_retirada] = historico.anoMesFaturamentoRetirada
+      t[:data_inclusao] = historico.dataInclusao
+
+      if historico.usuario.present?
+        usuario = historico.usuario.nome
+      else
+        if historico.faturamento_situacao_comando_retirada.present? and historico.faturamento_situacao_comando_retirada.usuario.present?
+          usuario = historico.faturamento_situacao_comando_retirada.usuario.nome
+        else
+          usuario = historico.faturamento_situacao_comando_informa.usuario.nome
+        end
+      end
+
+      t[:usuario] = usuario
+
+      historicos << t
+    end
+    
+    historicos
   end
 
   def get_imovel_cobrancas_situacoes
