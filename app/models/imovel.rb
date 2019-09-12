@@ -156,13 +156,9 @@ class Imovel < ActiveRecord::Base
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
-<<<<<<< Updated upstream
-=======
-
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
 
->>>>>>> Stashed changes
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
   def self.com_escopo(metodos = [])
@@ -451,8 +447,6 @@ class Imovel < ActiveRecord::Base
     anormalidades
   end
 
-<<<<<<< Updated upstream
-=======
   def get_imovel_cadastros_ocorrencias
     ocorrencias = []
 
@@ -476,12 +470,12 @@ class Imovel < ActiveRecord::Base
 
     imovel_ramos_atividades.map do |ramo|
       c = {}
-      c[:id] = ramo.id
-      if ocorrencia.ramo_atividade.present?
-        c[:descricao] = ocorrencia.ramo_atividade.descricao
+ 
+      if ramo.ramo_atividade.present?
+        c[:descricao] = ramo.ramo_atividade.descricao
       end
-      if ocorrencia.ramo_atividade.present?
-        c[:codigo] = ocorrencia.ramo_atividade.codigo
+      if ramo.ramo_atividade.present?
+        c[:codigo] = ramo.ramo_atividade.codigo
       end
       ramos << c
     end
@@ -489,7 +483,6 @@ class Imovel < ActiveRecord::Base
     ramos
   end
 
->>>>>>> Stashed changes
   def get_perfil_imovel
     return "" if perfil_imovel.nil?
 

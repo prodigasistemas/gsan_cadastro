@@ -11,7 +11,7 @@ class ImovelRamoAtividade < ActiveRecord::Base
   alias_attribute "imov_id",                    "imov_id"
   alias_attribute "ratv_id",                    "ratv_id"
 
-  belongs_to  :ramo_atividade,              foreign_key: :imov_id,  class_name: 'RamoAtividade'
+  belongs_to  :ramo_atividade,              foreign_key: :ratv_id,  class_name: 'RamoAtividade'
   
   delegate :ramo_atividade,    :to => :imovel, :allow_nil => true, :prefix => true
 end
