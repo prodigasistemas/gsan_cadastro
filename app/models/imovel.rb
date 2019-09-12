@@ -156,6 +156,10 @@ class Imovel < ActiveRecord::Base
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5c9f45bcbd0ad182b9b0cff682a336b16c86cf33
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
 
@@ -420,8 +424,8 @@ class Imovel < ActiveRecord::Base
       c[:mes_ano_inicio] = cobranca.ano_mes_situacao_cobranca_inicio
       c[:mes_ano_fim] = cobranca.ano_mes_situacao_cobranca_final
       c[:mes_ano_retirada] = cobranca.ano_mes_cobranca_retirada
-      if cobranca.usuario.present?
-        c[:usuario] = cobranca.usuario.nome
+      if cobranca.usuario_informante.present?
+        c[:usuario] = cobranca.usuario_informante.nome
       end
       cobrancas << c
     end
@@ -438,7 +442,6 @@ class Imovel < ActiveRecord::Base
       if anormalidade.elo_anormalidade.present?
         a[:descricao] = anormalidade.elo_anormalidade.descricao
       end
-      a[:data_anormalidade] = anormalidade.data_anormalidade
       a[:data_anormalidade] = anormalidade.data_anormalidade
       a[:foto_anormalidade] = anormalidade.foto_anormalidade
       anormalidades << a
@@ -470,7 +473,7 @@ class Imovel < ActiveRecord::Base
 
     imovel_ramos_atividades.map do |ramo|
       c = {}
- 
+
       if ramo.ramo_atividade.present?
         c[:descricao] = ramo.ramo_atividade.descricao
       end
