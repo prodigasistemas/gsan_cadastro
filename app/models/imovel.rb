@@ -356,9 +356,9 @@ class Imovel < ActiveRecord::Base
 
     faturamento_situacao_historico.map do |historico|
       t = {}
-      t[:tipo]          = historico.faturamento_situacao_tipo.descricao
+      t[:tipo]          = historico.faturamento_situacao_tipo.descricao 
       t[:motivo]        = historico.faturamento_situacao_motivo.descricao
-      t[:data_inicio]   = formatahistorico.anoMesFaturamentoSituacaoInicio
+      t[:data_inicio]   = historico.anoMesFaturamentoSituacaoInicio
       t[:data_fim]      = historico.anoMesFaturamentoSituacaoFim
       t[:data_retirada] = historico.anoMesFaturamentoRetirada
       t[:data_inclusao] = historico.dataInclusao
