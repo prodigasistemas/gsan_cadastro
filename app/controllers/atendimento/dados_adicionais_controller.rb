@@ -7,7 +7,6 @@ class Atendimento::DadosAdicionaisController < ImoveisController
   end
 
   def inclusoes
-binding.pry    
     super << :dados_adicionais
   end  
 end
