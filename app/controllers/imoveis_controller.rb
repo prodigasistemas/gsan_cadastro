@@ -1,4 +1,6 @@
 class ImoveisController < ApplicationController
+  before_action :busca_imovel, only: :show
+
   def index
     @imoveis = Imovel.com_dados.buscar(params[:query]) if params[:query].present?
     @imoveis ||= Imovel.buscar
@@ -17,13 +19,20 @@ class ImoveisController < ApplicationController
   end
 
   def show
-    @imovel = Imovel.com_escopo([:logradouro]).find(params[:id])
-
     if @imovel
-      render json: { entidade: @imovel.atributos([:endereco_completo, :dados_gerais, :dados_cadastrais, :dados_adicionais]) }, status: :ok
+      render json: { entidade: @imovel.atributos(inclusoes) }, status: :ok
     else
       render json: {}, status: :not_found
     end
   end
 
+  protected 
+
+  def busca_imovel
+    @imovel = Imovel.com_escopo([:logradouro]).find(params[:id]) 
+  end
+
+  def inclusoes 
+    [:dados_gerais, :endereco_completo]
+  end
 end
