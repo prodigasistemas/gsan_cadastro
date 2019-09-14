@@ -95,5 +95,6 @@ Rails.application.routes.draw do
   namespace :atendimento do
     resources :dados_cadastrais, only: [:show]
     resources :dados_adicionais, only: [:show]
+    resources :analise_ligacao_consumos, only: [:show]
   end
 end
