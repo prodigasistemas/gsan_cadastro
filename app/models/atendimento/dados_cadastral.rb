@@ -1,5 +1,4 @@
-class Atendimento::DadoCadastral < Imovel
-   
+class Atendimento::DadosCadastral < Imovel
   def dados_cadastrais
     cadastro = {}
 

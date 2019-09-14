@@ -1,40 +1,22 @@
-class Atendimento::DadoAdicional < Imovel
-  
-    def dados_adicionais
-      cadastro = {}
+class Atendimento::DadosAdicional < Imovel
+  def dados_adicionais
+    cadastro = {}
 
-      cadastro[:consumo_tarifa] = get_consumo_tarifa
-      cadastro[:funcionario] = get_funcionario
-      cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
-      cadastro[:debitos_automaticos] = get_debitos_automaticos
-      cadastro[:faturamento_situacao_historico] = get_faturamento_situacao_historico
-      cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
-      cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
-      cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
-      cadastro[:imovel_cadastros_ocorrencias] = get_imovel_cadastros_ocorrencias
-      cadastro[:imovel_ramos_atividades] = get_imovel_ramos_atividades
-  
-      cadastro
-    end    
+    cadastro[:consumo_tarifa] = get_consumo_tarifa
+    cadastro[:funcionario] = get_funcionario
+    cadastro[:vencimentos_alternativos] = get_vencimentos_alternativos
+    cadastro[:debitos_automaticos] = get_debitos_automaticos
+    cadastro[:faturamento_situacao_historico] = get_faturamento_situacao_historico
+    cadastro[:imovel_cobrancas_situacoes] = get_imovel_cobrancas_situacoes
+    cadastro[:cobrancas_situacoes_especiais] = get_cobrancas_situacoes_especiais
+    cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
+    cadastro[:imovel_cadastros_ocorrencias] = get_imovel_cadastros_ocorrencias
+    cadastro[:imovel_ramos_atividades] = get_imovel_ramos_atividades
 
-  private 
-
-  def get_cliente_usuario
-    cliente_imovel = self.cliente_imoveis.where(tipo_relacao: 2, data_fim_relacao: nil).first
-
-    return if cliente_imovel.nil?
-    return if cliente_imovel.cliente.nil?
-
-    cliente_imovel.cliente.id.to_s << " - " << cliente_imovel.cliente.nome
+    cadastro
   end
 
-  def get_numero_hidrometro
-    hidrometro = self.hidrometro_instalacao_agua_historicos.first
-
-    return if hidrometro.nil?
-
-    hidrometro.numero_hidrometro
-  end
+  private
 
   def get_vencimentos_alternativos
     vencimentos = []
@@ -77,7 +59,7 @@ class Atendimento::DadoAdicional < Imovel
     faturamento_situacao_historico.map do |historico|
       t = {}
 
-      t[:tipo]          = historico.faturamento_situacao_tipo.descricao 
+      t[:tipo]          = historico.faturamento_situacao_tipo.descricao
       t[:motivo]        = historico.faturamento_situacao_motivo.descricao
       t[:data_inicio]   = historico.anoMesFaturamentoSituacaoInicio
       t[:data_fim]      = historico.anoMesFaturamentoSituacaoFim
@@ -90,7 +72,7 @@ class Atendimento::DadoAdicional < Imovel
       else
         if historico.faturamento_situacao_comando_retirada.present? and historico.faturamento_situacao_comando_retirada.usuario.present?
           usuario = historico.faturamento_situacao_comando_retirada.usuario.nome
-        else 
+        else
           usuario = historico.faturamento_situacao_comando_informa.usuario.nome if historico.faturamento_situacao_comando_informa.present?
         end
       end
@@ -99,7 +81,7 @@ class Atendimento::DadoAdicional < Imovel
 
       historicos << t
     end
-    
+
     historicos
   end
 
@@ -186,7 +168,7 @@ class Atendimento::DadoAdicional < Imovel
 
     ocorrencias
   end
-  
+
   def get_imovel_ramos_atividades
     ramos = []
 

@@ -92,7 +92,7 @@ Rails.application.routes.draw do
 
   resources :cliente_atualizacao_cadastrais, only: [:index, :show]
 
-  namespace :atendimento do 
+  namespace :atendimento do
     resources :dados_cadastrais, only: [:show]
     resources :dados_adicionais, only: [:show]
   end

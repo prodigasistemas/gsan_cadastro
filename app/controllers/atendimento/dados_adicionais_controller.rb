@@ -1,12 +1,11 @@
 class Atendimento::DadosAdicionaisController < ImoveisController
-
-  private 
+  private
 
   def busca_imovel
-    @imovel = Atendimento::DadoAdicional.com_escopo([:logradouro]).find(params[:id]) 
+    @imovel = Atendimento::DadosAdicional.com_escopo([:logradouro]).find(params[:id])
   end
 
   def inclusoes
     super << :dados_adicionais
-  end  
+  end
 end
