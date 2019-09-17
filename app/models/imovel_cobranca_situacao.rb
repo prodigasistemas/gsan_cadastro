@@ -29,4 +29,6 @@ class ImovelCobrancaSituacao < ActiveRecord::Base
   delegate :advogado,   :to => :imovel, :allow_nil => true, :prefix => true
   delegate :cliente,    :to => :imovel, :allow_nil => true, :prefix => true
   delegate :descricao,  :to => :imovel, :allow_nil => true, :prefix => true
+
+  scope :ordenar_por_data_implantacao, -> { order(:data_implantacao) }
 end
