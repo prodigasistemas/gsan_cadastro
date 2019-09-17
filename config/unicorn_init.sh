@@ -27,7 +27,9 @@ export APP_ROOT="/var/www/gsan-api/current"
 export PID_PATH="/tmp"
 export UNICORN_CONFIG_FILE="$APP_ROOT/config/unicorn.rb"
 export UNICORN_BIN="unicorn_rails"
-export UNICORN_CMD="bundle exec ${UNICORN_BIN} -E ${RAILS_ENV} -c \"${UNICORN_CONFIG_FILE}\" -D"
+
+BUNDLE_PATH=$(which bundle)
+export UNICORN_CMD="${BUNDLE_PATH} exec ${UNICORN_BIN} -E ${RAILS_ENV} -c \"${UNICORN_CONFIG_FILE}\" -D"
 
 export PID_FILE="$PID_PATH/.unicorn.gsan-api.pid"
 export OLD_PID_FILE="$PID_FILE.oldbin"
