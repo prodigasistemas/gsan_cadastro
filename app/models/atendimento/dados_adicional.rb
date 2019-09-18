@@ -1,5 +1,7 @@
 class Atendimento::DadosAdicional < Imovel
   def dados_adicionais
+    dados = query_dasd
+
     cadastro = {}
 
     cadastro[:consumo_tarifa] = get_consumo_tarifa

@@ -20,4 +20,6 @@ class ClienteImovel < ActiveRecord::Base
   belongs_to :imovel, foreign_key:  :imov_id
   belongs_to :cliente, foreign_key: :clie_id
   belongs_to :cliente_relacao_tipo, foreign_key: :crtp_id
+
+  scope :excecoes, -> (imovel_id) { includes(imovel: {rota_alternativa: [:faturamento_grupo, :empresa]}).where(imov_id: imovel_id).first }
 end

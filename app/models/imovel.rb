@@ -155,6 +155,7 @@ class Imovel < ActiveRecord::Base
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
+  belongs_to :rota_alternativa, foreign_key: :rota_idalternativa, class_name: 'Rota'
 
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
