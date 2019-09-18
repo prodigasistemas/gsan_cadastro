@@ -13,6 +13,7 @@ class Atendimento::DadosAdicional < Imovel
     cadastro[:imovel_cadastros_ocorrencias] = get_imovel_cadastros_ocorrencias
     cadastro[:imovel_ramos_atividades] = get_imovel_ramos_atividades
     cadastro[:contrato] = get_dados_contrato
+    cadastro[:negativacoes] = get_negativacoes
 
     cadastro
   end
@@ -187,9 +188,9 @@ class Atendimento::DadosAdicional < Imovel
 
     ramos
   end
-  
+
   def get_dados_contrato
-    dados_contrato.first if dados_contrato.present? 
+    dados_contrato.first if dados_contrato.present?
   end
 
   def get_consumo_tarifa
@@ -204,5 +205,21 @@ class Atendimento::DadosAdicional < Imovel
     f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
 
     f
+  end
+
+  def get_negativacoes
+    registros = []
+
+    negativacoes.map do |negativacao|
+      v = {}
+      movimento = negativacao.negativador_movimento
+      negativacoes_imovel = NegativacaoImoveis.por_imovel_e_comando(negativacao.imovel.id, movimento.ngcm_id)
+      contratos_ativos = NegativadorContrato.ativos_por_negativador(movimento.negativador.id)
+      v[:id] = negativacao.id
+
+      registros << v
+    end
+
+    registros
   end
 end
