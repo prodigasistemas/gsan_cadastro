@@ -151,7 +151,7 @@ class Imovel < ActiveRecord::Base
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
-  has_many   :imovel_cobrancas_situacoes,  foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
+  has_many   :imovel_cobrancas_situacoes, -> { ordenar_por_data_implantacao }, foreign_key: :imov_id, class_name: 'ImovelCobrancaSituacao'
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
