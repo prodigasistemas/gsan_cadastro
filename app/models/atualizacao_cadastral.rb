@@ -33,7 +33,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
     query = <<-SQL
       select
         distinct tatc.tatc_cdimovel as codigo_imovel,
-        func.func_nmfuncionario as agente_cadastral,
+        us.usur_nmusuario as agente_cadastral,
         tatc.altp_id as tipo_alteracao,
         replace(siac.siac_dssituacao, '_', ' ') as situacao
       from seguranca.tab_atlz_cadastral tatc
@@ -41,18 +41,26 @@ class AtualizacaoCadastral < ActiveRecord::Base
       inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
       inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
       inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
-      inner join micromedicao.leiturista leit on tatc.leit_id = leit.leit_id
-      left join cadastro.funcionario func on leit.func_id = func.func_id
       left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
       left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
+      left join atualizacaocadastral.visita vis on vis.icac_id = ctrl.icac_id
+      left join seguranca.usuario us on us.usur_id = vis.usur_id
       where 1 = 1
     SQL
-    query << "and leit.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and im.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::SITUACOES[:"EM CORRECAO"]})"
     query << "\nand tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
-    query << "\nand leit.leit_id = #{params[:leiturista_id]}" unless params[:leiturista_id].blank?
+
+    unless params[:leiturista_id].blank?
+      query << "\nand vis.usur_id = (select usur.usur_id from micromedicao.leiturista leit "
+      query << "\ninner join cadastro.funcionario func on leit.func_id = func.func_id"
+      query << "\ninner join seguranca.usuario usur on usur.usur_nncpf = func.func_nncpf"
+      query << "\nwhere leit.leit_id = #{params[:leiturista_id]} limit 1)"
+    end
+
+
     unless params[:periodo_inicial].blank? or params[:periodo_final].blank?
       query << "\nand ctrl.icac_tmretorno::Date between '#{params[:periodo_inicial].try(:to_date).try(:strftime)}' and "
       query << "'#{params[:periodo_final].try(:to_date).try(:strftime)}'"
