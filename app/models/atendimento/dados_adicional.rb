@@ -12,6 +12,7 @@ class Atendimento::DadosAdicional < Imovel
     cadastro[:imovel_elos_anormalidades] = get_imovel_elos_anormalidades
     cadastro[:imovel_cadastros_ocorrencias] = get_imovel_cadastros_ocorrencias
     cadastro[:imovel_ramos_atividades] = get_imovel_ramos_atividades
+    cadastro[:contrato] = get_dados_contrato
 
     cadastro
   end
@@ -185,6 +186,10 @@ class Atendimento::DadosAdicional < Imovel
     end
 
     ramos
+  end
+  
+  def get_dados_contrato
+    dados_contrato.first if dados_contrato.present? 
   end
 
   def get_consumo_tarifa

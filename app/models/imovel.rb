@@ -155,11 +155,30 @@ class Imovel < ActiveRecord::Base
   has_many   :cobrancas_situacoes_especiais,  foreign_key: :imov_id, class_name: 'CobrancaSituacaoHistorico'
   has_many   :imagens,  foreign_key: :imov_id, class_name: 'ImovelImagem'
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
-
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
+  # has_many   :consumo_tarifa_vigencia, -> { dados_contratos(:id) }, foreign_key: :cstf_id, class_name: 'ConsumoTarifaVigencia'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
+  
+  def dados_contrato
+    query = <<-SQL
+      SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
+          contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
+          contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato
+      
+      FROM faturamento.consumo_tarifa_categoria cstc 
+      
+        INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
+        INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
+        INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
+        INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
+        INNER JOIN cadastro.subcategoria scat ON cstc.catg_id = scat.catg_id 
+        INNER JOIN cadastro.imovel_subcategoria imov_scat ON scat.scat_id = imov_scat.scat_id AND imov.imov_id = imov_scat.imov_id 
+      ORDER BY cstv.cstv_dtvigencia DESC limit 1
+    SQL
+    ActiveRecord::Base.connection.execute(query)
+  end
 
   def self.com_escopo(metodos = [])
     includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial, :cliente_imoveis, :clientes].concat(metodos))
