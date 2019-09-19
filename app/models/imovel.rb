@@ -159,9 +159,11 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
   has_many   :imovel_ramos_atividades,  foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
   # has_many   :consumo_tarifa_vigencia, -> { dados_contratos(:id) }, foreign_key: :cstf_id, class_name: 'ConsumoTarifaVigencia'
+  
+  has_one :ligacao_agua, foreign_key: :lagu_id, class_name: 'LigacaoAgua'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
-  
+
   def dados_contrato
     query = <<-SQL
       SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
