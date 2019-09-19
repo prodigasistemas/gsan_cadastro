@@ -208,18 +208,14 @@ class Atendimento::DadosAdicional < Imovel
   end
 
   def get_negativacoes
-    registros = []
+    total_negativacoes = self.negativacoes.totalizador
 
-    negativacoes.map do |negativacao|
-      v = {}
-      movimento = negativacao.negativador_movimento
-      negativacoes_imovel = NegativacaoImoveis.por_imovel_e_comando(negativacao.imovel.id, movimento.ngcm_id)
-      contratos_ativos = NegativadorContrato.ativos_por_negativador(movimento.negativador.id)
-      v[:id] = negativacao.id
-
-      registros << v
+    total_negativacoes.map do |negativacao|
+      {
+        negativador: negativacao.nome_cliente,
+        indicador_negativacao_confirmada: negativacao.indicador_negativacao_confirmada,
+        total: negativacao.total
+      }
     end
-
-    registros
   end
 end
