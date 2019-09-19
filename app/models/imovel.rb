@@ -157,17 +157,38 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
   belongs_to :rota_alternativa, foreign_key: :rota_idalternativa, class_name: 'Rota'
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
-  # has_many   :consumo_tarifa_vigencia, -> { dados_contratos(:id) }, foreign_key: :cstf_id, class_name: 'ConsumoTarifaVigencia'
-  
   has_one :ligacao_agua, foreign_key: :lagu_id, class_name: 'LigacaoAgua'
-
   has_many   :imovel_ramos_atividades,    foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
   has_many   :negativacoes,               foreign_key: :imov_id, class_name: 'NegativadorMovimentoReg'
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
+  has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
 
+  delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
-  delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
+  #TODO melhorar consulta usando os relacionamentos do rails
+  # scope :matriculas_associadas, -> {
+  #     select('cadastro.imovel.imov_id')
+  #     .joins(:contrato)
+  #     .where(:contrato => { :tipo_contrato => 1, :numero_contrato => 'IS NOT NULL' })
+  #     .joins(:consumo_tarifa)
+  #     .where('cadastro.imovel.imov_id <> ?', :imov_id)
+  #     .group(:imov_id)
+  # }
 
+  #TODO melhorar consulta usando os relacionamentos do rails
+  def matriculas_associadas
+    query = <<-SQL
+      SELECT imov.imov_id AS matricula 
+      FROM cadastro.imovel imov
+      INNER JOIN faturamento.consumo_tarifa cstf ON cstf.cstf_id = imov.cstf_id 
+      INNER JOIN cadastro.contrato cntt ON cntt.imov_id = imov.imov_id 
+      AND cntt.cntt_nncontrato IS NOT NULL AND cntt.cttp_id in (1,2)
+      WHERE imov.cstf_id = #{cstf_id} AND imov.imov_id <> #{imov_id}
+      GROUP BY imov.imov_id
+    SQL
+    ActiveRecord::Base.connection.execute(query)
+  end
+  
   def dados_contrato
     query = <<-SQL
       SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
