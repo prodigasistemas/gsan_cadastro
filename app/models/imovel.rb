@@ -182,7 +182,7 @@ class Imovel < ActiveRecord::Base
       FROM cadastro.imovel imov
       INNER JOIN faturamento.consumo_tarifa cstf ON cstf.cstf_id = imov.cstf_id 
       INNER JOIN cadastro.contrato cntt ON cntt.imov_id = imov.imov_id 
-      AND cntt.cntt_nncontrato IS NOT NULL AND cntt.cttp_id in (1,2)
+      AND cntt.cntt_nncontrato IS NOT NULL AND cntt.cttp_id = 1
       WHERE imov.cstf_id = #{cstf_id} AND imov.imov_id <> #{imov_id}
       GROUP BY imov.imov_id
     SQL
@@ -193,11 +193,12 @@ class Imovel < ActiveRecord::Base
     query = <<-SQL
       SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
           contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
-          contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato
-
-      FROM faturamento.consumo_tarifa_categoria cstc
-
-        INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id
+          contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato,
+          contrato_tipo.cttp_id as contrato_id 
+      
+      FROM faturamento.consumo_tarifa_categoria cstc 
+      
+        INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
         INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
         INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
         INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
