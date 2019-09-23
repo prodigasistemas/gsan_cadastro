@@ -48,6 +48,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       left join atualizacaocadastral.visita vis on vis.icac_id = ctrl.icac_id
       left join seguranca.usuario us on us.usur_id = vis.usur_id
       where 1 = 1
+      and vis.vist_id = (select max(v2.vist_id) from atualizacaocadastral.visita v2 where v2.icac_id = ctrl.icac_id)
     SQL
     query << "and im.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::SITUACOES[:"EM CORRECAO"]})"
