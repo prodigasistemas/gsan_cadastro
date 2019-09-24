@@ -6,6 +6,7 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
 
     geral = build_faturamento_rota
     dados_ligacao_agua = build_dados_ligacao_agua
+    dados_hidrometro_ligacao_agua = build_hidrometro_ligacao_agua
 
     if(!excecoes.blank?)
       rota = excecoes.imovel.rota_alternativa ||= excecoes.imovel.quadra.rota
@@ -16,19 +17,53 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
  
       if(excecoes.imovel.ligacao_agua.present?)
         dados_ligacao_agua = build_dados_ligacao_agua(excecoes.imovel.ligacao_agua)
+        dados_hidrometro_ligacao_agua = build_hidrometro_ligacao_agua(excecoes.imovel.ligacao_agua)
       end  
     end
     
     cadastro[:geral] = geral
-    cadastro[:dados_ligacao] = dados_ligacao_agua
+    cadastro[:ligacao] = dados_ligacao_agua
+    cadastro[:hidrometro_ligacao] = dados_hidrometro_ligacao_agua
 
     cadastro
   end
 
   private 
 
+  def build_hidrometro_ligacao_agua(ligacao_agua=nil)
+    dados = {hidrometro: nil,tipo_medicao: nil,data_instalacao: nil, capacidade: nil, tipo_hidrometro: nil,
+    marca_hidrometro: nil, local_instalacao: nil, diametro: nil, protecao: nil, leitura_instalacao_hidrometro: nil, 
+    cavalete: nil, ano_fabricacao: nil, relojoaria: nil, usuario_instalacao: nil, lacre_instalacao: nil}
+    
+    return dados unless ligacao_agua.present?
+
+    instalacao = ligacao_agua.hidrometro_instalacao_historico
+    if(instalacao.present?)
+
+      dados[:tipo_medicao] = instalacao.medicao_tipo.descricao
+      dados[:hidrometro] = instalacao.hidrometro.numero_hidrometro
+      dados[:data_instalacao] = instalacao.data_instalacao
+      dados[:capacidade] = instalacao.hidrometro.hidrometro_capacidade.descricao_capacidade
+      dados[:tipo_hidrometro] = instalacao.hidrometro.hidrometro_tipo.descricao if instalacao.hidrometro.hidrometro_tipo.present?
+      dados[:marca_hidrometro] = instalacao.hidrometro.hidrometro_marca.descricao_marca
+      dados[:local_instalacao] = instalacao.local_instalacao.descricao
+      dados[:diametro] = instalacao.hidrometro.hidrometro_diametro.descricao
+      dados[:protecao] = instalacao.hidrometro_protecao.descricao_protecao
+      dados[:leitura_instalacao_hidrometro] = instalacao.numero_leitura_instalacao
+      dados[:cavalete] = 'Não'
+      dados[:cavalete] = 'Sim' if instalacao.indicador_cavalete.present? && instalacao.indicador_cavalete == 1
+      dados[:ano_fabricacao] = instalacao.hidrometro.ano_fabricacao
+      dados[:relojoaria] = instalacao.hidrometro.hidrometro_relojoaria.descricao if instalacao.hidrometro.hidrometro_relojoaria.present?
+      dados[:usuario_instalacao] = instalacao.usuario_instalacao.nome if instalacao.usuario_instalacao.present?
+      dados[:lacre_instalacao] = instalacao.numero_lacre
+    end
+    
+    dados
+  end
+
   def build_dados_ligacao_agua(ligacao_agua=nil)
-    return dados = {data_ligacao: nil, data_corte: nil,  data_religacao: nil, data_supressao: nil, data_restabelecimento: nil, diametro: nil, material: nil, perfil_ligacao: nil, consumo_minimo: nil} if ligacao_agua.blank?
+    return dados = {data_ligacao: nil, data_corte: nil,  data_religacao: nil, data_supressao: nil, 
+    data_restabelecimento: nil, diametro: nil, material: nil, perfil_ligacao: nil, consumo_minimo: nil} if ligacao_agua.blank?
 
     dados = {}
     dados[:data_ligacao] = ligacao_agua.data_ligacao
