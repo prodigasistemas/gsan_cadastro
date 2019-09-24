@@ -8,7 +8,7 @@ class DocumentoTipo < ActiveRecord::Base
 
   alias_attribute "id",                      "dotp_id"
   alias_attribute "descricao",               "dotp_dsdocumentotipo"
-  alias_attribute "descricaoAbreviado",      "dotp_dsabreviado"
-  alias_attribute "indicadorPagavel",        "dotp_icpagavel"
-  alias_attribute "indicadorAgregador",      "dotp_icagregador"
+  alias_attribute "descricao_abreviado",     "dotp_dsabreviado"
+  alias_attribute "indicador_pagavel",       "dotp_icpagavel"
+  alias_attribute "indicador_agregador",     "dotp_icagregador"
 end 

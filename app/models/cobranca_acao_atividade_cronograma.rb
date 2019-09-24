@@ -7,7 +7,7 @@ class CobrancaAcaoAtividadeCronograma < ActiveRecord::Base
   self.primary_key = 'caac_id'
 
   alias_attribute "id",                               "caac_id"
-  alias_attribute "dataPrevista",                     "caac_dtprevista"
+  alias_attribute "data_prevista",                    "caac_dtprevista"
   alias_attribute "realizacao",                       "caac_tmrealizacao"
   alias_attribute "cbcr_id",                          "cbcr_id"
 
