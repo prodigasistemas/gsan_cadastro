@@ -163,6 +163,7 @@ class Imovel < ActiveRecord::Base
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
   has_one :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
   has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
+  belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 

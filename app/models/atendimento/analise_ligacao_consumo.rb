@@ -6,6 +6,7 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     dados_ligacao_agua = {}
     dados_hidrometro_ligacao_agua = {}
     dados_esgoto = {}
+    dados_hidrometro_ligacao_poco = {}
 
     if(!excecoes.blank?)
       rota = excecoes.imovel.rota_alternativa ||= excecoes.imovel.quadra.rota
@@ -16,19 +17,20 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
  
       ligacao_agua = excecoes.imovel.ligacao_agua
       if(ligacao_agua.present?)
-        dados_ligacao_agua = build_dados_ligacao_agua(ligacao_agua)
-        dados_hidrometro_ligacao_agua = build_hidrometro_ligacao_agua(ligacao_agua)
+        dados_ligacao_agua = build_dados_ligacao_agua ligacao_agua
+        dados_hidrometro_ligacao_agua = build_hidrometro ligacao_agua
       end  
 
       dados_esgoto = build_dados_esgoto excecoes.imovel
+      dados_hidrometro_ligacao_poco = build_hidrometro excecoes.imovel
     end
     
-
     cadastro = {}
     cadastro[:geral] = geral
     cadastro[:ligacao] = dados_ligacao_agua
     cadastro[:hidrometro_ligacao] = dados_hidrometro_ligacao_agua
     cadastro[:esgoto] = dados_esgoto
+    cadastro[:hidrometro_poco] = dados_hidrometro_ligacao_poco
 
     cadastro
   end
@@ -57,12 +59,12 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     dados
   end  
 
-  def build_hidrometro_ligacao_agua(ligacao_agua=nil)
+  def build_hidrometro(ligacao=nil)
     dados = {}
 
-    return dados unless ligacao_agua.present?
+    return dados unless ligacao.present?
 
-    instalacao = ligacao_agua.hidrometro_instalacao_historico
+    instalacao = ligacao.hidrometro_instalacao_historico
     if(instalacao.present?)
 
       dados[:tipo_medicao]                  = instalacao.medicao_tipo.descricao
