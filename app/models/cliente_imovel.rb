@@ -21,5 +21,11 @@ class ClienteImovel < ActiveRecord::Base
   belongs_to :cliente, foreign_key: :clie_id
   belongs_to :cliente_relacao_tipo, foreign_key: :crtp_id
 
-  scope :excecoes, -> (imovel_id) { includes(imovel: {rota_alternativa: [:faturamento_grupo, :empresa]}).where(imov_id: imovel_id).first }
+  scope :excecoes, -> (imovel_id) { includes(
+    imovel: [:poco_tipo, 
+      ligacao_esgoto: [:ligacao_esgoto_diametro, :ligacao_esgoto_material, :ligacao_esgoto_perfil, :ligacao_esgoto_esgotamento, :ligacao_esgoto_caixa_inspecao, :ligacao_esgoto_destino_dejetos, :ligacao_esgoto_destino_aguas_pluviais], 
+      ligacao_agua:   [:ligacao_agua_diametro, :ligacao_agua_material, :ligacao_agua_perfil, 
+        hidrometro_instalacao_historico: [:medicao_tipo, 
+          hidrometro: [:hidrometro_capacidade, :hidrometro_tipo, :hidrometro_marca, :hidrometro_diametro, :hidrometro_relojoaria]]], 
+      rota_alternativa: [:faturamento_grupo, :empresa]]).where(imov_id: imovel_id, motivo_fim_relacao_id: nil, tipo_relacao: 2).first }
 end

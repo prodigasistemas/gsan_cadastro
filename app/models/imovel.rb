@@ -165,6 +165,7 @@ class Imovel < ActiveRecord::Base
   has_many   :negativacoes,               foreign_key: :imov_id, class_name: 'NegativadorMovimentoReg'
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
 
+  has_one :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
 
   delegate :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
