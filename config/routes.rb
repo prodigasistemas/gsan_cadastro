@@ -96,5 +96,6 @@ Rails.application.routes.draw do
     resources :dados_cadastrais, only: [:show]
     resources :dados_adicionais, only: [:show]
     resources :analise_ligacao_consumos, only: [:show]
+    resources :documentos_cobrancas, only: [:show]
   end
 end
