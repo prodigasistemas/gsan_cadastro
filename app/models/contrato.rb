@@ -15,4 +15,8 @@ class Contrato < ActiveRecord::Base
   alias_attribute "motivo_cancelamento",  "ctcn_id"
   alias_attribute "tipo_contrato",        "cttp_id"
   alias_attribute "imovel",               "imov_id"
+
+  belongs_to  :contrato_tipo,          foreign_key: :tipo_contrato,  class_name: 'ContratoTipo'
+
+  delegate :contrato_tipo,  :to => :imovel, :allow_nil => true, :prefix => true
 end

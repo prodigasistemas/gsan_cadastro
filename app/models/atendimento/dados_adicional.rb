@@ -14,6 +14,7 @@ class Atendimento::DadosAdicional < Imovel
     cadastro[:imovel_ramos_atividades] = get_imovel_ramos_atividades
     cadastro[:contrato] = get_dados_contrato
     cadastro[:negativacoes] = get_negativacoes
+    cadastro[:matriculas_associadas] = get_matriculas_associadas
 
     cadastro
   end
@@ -191,6 +192,10 @@ class Atendimento::DadosAdicional < Imovel
 
   def get_dados_contrato
     dados_contrato.first if dados_contrato.present?
+  end
+  
+  def get_matriculas_associadas
+    matriculas_associadas if matriculas_associadas.present?
   end
 
   def get_consumo_tarifa
