@@ -31,12 +31,9 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
   private 
 
   def build_hidrometro_ligacao_agua(ligacao_agua=nil)
-    dados = {hidrometro: nil,tipo_medicao: nil,data_instalacao: nil, capacidade: nil, tipo_hidrometro: nil,
-    marca_hidrometro: nil, local_instalacao: nil, diametro: nil, protecao: nil, leitura_instalacao_hidrometro: nil, 
-    cavalete: nil, ano_fabricacao: nil, relojoaria: nil, usuario_instalacao: nil, lacre_instalacao: nil}
-    
-    return dados unless ligacao_agua.present?
+    return {} unless ligacao_agua.present?
 
+    dados = {}
     instalacao = ligacao_agua.hidrometro_instalacao_historico
     if(instalacao.present?)
 
