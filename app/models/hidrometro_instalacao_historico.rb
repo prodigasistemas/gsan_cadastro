@@ -37,6 +37,10 @@ class HidrometroInstalacaoHistorico < ActiveRecord::Base
 
   belongs_to :hidrometro, foreign_key: "hidr_id"
   belongs_to :imovel, foreign_key: "lagu_id"
+  belongs_to :medicao_tipo, foreign_key: "medt_id"
+  belongs_to :local_instalacao, foreign_key: "hili_id", class_name: 'HidrometroLocalInstalacao'
+  belongs_to :hidrometro_protecao, foreign_key: "hipr_id", class_name: 'HidrometroProtecao'
+  belongs_to :usuario_instalacao, foreign_key: 'usur_idinstalacao', class_name: 'Usuario'
 
   scope :data_instalacao_entre, -> (data_inicial, data_final) {
     where(hidi_dtinstalacaohidrometro: data_inicial.to_date.beginning_of_day..data_final.to_date.beginning_of_day)

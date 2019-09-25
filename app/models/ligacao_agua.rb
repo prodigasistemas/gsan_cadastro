@@ -27,5 +27,6 @@ class LigacaoAgua < ActiveRecord::Base
     belongs_to :ligacao_agua_diametro, foreign_key: :lagd_id, class_name: "LigacaoAguaDiametro"
     belongs_to :ligacao_agua_material, foreign_key: :lagm_id, class_name: "LigacaoAguaMaterial"
     belongs_to :ligacao_agua_perfil, foreign_key: :lapf_id, class_name: "LigacaoAguaPerfil"
+    belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
   end
   
