@@ -116,6 +116,7 @@ class Imovel < ActiveRecord::Base
   belongs_to :setor_comercial,       foreign_key: :stcm_id
   belongs_to :quadra,                foreign_key: :qdra_id, optional: true
   belongs_to :ligacao_agua_situacao, foreign_key: :last_id
+  belongs_to :ligacao_esgoto_situacao, foreign_key: :lest_id
   has_one    :gerencia_regional,     through: :localidade
   has_one    :abrangencia,           foreign_key: :imov_id
   has_one    :contrato_medicao,      through: :abrangencia
@@ -158,25 +159,16 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_elos_anormalidades,  foreign_key: :imov_id, class_name: 'ImovelEloAnormalidade'
   belongs_to :rota_alternativa, foreign_key: :rota_idalternativa, class_name: 'Rota'
   has_many   :imovel_cadastros_ocorrencias,  foreign_key: :imov_id, class_name: 'ImovelCadastroOcorrencia'
-  has_one :ligacao_agua, foreign_key: :lagu_id, class_name: 'LigacaoAgua'
+  has_one    :ligacao_agua, foreign_key: :lagu_id, class_name: 'LigacaoAgua'
   has_many   :imovel_ramos_atividades,    foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
   has_many   :negativacoes,               foreign_key: :imov_id, class_name: 'NegativadorMovimentoReg'
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
   has_one :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
   has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
   belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
+  has_many   :parcelas, foreign_key: :imov_id, class_name: 'Parcelamento'
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
-
-  #TODO melhorar consulta usando os relacionamentos do rails
-  # scope :matriculas_associadas, -> {
-  #     select('cadastro.imovel.imov_id')
-  #     .joins(:contrato)
-  #     .where(:contrato => { :tipo_contrato => 1, :numero_contrato => 'IS NOT NULL' })
-  #     .joins(:consumo_tarifa)
-  #     .where('cadastro.imovel.imov_id <> ?', :imov_id)
-  #     .group(:imov_id)
-  # }
 
   #TODO melhorar consulta usando os relacionamentos do rails
   def matriculas_associadas
