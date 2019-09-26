@@ -119,6 +119,7 @@ class Imovel < ActiveRecord::Base
   has_one    :gerencia_regional,     through: :localidade
   has_one    :abrangencia,           foreign_key: :imov_id
   has_one    :contrato_medicao,      through: :abrangencia
+  has_one    :cep,                   through: :logradouro_cep
   has_many   :hidrometro_instalacao_esgoto_historicos, foreign_key: :imov_id, class_name: 'HidrometroInstalacaoHistorico'
   has_many   :hidrometro_instalacao_agua_historicos,   foreign_key: :lagu_id, class_name: 'HidrometroInstalacaoHistorico'
   has_many   :contas, -> { order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
@@ -212,11 +213,11 @@ class Imovel < ActiveRecord::Base
   end
 
   def self.com_escopo(metodos = [])
-    includes([:localidade, :logradouro_bairro, :logradouro_cep, :setor_comercial, :cliente_imoveis, :clientes].concat(metodos))
+    includes([:localidade, :logradouro_bairro, :logradouro_cep, :cep, :setor_comercial, :cliente_imoveis, :clientes].concat(metodos))
   end
 
   def atributos(metodos = [])
-    super([:localidade, :logradouro_cep, :setor_comercial, :clientes].concat(metodos))
+    super([:localidade, :logradouro_cep, :cep, :setor_comercial, :clientes].concat(metodos))
   end
 
   def endereco_completo
