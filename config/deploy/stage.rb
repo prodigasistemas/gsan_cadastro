@@ -3,6 +3,7 @@ set :branch, 'stage'
 set :bundle_flags, ''
 
 set :assets_roles, [:web]
+set :rvm_ruby_string, 'ruby-2.6.3p62'
 set :rvm_type, :system
 
 # server-based syntax

@@ -2,7 +2,7 @@ class ProfissoesController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @profissoes = Profissao.order(:descricao).filter_data(query)
+      @profissoes = Profissao.order(:descricao).filtrar_campos(query)
 
       unless params[:paginado] == "false"
         @total = @profissoes.count

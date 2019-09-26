@@ -47,7 +47,8 @@ Rails.application.routes.draw do
   resources :endereco_tipos,          only: :index
   resources :distrito_operacionais,   only: :index
   resources :localidades,             only: :index
-  resources :imoveis,                 only: :index
+  resources :imoveis,                 only: [:index, :show]
+  resources :cliente_imoveis,         only: [:index, :show]
   resources :menu,                    only: :show
   resources :setor_comercial,         only: :index
   resources :rotas,                   only: :index
@@ -90,4 +91,12 @@ Rails.application.routes.draw do
   resources :subcategorias, only: [:index]
 
   resources :cliente_atualizacao_cadastrais, only: [:index, :show]
+
+  namespace :atendimento do
+    resources :dados_cadastrais, only: [:show]
+    resources :dados_adicionais, only: [:show]
+    resources :analise_ligacao_consumos, only: [:show]
+    resources :documentos_cobrancas, only: [:show]
+    resources :parcelamentos, only: [:show]
+  end
 end

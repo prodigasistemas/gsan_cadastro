@@ -1,6 +1,7 @@
 class Logradouro < ActiveRecord::Base
   include IncrementableId
   include Filterable
+  include API::Model
 
   self.table_name  = 'cadastro.logradouro'
   self.primary_key = 'logr_id'
@@ -58,6 +59,18 @@ class Logradouro < ActiveRecord::Base
   validates_length_of :nome, maximum: 40
   validates_length_of :nome_popular, maximum: 30
 
+  def self.filtrar_dados(termos, incluir = [])
+    select(campos_busca)
+    .joins(:logradouro_tipo, municipio: :uf)
+    .left_outer_joins(:logradouro_titulo)
+    .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
+    .order(ordem_busca)
+  end
+
+  def atributos(params=[], referer=nil)
+    self.as_json
+  end
+
 private
 
   def validar_destrucao_logradouro_cep
@@ -76,5 +89,36 @@ private
         errors.add(:base, :cliente_endereco_are_present_in_bairro,  bairro: logradouro_bairro.bairro.nome) if logradouro_bairro.cliente_enderecos.any?
       end
     end
+  end
+
+  def self.campos_busca
+    <<-SQL
+      logradouro.logr_id, logradouro.muni_id, municipio.muni_id, unidade_federacao.unfe_id,
+      logradouro_titulo.lgtt_dslogradourotitulo, logradouro_titulo.lgtt_dsabreviado,
+      logradouro_tipo.lgtp_dsabreviado AS logradouro_tipo_abreviado,
+      logradouro_tipo.lgtp_dslogradourotipo AS logradouro_tipo_nome,
+      municipio.muni_nmmunicipio AS municipio_nome,
+      municipio.muni_cdibge AS municipio_ibge,
+      unidade_federacao.unfe_dsuf AS uf_nome,
+      unidade_federacao.unfe_dsufsigla AS uf_sigla,
+      logradouro.logr_nmlogradouro AS logradouro_nome,
+      logradouro.logr_nmpopular AS logradouro_popular,
+      logradouro_titulo.lgtt_dslogradourotitulo AS logradouro_titulo_descricao,
+      logradouro_titulo.lgtt_dsabreviado AS logradouro_titulo_descricao_abreviada
+    SQL
+  end
+
+  def self.condicoes_busca
+    <<-SQL
+      concat(logradouro_tipo.lgtp_dsabreviado, ' ', logradouro_tipo.lgtp_dslogradourotipo, ' ',
+             logradouro_titulo.lgtt_dslogradourotitulo, ' ', logradouro_titulo.lgtt_dsabreviado, ' ',
+             logradouro.logr_nmlogradouro, ' ', municipio.muni_nmmunicipio, ' ',
+             unidade_federacao.unfe_dsuf, ' ', unidade_federacao.unfe_dsufsigla)
+        ILIKE :termo
+    SQL
+  end
+
+  def self.ordem_busca
+    "logradouro_titulo.lgtt_dslogradourotitulo, logradouro.logr_nmlogradouro, municipio.muni_nmmunicipio"
   end
 end

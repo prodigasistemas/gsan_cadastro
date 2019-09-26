@@ -4,7 +4,7 @@ class ClienteTiposController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @cliente_tipos = ClienteTipo.com_dados.filter_data(query)
+      @cliente_tipos = ClienteTipo.com_dados.filtrar_campos(query)
 
       unless params[:paginado] == "false"
         @total = @cliente_tipos.count

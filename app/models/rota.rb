@@ -10,11 +10,11 @@ class Rota < ActiveRecord::Base
   alias_attribute "codigo",               "rota_cdrota"
   alias_attribute "ativo",                "rota_icuso"
   alias_attribute "empresa_id",           "empr_id"
-  alias_attribute "grupo_faturamento_id", "ftgr_id"
+  alias_attribute "faturamento_grupo_id", "ftgr_id"
 
   belongs_to :setor_comercial,   foreign_key: :stcm_id
   belongs_to :empresa,           foreign_key: :empr_id
-  belongs_to :faturamento_grupo, foreign_key: :ftgr_id, optional: true
+  belongs_to :faturamento_grupo, foreign_key: :ftgr_id, optional: true, class_name: 'FaturamentoGrupo'
 
   has_many :quadras,                 foreign_key: :rota_id
   has_many :imoveis,                 through: :quadras

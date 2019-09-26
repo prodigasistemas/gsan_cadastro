@@ -2,7 +2,7 @@ class RamosAtividadeController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @ramos_atividade = RamoAtividade.order(:descricao).filter_data(query)
+      @ramos_atividade = RamoAtividade.order(:descricao).filtrar_campos(query)
 
       unless params[:paginado] == "false"
         @total = @ramos_atividade.count

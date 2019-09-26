@@ -1,6 +1,7 @@
 class LogradouroTipo < ActiveRecord::Base
   include IncrementableId
   include Filterable
+  include API::Model
 
   self.table_name  = 'cadastro.logradouro_tipo'
   self.primary_key = 'lgtp_id'

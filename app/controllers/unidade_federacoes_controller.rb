@@ -3,7 +3,7 @@ class UnidadeFederacoesController < ApplicationController
     @unidade_federacoes = UnidadeFederacao.all
     if params[:query].present?
       query = params[:query]
-      @unidade_federacoes = UnidadeFederacao.filter_data(query)
+      @unidade_federacoes = UnidadeFederacao.filtrar_campos(query)
       @total = @unidade_federacoes.count
       @unidade_federacoes = @unidade_federacoes.page(params[:page]).per(20)
     else

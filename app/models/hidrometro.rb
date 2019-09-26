@@ -16,7 +16,7 @@ class Hidrometro < ActiveRecord::Base
   alias_attribute "numero_leitura_acumulada", "hidr_nnleituraacumulada"
   alias_attribute "numero_digitos_leitura", "hidr_nndigitosleitura"
   alias_attribute "hidrometro_classe_metrlg_id", "hicm_id"
-  alias_attribute "hidrometro_marca", "himc_id"
+  alias_attribute "hidrometro_marca_id", "himc_id"
   alias_attribute "hidrometro_diametro_id", "hidm_id"
   alias_attribute "hidrometro_local_armaz_id", "hila_id"
   alias_attribute "hidrometro_motivo_baixa_id", "himb_id"
@@ -37,4 +37,9 @@ class Hidrometro < ActiveRecord::Base
 
   has_many :hidrometro_movimentados, foreign_key: "hidr_id"
   has_many :hidrometro_movimentacoes, through: :hidrometro_movimentados
+  belongs_to :hidrometro_capacidade, foreign_key: "hicp_id"
+  belongs_to :hidrometro_tipo, foreign_key: "hitp_id"
+  belongs_to :hidrometro_marca, foreign_key: "himc_id"
+  belongs_to :hidrometro_diametro, foreign_key: "hidm_id"
+  belongs_to :hidrometro_relojoaria, foreign_key: "hire_id"
 end

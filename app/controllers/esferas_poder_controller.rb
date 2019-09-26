@@ -2,7 +2,7 @@ class EsferasPoderController < ApplicationController
   def index
     if params[:query]
       query = params[:query]
-      @esferas = EsferaPoder.order(:descricao).filter_data(query)
+      @esferas = EsferaPoder.order(:descricao).filtrar_campos(query)
 
       unless params[:paginado] == "false"
         @total = @esferas.count

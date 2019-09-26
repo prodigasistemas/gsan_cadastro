@@ -1,0 +1,13 @@
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/json-2.2.0/ext/json
+/Users/rcasseb/.rvm/rubies/ruby-2.6.3/bin/ruby -I /Users/rcasseb/.rvm/rubies/ruby-2.6.3/lib/ruby/2.6.0 -r ./siteconf20190808-81977-ijtze1.rb extconf.rb
+creating Makefile
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/json-2.2.0/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/json-2.2.0/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/rcasseb/Documents/idopterlabs/cosanpa/gsan-api/vendor/bundle/gems/json-2.2.0/ext/json
+make "DESTDIR=" install
