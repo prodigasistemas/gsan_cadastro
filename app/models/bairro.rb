@@ -1,6 +1,7 @@
 class Bairro < ActiveRecord::Base
   include IncrementableId
-  include Filterable
+  include API::Filterable
+  include API::Model
 
   self.table_name  = "cadastro.bairro"
   self.primary_key = "bair_id"
@@ -40,5 +41,9 @@ class Bairro < ActiveRecord::Base
     else
       all.order(nome: :asc)
     end
+  end
+
+  def atributos(params = [], referer = nil)
+    super(params.concat([:municipio]), referer)
   end
 end
