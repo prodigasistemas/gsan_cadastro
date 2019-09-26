@@ -3,7 +3,7 @@ class Parcelamento < ActiveRecord::Base
   include API::Model
   include API::Filterable
 
-  self.table_name = 'cobranca.parcelamentos'
+  self.table_name = 'cobranca.parcelamento'
   self.primary_key = 'parc_id'
 
   alias_attribute "id",                                   "parc_id"
@@ -66,7 +66,5 @@ class Parcelamento < ActiveRecord::Base
   alias_attribute "motivo_cancelamento_parcelamento_id",  "pmca_id"
 
   belongs_to :imovel, foreign_key: :imovel_id
-  belongs_to :situacao_parcelamento, foreign_key: :situacao_parcelamento_id, class_name: 'ParcelamentoSituacao'
-
-  delegate :situacao_parcelamento,     :to => :imovel, :allow_nil => true, :prefix => true
+  belongs_to :situacao_parcelamento, foreign_key: "pcst_id", class_name: 'ParcelamentoSituacao'
 end

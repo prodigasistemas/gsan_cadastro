@@ -10,22 +10,23 @@ class Atendimento::Parcelamento < Imovel
   private
 
   def get_efetuados
-    efetuados = []
+    parcelamento_efetuados = []
 
-    q = {}
-    parcelas.map do |p|
-      q[:data_hora] = p.data_hora_parcelamento
-      q[:debito_atualizado] = p.valor_debito_atualizado
-      q[:desconto_concedido] = p.valor_desconto_acrescimos
-      q[:entrada] = p.valor_entrada
-      q[:numero_prestacoes] = p.numero_prestacoes
-      q[:valor_prestacao] = p.valor_prestacoes
-      if p.situacao_parcelamento.present?
-        q[:situacao] = p.situacao_parcelamento.descricao
+    parcelas.map do |parcela|
+      q = {}
+      q[:data_hora] = parcela.data_hora_parcelamento
+      q[:debito_atualizado] = parcela.valor_debito_atualizado
+      q[:desconto_concedido] = parcela.valor_desconto_acrescimos
+      q[:entrada] = parcela.valor_entrada
+      q[:numero_prestacoes] = parcela.numero_prestacoes
+      q[:valor_prestacao] = parcela.valor_prestacoes
+      q[:situacao] = parcela.situacao_parcelamento
+      if parcela.situacao_parcelamento.present?
+        q[:situacao] = parcela.situacao_parcelamento.descricao
       end
-      efetuados << q
+      parcelamento_efetuados << q
     end
 
-    efetuados
+    parcelamento_efetuados
   end
 end
