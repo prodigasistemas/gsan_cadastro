@@ -99,5 +99,6 @@ Rails.application.routes.draw do
     resources :documentos_cobrancas, only: [:show]
     resources :parcelamentos, only: [:show]
     resources :registros_atendimentos, only: [:show]
+    resources :debitos_imoveis, only: [:show]
   end
 end
