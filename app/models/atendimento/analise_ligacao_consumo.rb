@@ -10,11 +10,14 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
 
     if(!excecoes.blank?)
       rota = excecoes.imovel.rota_alternativa ||= excecoes.imovel.quadra.rota
-      
+
+      medicao = Imovel.medicao_agua(self, rota.faturamento_grupo.ano_mes_referencia)
+      medicao = Imovel.medicao_agua(self, 201905) if medicao.blank?
+
       if(!rota.blank?)
         geral = build_faturamento_rota(rota, rota.faturamento_grupo, rota.empresa)
       end
- 
+
       ligacao_agua = excecoes.imovel.ligacao_agua
       if(ligacao_agua.present?)
         dados_ligacao_agua = build_dados_ligacao_agua ligacao_agua
@@ -31,11 +34,60 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:hidrometro_ligacao] = dados_hidrometro_ligacao_agua
     cadastro[:esgoto] = dados_esgoto
     cadastro[:hidrometro_poco] = dados_hidrometro_ligacao_poco
+    cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao
 
     cadastro
   end
 
   private 
+
+  def build_medicao_do_mes(medicao)
+    dados = {}
+
+    return dados if medicao.blank?
+    
+    historico = medicao.medicao_historico.first
+    data_anterior = nil
+    leitura_anterior = nil
+    data_informada = nil
+    leitura_informada = nil
+    situacao_leitura = nil
+    leitura_faturamento = nil
+    data_faturamento = nil
+    funcionario = nil
+    anormalidade_faturamento = nil
+    anormalidade_informada = nil
+    consumo_medio = nil
+
+    if historico.present?
+      data_anterior = historico.data_leitura_anterior_faturamento 
+      leitura_anterior = historico.leitura_anterior_faturamento 
+      data_informada = historico.data_leitura_atual_informada
+      leitura_informada = historico.leitura_atual_informada 
+      data_faturamento = historico.data_leitura_atual_faturamento 
+      leitura_faturamento = historico.leitura_atual_faturamento 
+      situacao_leitura = descricao_de historico.leitura_situacao
+      funcionario = historico.funcionario_id
+      anormalidade_informada = descricao_de historico.leitura_anormalidade_informada
+      anormalidade_faturamento = descricao_de historico.leitura_anormalidade_faturamento
+    end
+
+    consumo_medio = medicao.consumo_historico.first.consumo_medio if medicao.consumo_historico.first.present?
+
+    dados[:data_leitura_anterior]    = data_anterior
+    dados[:leitura_anterior]         = leitura_anterior
+    dados[:data_leitura_informada]   = data_informada
+    dados[:leitura_informada]        = leitura_informada
+    dados[:data_leitura_faturamento] = data_faturamento
+    dados[:leitura_faturamento]      = leitura_faturamento
+    dados[:situacao_leitura]         = situacao_leitura  
+    dados[:funcionario]              = funcionario
+    dados[:anormalidade_informada]   = anormalidade_informada
+    dados[:anormalidade_faturamento] = anormalidade_faturamento
+    dados[:consumo_medio]            = consumo_medio
+
+    dados
+  end
 
   def build_dados_esgoto(imovel)
     dados = {}
