@@ -169,6 +169,7 @@ class Imovel < ActiveRecord::Base
   has_many   :parcelas, foreign_key: :imov_id, class_name: 'Parcelamento'
   has_many   :consumo_historico, foreign_key: :imov_id, class_name: 'ConsumoHistorico'
   has_many   :medicao_historico, foreign_key: :imov_id, class_name: 'MedicaoHistorico'
+  has_many   :registros_atendimento, -> { ordenar_por_data_atendimento }, foreign_key: :imov_id, class_name: 'RegistroAtendimento'
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 

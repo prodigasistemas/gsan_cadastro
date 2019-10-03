@@ -98,5 +98,6 @@ Rails.application.routes.draw do
     resources :analise_ligacao_consumos, only: [:show]
     resources :documentos_cobrancas, only: [:show]
     resources :parcelamentos, only: [:show]
+    resources :registros_atendimentos, only: [:show]
   end
 end
