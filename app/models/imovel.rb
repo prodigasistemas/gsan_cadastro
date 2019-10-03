@@ -167,9 +167,19 @@ class Imovel < ActiveRecord::Base
   has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
   belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
   has_many   :parcelas, foreign_key: :imov_id, class_name: 'Parcelamento'
+  has_many   :consumo_historico, foreign_key: :imov_id, class_name: 'ConsumoHistorico'
+  has_many   :medicao_historico, foreign_key: :imov_id, class_name: 'MedicaoHistorico'
   has_many   :registros_atendimento, -> { ordenar_por_data_atendimento }, foreign_key: :imov_id, class_name: 'RegistroAtendimento'
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
+
+  def self.medicao_agua(id, referencia)    
+    includes([:consumo_historico, medicao_historico: [:leitura_situacao, :leitura_anormalidade_informada, :leitura_anormalidade_faturamento]])
+    .where(id: id, "consumo_historico.ligacao_tipo_id" => 1, 
+          "consumo_historico.referencia_faturamento" => referencia, 
+          "medicao_historico.ano_mes_referencia" => referencia, 
+          "medicao_historico.ligacao_agua_id" => id).first
+  end
 
   #TODO melhorar consulta usando os relacionamentos do rails
   def matriculas_associadas
