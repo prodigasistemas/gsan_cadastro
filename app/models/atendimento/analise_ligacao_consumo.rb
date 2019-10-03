@@ -35,11 +35,63 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:esgoto] = dados_esgoto
     cadastro[:hidrometro_poco] = dados_hidrometro_ligacao_poco
     cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao
+    cadastro[:consumo_do_mes] = build_consumo_do_mes medicao
 
     cadastro
   end
 
   private 
+
+  def build_consumo_do_mes(medicao)
+    dados = {}
+
+    return dados if medicao.blank?
+    
+    historico = medicao.consumo_historico.first
+    
+    consumo_medido = nil
+    consumo_faturado = nil
+    consumo_rateio = nil
+    consumo_medio = nil
+    anormalidade_consumo = nil
+    percentual_variacao = nil	
+    dias_consumo = nil 	
+    tipo_consumo = nil
+
+    if historico.present?
+      consumo_faturado = historico.numero_consumo_faturado_mes
+      consumo_rateio = historico.consumo_rateio
+      anormalidade_consumo = descricao_de historico.consumo_anormalidade
+      consumo_medio = historico.consumo_medio
+
+      variacao = 0
+      dias = 0
+
+      if(medicao.medicao_historico.present?)
+        variacao = (consumo_faturado - medicao.medicao_historico.first.consumo_medio_hidrometro) * 100
+
+        data_anterior = medicao.medicao_historico.first.data_leitura_anterior_faturamento 
+        data_faturamento = medicao.medicao_historico.first.data_leitura_atual_faturamento        
+        dias = (data_faturamento.to_datetime - data_anterior.to_datetime).to_i
+      end
+      percentual_variacao = variacao    
+      dias_consumo = dias 	
+      tipo_consumo = descricao_de historico.consumo_tipo
+    end
+
+    consumo_medido = medicao.medicao_historico.first.numero_consumo_mes if medicao.medicao_historico.first.present?
+
+    dados[:consumo_medido] = consumo_medido
+    dados[:consumo_faturado] = consumo_faturado
+    dados[:consumo_rateio] = consumo_rateio
+    dados[:consumo_medio] = consumo_medio
+    dados[:anormalidade_consumo] = anormalidade_consumo
+    dados[:percentual_variacao] = percentual_variacao
+    dados[:dias_consumo] = dias_consumo  	
+    dados[:tipo_consumo] = tipo_consumo
+
+    dados
+  end
 
   def build_medicao_do_mes(medicao)
     dados = {}

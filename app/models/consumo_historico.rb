@@ -23,4 +23,8 @@ class ConsumoHistorico < ActiveRecord::Base
   alias_attribute "numero_consumo_calculo_media",         "cshi_nnconsumocalculomedia"
 
   alias_attribute "ligacao_tipo_id",                      "lgti_id"
+
+  belongs_to :consumo_anormalidade, foreign_key: :csan_id, class_name: "ConsumoAnormalidade"
+  belongs_to :consumo_tipo, foreign_key: :cstp_id, class_name: "ConsumoTipo"
+  
 end
