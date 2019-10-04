@@ -20,7 +20,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   alias_attribute "lote", "icac_lote"
 
   belongs_to :cadastro_ocorrencia, foreign_key: "cocr_id", optional: true
-  belongs_to :imovel, foreign_key: "imov_id"
+  belongs_to :imovel, foreign_key: "imov_id", optional: true
   belongs_to :imovel_retorno, foreign_key: "imre_id"
   belongs_to :situacao_atualizacao_cadastral, foreign_key: "siac_id"
   has_many :visitas, foreign_key: :icac_id
@@ -29,7 +29,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
   scope :podem_ser_pre_aprovados, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
                                                                                   SituacaoAtualizacaoCadastral::SITUACOES[:"REVISADO"],
                                                                                   SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"] ] ) }
-  scope :podem_ficar_em_revisao, -> { where(situacao_atualizacao_cadastral_id: SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"]) }
+  scope :podem_ficar_em_revisao, -> { joins(:imovel_retorno).where("siac_id = 3 and imovel_retorno.imac_tipooperacao <> 2") }
   scope :podem_ser_pre_aprovados_em_lote, -> { where(situacao_atualizacao_cadastral_id: [ SituacaoAtualizacaoCadastral::SITUACOES[:"TRANSMITIDO"],
                                                                                           SituacaoAtualizacaoCadastral::SITUACOES[:"REVISITA"] ] ) }
 
@@ -47,17 +47,32 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
     cadastro_ocorrencia.try(:descricao)
   end
 
-  def atualizar(situacao_cadastral_id, revisoes = [])
+  def atualizar(situacao, revisoes = [])
     ImovelControleAtualizacaoCadastral.transaction do
       return false if is_situacao_do_gsan?
       situacao_anterior = situacao_atualizacao_cadastral_id
-      update(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
-      puts  imov_id
+      
+      if em_revisao? situacao
+        return false if imovel_novo?
+        update(siac_id: situacao)
+      else
+        update(siac_id: situacao, icac_tmpreaprovacao: Time.current)
+      end
+
       imovel_atualizacao_cadastral = ImovelAtualizacaoCadastral.find_by(imov_id: imov_id)
-      imovel_atualizacao_cadastral.update(siac_id: situacao_cadastral_id) unless imovel_atualizacao_cadastral.nil?
-      ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes, situacao_anterior)
+      imovel_atualizacao_cadastral.update(siac_id: situacao) unless imovel_atualizacao_cadastral.nil?
+      codigo_imovel = imovel_novo? ? id : imov_id
+      ImovelControleAtualizacaoCadastral.atualizar_valores_colunas(situacao, codigo_imovel, revisoes, situacao_anterior)
       true
     end
+  end
+
+  def imovel_novo?
+    imovel_retorno.tipo_operacao.to_i == 2
+  end
+
+  def em_revisao?(situacao)
+    SituacaoAtualizacaoCadastral::SITUACOES[:"EM REVISAO"] == situacao.to_i
   end
 
   def self.atualizar_valores_colunas(situacao_cadastral_id, imov_id, revisoes = [], situacao_anterior)
@@ -74,7 +89,7 @@ class ImovelControleAtualizacaoCadastral < ActiveRecord::Base
       else
         imovel_controle_atualizacao_cadastrais = ImovelControleAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
         imovel_atualizacao_cadastrais = ImovelAtualizacaoCadastral.where(imov_id: imovel_ids).podem_ficar_em_revisao
-        imovel_controle_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id, icac_tmpreaprovacao: Time.current)
+        imovel_controle_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id)
         imovel_atualizacao_cadastrais.update_all(siac_id: situacao_cadastral_id)
       end
       true

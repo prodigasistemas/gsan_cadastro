@@ -41,7 +41,8 @@ class AtualizacaoCadastral < ActiveRecord::Base
       inner join seguranca.tabela_coluna tbco on tbco.tbco_id = tcac.tbco_id
       inner join cadastro.arquivo_texto_atlz_cad txac on tatc.txac_id = txac.txac_id
       inner join micromedicao.rota rota on rota.rota_id = txac.rota_id
-      left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel
+      inner join micromedicao.leiturista leiturista on leiturista.leit_id = tatc  .leit_id
+      left join atualizacaocadastral.imovel_controle_atlz_cad ctrl on ctrl.imov_id = tatc.tatc_cdimovel or ctrl.icac_id = tatc.tatc_cdimovel
       left join cadastro.situacao_atlz_cadastral siac on siac.siac_id = ctrl.siac_id
       left join cadastro.imovel_atlz_cadastral im on im.imov_id = tatc.tatc_cdimovel
       left join cadastro.cadastro_ocorrencia cocr on cocr.cocr_id = ctrl.cocr_id
@@ -50,7 +51,7 @@ class AtualizacaoCadastral < ActiveRecord::Base
       where 1 = 1
       and vis.vist_id = (select max(v2.vist_id) from atualizacaocadastral.visita v2 where v2.icac_id = ctrl.icac_id)
     SQL
-    query << "and im.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
+    query << "and leiturista.empr_id = #{params[:empresa_id]}" unless params[:empresa_id].blank?
     query << "\nand ctrl.siac_id not in (#{SituacaoAtualizacaoCadastral::SITUACOES[:"EM CORRECAO"]})"
     query << "\nand tatc.tatc_cdimovel = #{params[:matricula]}" unless params[:matricula].blank?
 
