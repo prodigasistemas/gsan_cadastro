@@ -31,4 +31,7 @@ class MedicaoHistorico < ActiveRecord::Base
   belongs_to :leitura_situacao, foreign_key: :ltst_idleiturasituacaoatual, class_name: "LeituraSituacao"
   belongs_to :leitura_anormalidade_informada, foreign_key: :ltan_idleitanorminformada, class_name: "LeituraAnormalidade"
   belongs_to :leitura_anormalidade_faturamento, foreign_key: :ltan_idleitanormfatmt, class_name: "LeituraAnormalidade"
+
+  scope :por_ligacao_agua, -> (imovel_id) { where(ligacao_agua_id: imovel_id).order(ano_mes_referencia: :desc) }
+  scope :por_imovel, -> (imovel_id) { where(imovel: imovel_id).order(ano_mes_referencia: :desc) }
 end

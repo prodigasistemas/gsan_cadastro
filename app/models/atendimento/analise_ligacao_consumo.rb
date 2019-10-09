@@ -35,12 +35,41 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:esgoto] = dados_esgoto
     cadastro[:hidrometro_poco] = dados_hidrometro_ligacao_poco
     cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao
-    cadastro[:consumo_do_mes] = build_consumo_do_mes medicao
+    cadastro[:consumo_do_mes] = build_consumo_do_mes medicao    
+    cadastro[:medicoes] = build_historico_medicoes
 
     cadastro
   end
 
   private 
+
+  def build_historico_medicoes
+    dados = []
+
+    medicoes = MedicaoHistorico.por_ligacao_agua(self)
+    medicoes = MedicaoHistorico.por_imovel(self) unless medicoes.present?
+    
+    return dados if medicoes.blank?
+
+    medicoes.map do |h|
+      m = {}      
+      m[:mes_ano]                  = h.ano_mes_referencia
+      m[:data_informada]           = h.data_leitura_atual_informada
+      m[:leitura_informada]        = h.leitura_atual_informada
+      m[:data_faturamento]         = h.data_leitura_atual_faturamento
+      m[:leitura_faturamento]      = h.leitura_atual_faturamento
+      m[:anormalidade_informada]   = descricao_de h.leitura_anormalidade_informada
+      m[:anormalidade_faturamento]   = descricao_de h.leitura_anormalidade_faturamento
+      m[:anormalidade_informada_id]  = h.leitura_anormalidade_informada.id if h.leitura_anormalidade_informada.present?
+      m[:anormalidade_faturamento_id]= h.leitura_anormalidade_faturamento.id if h.leitura_anormalidade_faturamento.present?
+      m[:leitura_situacao]           = descricao_de h.leitura_situacao
+      m[:consumo_medio_hidrometro]   = h.consumo_medio_hidrometro
+      
+      dados << m
+    end
+
+    dados
+  end
 
   def build_consumo_do_mes(medicao)
     dados = {}
