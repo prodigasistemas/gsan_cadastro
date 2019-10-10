@@ -8,4 +8,5 @@ class ConsumoTipo < ActiveRecord::Base
 
   alias_attribute "id",                      "cstp_id"
   alias_attribute "descricao",               "cstp_dsconsumotipo"
+  alias_attribute "descricao_abreviada",     "cstp_dsabreviadaconsumotipo"
 end

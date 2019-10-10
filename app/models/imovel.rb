@@ -175,7 +175,7 @@ class Imovel < ActiveRecord::Base
 
   def self.medicao_agua(id, referencia)    
     includes([:consumo_historico, medicao_historico: [:leitura_situacao, :leitura_anormalidade_informada, :leitura_anormalidade_faturamento]])
-    .where(id: id, "consumo_historico.ligacao_tipo_id" => 1, 
+    .where(id: id, "consumo_historico.ligacao_tipo_id" => LigacaoTipo::MODELO[:AGUA], 
           "consumo_historico.referencia_faturamento" => referencia, 
           "medicao_historico.ano_mes_referencia" => referencia, 
           "medicao_historico.ligacao_agua_id" => id).first

@@ -37,11 +37,40 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao
     cadastro[:consumo_do_mes] = build_consumo_do_mes medicao    
     cadastro[:medicoes] = build_historico_medicoes
+    cadastro[:consumos] = build_historico_consumos
 
     cadastro
   end
 
   private 
+
+  def build_historico_consumos
+    dados = []
+
+    consumos = ConsumoHistorico.por_ligacao_agua(self)
+    
+    return dados if consumos.blank?
+
+    consumos.map do |h|
+      c = {}      
+
+      c[:mes_ano]                  = h.referencia_faturamento
+      c[:consumo_medido]           = h.consumo_medido
+      c[:consumo_faturado]         = h.numero_consumo_faturado_mes
+      c[:consumo_medio]            = h.consumo_medio
+      c[:anormalidade_consumo_abrevidada] = h.consumo_anormalidade_abreviada
+      c[:anormalidade_consumo]     = h.consumo_anormalidade_descricao
+      c[:tipo_consumo]             = h.consumo_tipo_descricao
+
+      dias_consumo = 0
+      dias_consumo = (h.data_leitura_atual.to_datetime - h.data_leitura_anterior.to_datetime).to_i if h.data_leitura_anterior.present? and h.data_leitura_atual.present?
+      c[:dias_consumo] = dias_consumo
+      
+      dados << c
+    end
+
+    dados
+  end
 
   def build_historico_medicoes
     dados = []
