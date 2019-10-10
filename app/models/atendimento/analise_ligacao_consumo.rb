@@ -43,17 +43,24 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:consumos] = build_historico_consumos
     cadastro[:medicao_mes_poco] = build_medicao_do_mes medicao_poco_esgoto
     cadastro[:consumo_do_mes_esgoto] = build_consumo_do_mes medicao_poco_esgoto
+    cadastro[:medicoes_poco] = build_historico_medicoes false
+    cadastro[:consumos_esgoto] = build_historico_consumos false
 
     cadastro
   end
 
   private 
 
-  def build_historico_consumos
+  def build_historico_consumos(tipo_agua=true)
     dados = []
 
-    consumos = ConsumoHistorico.por_ligacao_agua(self)
-    
+    consumos = nil
+    if(tipo_agua)
+      consumos = ConsumoHistorico.por_ligacao_agua(self)
+    else
+      consumos = ConsumoHistorico.por_ligacao_esgoto(self)
+    end
+
     return dados if consumos.blank?
 
     consumos.map do |h|
@@ -77,12 +84,16 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     dados
   end
 
-  def build_historico_medicoes
+  def build_historico_medicoes(tipo_agua=true)
     dados = []
+    medicoes = nil
 
-    medicoes = MedicaoHistorico.por_ligacao_agua(self)
-    medicoes = MedicaoHistorico.por_imovel(self) unless medicoes.present?
-    
+    if(tipo_agua)
+      medicoes = MedicaoHistorico.por_ligacao_agua(self)
+    else
+      medicoes = MedicaoHistorico.por_imovel(self)
+    end
+
     return dados if medicoes.blank?
 
     medicoes.map do |h|
