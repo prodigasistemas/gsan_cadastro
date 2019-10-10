@@ -45,7 +45,7 @@ class Atendimento::DadosCadastral < Imovel
   end
 
   def get_perfil_imovel
-    return "" if perfil_imovel.nil?
+    return "" if perfil_imovel.nil?
 
     perfil_imovel.descricao
   end
@@ -156,8 +156,8 @@ class Atendimento::DadosCadastral < Imovel
   end
 
   def get_jardim
-    return "" if jardim.nil?
-    return "SIM" if jardim == 1
+    return "" if jardim.nil?
+    return "SIM" if jardim == 1
 
     "NÃO"
   end
