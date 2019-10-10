@@ -181,6 +181,12 @@ class Imovel < ActiveRecord::Base
           "medicao_historico.ligacao_agua_id" => id).first
   end
 
+  def self.medicao_poco_esgoto(id, referencia)
+    joins([:consumo_historico, medicao_historico: [:leitura_situacao, :leitura_anormalidade_informada, :leitura_anormalidade_faturamento]])
+    .joins("left outer join micromedicao.consumo_historico che on che.imov_id = #{id} and che.cshi_amfaturamento = #{referencia} and che.lgti_id = #{LigacaoTipo::MODELO[:ESGOTO]}")
+    .where(id: id, "consumo_historico.referencia_faturamento" => referencia, "medicao_historico.ano_mes_referencia" => referencia).first
+  end
+
   #TODO melhorar consulta usando os relacionamentos do rails
   def matriculas_associadas
     query = <<-SQL
