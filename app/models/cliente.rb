@@ -84,8 +84,8 @@ class Cliente < ActiveRecord::Base
   validates_length_of :nome_mae, maximum: 50
 
   scope :com_dados,        -> {
-    includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
-    order(:nome)
+    includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones)
+      .order(:nome)
   }
   scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,         -> (cpf)  { where cpf: cpf }
@@ -127,6 +127,10 @@ class Cliente < ActiveRecord::Base
 
   def self.ordem_busca
     "cliente.clie_nmcliente"
+  end
+  
+  def atributos(metodos = [])
+    super([:telefones].concat(metodos))
   end
 
   def gerencia

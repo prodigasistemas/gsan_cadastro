@@ -117,6 +117,8 @@ class Imovel < ActiveRecord::Base
   belongs_to :quadra,                foreign_key: :qdra_id, optional: true
   belongs_to :ligacao_agua_situacao, foreign_key: :last_id
   belongs_to :ligacao_esgoto_situacao, foreign_key: :lest_id
+  belongs_to :perimetro_inicial, foreign_key: :logr_idinicioperimetro, class_name: "Logradouro"
+  belongs_to :perimetro_final, foreign_key: :logr_idfimperimetro, class_name: "Logradouro"
   has_one    :gerencia_regional,     through: :localidade
   has_one    :abrangencia,           foreign_key: :imov_id
   has_one    :contrato_medicao,      through: :abrangencia
@@ -230,47 +232,62 @@ class Imovel < ActiveRecord::Base
   end
 
   def endereco_completo
-    endereco = ""
     logradouro_tipo = ""
     logradouro_titulo = ""
     logradouro = ""
+    numero = self.numero_imovel ||= ""
+    complemento = self.complemento_endereco ||= ""
     bairro = ""
     municipio = ""
     uf = ""
     cep = ""
+    perimetro = ""
 
-    if not self.logradouro_cep.nil?
-      if not self.logradouro_cep.logradouro.nil?
-        logradouro_tipo = self.logradouro_cep.logradouro.logradouro_tipo.descricao if not logradouro_cep.logradouro.logradouro_tipo.nil?
-        logradouro_titulo = self.logradouro_cep.logradouro.logradouro_titulo.descricao if not logradouro_cep.logradouro.logradouro_titulo.nil?
+    if self.logradouro_cep.present?
+      if self.logradouro_cep.logradouro.present?
+        logradouro_tipo = self.logradouro_cep.logradouro.logradouro_tipo.descricao if logradouro_cep.logradouro.logradouro_tipo.present?
+        logradouro_titulo = self.logradouro_cep.logradouro.logradouro_titulo.descricao if logradouro_cep.logradouro.logradouro_titulo.present?
         logradouro = self.logradouro_cep.logradouro.try(:nome)
       end
-      if not self.logradouro_cep.cep.nil?
-        cep = self.logradouro_cep.cep.codigo.to_s if not self.logradouro_cep.cep.codigo.nil?
+      if self.logradouro_cep.cep.present?
+        cep = self.logradouro_cep.cep.codigo.to_s if self.logradouro_cep.cep.codigo.present?
       end
     end
 
-    if not self.logradouro_bairro.nil?
-      if not self.logradouro_bairro.bairro.nil?
+    if self.logradouro_bairro.present?
+      if self.logradouro_bairro.bairro.present?
         bairro = self.logradouro_bairro.bairro.try(:nome)
-        if not self.logradouro_bairro.bairro.municipio.nil?
+        if self.logradouro_bairro.bairro.municipio.present?
           municipio = self.logradouro_bairro.bairro.municipio.try(:nome)
-          uf = self.logradouro_bairro.bairro.municipio.uf.try(:sigla) if not self.logradouro_bairro.bairro.municipio.uf.nil?
+          uf = self.logradouro_bairro.bairro.municipio.uf.try(:sigla) if self.logradouro_bairro.bairro.municipio.uf.present?
         end
       end
     end
 
-    endereco << logradouro_tipo
-    endereco << " " +logradouro_titulo
-    endereco << " " +logradouro
-    endereco << " - " +self.numero_imovel ||= ""
-    endereco << " - " +self.complemento_endereco ||= ""
-    endereco << " - " +bairro
-    endereco << " " +municipio
-    endereco << " " +uf
-    endereco << " " +cep.gsub(/\A(\d{5})(\d{3})\Z/, "\\1-\\2")
+    if self.perimetro_inicial.present? && self.perimetro_final.present?
+      dados_perimetro = []
+      dados_perimetro << "ENTRE"
+      dados_perimetro << self.perimetro_inicial.logradouro_tipo.descricao
+      dados_perimetro << self.perimetro_inicial.nome
+      dados_perimetro << "E"
+      dados_perimetro << self.perimetro_final.logradouro_tipo.descricao
+      dados_perimetro << self.perimetro_final.nome
 
-    endereco
+      perimetro = dados_perimetro.join(" ")
+    end
+
+    "".tap do |endereco|
+      endereco << logradouro_tipo
+      endereco << " " + logradouro_titulo
+      endereco << " " + logradouro
+      endereco << " - " + numero
+      endereco << " - " + complemento_endereco
+      endereco << " - " + bairro
+      endereco << " " + municipio
+      endereco << " " + uf
+      endereco << " " + cep.gsub(/\A(\d{5})(\d{3})\Z/, "\\1-\\2")
+      endereco << " " + perimetro
+    end.strip
   end
 
   def dados_gerais
