@@ -11,8 +11,11 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     if(!excecoes.blank?)
       rota = excecoes.imovel.rota_alternativa ||= excecoes.imovel.quadra.rota
 
-      medicao = Imovel.medicao_agua(self, rota.faturamento_grupo.ano_mes_referencia)
-      medicao = Imovel.medicao_agua(self, 201905) if medicao.blank?
+      medicao_agua = Imovel.medicao_agua(self.id, rota.faturamento_grupo.ano_mes_referencia)
+      medicao_agua = Imovel.medicao_agua(self.id, 201905) if medicao_agua.blank?
+
+      medicao_poco_esgoto = Imovel.medicao_poco_esgoto(self.id, rota.faturamento_grupo.ano_mes_referencia)
+      medicao_poco_esgoto = Imovel.medicao_poco_esgoto(self.id, 201905) if medicao_poco_esgoto.blank?
 
       if(!rota.blank?)
         geral = build_faturamento_rota(rota, rota.faturamento_grupo, rota.empresa)
@@ -34,10 +37,12 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
     cadastro[:hidrometro_ligacao] = dados_hidrometro_ligacao_agua
     cadastro[:esgoto] = dados_esgoto
     cadastro[:hidrometro_poco] = dados_hidrometro_ligacao_poco
-    cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao
-    cadastro[:consumo_do_mes] = build_consumo_do_mes medicao    
+    cadastro[:medicao_mes_agua] = build_medicao_do_mes medicao_agua
+    cadastro[:consumo_do_mes] = build_consumo_do_mes medicao_agua    
     cadastro[:medicoes] = build_historico_medicoes
     cadastro[:consumos] = build_historico_consumos
+    cadastro[:medicao_mes_poco] = build_medicao_do_mes medicao_poco_esgoto
+    cadastro[:consumo_do_mes_esgoto] = build_consumo_do_mes medicao_poco_esgoto
 
     cadastro
   end
