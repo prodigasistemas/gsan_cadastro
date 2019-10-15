@@ -33,6 +33,7 @@ class Conta < ActiveRecord::Base
   belongs_to :imovel,                  foreign_key: :imov_id
   belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual, optional: true
   has_one :cliente_conta,              foreign_key: :cnta_id
+  belongs_to :conta_motivo_revisao,    foreign_key: :cmrv_id
 
   scope :do_imovel_com_referencia, -> (imovel_id, referencia) do
     where(imovel_id: imovel_id, ano_mes_referencia: referencia).first
