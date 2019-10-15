@@ -313,6 +313,12 @@ class Imovel < ActiveRecord::Base
     {inscricao: inscricao, dica_inscricao: "Localidade.Setor.Quadra.Lote.Sublote", usuario: get_cliente_usuario, hidrometro: get_numero_hidrometro}
   end
 
+  def descricao_de(modelo)
+    return nil if modelo.blank?
+    
+    modelo.descricao
+  end
+  
   private
 
   def get_cliente_usuario
