@@ -298,10 +298,4 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
 
     r
   end
-
-  def descricao_de(modelo)
-    return nil if modelo.blank?
-    
-    modelo.descricao
-  end
 end
