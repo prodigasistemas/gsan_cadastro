@@ -100,5 +100,6 @@ Rails.application.routes.draw do
     resources :parcelamentos, only: [:show]
     resources :registros_atendimentos, only: [:show]
     resources :debitos_imoveis, only: [:show]
+    resources :historico_faturamentos, only: [:show]
   end
 end
