@@ -314,7 +314,7 @@ class Imovel < ActiveRecord::Base
   end
 
   def descricao_de(modelo)
-    return nil if modelo.blank?
+    return if modelo.blank?
     
     modelo.descricao
   end
