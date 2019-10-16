@@ -35,11 +35,13 @@ class Atendimento::DebitosImovel < Imovel
 
     pagamentos.map do |pagamento|
       p = {}
+      p[:valor_pagamento] = 0
       p[:valor_pagamento] = pagamento.valor_pagamento
       p[:ano_mes_referencia] = pagamento.ano_mes_referencia
       p[:data_pagamento] = pagamento.data_pagamento
+      p[:valor_conta] = 0
       if pagamento.conta.present?
-        p[:valor_conta] = pagamento.conta.valor_debitos
+        p[:valor_conta] = pagamento.conta.valor_creditos + pagamento.conta.valor_debitos + pagamento.conta.valor_esgoto + pagamento.conta.valor_agua
       end
       if pagamento.situacao_pagamento_atual.present?
         p[:situacao_atual] = pagamento.situacao_pagamento_atual.descricao

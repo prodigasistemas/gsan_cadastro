@@ -35,14 +35,17 @@ class Pagamento < ActiveRecord::Base
 
   belongs_to :imovel, foreign_key: :imovel_id
   belongs_to :cliente, foreign_key: :cliente_id
-  belongs_to :cliente_imoveis, foreign_key: 'clie_id', class_name: 'ClienteImovel'
-  belongs_to :conta, foreign_key: :conta_id, class_name: 'Conta'
+  belongs_to :conta, foreign_key: 'cnta_id', class_name: 'Conta'
   belongs_to :situacao_pagamento_atual, foreign_key: "pgst_idatual", class_name: 'PagamentoSituacao'
   belongs_to :situacao_pagamento_anterior, foreign_key: "pgst_idanterior", class_name: 'PagamentoSituacao'
 
   scope :condicoes, -> {
-    joins(:situacao_pagamento_atual).where("arrecadacao.pagamento_situacao.pgst_dsabreviado = ?", 'NCONF')
-    joins('left join cadastro.cliente_imovel c on c.clie_id = arrecadacao.pagamento.clie_id').where("c.clim_dtrelacaofim IS NULL")
+    joins(:situacao_pagamento_atual)
+    .joins(:conta)
+    .joins('left join cadastro.cliente_imovel c on c.clie_id = arrecadacao.pagamento.clie_id')
+    .where("c.clim_dtrelacaofim IS NULL")
+    .where("arrecadacao.pagamento_situacao.pgst_dsabreviado = ?", 'NCONF')
+    .order(ano_mes_referencia: :desc)
   }
 end
 
