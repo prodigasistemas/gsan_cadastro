@@ -3,6 +3,7 @@ class Atendimento::DebitosImovel < Imovel
     cadastro = {}
 
     cadastro[:situacoes_cobranca] = get_situacoes_cobranca
+    cadastro[:contas] = get_contas_inconformes
 
     cadastro
   end
@@ -29,4 +30,26 @@ class Atendimento::DebitosImovel < Imovel
     dados
   end
 
+  def get_contas_inconformes
+    debitos_imoveis = []
+
+    pagamentos.map do |pagamento|
+      p = {}
+      p[:valor_pagamento] = pagamento.valor_pagamento
+      p[:ano_mes_referencia] = pagamento.ano_mes_referencia
+      p[:data_pagamento] = pagamento.data_pagamento
+      if pagamento.conta.present?
+        p[:valor_conta] = pagamento.conta.valor_debitos
+      end
+      if pagamento.situacao_pagamento_atual.present?
+        p[:situacao_atual] = pagamento.situacao_pagamento_atual.descricao
+      end
+      if pagamento.situacao_pagamento_anterior.present?
+        p[:situacao_anterior] = pagamento.situacao_pagamento_anterior.descricao
+      end
+      debitos_imoveis << p
+    end
+
+    debitos_imoveis
+  end
 end
