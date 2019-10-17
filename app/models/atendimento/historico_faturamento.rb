@@ -2,7 +2,8 @@ class Atendimento::HistoricoFaturamento < Imovel
   def historico_faturamento
     cadastro = {}
 
-    cadastro[:contas] = get_historico_contas
+    cadastro[:contas] = get_dados_de_conta self.contas
+    cadastro[:contas_historico] = get_dados_de_conta self.conta_historico
     cadastro[:debitos] = get_historico_debitos
 
     cadastro
@@ -52,10 +53,10 @@ class Atendimento::HistoricoFaturamento < Imovel
     dados
   end
 
-  def get_historico_contas
+  def get_dados_de_conta(lista=[])
     dados = []
 
-    self.contas.map do |conta|
+    lista.map do |conta|
       c = {}
 
       agua     = conta.valor_agua     ||= 0

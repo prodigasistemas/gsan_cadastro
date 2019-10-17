@@ -174,6 +174,7 @@ class Imovel < ActiveRecord::Base
   has_many   :registros_atendimento, -> { ordenar_por_data_atendimento }, foreign_key: :imov_id, class_name: 'RegistroAtendimento'
   has_many   :debito_a_cobrar, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order("dbac_amcobrancadebito, faturamento.debito_credito_situacao.dcst_id ") }, foreign_key: :imov_id
   has_many   :debito_a_cobrar_historico, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order("dahi_amcobrancadebito, faturamento.debito_credito_situacao.dcst_id ") }, foreign_key: :imov_id
+  has_many   :conta_historico, -> { where.not(debito_credito_situacao_id_atual: 11).order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
