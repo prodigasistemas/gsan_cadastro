@@ -3,11 +3,54 @@ class Atendimento::HistoricoFaturamento < Imovel
     cadastro = {}
 
     cadastro[:contas] = get_historico_contas
+    cadastro[:debitos] = get_historico_debitos
 
     cadastro
   end
 
   private 
+
+  def get_historico_debitos
+    dados = []
+    
+    self.debito_a_cobrar.map do |debito|
+      d = {}
+
+      d[:tipo] = descricao_de debito.debito_tipo
+      d[:data_referencia] = debito.data_opcao_debito_conta_corrente
+      d[:data_cobranca]   = debito.ano_mes_cobranca_debito
+      d[:cobradas]        = debito.numero_prestacao_cobradas
+      d[:total]           = debito.numero_prestacao_debito
+      d[:bonus]           = debito.numero_parcela_bonus
+      d[:valor]           = debito.valor_debito
+
+      situacao = debito.debito_credito_situacao_atual
+      d[:situacao]        = situacao.present? ? situacao.abreviada : situacao
+      d[:situacao_dica]   = descricao_de debito.debito_credito_situacao_atual
+
+      dados << d
+    end
+
+    self.debito_a_cobrar_historico.map do |debito|
+      d = {}
+
+      d[:tipo] = descricao_de debito.debito_tipo
+      d[:data_referencia] = debito.data_opcao_debito_conta_corrente
+      d[:data_cobranca]   = debito.ano_mes_cobranca_debito
+      d[:cobradas]        = debito.numero_prestacao_cobradas
+      d[:total]           = debito.numero_prestacao_debito
+      d[:bonus]           = debito.numero_parcela_bonus
+      d[:valor]           = debito.valor_debito
+
+      situacao = debito.debito_credito_situacao_atual
+      d[:situacao]        = situacao.present? ? situacao.abreviada : situacao
+      d[:situacao_dica]   = descricao_de debito.debito_credito_situacao_atual
+
+      dados << d
+    end
+
+    dados
+  end
 
   def get_historico_contas
     dados = []
@@ -32,7 +75,7 @@ class Atendimento::HistoricoFaturamento < Imovel
       c[:situacao_dica] = descricao_de conta.debito_credito_situacao
 
       situacao = conta.debito_credito_situacao
-      c[:situacao]   = situacao.present?? situacao.abreviada : situacao
+      c[:situacao]   = situacao.present? ? situacao.abreviada : situacao
 
       dados << c
     end
