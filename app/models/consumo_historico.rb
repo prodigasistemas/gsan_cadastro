@@ -86,8 +86,14 @@ class ConsumoHistorico < ActiveRecord::Base
   def self.select_complemento_esgoto
     <<-SQL
       null as consumo_medido,
-			null as data_leitura_anterior, 
-      null as consumo_informado
+      null as consumo_tipo_descricao, 
+      null as data_leitura_anterior,
+      null as consumo_faturado_esgoto,
+      null as consumo_informado, 
+      null as id_anormalidade_leituraInformada,
+      null as descricao_anormalidade_leiturafa,
+      null as leitura_situacao, 
+      null as id_anormalidade_consumo
     SQL
   end
 end
