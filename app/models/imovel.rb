@@ -165,13 +165,14 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_ramos_atividades,    foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
   has_many   :negativacoes,               foreign_key: :imov_id, class_name: 'NegativadorMovimentoReg'
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
-  has_one :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
+  has_one    :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
   has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
   belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
   has_many   :parcelas, foreign_key: :imov_id, class_name: 'Parcelamento'
   has_many   :consumo_historico, foreign_key: :imov_id, class_name: 'ConsumoHistorico'
   has_many   :medicao_historico, foreign_key: :imov_id, class_name: 'MedicaoHistorico'
   has_many   :registros_atendimento, -> { ordenar_por_data_atendimento }, foreign_key: :imov_id, class_name: 'RegistroAtendimento'
+  has_many   :pagamentos, -> { condicoes }, foreign_key: :imov_id, class_name: 'Pagamento'
   has_many   :debito_a_cobrar, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order(ano_mes_cobranca_debito: :desc) }, foreign_key: :imov_id
   has_many   :debito_a_cobrar_historico, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order(ano_mes_cobranca_debito: :desc) }, foreign_key: :imov_id
   has_many   :conta_historico, -> { where.not(debito_credito_situacao_id_atual: 11).order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
