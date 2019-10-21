@@ -6,11 +6,51 @@ class Atendimento::HistoricoFaturamento < Imovel
     cadastro[:contas_historico] = get_dados_de_conta self.conta_historico
     cadastro[:debitos] = get_historico_debitos
     cadastro[:creditos] = get_historico_creditos
+    cadastro[:guias] = get_dados_guias
+    cadastro[:guias_historico] = get_historico_guias
 
     cadastro
   end
 
   private 
+
+  def get_dados_guias
+    dados = []
+
+    self.guia_pagamento.map do |guia|
+      d = {}
+
+      d[:tipo] = descricao_de guia.debito_tipo
+      d[:prestacoes] = guia.numero_prestacao_debito
+      d[:total] = guia.numero_prestacao_total
+      d[:emissao] = guia.data_emissao
+      d[:vencimento] = guia.data_vencimento
+      d[:valor] = guia.valor_debito
+
+      dados << d
+    end
+
+    dados
+  end
+
+  def get_historico_guias
+    dados = []
+
+    self.guia_pagamento_historico.map do |guia|
+      d = {}
+
+      d[:tipo] = descricao_de guia.debito_tipo
+      d[:prestacoes] = guia.numero_prestacao_debito
+      d[:total] = guia.numero_prestacao_total
+      d[:emissao] = guia.data_emissao
+      d[:vencimento] = guia.data_vencimento
+      d[:valor] = guia.valor_debito
+
+      dados << d
+    end
+
+    dados
+  end
 
   def get_historico_creditos
     dados = []

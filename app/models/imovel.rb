@@ -177,6 +177,8 @@ class Imovel < ActiveRecord::Base
   has_many   :conta_historico, -> { where.not(debito_credito_situacao_id_atual: 11).order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
   has_many   :credito_a_realizar, -> { joins([:debito_credito_situacao_atual, :credito_tipo]).order(ano_mes_referencia_credito: :desc) }, foreign_key: :imov_id
   has_many   :credito_a_realizar_historico, -> { joins([:debito_credito_situacao_atual, :credito_tipo]).order(ano_mes_referencia_credito: :desc) }, foreign_key: :imov_id
+  has_many   :guia_pagamento, -> { order(ano_mes_referencia_contabil: :desc) }, foreign_key: :imov_id
+  has_many   :guia_pagamento_historico, -> { order(ano_mes_referencia_contabil: :desc) }, foreign_key: :imov_id
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
 
