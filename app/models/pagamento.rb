@@ -38,6 +38,12 @@ class Pagamento < ActiveRecord::Base
   belongs_to :conta, foreign_key: 'cnta_id', class_name: 'Conta'
   belongs_to :situacao_pagamento_atual, foreign_key: "pgst_idatual", class_name: 'PagamentoSituacao'
   belongs_to :situacao_pagamento_anterior, foreign_key: "pgst_idanterior", class_name: 'PagamentoSituacao'
+  belongs_to :aviso_bancario, foreign_key: "avbc_id", class_name: "AvisoBancario"
+  belongs_to :documento_tipo, foreign_key: 'dotp_id', class_name: 'DocumentoTipo'
+  belongs_to :conta_geral, foreign_key: 'cnta_id', class_name: 'ContaGeral'
+  belongs_to :guia_pagamento, foreign_key: 'gpag_id', class_name: 'GuiaPagamento'
+  belongs_to :debito_a_cobrar_geral, foreign_key: 'dbac_id', class_name: 'DebitoACobrarGeral'
+  belongs_to :debito_tipo, foreign_key: 'dbtp_id', class_name: 'DebitoTipo'
 
   scope :condicoes, -> {
     joins(:situacao_pagamento_atual)
@@ -47,5 +53,28 @@ class Pagamento < ActiveRecord::Base
     .where("arrecadacao.pagamento_situacao.pgst_dsabreviado = ?", 'NCONF')
     .order(ano_mes_referencia: :desc)
   }
+
+  def self.de_contas(imovel_id)
+    joins(aviso_bancario: [arrecadador: :cliente])
+    .joins(:documento_tipo)
+    .joins("LEFT JOIN faturamento.conta_geral cg ON cg.cnta_id = arrecadacao.pagamento.cnta_id")
+    .joins("LEFT JOIN faturamento.conta c ON c.cnta_id = cg.cnta_id")
+    .joins("LEFT JOIN faturamento.conta_historico ch ON ch.cnta_id = cg.cnta_id")
+    .joins("LEFT JOIN faturamento.guia_pagamento gp ON gp.gpag_id = arrecadacao.pagamento.gpag_id")
+    .joins("LEFT JOIN faturamento.guia_pagamento cgp ON cgp.gpag_id = gp.gpag_id")
+    .joins("LEFT JOIN faturamento.debito_tipo dt ON dt.dbtp_id = cgp.dbtp_id")
+    .joins("LEFT JOIN faturamento.debito_a_cobrar_geral dcg ON dcg.dbac_id = arrecadacao.pagamento.dbac_id")
+    .joins("LEFT JOIN faturamento.debito_a_cobrar dc ON dc.dbac_id = dcg.dbac_id")
+    .joins("LEFT JOIN faturamento.debito_tipo dtc ON  dtc.dbtp_id = dc.dbtp_id")
+    .joins("LEFT JOIN faturamento.debito_tipo dtp ON  dtp.dbtp_id = arrecadacao.pagamento.dbtp_id")
+    .joins("LEFT JOIN arrecadacao.pagamento_situacao pgat ON pgat.pgst_id = arrecadacao.pagamento.pgst_idatual")
+    .joins("LEFT JOIN arrecadacao.pagamento_situacao pgan ON pgan.pgst_id = arrecadacao.pagamento.pgst_idanterior")
+    .distinct
+    .where(imov_id: imovel_id)
+    .order(localidade_id: :desc)
+    .order(ano_mes_referencia: :desc)
+    .order(imovel_id: :desc)
+    .order(data_pagamento: :desc)
+  end
 end
 
