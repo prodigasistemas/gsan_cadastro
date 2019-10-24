@@ -21,5 +21,6 @@ class GuiaPagamentoHistorico < ActiveRecord::Base
 
   belongs_to :clientes_guia_pagamento, foreign_key: 'gpag_id', class_name: 'GuiaPagamento'
   belongs_to :debito_tipo, foreign_key: 'dbtp_id', class_name: 'DebitoTipo'
-
+  belongs_to :imovel, foreign_key:  :imov_id
+  belongs_to :debito_credito_situacao_atual, foreign_key: :dcst_idatual, class_name: 'DebitoCreditoSituacao'
 end
