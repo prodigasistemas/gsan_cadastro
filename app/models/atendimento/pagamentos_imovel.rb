@@ -26,9 +26,9 @@ class Atendimento::PagamentosImovel < Imovel
     # PagamentoHistorico.de_contas(self.id).map do |p|
  
     #   if(p.tipo_documento_id == DocumentoTipo::TIPO[:debito_a_cobrar])
-
+    #     debitos_historico << preenche_debito(p)
     #   elsif(p.tipo_documento_id == DocumentoTipo::TIPO[:guia_pagamento])
-
+    #     guias_historico << preenche_guia(p)
     #   else
     #     contas_historico << preenche_conta(p)
     #   end
