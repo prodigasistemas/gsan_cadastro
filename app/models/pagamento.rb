@@ -55,8 +55,7 @@ class Pagamento < ActiveRecord::Base
   }
 
   def self.de_contas(imovel_id)
-    joins(aviso_bancario: [arrecadador: :cliente])
-    .joins(:documento_tipo)
+    includes(:documento_tipo, aviso_bancario: [arrecadador: :cliente])
     .joins("LEFT JOIN faturamento.conta_geral cg ON cg.cnta_id = arrecadacao.pagamento.cnta_id")
     .joins("LEFT JOIN faturamento.conta c ON c.cnta_id = cg.cnta_id")
     .joins("LEFT JOIN faturamento.conta_historico ch ON ch.cnta_id = cg.cnta_id")

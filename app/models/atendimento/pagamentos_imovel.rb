@@ -23,6 +23,16 @@ class Atendimento::PagamentosImovel < Imovel
       end
     end
 
+    PagamentoHistorico.de_contas(self.id).each do |p|
+      if(p.tipo_documento_id == DocumentoTipo::TIPO[:debito_a_cobrar])
+        debitos_historico << preenche_debito(p)
+      elsif(p.tipo_documento_id == DocumentoTipo::TIPO[:guia_pagamento])
+        guias_historico << preenche_guia(p)
+      else
+        contas_historico << preenche_conta(p)
+      end
+    end
+
     cadastro[:contas]  = contas
     cadastro[:contas_historico]  = contas_historico
     cadastro[:guias]   = guias
