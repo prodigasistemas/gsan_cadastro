@@ -24,6 +24,7 @@ class PagamentoHistorico < ActiveRecord::Base
   alias_attribute 'cliente_id',                           'clie_id'
   alias_attribute 'tipo_debito_id',                       'dbtp_id'
   alias_attribute 'guia_pagamento_id',                    'gpag_id'
+  alias_attribute 'imovel_id',                            'imov_id'
   
   belongs_to :imovel, foreign_key: :imovel_id
   belongs_to :conta, foreign_key: 'cnta_id', class_name: 'Conta'
