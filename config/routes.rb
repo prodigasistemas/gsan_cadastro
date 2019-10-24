@@ -101,5 +101,6 @@ Rails.application.routes.draw do
     resources :registros_atendimentos, only: [:show]
     resources :debitos_imoveis, only: [:show]
     resources :historico_faturamentos, only: [:show]
+    resources :pagamentos_imoveis, only: [:show]
   end
 end
