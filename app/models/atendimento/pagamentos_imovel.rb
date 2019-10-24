@@ -85,9 +85,9 @@ class Atendimento::PagamentosImovel < Imovel
 
     aviso_bancario = pagamento.aviso_bancario
     if(aviso_bancario.present?)
-    dados[:arrecadador] = aviso_bancario.arrecadador.cliente.nome if aviso_bancario.arrecadador.cliente.present?
+      dados[:arrecadador] = aviso_bancario.arrecadador.cliente.nome if aviso_bancario.arrecadador.cliente.present?
     else
-    dados[:arrecadador] = "JACK JACK"  
+      dados[:arrecadador] = agente_arrecadador(pagamento.cliente)
     end
     
     situacao_anterior = pagamento.situacao_pagamento_anterior
@@ -99,5 +99,11 @@ class Atendimento::PagamentosImovel < Imovel
     dados[:situacao_atual_dica] = descricao_de situacao_atual
 
     dados
+  end
+
+  def agente_arrecadador(pagamento_cliente)
+    return unless pagamento_cliente.present?
+
+    pagamento_cliente.nome
   end
 end
