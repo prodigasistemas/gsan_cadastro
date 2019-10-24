@@ -36,7 +36,9 @@ class PagamentoHistorico < ActiveRecord::Base
   belongs_to :guia_pagamento, foreign_key: 'gpag_id', class_name: 'GuiaPagamento'
 
   def self.de_contas(imovel_id)
-    joins("LEFT JOIN arrecadacao.aviso_bancario ab ON ab.avbc_id = arrecadacao.pagamento_historico.avbc_id")
+    distinct
+    .includes(:cliente, :conta, :situacao_pagamento_atual, :situacao_pagamento_anterior, :debito_tipo, :guia_pagamento, aviso_bancario: {arrecadador: :cliente})
+    .joins("LEFT JOIN arrecadacao.aviso_bancario ab ON ab.avbc_id = arrecadacao.pagamento_historico.avbc_id")
     .joins("LEFT JOIN faturamento.guia_pagamento_geral gpg ON gpg.gpag_id = arrecadacao.pagamento_historico.gpag_id")
     .joins("LEFT JOIN faturamento.guia_pagamento_historico pgh ON pgh.gpag_id = gpg.gpag_id")
     .joins("LEFT JOIN arrecadacao.arrecadador arr ON arr.arrc_id = ab.arrc_id")
@@ -51,7 +53,6 @@ class PagamentoHistorico < ActiveRecord::Base
     .joins("LEFT JOIN faturamento.debito_tipo dtph ON dtph.dbtp_id = arrecadacao.pagamento_historico.dbtp_id")
     .joins("LEFT JOIN arrecadacao.pagamento_situacao pgat ON pgat.pgst_id = arrecadacao.pagamento_historico.pgst_idatual")
     .joins("LEFT JOIN arrecadacao.pagamento_situacao pgan ON pgan.pgst_id = arrecadacao.pagamento_historico.pgst_idanterior")
-    .distinct
     .where(imov_id: imovel_id)
     .order(localidade_id: :desc)
     .order(ano_mes_referencia: :desc)
