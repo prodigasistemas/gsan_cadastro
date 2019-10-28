@@ -32,4 +32,14 @@ class ContaHistorico < ActiveRecord::Base
 
   belongs_to :imovel,                  foreign_key: :imov_id
   belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual
+
+  def valor_total
+    valor = self.valor_agua      ||= 0.0
+    valor += self.valor_debitos  ||= 0.0
+    valor += self.valor_esgoto   ||= 0.0
+    valor -= self.valor_creditos ||= 0.0
+    valor -= self.valor_impostos ||= 0.0
+
+    valor
+  end
 end

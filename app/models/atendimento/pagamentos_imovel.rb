@@ -46,13 +46,20 @@ class Atendimento::PagamentosImovel < Imovel
   private 
 
   def preenche_conta(pagamento)
-     conta = {}
+    conta = {}
 
-     conta[:mes_ano]     = pagamento.ano_mes_referencia
-     pagamento_conta     = pagamento.conta
-     conta[:valor_conta] = pagamento_conta.valor_total if pagamento_conta.present?
-     
-     complemento(conta, pagamento)
+    conta[:mes_ano]     = pagamento.ano_mes_referencia 
+    conta_geral         = pagamento.conta_geral
+
+    if(conta_geral.present?)
+      pagamento_conta     = conta_geral.conta 
+      pagamento_conta     = conta_geral.conta_historico unless pagamento_conta.present?
+      conta[:valor_conta] = pagamento_conta.valor_total if pagamento_conta.present?
+    else      
+      conta[:valor_conta] = nil
+    end
+
+    complemento(conta, pagamento)
   end
 
   def preenche_guia(pagamento)
@@ -60,7 +67,16 @@ class Atendimento::PagamentosImovel < Imovel
 
     guia[:cliente] = pagamento.cliente.nome if pagamento.cliente.present?
     guia[:tipo_debito] = descricao_de pagamento.debito_tipo
-    guia[:valor_guia] = pagamento.guia_pagamento.valor_debito if pagamento.guia_pagamento.present?
+
+    guia_pagamento_geral = pagamento.guia_pagamento_geral
+    
+    if(guia_pagamento_geral)
+      if(guia_pagamento_geral.has_attribute?(:valor_debito))
+        guia[:valor_guia] = guia_pagamento_geral.valor_debito
+      else
+        guia[:valor_guia] = guia_pagamento_geral.guia_pagamento_historico.valor_debito if guia_pagamento_geral.guia_pagamento_historico.present?
+      end
+    end
     
     complemento(guia, pagamento)
   end
@@ -78,7 +94,7 @@ class Atendimento::PagamentosImovel < Imovel
     complemento(debito, pagamento)
   end
 
-  def complemento(dados = {}, pagamento)
+  def complemento(dados = {}, pagamento)  
     dados[:valor_pagamento]   = pagamento.valor_pagamento
     dados[:data_pagamento]    = pagamento.data_pagamento
 
@@ -88,11 +104,11 @@ class Atendimento::PagamentosImovel < Imovel
     else
       dados[:arrecadador] = agente_arrecadador(pagamento.cliente)
     end
-    
+ 
     situacao_anterior = pagamento.situacao_pagamento_anterior
     dados[:situacao_anterior] = situacao_anterior.descricao_abreviada if situacao_anterior.present?
     dados[:situacao_anterior_dica] = descricao_de situacao_anterior
-    
+
     situacao_atual = pagamento.situacao_pagamento_atual
     dados[:situacao_atual]    = situacao_atual.descricao_abreviada if situacao_atual.present?
     dados[:situacao_atual_dica] = descricao_de situacao_atual

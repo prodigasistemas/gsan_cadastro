@@ -35,13 +35,12 @@ class Pagamento < ActiveRecord::Base
 
   belongs_to :imovel, foreign_key: :imovel_id
   belongs_to :cliente, foreign_key: :cliente_id
-  belongs_to :conta, foreign_key: 'cnta_id', class_name: 'Conta'
   belongs_to :situacao_pagamento_atual, foreign_key: "pgst_idatual", class_name: 'PagamentoSituacao'
   belongs_to :situacao_pagamento_anterior, foreign_key: "pgst_idanterior", class_name: 'PagamentoSituacao'
   belongs_to :aviso_bancario, foreign_key: "avbc_id", class_name: "AvisoBancario"
   belongs_to :documento_tipo, foreign_key: 'dotp_id', class_name: 'DocumentoTipo'
   belongs_to :conta_geral, foreign_key: 'cnta_id', class_name: 'ContaGeral'
-  belongs_to :guia_pagamento, foreign_key: 'gpag_id', class_name: 'GuiaPagamento'
+  belongs_to :guia_pagamento_geral, foreign_key: 'gpag_id', class_name: 'GuiaPagamento'
   belongs_to :debito_a_cobrar_geral, foreign_key: 'dbac_id', class_name: 'DebitoACobrarGeral'
   belongs_to :debito_tipo, foreign_key: 'dbtp_id', class_name: 'DebitoTipo'
 
