@@ -11,8 +11,8 @@ class Atendimento::DevolucoesImovel < Imovel
     valores = []
     valores_historico = []
 
-    preenche_dados(Devolucao.por_imovel(self.id),contas,guias,debitos)
-    preenche_dados(DevolucaoHistorico.por_imovel(self.id),contas_historico,guias_historico,debitos_historico)
+    preenche_dados(Devolucao.por_imovel(self.id), contas, guias, debitos, valores)
+    preenche_dados(DevolucaoHistorico.por_imovel(self.id), contas_historico, guias_historico, debitos_historico, valores_historico)
 
     cadastro[:contas]  = contas
     cadastro[:contas_historico]  = contas_historico
@@ -28,7 +28,7 @@ class Atendimento::DevolucoesImovel < Imovel
 
   private 
 
-  def preenche_dados(devolucoes, contas = [], guias = [], debitos = [])    
+  def preenche_dados(devolucoes, contas = [], guias = [], debitos = [], valores = [])    
     devolucoes.each do |dev|  
       if(dev.guia_devolucao.present?)
         if(dev.guia_devolucao.documento_tipo.id == DocumentoTipo::TIPO[:conta])
@@ -65,7 +65,7 @@ class Atendimento::DevolucoesImovel < Imovel
     guia_pagamento = guia_devolucao.guia_pagamento if guia_devolucao.present?
     cliente        = guia_pagamento.cliente        if guia_pagamento.present? 
     guia[:cliente] = cliente.nome if cliente.present?
-
+    guia[:valor_guia]  = guia_pagamento.valor_debito if guia_pagamento.present? 
     guia[:tipo_debito] = descricao_de(guia_pagamento.debito_tipo) if guia_pagamento.present? 
     
     complemento(guia, devolucao)
@@ -78,6 +78,18 @@ class Atendimento::DevolucoesImovel < Imovel
     debito[:valor_cobrado] = devolucao.aviso_bancario.valor_contabilizado if devolucao.aviso_bancario.present? 
 
     complemento(debito, devolucao)
+  end
+
+  def preenche_valores(devolucao)
+    valores = {}
+
+    valores[:cliente] = devolucao.cliente.nome if devolucao.cliente.present?
+
+    guia_devolucao = devolucao.guia_devolucao
+    valores[:tipo_debito] = descricao_de devolucao.debito_tipo
+    valores[:valor_guia]  = guia_devolucao.valor_devolucao if guia_devolucao.present?
+
+    complemento(valores, devolucao)
   end
 
   def complemento(dados={}, devolucao)

@@ -12,6 +12,7 @@ class DevolucaoHistorico < ActiveRecord::Base
   alias_attribute "ultima_alteracao",               "dehi_tmultimaalteracao"   
   alias_attribute "ano_mes_referencia_devolucao",   "dehi_amreferenciadevolucao"
   alias_attribute "valor_devolucao",                "dehi_vldevolucao"
+  alias_attribute 'cliente_id',                     'clie_id'
 
   belongs_to :imovel, foreign_key: 'imov_id'
   belongs_to :guia_devolucao, foreign_key: 'gdev_id'
@@ -19,6 +20,7 @@ class DevolucaoHistorico < ActiveRecord::Base
   belongs_to :aviso_bancario, foreign_key: 'avbc_id'
   belongs_to :situacao_devolucao_atual, foreign_key: "dvst_idatual", class_name: 'DevolucaoSituacao'
   belongs_to :situacao_devolucao_anterior, foreign_key: "dvst_idanterior", class_name: 'DevolucaoSituacao'
+  belongs_to :cliente, foreign_key: :cliente_id
 
   def self.por_imovel(imovel_id)
     joins("left join  arrecadacao.guia_devolucao g_dev on g_dev.gdev_id = arrecadacao.devolucao_historico.gdev_id")    
