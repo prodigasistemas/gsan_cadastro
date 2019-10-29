@@ -112,13 +112,16 @@ class Cliente < ActiveRecord::Base
     .joins(
       :imoveis
     )
+    .joins(
+      :cliente_imoveis
+    )
+    .where('cliente_imovel.clim_dtrelacaofim IS NULL')
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
     .order(ordem_busca)
   end
 
   def self.condicoes_busca
     <<-SQL
-      cliente_imovel.clim_dtrelacaofim IS NULL and
       concat(cliente.clie_nncpf, ' ', cliente.clie_nncnpj, ' ',
       cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
         ILIKE :termo
