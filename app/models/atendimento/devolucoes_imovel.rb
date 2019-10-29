@@ -8,6 +8,8 @@ class Atendimento::DevolucoesImovel < Imovel
     guias_historico   = []
     debitos = []
     debitos_historico = []
+    valores = []
+    valores_historico = []
 
     preenche_dados(Devolucao.por_imovel(self.id),contas,guias,debitos)
     preenche_dados(DevolucaoHistorico.por_imovel(self.id),contas_historico,guias_historico,debitos_historico)
@@ -18,6 +20,8 @@ class Atendimento::DevolucoesImovel < Imovel
     cadastro[:guias_historico]   = guias_historico
     cadastro[:debitos] = debitos
     cadastro[:debitos_historico] = debitos_historico
+    cadastro[:valores] = valores
+    cadastro[:valores_historico] = valores_historico
 
     cadastro
   end
@@ -31,12 +35,14 @@ class Atendimento::DevolucoesImovel < Imovel
           contas << preenche_conta(dev)
         elsif(dev.guia_devolucao.documento_tipo.id == DocumentoTipo::TIPO[:guia_pagamento])
           guias << preenche_guia(dev)
+        elsif(dev.guia_devolucao.documento_tipo.id == DocumentoTipo::TIPO[:debito_a_cobrar])
+          debitos << preenche_debito(dev)
         end
       else
         if(dev.ano_mes_referencia_devolucao.present?)
           contas << preenche_conta(dev)
         else
-
+          valores << preenche_valores(dev)
         end
       end
     end 
@@ -63,6 +69,15 @@ class Atendimento::DevolucoesImovel < Imovel
     guia[:tipo_debito] = descricao_de(guia_pagamento.debito_tipo) if guia_pagamento.present? 
     
     complemento(guia, devolucao)
+  end
+
+  def preenche_debito(devolucao)
+    debito = {}
+
+    debito[:tipo_debito]   = descricao_de devolucao.debito_tipo
+    debito[:valor_cobrado] = devolucao.aviso_bancario.valor_contabilizado if devolucao.aviso_bancario.present? 
+
+    complemento(debito, devolucao)
   end
 
   def complemento(dados={}, devolucao)
