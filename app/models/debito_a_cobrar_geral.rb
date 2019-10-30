@@ -11,4 +11,5 @@ class DebitoACobrarGeral < ActiveRecord::Base
   alias_attribute "ultima_alteracao",       "dage_tmultimaalteracao"
 
   belongs_to :debito_a_cobrar, foreign_key: :dbac_id, class_name: 'DebitoACobrar'
+  belongs_to :debito_a_cobrar_historico, foreign_key: :dbac_id, class_name: 'DebitoACobrarHistorico'
 end

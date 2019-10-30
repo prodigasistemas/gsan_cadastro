@@ -35,7 +35,7 @@ class PagamentoHistorico < ActiveRecord::Base
   belongs_to :debito_tipo, foreign_key: 'dbtp_id', class_name: 'DebitoTipo'
   belongs_to :guia_pagamento_geral, foreign_key: 'gpag_id', class_name: 'GuiaPagamentoGeral'
   belongs_to :documento_tipo, foreign_key: 'dotp_id', class_name: 'DocumentoTipo'
-  belongs_to :debito_a_cobrar_geral, foreign_key: 'dbac_id', class_name: 'DocumentoTipo'
+  belongs_to :debito_a_cobrar_geral, foreign_key: 'dbac_id', class_name: 'DebitoACobrarGeral'
 
   def self.de_contas(imovel_id)
     distinct

@@ -87,7 +87,7 @@ class Atendimento::PagamentosImovel < Imovel
     debito[:tipo_debito] = descricao_de pagamento.debito_tipo
 
     debito_geral = pagamento.debito_a_cobrar_geral
-    debito_geral = debito_geral.debito_a_cobrar if debito_geral.present?
+    debito_geral = debito_geral.debito_a_cobrar || debito_geral.debito_a_cobrar_historico if debito_geral.present?
 
     debito[:valor_cobrado] = debito_geral.valor_debito if debito_geral.present?
     
