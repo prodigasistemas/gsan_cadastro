@@ -46,7 +46,7 @@ class Pagamento < ActiveRecord::Base
 
   scope :condicoes, -> {
     joins(:situacao_pagamento_atual)
-    .joins(:conta)
+    .joins(:conta_geral)
     .joins('left join cadastro.cliente_imovel c on c.clie_id = arrecadacao.pagamento.clie_id')
     .where("c.clim_dtrelacaofim IS NULL")
     .where("arrecadacao.pagamento_situacao.pgst_dsabreviado = ?", 'NCONF')
