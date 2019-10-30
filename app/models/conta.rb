@@ -29,6 +29,7 @@ class Conta < ActiveRecord::Base
   alias_attribute :localidade_id,                       :loca_id
   alias_attribute :ligacao_esgoto_situacao,             :lest_id
   alias_attribute :valor_impostos,                      :cnta_vlimpostos
+  alias_attribute :data_revisao,                        :cnta_dtrevisao
 
   belongs_to :imovel,                  foreign_key: :imov_id
   belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual, optional: true

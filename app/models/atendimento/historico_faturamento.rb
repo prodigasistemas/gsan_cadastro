@@ -174,6 +174,7 @@ class Atendimento::HistoricoFaturamento < Imovel
 
       situacao = conta.debito_credito_situacao
       c[:situacao]   = situacao.present? ? situacao.abreviada : situacao
+      c[:data_revisao] = conta.data_revisao
 
       dados << c
     end
