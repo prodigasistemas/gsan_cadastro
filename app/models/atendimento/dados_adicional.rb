@@ -207,7 +207,7 @@ class Atendimento::DadosAdicional < Imovel
   def get_funcionario
     return "" if funcionario.nil?
 
-    f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
+    f = "(" << funcionario.id.to_s << ") " << funcionario.nome ||= ""
 
     f
   end

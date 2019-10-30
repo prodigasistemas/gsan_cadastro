@@ -151,7 +151,7 @@ class Imovel < ActiveRecord::Base
   has_many   :termo_atualizacao_comunicados, foreign_key: :imov_id, class_name: 'ComunicadoEmitirConta'
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
-  belongs_to :funcionario, foreign_key: :funcionario_id
+  belongs_to :funcionario, foreign_key: 'func_id', class_name: 'Funcionario'
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
