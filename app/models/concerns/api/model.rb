@@ -6,7 +6,12 @@ module API
 
     def atributos(params=[], referer=nil)
       referencia(referer || self)
-      new_params = self.as_json(only: :none, methods: params) rescue {}
+      begin
+        new_params = self.as_json(only: :none, methods: params)
+      rescue => e
+        logger.warn "[ERROR] #{e}"
+        new_params = {}
+      end
       hash = {}
       attribute_aliases.keys.each do |key|
         hash[key] = self.send(key.to_sym)
