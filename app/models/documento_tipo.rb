@@ -3,7 +3,8 @@ class DocumentoTipo < ActiveRecord::Base
   include API::Filterable
   include API::Model
   
-  TIPO = { :debito_a_cobrar => 6,
+  TIPO = { :conta           => 1,
+           :debito_a_cobrar => 6,
            :guia_pagamento  => 7 } 
 
   self.table_name  = 'cobranca.documento_tipo'
