@@ -191,7 +191,7 @@ class Atendimento::DadosAdicional < Imovel
   end
 
   def get_dados_contrato
-    dados_contrato.first if dados_contrato.present?
+    dados_contrato.to_a if dados_contrato.present?
   end
   
   def get_matriculas_associadas

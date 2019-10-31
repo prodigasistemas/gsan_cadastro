@@ -213,20 +213,24 @@ class Imovel < ActiveRecord::Base
   
   def dados_contrato
     query = <<-SQL
-      SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
-          contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
-          contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato,
-          contrato_tipo.cttp_id as contrato_id 
-      
+      SELECT 
+        cstc.cstc_nnconsumominimo AS consumo, AVG(cstc.cstc_vltarifaminima) AS valor_tarifa,
+        contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
+        contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato,
+        contrato_tipo.cttp_id as contrato_id 
+            
       FROM faturamento.consumo_tarifa_categoria cstc 
-      
-        INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
-        INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
-        INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
-        INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
-        INNER JOIN cadastro.subcategoria scat ON cstc.catg_id = scat.catg_id
-        INNER JOIN cadastro.imovel_subcategoria imov_scat ON scat.scat_id = imov_scat.scat_id AND imov.imov_id = imov_scat.imov_id
-      ORDER BY cstv.cstv_dtvigencia DESC limit 1
+      INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
+      INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
+      INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
+      INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
+      INNER JOIN cadastro.subcategoria scat ON cstc.catg_id = scat.catg_id
+      INNER JOIN cadastro.imovel_subcategoria imov_scat ON scat.scat_id = imov_scat.scat_id AND imov.imov_id = imov_scat.imov_id
+      GROUP BY 
+        cstc.cstc_nnconsumominimo, contrato.cntt_dtcontratoinicio, contrato.cntt_dtcontratofim,
+        contrato_tipo.cttp_dscontratotipo, contrato.cntt_nncontrato, contrato_tipo.cttp_id
+      ORDER BY
+        contrato.cntt_dtcontratoinicio DESC
     SQL
     ActiveRecord::Base.connection.execute(query)
   end
