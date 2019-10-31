@@ -69,7 +69,7 @@ class Atendimento::AnaliseLigacaoConsumo < Imovel
       c[:mes_ano]                  = h.referencia_faturamento
       c[:consumo_medido]           = h.consumo_medido
       c[:consumo_faturado]         = h.numero_consumo_faturado_mes
-      c[:consumo_medio]            = h.consumo_medio
+      c[:consumo_medio]            = h.consumo_medio if tipo_agua
       c[:anormalidade_consumo_abrevidada] = h.consumo_anormalidade_abreviada
       c[:anormalidade_consumo]     = h.consumo_anormalidade_descricao
       c[:tipo_consumo]             = h.consumo_tipo_descricao

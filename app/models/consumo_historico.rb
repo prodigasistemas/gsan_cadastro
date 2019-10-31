@@ -29,24 +29,24 @@ class ConsumoHistorico < ActiveRecord::Base
   belongs_to :consumo_tipo, foreign_key: :cstp_id, class_name: "ConsumoTipo"
   
   def self.por_ligacao_agua(imovel_id)
-    select(select_historico, select_complemento_agua)
-      .joins("LEFT JOIN micromedicao.medicao_historico medicao_historico on micromedicao.consumo_historico.imov_id = medicao_historico.lagu_id AND micromedicao.consumo_historico.cshi_amfaturamento = medicao_historico.mdhi_amleitura")
-      .joins("LEFT OUTER JOIN micromedicao.leitura_situacao leitura_situacao on medicao_historico.ltst_idleiturasituacaoatual = leitura_situacao.ltst_id")
-      .joins("LEFT OUTER JOIN micromedicao.consumo_anormalidade consumo_anormalidade on consumo_historico.csan_id = consumo_anormalidade.csan_id")
-      .joins("LEFT OUTER JOIN micromedicao.consumo_tipo consumo_tipo on consumo_historico.cstp_id = consumo_tipo.cstp_id")
-      .joins("LEFT OUTER JOIN micromedicao.consumo_historico consumo_historico_esgoto on consumo_historico.imov_id = consumo_historico_esgoto.imov_id and consumo_historico.cshi_amfaturamento = consumo_historico_esgoto.cshi_amfaturamento and consumo_historico_esgoto.lgti_id = #{LigacaoTipo::MODELO[:ESGOTO]}")
-      .joins("LEFT OUTER JOIN micromedicao.leitura_situacao leitura_situacao on medicao_historico.ltst_idleiturasituacaoatual = leitura_situacao.ltst_id")
-      .joins("LEFT OUTER JOIN micromedicao.leitura_anormalidade leitura_anormalidade_informada on medicao_historico.ltan_idleitanorminformada=leitura_anormalidade_informada.ltan_id")
-      .joins("LEFT OUTER JOIN micromedicao.leitura_anormalidade leitura_anormalidade_faturamento on medicao_historico.ltan_idleitanormfatmt=leitura_anormalidade_faturamento.ltan_id")
-      .where(consumo_historico: { imov_id: imovel_id, lgti_id: LigacaoTipo::MODELO[:AGUA] }).order(referencia_faturamento: :desc)
+    por_ligacao(:AGUA, imovel_id)
   end
 
   def self.por_ligacao_esgoto(imovel_id)
-    select(select_historico, select_complemento_esgoto)
+    por_ligacao(:ESGOTO, imovel_id)
+  end
+
+  def self.por_ligacao(tipo, imovel_id)
+    select(select_historico, select_complemento)
       .joins("LEFT JOIN micromedicao.medicao_historico medicao_historico on micromedicao.consumo_historico.imov_id = medicao_historico.lagu_id AND micromedicao.consumo_historico.cshi_amfaturamento = medicao_historico.mdhi_amleitura")
+      .joins("LEFT OUTER JOIN micromedicao.leitura_situacao leitura_situacao on medicao_historico.ltst_idleiturasituacaoatual = leitura_situacao.ltst_id")
       .joins("LEFT OUTER JOIN micromedicao.consumo_anormalidade consumo_anormalidade on consumo_historico.csan_id = consumo_anormalidade.csan_id")
       .joins("LEFT OUTER JOIN micromedicao.consumo_tipo consumo_tipo on consumo_historico.cstp_id = consumo_tipo.cstp_id")
-      .where(consumo_historico: { imov_id: imovel_id, lgti_id: LigacaoTipo::MODELO[:ESGOTO] }).order(referencia_faturamento: :desc)
+      .joins("LEFT OUTER JOIN micromedicao.consumo_historico consumo_historico_esgoto on consumo_historico.imov_id = consumo_historico_esgoto.imov_id and consumo_historico.cshi_amfaturamento = consumo_historico_esgoto.cshi_amfaturamento and consumo_historico_esgoto.lgti_id = #{LigacaoTipo::MODELO[tipo]}")
+      .joins("LEFT OUTER JOIN micromedicao.leitura_situacao leitura_situacao on medicao_historico.ltst_idleiturasituacaoatual = leitura_situacao.ltst_id")
+      .joins("LEFT OUTER JOIN micromedicao.leitura_anormalidade leitura_anormalidade_informada on medicao_historico.ltan_idleitanorminformada=leitura_anormalidade_informada.ltan_id")
+      .joins("LEFT OUTER JOIN micromedicao.leitura_anormalidade leitura_anormalidade_faturamento on medicao_historico.ltan_idleitanormfatmt=leitura_anormalidade_faturamento.ltan_id")
+      .where(consumo_historico: { imov_id: imovel_id, lgti_id: LigacaoTipo::MODELO[tipo] }).order(referencia_faturamento: :desc)
   end
 
   private
@@ -69,7 +69,7 @@ class ConsumoHistorico < ActiveRecord::Base
     SQL
   end  
 
-  def self.select_complemento_agua
+  def self.select_complemento
     <<-SQL
       medicao_historico.mdhi_nnconsumomedidomes 		    as consumo_medido,
       consumo_tipo.cstp_dsconsumotipo 				          as consumo_tipo_descricao, 
@@ -80,20 +80,6 @@ class ConsumoHistorico < ActiveRecord::Base
       leitura_anormalidade_faturamento.ltan_dsleituraanormalidade as descricao_anormalidade_leiturafa,
       leitura_situacao.ltst_dsleiturasituacao 		      as leitura_situacao, 
       consumo_anormalidade.csan_id 					            as id_anormalidade_consumo
-    SQL
-  end
-
-  def self.select_complemento_esgoto
-    <<-SQL
-      null as consumo_medido,
-      null as consumo_tipo_descricao, 
-      null as data_leitura_anterior,
-      null as consumo_faturado_esgoto,
-      null as consumo_informado, 
-      null as id_anormalidade_leituraInformada,
-      null as descricao_anormalidade_leiturafa,
-      null as leitura_situacao, 
-      null as id_anormalidade_consumo
     SQL
   end
 end
