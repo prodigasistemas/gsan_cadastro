@@ -61,6 +61,8 @@ module API
 
             next if value.blank? || [:page, :per_page].include?(key.to_sym)
 
+            value = nil if value == "NULO"
+
             params.merge!({ key => value })
           end
         end

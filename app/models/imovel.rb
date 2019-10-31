@@ -102,7 +102,7 @@ class Imovel < ActiveRecord::Base
   alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
   alias_attribute "observacao_categoria",                                               "imov_dsobservacaotegoria"
 
-  scope :com_dados, -> { com_escopo.joins(:quadra) }
+  scope :com_dados, -> { com_escopo.joins(:quadra, :cliente_imoveis) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
   scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:clientes).where(cliente: dados_cliente) }
 
