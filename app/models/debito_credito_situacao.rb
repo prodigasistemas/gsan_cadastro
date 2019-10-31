@@ -4,6 +4,7 @@ class DebitoCreditoSituacao < ActiveRecord::Base
 
   alias_attribute "id",                        "dcst_id"
   alias_attribute "descricao",                 "dcst_dsdebitocreditosituacao"
+  alias_attribute "abreviada",                 "dcst_dsabreviado"
 
   SITUACAO = {
     normal: 0,

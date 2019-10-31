@@ -3,11 +3,12 @@ class NegativadorMovimento < ActiveRecord::Base
     self.primary_key = 'ngmv_id'
   
     alias_attribute "id",                       "ngmv_id"
-    alias_attribute "dataProcessamentoEnvio",   "ngmv_dtprocessamentoenvio"
-    alias_attribute "indicadorAceito",          "nmrg_icaceito"
-    alias_attribute "codigoExclusaoTipo",       "nmrg_cdexclusaotipo"
+    alias_attribute "data_processamento_envio", "ngmv_dtprocessamentoenvio"
+    alias_attribute "indicador_aceito",         "nmrg_icaceito"
+    alias_attribute "codigoExclusao_tipo",      "nmrg_cdexclusaotipo"
     alias_attribute "ngcm_id",                  "ngcm_id"
     alias_attribute "negt_id",                  "negt_id"
+    alias_attribute "data_retorno",             "ngmv_dtretorno"
     
 
     belongs_to :negativacao_comando,   foreign_key: :ngcm_id

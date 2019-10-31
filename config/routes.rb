@@ -98,5 +98,10 @@ Rails.application.routes.draw do
     resources :analise_ligacao_consumos, only: [:show]
     resources :documentos_cobrancas, only: [:show]
     resources :parcelamentos, only: [:show]
+    resources :registros_atendimentos, only: [:show]
+    resources :debitos_imoveis, only: [:show]
+    resources :historico_faturamentos, only: [:show]
+    resources :pagamentos_imoveis, only: [:show]
+    resources :devolucoes_imoveis, only: [:show]
   end
 end

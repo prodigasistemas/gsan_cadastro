@@ -14,7 +14,7 @@ class ImovelCobrancaSituacao < ActiveRecord::Base
   alias_attribute "ano_mes_referencia_inicio",  "iscb_amreferenciainicio"
   alias_attribute "ano_mes_referencia_final",   "iscb_amreferenciafinal"
   alias_attribute "imov_id",                    "imov_id"
-  alias_attribute "cbst_id",                    "cbst_id"
+  alias_attribute "cobranca_situacao_id",       "cbst_id"
   alias_attribute "cliente",                    "clie_id"
   alias_attribute "clie_idescritorio",          "clie_idescritorio"
   alias_attribute "clie_idadvogado",            "clie_idadvogado"

@@ -6,7 +6,12 @@ module API
 
     def atributos(params=[], referer=nil)
       referencia(referer || self)
-      new_params = self.as_json(only: :none, methods: params) rescue {}
+      begin
+        new_params = self.as_json(only: :none, methods: params)
+      rescue => e
+        logger.warn "[ERROR] #{e}"
+        new_params = {}
+      end
       hash = {}
       attribute_aliases.keys.each do |key|
         hash[key] = self.send(key.to_sym)
@@ -55,6 +60,8 @@ module API
             value = check_params(value) if complex_params?(value)
 
             next if value.blank? || [:page, :per_page].include?(key.to_sym)
+
+            value = nil if value == "NULO"
 
             params.merge!({ key => value })
           end

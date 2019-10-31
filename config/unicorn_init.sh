@@ -28,6 +28,9 @@ export PID_PATH="/tmp"
 export UNICORN_CONFIG_FILE="$APP_ROOT/config/unicorn.rb"
 export UNICORN_BIN="unicorn_rails"
 
+# Source RVM and set correct Ruby version
+source "${RVM_SCRIPT}"
+
 BUNDLE_PATH=$(which bundle)
 export UNICORN_CMD="${BUNDLE_PATH} exec ${UNICORN_BIN} -E ${RAILS_ENV} -c \"${UNICORN_CONFIG_FILE}\" -D"
 
@@ -63,7 +66,6 @@ cmd () {
 
       echo "Starting unicorn..."
 
-      source "${RVM_SCRIPT}"
       eval $UNICORN_CMD
       # Store the current ruby version. If this changes, we need to do a cold restart.
       echo "$RUBY_VERSION" > "$RUBY_VERSION_FILE"
@@ -91,9 +93,6 @@ cmd () {
         $0 start
         return 0
       fi
-
-      # Source RVM and set correct Ruby version
-      source "${RVM_SCRIPT}"
 
       echo "Original PID: $ORIG_PID"
 

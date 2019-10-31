@@ -102,7 +102,7 @@ class Imovel < ActiveRecord::Base
   alias_attribute "percentual_abastecimento",                                           "imov_percentual_abastecimento"
   alias_attribute "observacao_categoria",                                               "imov_dsobservacaotegoria"
 
-  scope :com_dados, -> { com_escopo.joins(:quadra) }
+  scope :com_dados, -> { com_escopo.joins(:quadra, :cliente_imoveis) }
   scope :nao_excluido, -> { com_escopo.where('imovel_excluido is null OR imovel_excluido <> 1') }
   scope :por_cliente, -> (dados_cliente) { com_escopo.joins(:clientes).where(cliente: dados_cliente) }
 
@@ -117,6 +117,8 @@ class Imovel < ActiveRecord::Base
   belongs_to :quadra,                foreign_key: :qdra_id, optional: true
   belongs_to :ligacao_agua_situacao, foreign_key: :last_id
   belongs_to :ligacao_esgoto_situacao, foreign_key: :lest_id
+  belongs_to :perimetro_inicial, foreign_key: :logr_idinicioperimetro, class_name: "Logradouro"
+  belongs_to :perimetro_final, foreign_key: :logr_idfimperimetro, class_name: "Logradouro"
   has_one    :gerencia_regional,     through: :localidade
   has_one    :abrangencia,           foreign_key: :imov_id
   has_one    :contrato_medicao,      through: :abrangencia
@@ -149,7 +151,7 @@ class Imovel < ActiveRecord::Base
   has_many   :termo_atualizacao_comunicados, foreign_key: :imov_id, class_name: 'ComunicadoEmitirConta'
   belongs_to :perfil_imovel, foreign_key: :iper_id, class_name: 'ImovelPerfil'
   belongs_to :consumo_tarifa, foreign_key: :cstf_id, class_name: 'ConsumoTarifa'
-  belongs_to :funcionario, foreign_key: :funcionario_id
+  belongs_to :funcionario, foreign_key: 'func_id', class_name: 'Funcionario'
   has_many   :vencimentos_alternativos,  foreign_key: :imov_id, class_name: 'VencimentoAlternativo'
   has_many   :debitos_automaticos, foreign_key: :imov_id, class_name: 'DebitoAutomatico'
   has_many   :faturamento_situacao_historico, foreign_key: :imov_id, class_name: 'FaturamentoSituacaoHistorico'
@@ -163,12 +165,37 @@ class Imovel < ActiveRecord::Base
   has_many   :imovel_ramos_atividades,    foreign_key: :imov_id, class_name: 'ImovelRamoAtividade'
   has_many   :negativacoes,               foreign_key: :imov_id, class_name: 'NegativadorMovimentoReg'
   has_many   :cobrancas_documentos,       foreign_key: :imov_id, class_name: "CobrancaDocumento"
-  has_one :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
+  has_one    :ligacao_esgoto, foreign_key: :lesg_id, class_name: 'LigacaoEsgoto'
   has_many   :contrato, foreign_key: :imov_id, class_name: 'Contrato'
   belongs_to :hidrometro_instalacao_historico, foreign_key: :hidi_id, class_name: "HidrometroInstalacaoHistorico"
   has_many   :parcelas, foreign_key: :imov_id, class_name: 'Parcelamento'
+  has_many   :consumo_historico, foreign_key: :imov_id, class_name: 'ConsumoHistorico'
+  has_many   :medicao_historico, foreign_key: :imov_id, class_name: 'MedicaoHistorico'
+  has_many   :registros_atendimento, -> { ordenar_por_data_atendimento }, foreign_key: :imov_id, class_name: 'RegistroAtendimento'
+  has_many   :pagamentos, -> { condicoes }, foreign_key: :imov_id, class_name: 'Pagamento'
+  has_many   :debito_a_cobrar, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order(ano_mes_cobranca_debito: :desc) }, foreign_key: :imov_id
+  has_many   :debito_a_cobrar_historico, -> { joins([:debito_credito_situacao_atual, :debito_tipo]).order(ano_mes_cobranca_debito: :desc) }, foreign_key: :imov_id
+  has_many   :conta_historico, -> { where.not(debito_credito_situacao_id_atual: 11).order(ano_mes_referencia: :desc) }, foreign_key: :imov_id
+  has_many   :credito_a_realizar, -> { joins([:debito_credito_situacao_atual, :credito_tipo]).order(ano_mes_referencia_credito: :desc) }, foreign_key: :imov_id
+  has_many   :credito_a_realizar_historico, -> { joins([:debito_credito_situacao_atual, :credito_tipo]).order(ano_mes_referencia_credito: :desc) }, foreign_key: :imov_id
+  has_many   :guia_pagamento, -> { order(ano_mes_referencia_contabil: :desc) }, foreign_key: :imov_id
+  has_many   :guia_pagamento_historico, -> { order(ano_mes_referencia_contabil: :desc) }, foreign_key: :imov_id
 
   delegate   :referencia_assinatura, :to => :contrato_medicao, prefix: true, :allow_nil => true
+
+  def self.medicao_agua(id, referencia)    
+    includes([:consumo_historico, medicao_historico: [:leitura_situacao, :leitura_anormalidade_informada, :leitura_anormalidade_faturamento]])
+    .where(id: id, "consumo_historico.ligacao_tipo_id" => LigacaoTipo::MODELO[:AGUA], 
+          "consumo_historico.referencia_faturamento" => referencia, 
+          "medicao_historico.ano_mes_referencia" => referencia, 
+          "medicao_historico.ligacao_agua_id" => id).first
+  end
+
+  def self.medicao_poco_esgoto(id, referencia)
+    joins([:consumo_historico, medicao_historico: [:leitura_situacao, :leitura_anormalidade_informada, :leitura_anormalidade_faturamento]])
+    .joins("left outer join micromedicao.consumo_historico che on che.imov_id = #{id} and che.cshi_amfaturamento = #{referencia} and che.lgti_id = #{LigacaoTipo::MODELO[:ESGOTO]}")
+    .where(id: id, "consumo_historico.referencia_faturamento" => referencia, "medicao_historico.ano_mes_referencia" => referencia).first
+  end
 
   #TODO melhorar consulta usando os relacionamentos do rails
   def matriculas_associadas
@@ -186,20 +213,24 @@ class Imovel < ActiveRecord::Base
   
   def dados_contrato
     query = <<-SQL
-      SELECT cstc.cstc_nnconsumominimo AS consumo, cstc.cstc_vltarifaminima AS valor_tarifa,
-          contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
-          contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato,
-          contrato_tipo.cttp_id as contrato_id 
-      
+      SELECT 
+        cstc.cstc_nnconsumominimo AS consumo, AVG(cstc.cstc_vltarifaminima) AS valor_tarifa,
+        contrato.cntt_dtcontratoinicio as data_inicio, contrato.cntt_dtcontratofim as data_termino,
+        contrato_tipo.cttp_dscontratotipo as tipo, contrato.cntt_nncontrato as numero_contrato,
+        contrato_tipo.cttp_id as contrato_id 
+            
       FROM faturamento.consumo_tarifa_categoria cstc 
-      
-        INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
-        INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
-        INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
-        INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
-        INNER JOIN cadastro.subcategoria scat ON cstc.catg_id = scat.catg_id
-        INNER JOIN cadastro.imovel_subcategoria imov_scat ON scat.scat_id = imov_scat.scat_id AND imov.imov_id = imov_scat.imov_id
-      ORDER BY cstv.cstv_dtvigencia DESC limit 1
+      INNER JOIN faturamento.consumo_tarifa_vigencia cstv ON cstc.cstv_id = cstv.cstv_id 
+      INNER JOIN cadastro.imovel imov ON imov.cstf_id = cstv.cstf_id AND imov.imov_id = #{imov_id}
+      INNER JOIN cadastro.contrato contrato ON contrato.imov_id = imov.imov_id
+      INNER JOIN cadastro.contrato_tipo contrato_tipo ON contrato.cttp_id = contrato_tipo.cttp_id
+      INNER JOIN cadastro.subcategoria scat ON cstc.catg_id = scat.catg_id
+      INNER JOIN cadastro.imovel_subcategoria imov_scat ON scat.scat_id = imov_scat.scat_id AND imov.imov_id = imov_scat.imov_id
+      GROUP BY 
+        cstc.cstc_nnconsumominimo, contrato.cntt_dtcontratoinicio, contrato.cntt_dtcontratofim,
+        contrato_tipo.cttp_dscontratotipo, contrato.cntt_nncontrato, contrato_tipo.cttp_id
+      ORDER BY
+        contrato.cntt_dtcontratoinicio DESC
     SQL
     ActiveRecord::Base.connection.execute(query)
   end
@@ -213,47 +244,62 @@ class Imovel < ActiveRecord::Base
   end
 
   def endereco_completo
-    endereco = ""
     logradouro_tipo = ""
     logradouro_titulo = ""
     logradouro = ""
+    numero = self.numero_imovel ||= ""
+    complemento = self.complemento_endereco ||= ""
     bairro = ""
     municipio = ""
     uf = ""
     cep = ""
+    perimetro = ""
 
-    if not self.logradouro_cep.nil?
-      if not self.logradouro_cep.logradouro.nil?
-        logradouro_tipo = self.logradouro_cep.logradouro.logradouro_tipo.descricao if not logradouro_cep.logradouro.logradouro_tipo.nil?
-        logradouro_titulo = self.logradouro_cep.logradouro.logradouro_titulo.descricao if not logradouro_cep.logradouro.logradouro_titulo.nil?
+    if self.logradouro_cep.present?
+      if self.logradouro_cep.logradouro.present?
+        logradouro_tipo = self.logradouro_cep.logradouro.logradouro_tipo.descricao if logradouro_cep.logradouro.logradouro_tipo.present?
+        logradouro_titulo = self.logradouro_cep.logradouro.logradouro_titulo.descricao if logradouro_cep.logradouro.logradouro_titulo.present?
         logradouro = self.logradouro_cep.logradouro.try(:nome)
       end
-      if not self.logradouro_cep.cep.nil?
-        cep = self.logradouro_cep.cep.codigo.to_s if not self.logradouro_cep.cep.codigo.nil?
+      if self.logradouro_cep.cep.present?
+        cep = self.logradouro_cep.cep.codigo.to_s if self.logradouro_cep.cep.codigo.present?
       end
     end
 
-    if not self.logradouro_bairro.nil?
-      if not self.logradouro_bairro.bairro.nil?
+    if self.logradouro_bairro.present?
+      if self.logradouro_bairro.bairro.present?
         bairro = self.logradouro_bairro.bairro.try(:nome)
-        if not self.logradouro_bairro.bairro.municipio.nil?
+        if self.logradouro_bairro.bairro.municipio.present?
           municipio = self.logradouro_bairro.bairro.municipio.try(:nome)
-          uf = self.logradouro_bairro.bairro.municipio.uf.try(:sigla) if not self.logradouro_bairro.bairro.municipio.uf.nil?
+          uf = self.logradouro_bairro.bairro.municipio.uf.try(:sigla) if self.logradouro_bairro.bairro.municipio.uf.present?
         end
       end
     end
 
-    endereco << logradouro_tipo
-    endereco << " " +logradouro_titulo
-    endereco << " " +logradouro
-    endereco << " - " +self.numero_imovel ||= ""
-    endereco << " - " +self.complemento_endereco ||= ""
-    endereco << " - " +bairro
-    endereco << " " +municipio
-    endereco << " " +uf
-    endereco << " " +cep.gsub(/\A(\d{5})(\d{3})\Z/, "\\1-\\2")
+    if self.perimetro_inicial.present? && self.perimetro_final.present?
+      dados_perimetro = []
+      dados_perimetro << "ENTRE"
+      dados_perimetro << self.perimetro_inicial.logradouro_tipo.descricao
+      dados_perimetro << self.perimetro_inicial.nome
+      dados_perimetro << "E"
+      dados_perimetro << self.perimetro_final.logradouro_tipo.descricao
+      dados_perimetro << self.perimetro_final.nome
 
-    endereco
+      perimetro = dados_perimetro.join(" ")
+    end
+
+    "".tap do |endereco|
+      endereco << logradouro_tipo
+      endereco << " " + logradouro_titulo
+      endereco << " " + logradouro
+      endereco << " - " + numero
+      endereco << " - " + complemento_endereco
+      endereco << " - " + bairro
+      endereco << " " + municipio
+      endereco << " " + uf
+      endereco << " " + cep.gsub(/\A(\d{5})(\d{3})\Z/, "\\1-\\2")
+      endereco << " " + perimetro
+    end.strip
   end
 
   def dados_gerais
@@ -279,6 +325,12 @@ class Imovel < ActiveRecord::Base
     {inscricao: inscricao, dica_inscricao: "Localidade.Setor.Quadra.Lote.Sublote", usuario: get_cliente_usuario, hidrometro: get_numero_hidrometro}
   end
 
+  def descricao_de(modelo)
+    return if modelo.blank?
+    
+    modelo.descricao
+  end
+  
   private
 
   def get_cliente_usuario

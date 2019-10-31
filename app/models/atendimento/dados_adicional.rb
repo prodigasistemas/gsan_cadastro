@@ -191,7 +191,7 @@ class Atendimento::DadosAdicional < Imovel
   end
 
   def get_dados_contrato
-    dados_contrato.first if dados_contrato.present?
+    dados_contrato.to_a if dados_contrato.present?
   end
   
   def get_matriculas_associadas
@@ -207,7 +207,7 @@ class Atendimento::DadosAdicional < Imovel
   def get_funcionario
     return "" if funcionario.nil?
 
-    f = "(" << funcionario.id << ") " << funcionario.nome ||= ""
+    f = "(" << funcionario.id.to_s << ") " << funcionario.nome ||= ""
 
     f
   end

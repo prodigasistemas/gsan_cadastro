@@ -8,6 +8,7 @@ class NegativadorMovimentoReg < ActiveRecord::Base
   alias_attribute "aceito",                  "nmrg_icaceito"
   alias_attribute "ngmv_id",                 "ngmv_id"
   alias_attribute "imov_id",                 "imov_id"
+  alias_attribute "indicador_correcao",      "nmrg_iccorrecao"
 
   belongs_to :imovel,                        foreign_key: :imov_id
   belongs_to :negativador_movimento,         foreign_key: :ngmv_id

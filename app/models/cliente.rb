@@ -84,8 +84,8 @@ class Cliente < ActiveRecord::Base
   validates_length_of :nome_mae, maximum: 50
 
   scope :com_dados,        -> {
-    includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones).
-    order(:nome)
+    includes(:cliente_tipo, :pessoa_sexo, :profissao, :enderecos, :telefones)
+      .order(:nome)
   }
   scope :nome,        -> (nome) { where("UPPER(clie_nmcliente) LIKE ?", "%#{nome.upcase}%") }
   scope :cpf,         -> (cpf)  { where cpf: cpf }
@@ -112,13 +112,16 @@ class Cliente < ActiveRecord::Base
     .joins(
       :imoveis
     )
+    .joins(
+      :cliente_imoveis
+    )
+    .where('cliente_imovel.clim_dtrelacaofim IS NULL')
     .where(condicoes_busca, termo: termos.split(" ").map{|termo| "%#{termo}%"}.join)
     .order(ordem_busca)
   end
 
   def self.condicoes_busca
     <<-SQL
-      cliente_imovel.clim_dtrelacaofim IS NULL and
       concat(cliente.clie_nncpf, ' ', cliente.clie_nncnpj, ' ',
       cliente.clie_nnrg, ' ', cliente.clie_nmcliente)
         ILIKE :termo
@@ -127,6 +130,10 @@ class Cliente < ActiveRecord::Base
 
   def self.ordem_busca
     "cliente.clie_nmcliente"
+  end
+  
+  def atributos(metodos = [])
+    super([:telefones].concat(metodos))
   end
 
   def gerencia

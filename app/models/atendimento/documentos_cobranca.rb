@@ -4,7 +4,7 @@ class Atendimento::DocumentosCobranca < Imovel
         
     cobrancas = []
 
-    cobrancas_documentos.map do |cobranca|
+    cobrancas_documentos.order(id: :desc).map do |cobranca|
       t = {}
       t[:documento] = cobranca.id
       t[:acao_cobranca] = ''

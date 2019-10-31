@@ -24,17 +24,30 @@ class Conta < ActiveRecord::Base
   alias_attribute :valor_esgoto,                        :cnta_vlesgoto
   alias_attribute :valor_agua,                          :cnta_vlagua
   alias_attribute :indicador_cobranca_multa,            :cnta_iccobrancamulta
-  alias_attribute :digito_verificador,                   :cnta_dgverificadorconta
+  alias_attribute :digito_verificador,                  :cnta_dgverificadorconta
   alias_attribute :quadra_id,                           :qdra_id
   alias_attribute :localidade_id,                       :loca_id
   alias_attribute :ligacao_esgoto_situacao,             :lest_id
   alias_attribute :valor_impostos,                      :cnta_vlimpostos
+  alias_attribute :data_revisao,                        :cnta_dtrevisao
 
   belongs_to :imovel,                  foreign_key: :imov_id
   belongs_to :debito_credito_situacao, foreign_key: :dcst_idatual, optional: true
   has_one :cliente_conta,              foreign_key: :cnta_id
+  belongs_to :pagamento,               foreign_key: :cnta_id, class_name: 'Pagamento'
+  belongs_to :conta_motivo_revisao,    foreign_key: :cmrv_id
 
   scope :do_imovel_com_referencia, -> (imovel_id, referencia) do
     where(imovel_id: imovel_id, ano_mes_referencia: referencia).first
+  end
+
+  def valor_total
+    valor = self.valor_agua      ||= 0.0
+    valor += self.valor_debitos  ||= 0.0
+    valor += self.valor_esgoto   ||= 0.0
+    valor -= self.valor_creditos ||= 0.0
+    valor -= self.valor_impostos ||= 0.0
+
+    valor
   end
 end
