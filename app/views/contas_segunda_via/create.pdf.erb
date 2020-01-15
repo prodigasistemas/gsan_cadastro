@@ -270,6 +270,14 @@
               <td><%= conta.impostos_valor_base %></td>
               <td><%= conta.impostos_valor %></td>
             </tr>
+            <% if not conta.impostos_descricao_agencia_reguladora.nil? %>
+              <tr>
+                <td><%= conta.impostos_descricao_agencia_reguladora %></td>
+                <td><%= conta.impostos_percentual_agencia_reguladora %></td>
+                <td><%= conta.impostos_valor_base %></td>
+                <td><%= conta.impostos_valor_agencia_reguladora %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>

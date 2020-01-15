@@ -16,7 +16,7 @@ class ContaSegundaVia
                 :padrao_turbidez, :padrao_cor, :padrao_cloro, :padrao_fluor, :padrao_coliformes_totais, :padrao_coliformes_termotolerantes,
                 :valor_medio_turbidez, :valor_medio_cor, :valor_medio_cloro, :valor_medio_fluor, :valor_medio_coliformes_totais, :valor_medio_coliformes_termotolerantes,
                 :valor_conforme_turbidez, :valor_conforme_cor, :valor_conforme_cloro, :valor_conforme_fluor, :valor_conforme_coliformes_totais, :valor_conforme_coliformes_termotolerantes,
-                :impostos_descricao, :impostos_percentual, :impostos_valor_base, :impostos_valor,
+                :impostos_descricao, :impostos_descricao_agencia_reguladora, :impostos_percentual, :impostos_percentual_agencia_reguladora, :impostos_valor_base, :impostos_valor, :impostos_valor_agencia_reguladora,
                 :empresa_nome, :empresa_nome_abreviado, :empresa_cnpj, :empresa_site, :empresa_descricao_aplicativo, :empresa_telefone_aplicativo, :empresa_callcenter,
                 :usuario, :codigo_barras_formatado, :codigo_barras, :conta_paga, :data_pagamento, :situacao_conta
   
@@ -85,6 +85,10 @@ class ContaSegundaVia
     @impostos_percentual                            = options[:impostosPercentual]
     @impostos_valor_base                            = options[:impostosValorBase]
     @impostos_valor                                 = options[:impostosValor]
+
+    @impostos_descricao_agencia_reguladora          = options[:impostosDescricaoAgenciaReguladora]
+    @impostos_percentual_agencia_reguladora         = options[:impostosPercentualAgenciaReguladora]
+    @impostos_valor_agencia_reguladora              = options[:impostosValorAgenciaReguladora]
 
     @padrao_turbidez                                = options[:padraoTurbidez]
     @padrao_cor                                     = options[:padraoCor]
