@@ -3,7 +3,7 @@ class AvisoCorte
   include CodigoBarras
 
   attr_accessor :imovel, :cliente, :inscricao, :rota_codigo, :rota_sequencial,
-  							:documento_cobranca, :valor_total,
+  							:documento_cobranca, :data_emissao, :valor_total,
   							:endereco, :endereco_correspondencia, :complemento_correspondencia, :cidade_estado_correspondencia, :bairro_correspondencia, :cep_correspondencia,
   							:codigo_barras, :codigo_barras_formatado,
   							:contas
@@ -22,6 +22,7 @@ class AvisoCorte
     @rota_sequencial 									= options[:sequencialRota]
     
     @documento_cobranca 							= options[:idDocumentoCobranca]
+    @data_emissao                     = options[:dataEmissao]
     @valor_total 											= options[:valorTotal]
   	
   	@endereco 												= options[:endereco]

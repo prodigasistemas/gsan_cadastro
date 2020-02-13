@@ -15,7 +15,7 @@
         <td><%= aviso.imovel %></td>
         <td><%= aviso.documento_cobranca %></td>
         <td><%= aviso.inscricao %></td>
-        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td><%= aviso.data_emissao %></td>
         <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
       </tr>
     </tbody>
@@ -58,7 +58,7 @@
   </div>
 
   <div id="aviso">
-    <span class="familia3 font-weight-bold">Aviso de Corte</span>
+    <span class="familia3 font-weight-bold">Aviso de Suspensão de Fornecimento</span>
     </br>
     </br>
     <p class="familia" style="margin: -20px 0 5px 0;">
@@ -149,7 +149,7 @@
         <td><%= aviso.imovel %></td>
         <td><%= aviso.documento_cobranca %></td>
         <td><%= aviso.inscricao %></td>
-        <td><%= data_emissao('%d/%m/%Y') %></td>
+        <td><%= aviso.data_emissao %></td>
         <td class="classvalor text-right font-weight-bold">R$ <%= aviso.valor_total %></td>
       </tr>
     </tbody>
